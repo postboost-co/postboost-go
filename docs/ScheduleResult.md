@@ -4,14 +4,14 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Success** | Pointer to **bool** |  | [optional] 
+**Success** | **bool** |  | 
 **ScheduledAt** | Pointer to **time.Time** |  | [optional] 
 
 ## Methods
 
 ### NewScheduleResult
 
-`func NewScheduleResult() *ScheduleResult`
+`func NewScheduleResult(success bool, ) *ScheduleResult`
 
 NewScheduleResult instantiates a new ScheduleResult object
 This constructor will assign default values to properties that have it defined,
@@ -45,11 +45,6 @@ and a boolean to check if the value has been set.
 
 SetSuccess sets Success field to given value.
 
-### HasSuccess
-
-`func (o *ScheduleResult) HasSuccess() bool`
-
-HasSuccess returns a boolean if a field has been set.
 
 ### GetScheduledAt
 

@@ -1,4 +1,4 @@
-# Media
+# InitiateRemoteUpload201Response
 
 ## Properties
 
@@ -13,210 +13,236 @@ Name | Type | Description | Notes
 **ThumbUrl** | Pointer to **string** |  | [optional] 
 **IsVideo** | **bool** |  | 
 **CreatedAt** | **time.Time** |  | 
+**DownloadId** | Pointer to **string** |  | [optional] 
 
 ## Methods
 
-### NewMedia
+### NewInitiateRemoteUpload201Response
 
-`func NewMedia(id int32, uuid string, name string, mimeType string, type_ string, url string, isVideo bool, createdAt time.Time, ) *Media`
+`func NewInitiateRemoteUpload201Response(id int32, uuid string, name string, mimeType string, type_ string, url string, isVideo bool, createdAt time.Time, ) *InitiateRemoteUpload201Response`
 
-NewMedia instantiates a new Media object
+NewInitiateRemoteUpload201Response instantiates a new InitiateRemoteUpload201Response object
 This constructor will assign default values to properties that have it defined,
 and makes sure properties required by API are set, but the set of arguments
 will change when the set of required properties is changed
 
-### NewMediaWithDefaults
+### NewInitiateRemoteUpload201ResponseWithDefaults
 
-`func NewMediaWithDefaults() *Media`
+`func NewInitiateRemoteUpload201ResponseWithDefaults() *InitiateRemoteUpload201Response`
 
-NewMediaWithDefaults instantiates a new Media object
+NewInitiateRemoteUpload201ResponseWithDefaults instantiates a new InitiateRemoteUpload201Response object
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
 
 ### GetId
 
-`func (o *Media) GetId() int32`
+`func (o *InitiateRemoteUpload201Response) GetId() int32`
 
 GetId returns the Id field if non-nil, zero value otherwise.
 
 ### GetIdOk
 
-`func (o *Media) GetIdOk() (*int32, bool)`
+`func (o *InitiateRemoteUpload201Response) GetIdOk() (*int32, bool)`
 
 GetIdOk returns a tuple with the Id field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetId
 
-`func (o *Media) SetId(v int32)`
+`func (o *InitiateRemoteUpload201Response) SetId(v int32)`
 
 SetId sets Id field to given value.
 
 
 ### GetUuid
 
-`func (o *Media) GetUuid() string`
+`func (o *InitiateRemoteUpload201Response) GetUuid() string`
 
 GetUuid returns the Uuid field if non-nil, zero value otherwise.
 
 ### GetUuidOk
 
-`func (o *Media) GetUuidOk() (*string, bool)`
+`func (o *InitiateRemoteUpload201Response) GetUuidOk() (*string, bool)`
 
 GetUuidOk returns a tuple with the Uuid field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetUuid
 
-`func (o *Media) SetUuid(v string)`
+`func (o *InitiateRemoteUpload201Response) SetUuid(v string)`
 
 SetUuid sets Uuid field to given value.
 
 
 ### GetName
 
-`func (o *Media) GetName() string`
+`func (o *InitiateRemoteUpload201Response) GetName() string`
 
 GetName returns the Name field if non-nil, zero value otherwise.
 
 ### GetNameOk
 
-`func (o *Media) GetNameOk() (*string, bool)`
+`func (o *InitiateRemoteUpload201Response) GetNameOk() (*string, bool)`
 
 GetNameOk returns a tuple with the Name field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetName
 
-`func (o *Media) SetName(v string)`
+`func (o *InitiateRemoteUpload201Response) SetName(v string)`
 
 SetName sets Name field to given value.
 
 
 ### GetMimeType
 
-`func (o *Media) GetMimeType() string`
+`func (o *InitiateRemoteUpload201Response) GetMimeType() string`
 
 GetMimeType returns the MimeType field if non-nil, zero value otherwise.
 
 ### GetMimeTypeOk
 
-`func (o *Media) GetMimeTypeOk() (*string, bool)`
+`func (o *InitiateRemoteUpload201Response) GetMimeTypeOk() (*string, bool)`
 
 GetMimeTypeOk returns a tuple with the MimeType field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetMimeType
 
-`func (o *Media) SetMimeType(v string)`
+`func (o *InitiateRemoteUpload201Response) SetMimeType(v string)`
 
 SetMimeType sets MimeType field to given value.
 
 
 ### GetType
 
-`func (o *Media) GetType() string`
+`func (o *InitiateRemoteUpload201Response) GetType() string`
 
 GetType returns the Type field if non-nil, zero value otherwise.
 
 ### GetTypeOk
 
-`func (o *Media) GetTypeOk() (*string, bool)`
+`func (o *InitiateRemoteUpload201Response) GetTypeOk() (*string, bool)`
 
 GetTypeOk returns a tuple with the Type field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetType
 
-`func (o *Media) SetType(v string)`
+`func (o *InitiateRemoteUpload201Response) SetType(v string)`
 
 SetType sets Type field to given value.
 
 
 ### GetUrl
 
-`func (o *Media) GetUrl() string`
+`func (o *InitiateRemoteUpload201Response) GetUrl() string`
 
 GetUrl returns the Url field if non-nil, zero value otherwise.
 
 ### GetUrlOk
 
-`func (o *Media) GetUrlOk() (*string, bool)`
+`func (o *InitiateRemoteUpload201Response) GetUrlOk() (*string, bool)`
 
 GetUrlOk returns a tuple with the Url field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetUrl
 
-`func (o *Media) SetUrl(v string)`
+`func (o *InitiateRemoteUpload201Response) SetUrl(v string)`
 
 SetUrl sets Url field to given value.
 
 
 ### GetThumbUrl
 
-`func (o *Media) GetThumbUrl() string`
+`func (o *InitiateRemoteUpload201Response) GetThumbUrl() string`
 
 GetThumbUrl returns the ThumbUrl field if non-nil, zero value otherwise.
 
 ### GetThumbUrlOk
 
-`func (o *Media) GetThumbUrlOk() (*string, bool)`
+`func (o *InitiateRemoteUpload201Response) GetThumbUrlOk() (*string, bool)`
 
 GetThumbUrlOk returns a tuple with the ThumbUrl field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetThumbUrl
 
-`func (o *Media) SetThumbUrl(v string)`
+`func (o *InitiateRemoteUpload201Response) SetThumbUrl(v string)`
 
 SetThumbUrl sets ThumbUrl field to given value.
 
 ### HasThumbUrl
 
-`func (o *Media) HasThumbUrl() bool`
+`func (o *InitiateRemoteUpload201Response) HasThumbUrl() bool`
 
 HasThumbUrl returns a boolean if a field has been set.
 
 ### GetIsVideo
 
-`func (o *Media) GetIsVideo() bool`
+`func (o *InitiateRemoteUpload201Response) GetIsVideo() bool`
 
 GetIsVideo returns the IsVideo field if non-nil, zero value otherwise.
 
 ### GetIsVideoOk
 
-`func (o *Media) GetIsVideoOk() (*bool, bool)`
+`func (o *InitiateRemoteUpload201Response) GetIsVideoOk() (*bool, bool)`
 
 GetIsVideoOk returns a tuple with the IsVideo field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetIsVideo
 
-`func (o *Media) SetIsVideo(v bool)`
+`func (o *InitiateRemoteUpload201Response) SetIsVideo(v bool)`
 
 SetIsVideo sets IsVideo field to given value.
 
 
 ### GetCreatedAt
 
-`func (o *Media) GetCreatedAt() time.Time`
+`func (o *InitiateRemoteUpload201Response) GetCreatedAt() time.Time`
 
 GetCreatedAt returns the CreatedAt field if non-nil, zero value otherwise.
 
 ### GetCreatedAtOk
 
-`func (o *Media) GetCreatedAtOk() (*time.Time, bool)`
+`func (o *InitiateRemoteUpload201Response) GetCreatedAtOk() (*time.Time, bool)`
 
 GetCreatedAtOk returns a tuple with the CreatedAt field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetCreatedAt
 
-`func (o *Media) SetCreatedAt(v time.Time)`
+`func (o *InitiateRemoteUpload201Response) SetCreatedAt(v time.Time)`
 
 SetCreatedAt sets CreatedAt field to given value.
 
+
+### GetDownloadId
+
+`func (o *InitiateRemoteUpload201Response) GetDownloadId() string`
+
+GetDownloadId returns the DownloadId field if non-nil, zero value otherwise.
+
+### GetDownloadIdOk
+
+`func (o *InitiateRemoteUpload201Response) GetDownloadIdOk() (*string, bool)`
+
+GetDownloadIdOk returns a tuple with the DownloadId field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetDownloadId
+
+`func (o *InitiateRemoteUpload201Response) SetDownloadId(v string)`
+
+SetDownloadId sets DownloadId field to given value.
+
+### HasDownloadId
+
+`func (o *InitiateRemoteUpload201Response) HasDownloadId() bool`
+
+HasDownloadId returns a boolean if a field has been set.
 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)

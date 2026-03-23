@@ -4,22 +4,22 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Uuid** | Pointer to **string** |  | [optional] 
-**TransactionId** | Pointer to **string** |  | [optional] 
-**InvoiceNumber** | Pointer to **string** |  | [optional] 
-**Amount** | Pointer to **float32** |  | [optional] 
-**Tax** | Pointer to **float32** |  | [optional] 
-**Currency** | Pointer to **string** |  | [optional] 
+**Uuid** | **string** |  | 
+**TransactionId** | **string** |  | 
+**InvoiceNumber** | **string** |  | 
+**Amount** | **float32** |  | 
+**Tax** | **float32** |  | 
+**Currency** | **string** |  | 
 **ReceiptUrl** | Pointer to **string** |  | [optional] 
 **Description** | Pointer to **string** |  | [optional] 
-**PaidAt** | Pointer to **time.Time** |  | [optional] 
-**CreatedAt** | Pointer to **time.Time** |  | [optional] 
+**PaidAt** | **time.Time** |  | 
+**CreatedAt** | **time.Time** |  | 
 
 ## Methods
 
 ### NewReceipt
 
-`func NewReceipt() *Receipt`
+`func NewReceipt(uuid string, transactionId string, invoiceNumber string, amount float32, tax float32, currency string, paidAt time.Time, createdAt time.Time, ) *Receipt`
 
 NewReceipt instantiates a new Receipt object
 This constructor will assign default values to properties that have it defined,
@@ -53,11 +53,6 @@ and a boolean to check if the value has been set.
 
 SetUuid sets Uuid field to given value.
 
-### HasUuid
-
-`func (o *Receipt) HasUuid() bool`
-
-HasUuid returns a boolean if a field has been set.
 
 ### GetTransactionId
 
@@ -78,11 +73,6 @@ and a boolean to check if the value has been set.
 
 SetTransactionId sets TransactionId field to given value.
 
-### HasTransactionId
-
-`func (o *Receipt) HasTransactionId() bool`
-
-HasTransactionId returns a boolean if a field has been set.
 
 ### GetInvoiceNumber
 
@@ -103,11 +93,6 @@ and a boolean to check if the value has been set.
 
 SetInvoiceNumber sets InvoiceNumber field to given value.
 
-### HasInvoiceNumber
-
-`func (o *Receipt) HasInvoiceNumber() bool`
-
-HasInvoiceNumber returns a boolean if a field has been set.
 
 ### GetAmount
 
@@ -128,11 +113,6 @@ and a boolean to check if the value has been set.
 
 SetAmount sets Amount field to given value.
 
-### HasAmount
-
-`func (o *Receipt) HasAmount() bool`
-
-HasAmount returns a boolean if a field has been set.
 
 ### GetTax
 
@@ -153,11 +133,6 @@ and a boolean to check if the value has been set.
 
 SetTax sets Tax field to given value.
 
-### HasTax
-
-`func (o *Receipt) HasTax() bool`
-
-HasTax returns a boolean if a field has been set.
 
 ### GetCurrency
 
@@ -178,11 +153,6 @@ and a boolean to check if the value has been set.
 
 SetCurrency sets Currency field to given value.
 
-### HasCurrency
-
-`func (o *Receipt) HasCurrency() bool`
-
-HasCurrency returns a boolean if a field has been set.
 
 ### GetReceiptUrl
 
@@ -253,11 +223,6 @@ and a boolean to check if the value has been set.
 
 SetPaidAt sets PaidAt field to given value.
 
-### HasPaidAt
-
-`func (o *Receipt) HasPaidAt() bool`
-
-HasPaidAt returns a boolean if a field has been set.
 
 ### GetCreatedAt
 
@@ -278,11 +243,6 @@ and a boolean to check if the value has been set.
 
 SetCreatedAt sets CreatedAt field to given value.
 
-### HasCreatedAt
-
-`func (o *Receipt) HasCreatedAt() bool`
-
-HasCreatedAt returns a boolean if a field has been set.
 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)

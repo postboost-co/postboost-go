@@ -4,16 +4,16 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Id** | Pointer to **int32** |  | [optional] 
-**Uuid** | Pointer to **string** |  | [optional] 
-**Name** | Pointer to **string** |  | [optional] 
-**HexColor** | Pointer to **string** |  | [optional] 
+**Id** | **int32** |  | 
+**Uuid** | **string** |  | 
+**Name** | **string** |  | 
+**HexColor** | **string** |  | 
 
 ## Methods
 
 ### NewTag
 
-`func NewTag() *Tag`
+`func NewTag(id int32, uuid string, name string, hexColor string, ) *Tag`
 
 NewTag instantiates a new Tag object
 This constructor will assign default values to properties that have it defined,
@@ -47,11 +47,6 @@ and a boolean to check if the value has been set.
 
 SetId sets Id field to given value.
 
-### HasId
-
-`func (o *Tag) HasId() bool`
-
-HasId returns a boolean if a field has been set.
 
 ### GetUuid
 
@@ -72,11 +67,6 @@ and a boolean to check if the value has been set.
 
 SetUuid sets Uuid field to given value.
 
-### HasUuid
-
-`func (o *Tag) HasUuid() bool`
-
-HasUuid returns a boolean if a field has been set.
 
 ### GetName
 
@@ -97,11 +87,6 @@ and a boolean to check if the value has been set.
 
 SetName sets Name field to given value.
 
-### HasName
-
-`func (o *Tag) HasName() bool`
-
-HasName returns a boolean if a field has been set.
 
 ### GetHexColor
 
@@ -122,11 +107,6 @@ and a boolean to check if the value has been set.
 
 SetHexColor sets HexColor field to given value.
 
-### HasHexColor
-
-`func (o *Tag) HasHexColor() bool`
-
-HasHexColor returns a boolean if a field has been set.
 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)

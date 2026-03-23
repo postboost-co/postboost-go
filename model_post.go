@@ -14,6 +14,8 @@ package postboost
 import (
 	"encoding/json"
 	"time"
+	"bytes"
+	"fmt"
 )
 
 // checks if the Post type satisfies the MappedNullable interface at compile time
@@ -21,24 +23,34 @@ var _ MappedNullable = &Post{}
 
 // Post struct for Post
 type Post struct {
-	Id *int32 `json:"id,omitempty"`
-	Uuid *string `json:"uuid,omitempty"`
-	Status *PostStatus `json:"status,omitempty"`
-	Accounts []Account `json:"accounts,omitempty"`
-	Versions []PostVersion `json:"versions,omitempty"`
-	Tags []Tag `json:"tags,omitempty"`
+	Id int32 `json:"id"`
+	Uuid string `json:"uuid"`
+	Status PostStatus `json:"status"`
+	Accounts []Account `json:"accounts"`
+	Versions []PostVersion `json:"versions"`
+	Tags []Tag `json:"tags"`
 	ScheduledAt *time.Time `json:"scheduled_at,omitempty"`
 	PublishedAt *time.Time `json:"published_at,omitempty"`
-	CreatedAt *time.Time `json:"created_at,omitempty"`
-	Trashed *bool `json:"trashed,omitempty"`
+	CreatedAt time.Time `json:"created_at"`
+	Trashed bool `json:"trashed"`
 }
+
+type _Post Post
 
 // NewPost instantiates a new Post object
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewPost() *Post {
+func NewPost(id int32, uuid string, status PostStatus, accounts []Account, versions []PostVersion, tags []Tag, createdAt time.Time, trashed bool) *Post {
 	this := Post{}
+	this.Id = id
+	this.Uuid = uuid
+	this.Status = status
+	this.Accounts = accounts
+	this.Versions = versions
+	this.Tags = tags
+	this.CreatedAt = createdAt
+	this.Trashed = trashed
 	return &this
 }
 
@@ -50,194 +62,146 @@ func NewPostWithDefaults() *Post {
 	return &this
 }
 
-// GetId returns the Id field value if set, zero value otherwise.
+// GetId returns the Id field value
 func (o *Post) GetId() int32 {
-	if o == nil || IsNil(o.Id) {
+	if o == nil {
 		var ret int32
 		return ret
 	}
-	return *o.Id
+
+	return o.Id
 }
 
-// GetIdOk returns a tuple with the Id field value if set, nil otherwise
+// GetIdOk returns a tuple with the Id field value
 // and a boolean to check if the value has been set.
 func (o *Post) GetIdOk() (*int32, bool) {
-	if o == nil || IsNil(o.Id) {
+	if o == nil {
 		return nil, false
 	}
-	return o.Id, true
+	return &o.Id, true
 }
 
-// HasId returns a boolean if a field has been set.
-func (o *Post) HasId() bool {
-	if o != nil && !IsNil(o.Id) {
-		return true
-	}
-
-	return false
-}
-
-// SetId gets a reference to the given int32 and assigns it to the Id field.
+// SetId sets field value
 func (o *Post) SetId(v int32) {
-	o.Id = &v
+	o.Id = v
 }
 
-// GetUuid returns the Uuid field value if set, zero value otherwise.
+// GetUuid returns the Uuid field value
 func (o *Post) GetUuid() string {
-	if o == nil || IsNil(o.Uuid) {
+	if o == nil {
 		var ret string
 		return ret
 	}
-	return *o.Uuid
+
+	return o.Uuid
 }
 
-// GetUuidOk returns a tuple with the Uuid field value if set, nil otherwise
+// GetUuidOk returns a tuple with the Uuid field value
 // and a boolean to check if the value has been set.
 func (o *Post) GetUuidOk() (*string, bool) {
-	if o == nil || IsNil(o.Uuid) {
+	if o == nil {
 		return nil, false
 	}
-	return o.Uuid, true
+	return &o.Uuid, true
 }
 
-// HasUuid returns a boolean if a field has been set.
-func (o *Post) HasUuid() bool {
-	if o != nil && !IsNil(o.Uuid) {
-		return true
-	}
-
-	return false
-}
-
-// SetUuid gets a reference to the given string and assigns it to the Uuid field.
+// SetUuid sets field value
 func (o *Post) SetUuid(v string) {
-	o.Uuid = &v
+	o.Uuid = v
 }
 
-// GetStatus returns the Status field value if set, zero value otherwise.
+// GetStatus returns the Status field value
 func (o *Post) GetStatus() PostStatus {
-	if o == nil || IsNil(o.Status) {
+	if o == nil {
 		var ret PostStatus
 		return ret
 	}
-	return *o.Status
+
+	return o.Status
 }
 
-// GetStatusOk returns a tuple with the Status field value if set, nil otherwise
+// GetStatusOk returns a tuple with the Status field value
 // and a boolean to check if the value has been set.
 func (o *Post) GetStatusOk() (*PostStatus, bool) {
-	if o == nil || IsNil(o.Status) {
+	if o == nil {
 		return nil, false
 	}
-	return o.Status, true
+	return &o.Status, true
 }
 
-// HasStatus returns a boolean if a field has been set.
-func (o *Post) HasStatus() bool {
-	if o != nil && !IsNil(o.Status) {
-		return true
-	}
-
-	return false
-}
-
-// SetStatus gets a reference to the given PostStatus and assigns it to the Status field.
+// SetStatus sets field value
 func (o *Post) SetStatus(v PostStatus) {
-	o.Status = &v
+	o.Status = v
 }
 
-// GetAccounts returns the Accounts field value if set, zero value otherwise.
+// GetAccounts returns the Accounts field value
 func (o *Post) GetAccounts() []Account {
-	if o == nil || IsNil(o.Accounts) {
+	if o == nil {
 		var ret []Account
 		return ret
 	}
+
 	return o.Accounts
 }
 
-// GetAccountsOk returns a tuple with the Accounts field value if set, nil otherwise
+// GetAccountsOk returns a tuple with the Accounts field value
 // and a boolean to check if the value has been set.
 func (o *Post) GetAccountsOk() ([]Account, bool) {
-	if o == nil || IsNil(o.Accounts) {
+	if o == nil {
 		return nil, false
 	}
 	return o.Accounts, true
 }
 
-// HasAccounts returns a boolean if a field has been set.
-func (o *Post) HasAccounts() bool {
-	if o != nil && !IsNil(o.Accounts) {
-		return true
-	}
-
-	return false
-}
-
-// SetAccounts gets a reference to the given []Account and assigns it to the Accounts field.
+// SetAccounts sets field value
 func (o *Post) SetAccounts(v []Account) {
 	o.Accounts = v
 }
 
-// GetVersions returns the Versions field value if set, zero value otherwise.
+// GetVersions returns the Versions field value
 func (o *Post) GetVersions() []PostVersion {
-	if o == nil || IsNil(o.Versions) {
+	if o == nil {
 		var ret []PostVersion
 		return ret
 	}
+
 	return o.Versions
 }
 
-// GetVersionsOk returns a tuple with the Versions field value if set, nil otherwise
+// GetVersionsOk returns a tuple with the Versions field value
 // and a boolean to check if the value has been set.
 func (o *Post) GetVersionsOk() ([]PostVersion, bool) {
-	if o == nil || IsNil(o.Versions) {
+	if o == nil {
 		return nil, false
 	}
 	return o.Versions, true
 }
 
-// HasVersions returns a boolean if a field has been set.
-func (o *Post) HasVersions() bool {
-	if o != nil && !IsNil(o.Versions) {
-		return true
-	}
-
-	return false
-}
-
-// SetVersions gets a reference to the given []PostVersion and assigns it to the Versions field.
+// SetVersions sets field value
 func (o *Post) SetVersions(v []PostVersion) {
 	o.Versions = v
 }
 
-// GetTags returns the Tags field value if set, zero value otherwise.
+// GetTags returns the Tags field value
 func (o *Post) GetTags() []Tag {
-	if o == nil || IsNil(o.Tags) {
+	if o == nil {
 		var ret []Tag
 		return ret
 	}
+
 	return o.Tags
 }
 
-// GetTagsOk returns a tuple with the Tags field value if set, nil otherwise
+// GetTagsOk returns a tuple with the Tags field value
 // and a boolean to check if the value has been set.
 func (o *Post) GetTagsOk() ([]Tag, bool) {
-	if o == nil || IsNil(o.Tags) {
+	if o == nil {
 		return nil, false
 	}
 	return o.Tags, true
 }
 
-// HasTags returns a boolean if a field has been set.
-func (o *Post) HasTags() bool {
-	if o != nil && !IsNil(o.Tags) {
-		return true
-	}
-
-	return false
-}
-
-// SetTags gets a reference to the given []Tag and assigns it to the Tags field.
+// SetTags sets field value
 func (o *Post) SetTags(v []Tag) {
 	o.Tags = v
 }
@@ -306,68 +270,52 @@ func (o *Post) SetPublishedAt(v time.Time) {
 	o.PublishedAt = &v
 }
 
-// GetCreatedAt returns the CreatedAt field value if set, zero value otherwise.
+// GetCreatedAt returns the CreatedAt field value
 func (o *Post) GetCreatedAt() time.Time {
-	if o == nil || IsNil(o.CreatedAt) {
+	if o == nil {
 		var ret time.Time
 		return ret
 	}
-	return *o.CreatedAt
+
+	return o.CreatedAt
 }
 
-// GetCreatedAtOk returns a tuple with the CreatedAt field value if set, nil otherwise
+// GetCreatedAtOk returns a tuple with the CreatedAt field value
 // and a boolean to check if the value has been set.
 func (o *Post) GetCreatedAtOk() (*time.Time, bool) {
-	if o == nil || IsNil(o.CreatedAt) {
+	if o == nil {
 		return nil, false
 	}
-	return o.CreatedAt, true
+	return &o.CreatedAt, true
 }
 
-// HasCreatedAt returns a boolean if a field has been set.
-func (o *Post) HasCreatedAt() bool {
-	if o != nil && !IsNil(o.CreatedAt) {
-		return true
-	}
-
-	return false
-}
-
-// SetCreatedAt gets a reference to the given time.Time and assigns it to the CreatedAt field.
+// SetCreatedAt sets field value
 func (o *Post) SetCreatedAt(v time.Time) {
-	o.CreatedAt = &v
+	o.CreatedAt = v
 }
 
-// GetTrashed returns the Trashed field value if set, zero value otherwise.
+// GetTrashed returns the Trashed field value
 func (o *Post) GetTrashed() bool {
-	if o == nil || IsNil(o.Trashed) {
+	if o == nil {
 		var ret bool
 		return ret
 	}
-	return *o.Trashed
+
+	return o.Trashed
 }
 
-// GetTrashedOk returns a tuple with the Trashed field value if set, nil otherwise
+// GetTrashedOk returns a tuple with the Trashed field value
 // and a boolean to check if the value has been set.
 func (o *Post) GetTrashedOk() (*bool, bool) {
-	if o == nil || IsNil(o.Trashed) {
+	if o == nil {
 		return nil, false
 	}
-	return o.Trashed, true
+	return &o.Trashed, true
 }
 
-// HasTrashed returns a boolean if a field has been set.
-func (o *Post) HasTrashed() bool {
-	if o != nil && !IsNil(o.Trashed) {
-		return true
-	}
-
-	return false
-}
-
-// SetTrashed gets a reference to the given bool and assigns it to the Trashed field.
+// SetTrashed sets field value
 func (o *Post) SetTrashed(v bool) {
-	o.Trashed = &v
+	o.Trashed = v
 }
 
 func (o Post) MarshalJSON() ([]byte, error) {
@@ -380,37 +328,65 @@ func (o Post) MarshalJSON() ([]byte, error) {
 
 func (o Post) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
-	if !IsNil(o.Id) {
-		toSerialize["id"] = o.Id
-	}
-	if !IsNil(o.Uuid) {
-		toSerialize["uuid"] = o.Uuid
-	}
-	if !IsNil(o.Status) {
-		toSerialize["status"] = o.Status
-	}
-	if !IsNil(o.Accounts) {
-		toSerialize["accounts"] = o.Accounts
-	}
-	if !IsNil(o.Versions) {
-		toSerialize["versions"] = o.Versions
-	}
-	if !IsNil(o.Tags) {
-		toSerialize["tags"] = o.Tags
-	}
+	toSerialize["id"] = o.Id
+	toSerialize["uuid"] = o.Uuid
+	toSerialize["status"] = o.Status
+	toSerialize["accounts"] = o.Accounts
+	toSerialize["versions"] = o.Versions
+	toSerialize["tags"] = o.Tags
 	if !IsNil(o.ScheduledAt) {
 		toSerialize["scheduled_at"] = o.ScheduledAt
 	}
 	if !IsNil(o.PublishedAt) {
 		toSerialize["published_at"] = o.PublishedAt
 	}
-	if !IsNil(o.CreatedAt) {
-		toSerialize["created_at"] = o.CreatedAt
-	}
-	if !IsNil(o.Trashed) {
-		toSerialize["trashed"] = o.Trashed
-	}
+	toSerialize["created_at"] = o.CreatedAt
+	toSerialize["trashed"] = o.Trashed
 	return toSerialize, nil
+}
+
+func (o *Post) UnmarshalJSON(data []byte) (err error) {
+	// This validates that all required properties are included in the JSON object
+	// by unmarshalling the object into a generic map with string keys and checking
+	// that every required field exists as a key in the generic map.
+	requiredProperties := []string{
+		"id",
+		"uuid",
+		"status",
+		"accounts",
+		"versions",
+		"tags",
+		"created_at",
+		"trashed",
+	}
+
+	allProperties := make(map[string]interface{})
+
+	err = json.Unmarshal(data, &allProperties)
+
+	if err != nil {
+		return err;
+	}
+
+	for _, requiredProperty := range(requiredProperties) {
+		if _, exists := allProperties[requiredProperty]; !exists {
+			return fmt.Errorf("no value given for required property %v", requiredProperty)
+		}
+	}
+
+	varPost := _Post{}
+
+	decoder := json.NewDecoder(bytes.NewReader(data))
+	decoder.DisallowUnknownFields()
+	err = decoder.Decode(&varPost)
+
+	if err != nil {
+		return err
+	}
+
+	*o = Post(varPost)
+
+	return err
 }
 
 type NullablePost struct {

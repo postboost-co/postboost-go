@@ -19,6 +19,8 @@ Method | HTTP request | Description
 
 Create receipt
 
+
+
 ### Example
 
 ```go
@@ -29,7 +31,7 @@ import (
 	"fmt"
 	"os"
     "time"
-	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+	openapiclient "github.com/postboost-co/postboost-go"
 )
 
 func main() {
@@ -84,6 +86,8 @@ Name | Type | Description  | Notes
 
 Delete receipt
 
+
+
 ### Example
 
 ```go
@@ -93,7 +97,7 @@ import (
 	"context"
 	"fmt"
 	"os"
-	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+	openapiclient "github.com/postboost-co/postboost-go"
 )
 
 func main() {
@@ -152,6 +156,8 @@ Name | Type | Description  | Notes
 
 Delete receipts (bulk)
 
+
+
 ### Example
 
 ```go
@@ -161,7 +167,7 @@ import (
 	"context"
 	"fmt"
 	"os"
-	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+	openapiclient "github.com/postboost-co/postboost-go"
 )
 
 func main() {
@@ -216,6 +222,8 @@ Name | Type | Description  | Notes
 
 Get receipt
 
+
+
 ### Example
 
 ```go
@@ -225,7 +233,7 @@ import (
 	"context"
 	"fmt"
 	"os"
-	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+	openapiclient "github.com/postboost-co/postboost-go"
 )
 
 func main() {
@@ -280,9 +288,11 @@ Name | Type | Description  | Notes
 
 ## ListReceipts
 
-> ListReceipts200Response ListReceipts(ctx).WorkspaceUuid(workspaceUuid).InvoiceNumber(invoiceNumber).Execute()
+> ListReceipts200Response ListReceipts(ctx).WorkspaceUuid(workspaceUuid).InvoiceNumber(invoiceNumber).Page(page).Execute()
 
 List receipts
+
+
 
 ### Example
 
@@ -293,16 +303,17 @@ import (
 	"context"
 	"fmt"
 	"os"
-	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+	openapiclient "github.com/postboost-co/postboost-go"
 )
 
 func main() {
 	workspaceUuid := "38400000-8cf0-11bd-b23e-10b96e4ef00d" // string |  (optional)
 	invoiceNumber := "invoiceNumber_example" // string |  (optional)
+	page := int32(56) // int32 | Page number (15 items per page). (optional) (default to 1)
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.ReceiptsAPI.ListReceipts(context.Background()).WorkspaceUuid(workspaceUuid).InvoiceNumber(invoiceNumber).Execute()
+	resp, r, err := apiClient.ReceiptsAPI.ListReceipts(context.Background()).WorkspaceUuid(workspaceUuid).InvoiceNumber(invoiceNumber).Page(page).Execute()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error when calling `ReceiptsAPI.ListReceipts``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -325,6 +336,7 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **workspaceUuid** | **string** |  | 
  **invoiceNumber** | **string** |  | 
+ **page** | **int32** | Page number (15 items per page). | [default to 1]
 
 ### Return type
 
@@ -350,6 +362,8 @@ Name | Type | Description  | Notes
 
 Update receipt
 
+
+
 ### Example
 
 ```go
@@ -360,7 +374,7 @@ import (
 	"fmt"
 	"os"
     "time"
-	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+	openapiclient "github.com/postboost-co/postboost-go"
 )
 
 func main() {

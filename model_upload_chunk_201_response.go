@@ -15,34 +15,34 @@ import (
 	"encoding/json"
 )
 
-// checks if the UploadChunk200Response type satisfies the MappedNullable interface at compile time
-var _ MappedNullable = &UploadChunk200Response{}
+// checks if the UploadChunk201Response type satisfies the MappedNullable interface at compile time
+var _ MappedNullable = &UploadChunk201Response{}
 
-// UploadChunk200Response struct for UploadChunk200Response
-type UploadChunk200Response struct {
+// UploadChunk201Response struct for UploadChunk201Response
+type UploadChunk201Response struct {
 	// Number of chunks received so far.
 	Received *int32 `json:"received,omitempty"`
 }
 
-// NewUploadChunk200Response instantiates a new UploadChunk200Response object
+// NewUploadChunk201Response instantiates a new UploadChunk201Response object
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewUploadChunk200Response() *UploadChunk200Response {
-	this := UploadChunk200Response{}
+func NewUploadChunk201Response() *UploadChunk201Response {
+	this := UploadChunk201Response{}
 	return &this
 }
 
-// NewUploadChunk200ResponseWithDefaults instantiates a new UploadChunk200Response object
+// NewUploadChunk201ResponseWithDefaults instantiates a new UploadChunk201Response object
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set
-func NewUploadChunk200ResponseWithDefaults() *UploadChunk200Response {
-	this := UploadChunk200Response{}
+func NewUploadChunk201ResponseWithDefaults() *UploadChunk201Response {
+	this := UploadChunk201Response{}
 	return &this
 }
 
 // GetReceived returns the Received field value if set, zero value otherwise.
-func (o *UploadChunk200Response) GetReceived() int32 {
+func (o *UploadChunk201Response) GetReceived() int32 {
 	if o == nil || IsNil(o.Received) {
 		var ret int32
 		return ret
@@ -52,7 +52,7 @@ func (o *UploadChunk200Response) GetReceived() int32 {
 
 // GetReceivedOk returns a tuple with the Received field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *UploadChunk200Response) GetReceivedOk() (*int32, bool) {
+func (o *UploadChunk201Response) GetReceivedOk() (*int32, bool) {
 	if o == nil || IsNil(o.Received) {
 		return nil, false
 	}
@@ -60,7 +60,7 @@ func (o *UploadChunk200Response) GetReceivedOk() (*int32, bool) {
 }
 
 // HasReceived returns a boolean if a field has been set.
-func (o *UploadChunk200Response) HasReceived() bool {
+func (o *UploadChunk201Response) HasReceived() bool {
 	if o != nil && !IsNil(o.Received) {
 		return true
 	}
@@ -69,11 +69,11 @@ func (o *UploadChunk200Response) HasReceived() bool {
 }
 
 // SetReceived gets a reference to the given int32 and assigns it to the Received field.
-func (o *UploadChunk200Response) SetReceived(v int32) {
+func (o *UploadChunk201Response) SetReceived(v int32) {
 	o.Received = &v
 }
 
-func (o UploadChunk200Response) MarshalJSON() ([]byte, error) {
+func (o UploadChunk201Response) MarshalJSON() ([]byte, error) {
 	toSerialize,err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
@@ -81,7 +81,7 @@ func (o UploadChunk200Response) MarshalJSON() ([]byte, error) {
 	return json.Marshal(toSerialize)
 }
 
-func (o UploadChunk200Response) ToMap() (map[string]interface{}, error) {
+func (o UploadChunk201Response) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	if !IsNil(o.Received) {
 		toSerialize["received"] = o.Received
@@ -89,38 +89,38 @@ func (o UploadChunk200Response) ToMap() (map[string]interface{}, error) {
 	return toSerialize, nil
 }
 
-type NullableUploadChunk200Response struct {
-	value *UploadChunk200Response
+type NullableUploadChunk201Response struct {
+	value *UploadChunk201Response
 	isSet bool
 }
 
-func (v NullableUploadChunk200Response) Get() *UploadChunk200Response {
+func (v NullableUploadChunk201Response) Get() *UploadChunk201Response {
 	return v.value
 }
 
-func (v *NullableUploadChunk200Response) Set(val *UploadChunk200Response) {
+func (v *NullableUploadChunk201Response) Set(val *UploadChunk201Response) {
 	v.value = val
 	v.isSet = true
 }
 
-func (v NullableUploadChunk200Response) IsSet() bool {
+func (v NullableUploadChunk201Response) IsSet() bool {
 	return v.isSet
 }
 
-func (v *NullableUploadChunk200Response) Unset() {
+func (v *NullableUploadChunk201Response) Unset() {
 	v.value = nil
 	v.isSet = false
 }
 
-func NewNullableUploadChunk200Response(val *UploadChunk200Response) *NullableUploadChunk200Response {
-	return &NullableUploadChunk200Response{value: val, isSet: true}
+func NewNullableUploadChunk201Response(val *UploadChunk201Response) *NullableUploadChunk201Response {
+	return &NullableUploadChunk201Response{value: val, isSet: true}
 }
 
-func (v NullableUploadChunk200Response) MarshalJSON() ([]byte, error) {
+func (v NullableUploadChunk201Response) MarshalJSON() ([]byte, error) {
 	return json.Marshal(v.value)
 }
 
-func (v *NullableUploadChunk200Response) UnmarshalJSON(src []byte) error {
+func (v *NullableUploadChunk201Response) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }

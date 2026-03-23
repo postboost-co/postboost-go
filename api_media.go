@@ -640,7 +640,7 @@ func (r ApiInitiateChunkedUploadRequest) InitiateChunkedUploadRequest(initiateCh
 	return r
 }
 
-func (r ApiInitiateChunkedUploadRequest) Execute() (*InitiateChunkedUpload200Response, *http.Response, error) {
+func (r ApiInitiateChunkedUploadRequest) Execute() (*InitiateChunkedUpload201Response, *http.Response, error) {
 	return r.ApiService.InitiateChunkedUploadExecute(r)
 }
 
@@ -664,13 +664,13 @@ func (a *MediaAPIService) InitiateChunkedUpload(ctx context.Context, workspaceUu
 }
 
 // Execute executes the request
-//  @return InitiateChunkedUpload200Response
-func (a *MediaAPIService) InitiateChunkedUploadExecute(r ApiInitiateChunkedUploadRequest) (*InitiateChunkedUpload200Response, *http.Response, error) {
+//  @return InitiateChunkedUpload201Response
+func (a *MediaAPIService) InitiateChunkedUploadExecute(r ApiInitiateChunkedUploadRequest) (*InitiateChunkedUpload201Response, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPost
 		localVarPostBody     interface{}
 		formFiles            []formFile
-		localVarReturnValue  *InitiateChunkedUpload200Response
+		localVarReturnValue  *InitiateChunkedUpload201Response
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "MediaAPIService.InitiateChunkedUpload")
@@ -777,7 +777,7 @@ func (r ApiInitiateRemoteUploadRequest) InitiateRemoteUploadRequest(initiateRemo
 	return r
 }
 
-func (r ApiInitiateRemoteUploadRequest) Execute() (*InitiateRemoteUpload200Response, *http.Response, error) {
+func (r ApiInitiateRemoteUploadRequest) Execute() (*InitiateRemoteUpload201Response, *http.Response, error) {
 	return r.ApiService.InitiateRemoteUploadExecute(r)
 }
 
@@ -802,13 +802,13 @@ func (a *MediaAPIService) InitiateRemoteUpload(ctx context.Context, workspaceUui
 }
 
 // Execute executes the request
-//  @return InitiateRemoteUpload200Response
-func (a *MediaAPIService) InitiateRemoteUploadExecute(r ApiInitiateRemoteUploadRequest) (*InitiateRemoteUpload200Response, *http.Response, error) {
+//  @return InitiateRemoteUpload201Response
+func (a *MediaAPIService) InitiateRemoteUploadExecute(r ApiInitiateRemoteUploadRequest) (*InitiateRemoteUpload201Response, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPost
 		localVarPostBody     interface{}
 		formFiles            []formFile
-		localVarReturnValue  *InitiateRemoteUpload200Response
+		localVarReturnValue  *InitiateRemoteUpload201Response
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "MediaAPIService.InitiateRemoteUpload")
@@ -1188,7 +1188,7 @@ func (r ApiUploadChunkRequest) ChunkIndex(chunkIndex int32) ApiUploadChunkReques
 	return r
 }
 
-func (r ApiUploadChunkRequest) Execute() (*UploadChunk200Response, *http.Response, error) {
+func (r ApiUploadChunkRequest) Execute() (*UploadChunk201Response, *http.Response, error) {
 	return r.ApiService.UploadChunkExecute(r)
 }
 
@@ -1212,13 +1212,13 @@ func (a *MediaAPIService) UploadChunk(ctx context.Context, workspaceUuid string,
 }
 
 // Execute executes the request
-//  @return UploadChunk200Response
-func (a *MediaAPIService) UploadChunkExecute(r ApiUploadChunkRequest) (*UploadChunk200Response, *http.Response, error) {
+//  @return UploadChunk201Response
+func (a *MediaAPIService) UploadChunkExecute(r ApiUploadChunkRequest) (*UploadChunk201Response, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPost
 		localVarPostBody     interface{}
 		formFiles            []formFile
-		localVarReturnValue  *UploadChunk200Response
+		localVarReturnValue  *UploadChunk201Response
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "MediaAPIService.UploadChunk")

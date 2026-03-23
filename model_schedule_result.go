@@ -14,6 +14,8 @@ package postboost
 import (
 	"encoding/json"
 	"time"
+	"bytes"
+	"fmt"
 )
 
 // checks if the ScheduleResult type satisfies the MappedNullable interface at compile time
@@ -21,16 +23,19 @@ var _ MappedNullable = &ScheduleResult{}
 
 // ScheduleResult struct for ScheduleResult
 type ScheduleResult struct {
-	Success *bool `json:"success,omitempty"`
+	Success bool `json:"success"`
 	ScheduledAt *time.Time `json:"scheduled_at,omitempty"`
 }
+
+type _ScheduleResult ScheduleResult
 
 // NewScheduleResult instantiates a new ScheduleResult object
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewScheduleResult() *ScheduleResult {
+func NewScheduleResult(success bool) *ScheduleResult {
 	this := ScheduleResult{}
+	this.Success = success
 	return &this
 }
 
@@ -42,36 +47,28 @@ func NewScheduleResultWithDefaults() *ScheduleResult {
 	return &this
 }
 
-// GetSuccess returns the Success field value if set, zero value otherwise.
+// GetSuccess returns the Success field value
 func (o *ScheduleResult) GetSuccess() bool {
-	if o == nil || IsNil(o.Success) {
+	if o == nil {
 		var ret bool
 		return ret
 	}
-	return *o.Success
+
+	return o.Success
 }
 
-// GetSuccessOk returns a tuple with the Success field value if set, nil otherwise
+// GetSuccessOk returns a tuple with the Success field value
 // and a boolean to check if the value has been set.
 func (o *ScheduleResult) GetSuccessOk() (*bool, bool) {
-	if o == nil || IsNil(o.Success) {
+	if o == nil {
 		return nil, false
 	}
-	return o.Success, true
+	return &o.Success, true
 }
 
-// HasSuccess returns a boolean if a field has been set.
-func (o *ScheduleResult) HasSuccess() bool {
-	if o != nil && !IsNil(o.Success) {
-		return true
-	}
-
-	return false
-}
-
-// SetSuccess gets a reference to the given bool and assigns it to the Success field.
+// SetSuccess sets field value
 func (o *ScheduleResult) SetSuccess(v bool) {
-	o.Success = &v
+	o.Success = v
 }
 
 // GetScheduledAt returns the ScheduledAt field value if set, zero value otherwise.
@@ -116,13 +113,48 @@ func (o ScheduleResult) MarshalJSON() ([]byte, error) {
 
 func (o ScheduleResult) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
-	if !IsNil(o.Success) {
-		toSerialize["success"] = o.Success
-	}
+	toSerialize["success"] = o.Success
 	if !IsNil(o.ScheduledAt) {
 		toSerialize["scheduled_at"] = o.ScheduledAt
 	}
 	return toSerialize, nil
+}
+
+func (o *ScheduleResult) UnmarshalJSON(data []byte) (err error) {
+	// This validates that all required properties are included in the JSON object
+	// by unmarshalling the object into a generic map with string keys and checking
+	// that every required field exists as a key in the generic map.
+	requiredProperties := []string{
+		"success",
+	}
+
+	allProperties := make(map[string]interface{})
+
+	err = json.Unmarshal(data, &allProperties)
+
+	if err != nil {
+		return err;
+	}
+
+	for _, requiredProperty := range(requiredProperties) {
+		if _, exists := allProperties[requiredProperty]; !exists {
+			return fmt.Errorf("no value given for required property %v", requiredProperty)
+		}
+	}
+
+	varScheduleResult := _ScheduleResult{}
+
+	decoder := json.NewDecoder(bytes.NewReader(data))
+	decoder.DisallowUnknownFields()
+	err = decoder.Decode(&varScheduleResult)
+
+	if err != nil {
+		return err
+	}
+
+	*o = ScheduleResult(varScheduleResult)
+
+	return err
 }
 
 type NullableScheduleResult struct {

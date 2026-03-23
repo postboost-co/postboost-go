@@ -13,6 +13,8 @@ package postboost
 
 import (
 	"encoding/json"
+	"bytes"
+	"fmt"
 )
 
 // checks if the DeleteResult type satisfies the MappedNullable interface at compile time
@@ -20,17 +22,22 @@ var _ MappedNullable = &DeleteResult{}
 
 // DeleteResult struct for DeleteResult
 type DeleteResult struct {
-	Deleted *bool `json:"deleted,omitempty"`
-	DeletedFromApp *bool `json:"deleted_from_app,omitempty"`
-	ToTrash *bool `json:"to_trash,omitempty"`
+	Deleted bool `json:"deleted"`
+	DeletedFromApp bool `json:"deleted_from_app"`
+	ToTrash bool `json:"to_trash"`
 }
+
+type _DeleteResult DeleteResult
 
 // NewDeleteResult instantiates a new DeleteResult object
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewDeleteResult() *DeleteResult {
+func NewDeleteResult(deleted bool, deletedFromApp bool, toTrash bool) *DeleteResult {
 	this := DeleteResult{}
+	this.Deleted = deleted
+	this.DeletedFromApp = deletedFromApp
+	this.ToTrash = toTrash
 	return &this
 }
 
@@ -42,100 +49,76 @@ func NewDeleteResultWithDefaults() *DeleteResult {
 	return &this
 }
 
-// GetDeleted returns the Deleted field value if set, zero value otherwise.
+// GetDeleted returns the Deleted field value
 func (o *DeleteResult) GetDeleted() bool {
-	if o == nil || IsNil(o.Deleted) {
+	if o == nil {
 		var ret bool
 		return ret
 	}
-	return *o.Deleted
+
+	return o.Deleted
 }
 
-// GetDeletedOk returns a tuple with the Deleted field value if set, nil otherwise
+// GetDeletedOk returns a tuple with the Deleted field value
 // and a boolean to check if the value has been set.
 func (o *DeleteResult) GetDeletedOk() (*bool, bool) {
-	if o == nil || IsNil(o.Deleted) {
+	if o == nil {
 		return nil, false
 	}
-	return o.Deleted, true
+	return &o.Deleted, true
 }
 
-// HasDeleted returns a boolean if a field has been set.
-func (o *DeleteResult) HasDeleted() bool {
-	if o != nil && !IsNil(o.Deleted) {
-		return true
-	}
-
-	return false
-}
-
-// SetDeleted gets a reference to the given bool and assigns it to the Deleted field.
+// SetDeleted sets field value
 func (o *DeleteResult) SetDeleted(v bool) {
-	o.Deleted = &v
+	o.Deleted = v
 }
 
-// GetDeletedFromApp returns the DeletedFromApp field value if set, zero value otherwise.
+// GetDeletedFromApp returns the DeletedFromApp field value
 func (o *DeleteResult) GetDeletedFromApp() bool {
-	if o == nil || IsNil(o.DeletedFromApp) {
+	if o == nil {
 		var ret bool
 		return ret
 	}
-	return *o.DeletedFromApp
+
+	return o.DeletedFromApp
 }
 
-// GetDeletedFromAppOk returns a tuple with the DeletedFromApp field value if set, nil otherwise
+// GetDeletedFromAppOk returns a tuple with the DeletedFromApp field value
 // and a boolean to check if the value has been set.
 func (o *DeleteResult) GetDeletedFromAppOk() (*bool, bool) {
-	if o == nil || IsNil(o.DeletedFromApp) {
+	if o == nil {
 		return nil, false
 	}
-	return o.DeletedFromApp, true
+	return &o.DeletedFromApp, true
 }
 
-// HasDeletedFromApp returns a boolean if a field has been set.
-func (o *DeleteResult) HasDeletedFromApp() bool {
-	if o != nil && !IsNil(o.DeletedFromApp) {
-		return true
-	}
-
-	return false
-}
-
-// SetDeletedFromApp gets a reference to the given bool and assigns it to the DeletedFromApp field.
+// SetDeletedFromApp sets field value
 func (o *DeleteResult) SetDeletedFromApp(v bool) {
-	o.DeletedFromApp = &v
+	o.DeletedFromApp = v
 }
 
-// GetToTrash returns the ToTrash field value if set, zero value otherwise.
+// GetToTrash returns the ToTrash field value
 func (o *DeleteResult) GetToTrash() bool {
-	if o == nil || IsNil(o.ToTrash) {
+	if o == nil {
 		var ret bool
 		return ret
 	}
-	return *o.ToTrash
+
+	return o.ToTrash
 }
 
-// GetToTrashOk returns a tuple with the ToTrash field value if set, nil otherwise
+// GetToTrashOk returns a tuple with the ToTrash field value
 // and a boolean to check if the value has been set.
 func (o *DeleteResult) GetToTrashOk() (*bool, bool) {
-	if o == nil || IsNil(o.ToTrash) {
+	if o == nil {
 		return nil, false
 	}
-	return o.ToTrash, true
+	return &o.ToTrash, true
 }
 
-// HasToTrash returns a boolean if a field has been set.
-func (o *DeleteResult) HasToTrash() bool {
-	if o != nil && !IsNil(o.ToTrash) {
-		return true
-	}
-
-	return false
-}
-
-// SetToTrash gets a reference to the given bool and assigns it to the ToTrash field.
+// SetToTrash sets field value
 func (o *DeleteResult) SetToTrash(v bool) {
-	o.ToTrash = &v
+	o.ToTrash = v
 }
 
 func (o DeleteResult) MarshalJSON() ([]byte, error) {
@@ -148,16 +131,49 @@ func (o DeleteResult) MarshalJSON() ([]byte, error) {
 
 func (o DeleteResult) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
-	if !IsNil(o.Deleted) {
-		toSerialize["deleted"] = o.Deleted
-	}
-	if !IsNil(o.DeletedFromApp) {
-		toSerialize["deleted_from_app"] = o.DeletedFromApp
-	}
-	if !IsNil(o.ToTrash) {
-		toSerialize["to_trash"] = o.ToTrash
-	}
+	toSerialize["deleted"] = o.Deleted
+	toSerialize["deleted_from_app"] = o.DeletedFromApp
+	toSerialize["to_trash"] = o.ToTrash
 	return toSerialize, nil
+}
+
+func (o *DeleteResult) UnmarshalJSON(data []byte) (err error) {
+	// This validates that all required properties are included in the JSON object
+	// by unmarshalling the object into a generic map with string keys and checking
+	// that every required field exists as a key in the generic map.
+	requiredProperties := []string{
+		"deleted",
+		"deleted_from_app",
+		"to_trash",
+	}
+
+	allProperties := make(map[string]interface{})
+
+	err = json.Unmarshal(data, &allProperties)
+
+	if err != nil {
+		return err;
+	}
+
+	for _, requiredProperty := range(requiredProperties) {
+		if _, exists := allProperties[requiredProperty]; !exists {
+			return fmt.Errorf("no value given for required property %v", requiredProperty)
+		}
+	}
+
+	varDeleteResult := _DeleteResult{}
+
+	decoder := json.NewDecoder(bytes.NewReader(data))
+	decoder.DisallowUnknownFields()
+	err = decoder.Decode(&varDeleteResult)
+
+	if err != nil {
+		return err
+	}
+
+	*o = DeleteResult(varDeleteResult)
+
+	return err
 }
 
 type NullableDeleteResult struct {

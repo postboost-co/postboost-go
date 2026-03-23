@@ -35,7 +35,7 @@ import (
 	"context"
 	"fmt"
 	"os"
-	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+	openapiclient "github.com/postboost-co/postboost-go"
 )
 
 func main() {
@@ -106,7 +106,7 @@ import (
 	"context"
 	"fmt"
 	"os"
-	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+	openapiclient "github.com/postboost-co/postboost-go"
 )
 
 func main() {
@@ -179,7 +179,7 @@ import (
 	"context"
 	"fmt"
 	"os"
-	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+	openapiclient "github.com/postboost-co/postboost-go"
 )
 
 func main() {
@@ -251,7 +251,7 @@ import (
 	"context"
 	"fmt"
 	"os"
-	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+	openapiclient "github.com/postboost-co/postboost-go"
 )
 
 func main() {
@@ -324,7 +324,7 @@ import (
 	"context"
 	"fmt"
 	"os"
-	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+	openapiclient "github.com/postboost-co/postboost-go"
 )
 
 func main() {
@@ -382,7 +382,7 @@ Name | Type | Description  | Notes
 
 ## InitiateChunkedUpload
 
-> InitiateChunkedUpload200Response InitiateChunkedUpload(ctx, workspaceUuid).InitiateChunkedUploadRequest(initiateChunkedUploadRequest).Execute()
+> InitiateChunkedUpload201Response InitiateChunkedUpload(ctx, workspaceUuid).InitiateChunkedUploadRequest(initiateChunkedUploadRequest).Execute()
 
 Initiate chunked upload
 
@@ -397,7 +397,7 @@ import (
 	"context"
 	"fmt"
 	"os"
-	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+	openapiclient "github.com/postboost-co/postboost-go"
 )
 
 func main() {
@@ -411,7 +411,7 @@ func main() {
 		fmt.Fprintf(os.Stderr, "Error when calling `MediaAPI.InitiateChunkedUpload``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `InitiateChunkedUpload`: InitiateChunkedUpload200Response
+	// response from `InitiateChunkedUpload`: InitiateChunkedUpload201Response
 	fmt.Fprintf(os.Stdout, "Response from `MediaAPI.InitiateChunkedUpload`: %v\n", resp)
 }
 ```
@@ -436,7 +436,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**InitiateChunkedUpload200Response**](InitiateChunkedUpload200Response.md)
+[**InitiateChunkedUpload201Response**](InitiateChunkedUpload201Response.md)
 
 ### Authorization
 
@@ -454,7 +454,7 @@ Name | Type | Description  | Notes
 
 ## InitiateRemoteUpload
 
-> InitiateRemoteUpload200Response InitiateRemoteUpload(ctx, workspaceUuid).InitiateRemoteUploadRequest(initiateRemoteUploadRequest).Execute()
+> InitiateRemoteUpload201Response InitiateRemoteUpload(ctx, workspaceUuid).InitiateRemoteUploadRequest(initiateRemoteUploadRequest).Execute()
 
 Initiate remote upload
 
@@ -469,7 +469,7 @@ import (
 	"context"
 	"fmt"
 	"os"
-	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+	openapiclient "github.com/postboost-co/postboost-go"
 )
 
 func main() {
@@ -483,7 +483,7 @@ func main() {
 		fmt.Fprintf(os.Stderr, "Error when calling `MediaAPI.InitiateRemoteUpload``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `InitiateRemoteUpload`: InitiateRemoteUpload200Response
+	// response from `InitiateRemoteUpload`: InitiateRemoteUpload201Response
 	fmt.Fprintf(os.Stdout, "Response from `MediaAPI.InitiateRemoteUpload`: %v\n", resp)
 }
 ```
@@ -508,7 +508,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**InitiateRemoteUpload200Response**](InitiateRemoteUpload200Response.md)
+[**InitiateRemoteUpload201Response**](InitiateRemoteUpload201Response.md)
 
 ### Authorization
 
@@ -541,7 +541,7 @@ import (
 	"context"
 	"fmt"
 	"os"
-	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+	openapiclient "github.com/postboost-co/postboost-go"
 )
 
 func main() {
@@ -613,7 +613,7 @@ import (
 	"context"
 	"fmt"
 	"os"
-	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+	openapiclient "github.com/postboost-co/postboost-go"
 )
 
 func main() {
@@ -673,7 +673,7 @@ Name | Type | Description  | Notes
 
 ## UploadChunk
 
-> UploadChunk200Response UploadChunk(ctx, workspaceUuid, uploadUuid).Chunk(chunk).ChunkIndex(chunkIndex).Execute()
+> UploadChunk201Response UploadChunk(ctx, workspaceUuid, uploadUuid).Chunk(chunk).ChunkIndex(chunkIndex).Execute()
 
 Upload a chunk
 
@@ -688,7 +688,7 @@ import (
 	"context"
 	"fmt"
 	"os"
-	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+	openapiclient "github.com/postboost-co/postboost-go"
 )
 
 func main() {
@@ -704,7 +704,7 @@ func main() {
 		fmt.Fprintf(os.Stderr, "Error when calling `MediaAPI.UploadChunk``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `UploadChunk`: UploadChunk200Response
+	// response from `UploadChunk`: UploadChunk201Response
 	fmt.Fprintf(os.Stdout, "Response from `MediaAPI.UploadChunk`: %v\n", resp)
 }
 ```
@@ -732,7 +732,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**UploadChunk200Response**](UploadChunk200Response.md)
+[**UploadChunk201Response**](UploadChunk201Response.md)
 
 ### Authorization
 
@@ -765,7 +765,7 @@ import (
 	"context"
 	"fmt"
 	"os"
-	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+	openapiclient "github.com/postboost-co/postboost-go"
 )
 
 func main() {

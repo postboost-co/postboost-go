@@ -14,6 +14,8 @@ package postboost
 import (
 	"encoding/json"
 	"time"
+	"bytes"
+	"fmt"
 )
 
 // checks if the Account type satisfies the MappedNullable interface at compile time
@@ -21,24 +23,34 @@ var _ MappedNullable = &Account{}
 
 // Account struct for Account
 type Account struct {
-	Id *int32 `json:"id,omitempty"`
-	Uuid *string `json:"uuid,omitempty"`
-	Name *string `json:"name,omitempty"`
-	Username *string `json:"username,omitempty"`
+	Id int32 `json:"id"`
+	Uuid string `json:"uuid"`
+	Name string `json:"name"`
+	Username string `json:"username"`
 	Image *string `json:"image,omitempty"`
-	Provider *string `json:"provider,omitempty"`
+	Provider string `json:"provider"`
 	// Provider-specific metadata.
-	Data map[string]interface{} `json:"data,omitempty"`
-	Authorized *bool `json:"authorized,omitempty"`
-	CreatedAt *time.Time `json:"created_at,omitempty"`
+	Data map[string]interface{} `json:"data"`
+	Authorized bool `json:"authorized"`
+	CreatedAt time.Time `json:"created_at"`
 }
+
+type _Account Account
 
 // NewAccount instantiates a new Account object
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewAccount() *Account {
+func NewAccount(id int32, uuid string, name string, username string, provider string, data map[string]interface{}, authorized bool, createdAt time.Time) *Account {
 	this := Account{}
+	this.Id = id
+	this.Uuid = uuid
+	this.Name = name
+	this.Username = username
+	this.Provider = provider
+	this.Data = data
+	this.Authorized = authorized
+	this.CreatedAt = createdAt
 	return &this
 }
 
@@ -50,132 +62,100 @@ func NewAccountWithDefaults() *Account {
 	return &this
 }
 
-// GetId returns the Id field value if set, zero value otherwise.
+// GetId returns the Id field value
 func (o *Account) GetId() int32 {
-	if o == nil || IsNil(o.Id) {
+	if o == nil {
 		var ret int32
 		return ret
 	}
-	return *o.Id
+
+	return o.Id
 }
 
-// GetIdOk returns a tuple with the Id field value if set, nil otherwise
+// GetIdOk returns a tuple with the Id field value
 // and a boolean to check if the value has been set.
 func (o *Account) GetIdOk() (*int32, bool) {
-	if o == nil || IsNil(o.Id) {
+	if o == nil {
 		return nil, false
 	}
-	return o.Id, true
+	return &o.Id, true
 }
 
-// HasId returns a boolean if a field has been set.
-func (o *Account) HasId() bool {
-	if o != nil && !IsNil(o.Id) {
-		return true
-	}
-
-	return false
-}
-
-// SetId gets a reference to the given int32 and assigns it to the Id field.
+// SetId sets field value
 func (o *Account) SetId(v int32) {
-	o.Id = &v
+	o.Id = v
 }
 
-// GetUuid returns the Uuid field value if set, zero value otherwise.
+// GetUuid returns the Uuid field value
 func (o *Account) GetUuid() string {
-	if o == nil || IsNil(o.Uuid) {
+	if o == nil {
 		var ret string
 		return ret
 	}
-	return *o.Uuid
+
+	return o.Uuid
 }
 
-// GetUuidOk returns a tuple with the Uuid field value if set, nil otherwise
+// GetUuidOk returns a tuple with the Uuid field value
 // and a boolean to check if the value has been set.
 func (o *Account) GetUuidOk() (*string, bool) {
-	if o == nil || IsNil(o.Uuid) {
+	if o == nil {
 		return nil, false
 	}
-	return o.Uuid, true
+	return &o.Uuid, true
 }
 
-// HasUuid returns a boolean if a field has been set.
-func (o *Account) HasUuid() bool {
-	if o != nil && !IsNil(o.Uuid) {
-		return true
-	}
-
-	return false
-}
-
-// SetUuid gets a reference to the given string and assigns it to the Uuid field.
+// SetUuid sets field value
 func (o *Account) SetUuid(v string) {
-	o.Uuid = &v
+	o.Uuid = v
 }
 
-// GetName returns the Name field value if set, zero value otherwise.
+// GetName returns the Name field value
 func (o *Account) GetName() string {
-	if o == nil || IsNil(o.Name) {
+	if o == nil {
 		var ret string
 		return ret
 	}
-	return *o.Name
+
+	return o.Name
 }
 
-// GetNameOk returns a tuple with the Name field value if set, nil otherwise
+// GetNameOk returns a tuple with the Name field value
 // and a boolean to check if the value has been set.
 func (o *Account) GetNameOk() (*string, bool) {
-	if o == nil || IsNil(o.Name) {
+	if o == nil {
 		return nil, false
 	}
-	return o.Name, true
+	return &o.Name, true
 }
 
-// HasName returns a boolean if a field has been set.
-func (o *Account) HasName() bool {
-	if o != nil && !IsNil(o.Name) {
-		return true
-	}
-
-	return false
-}
-
-// SetName gets a reference to the given string and assigns it to the Name field.
+// SetName sets field value
 func (o *Account) SetName(v string) {
-	o.Name = &v
+	o.Name = v
 }
 
-// GetUsername returns the Username field value if set, zero value otherwise.
+// GetUsername returns the Username field value
 func (o *Account) GetUsername() string {
-	if o == nil || IsNil(o.Username) {
+	if o == nil {
 		var ret string
 		return ret
 	}
-	return *o.Username
+
+	return o.Username
 }
 
-// GetUsernameOk returns a tuple with the Username field value if set, nil otherwise
+// GetUsernameOk returns a tuple with the Username field value
 // and a boolean to check if the value has been set.
 func (o *Account) GetUsernameOk() (*string, bool) {
-	if o == nil || IsNil(o.Username) {
+	if o == nil {
 		return nil, false
 	}
-	return o.Username, true
+	return &o.Username, true
 }
 
-// HasUsername returns a boolean if a field has been set.
-func (o *Account) HasUsername() bool {
-	if o != nil && !IsNil(o.Username) {
-		return true
-	}
-
-	return false
-}
-
-// SetUsername gets a reference to the given string and assigns it to the Username field.
+// SetUsername sets field value
 func (o *Account) SetUsername(v string) {
-	o.Username = &v
+	o.Username = v
 }
 
 // GetImage returns the Image field value if set, zero value otherwise.
@@ -210,132 +190,100 @@ func (o *Account) SetImage(v string) {
 	o.Image = &v
 }
 
-// GetProvider returns the Provider field value if set, zero value otherwise.
+// GetProvider returns the Provider field value
 func (o *Account) GetProvider() string {
-	if o == nil || IsNil(o.Provider) {
+	if o == nil {
 		var ret string
 		return ret
 	}
-	return *o.Provider
+
+	return o.Provider
 }
 
-// GetProviderOk returns a tuple with the Provider field value if set, nil otherwise
+// GetProviderOk returns a tuple with the Provider field value
 // and a boolean to check if the value has been set.
 func (o *Account) GetProviderOk() (*string, bool) {
-	if o == nil || IsNil(o.Provider) {
+	if o == nil {
 		return nil, false
 	}
-	return o.Provider, true
+	return &o.Provider, true
 }
 
-// HasProvider returns a boolean if a field has been set.
-func (o *Account) HasProvider() bool {
-	if o != nil && !IsNil(o.Provider) {
-		return true
-	}
-
-	return false
-}
-
-// SetProvider gets a reference to the given string and assigns it to the Provider field.
+// SetProvider sets field value
 func (o *Account) SetProvider(v string) {
-	o.Provider = &v
+	o.Provider = v
 }
 
-// GetData returns the Data field value if set, zero value otherwise.
+// GetData returns the Data field value
 func (o *Account) GetData() map[string]interface{} {
-	if o == nil || IsNil(o.Data) {
+	if o == nil {
 		var ret map[string]interface{}
 		return ret
 	}
+
 	return o.Data
 }
 
-// GetDataOk returns a tuple with the Data field value if set, nil otherwise
+// GetDataOk returns a tuple with the Data field value
 // and a boolean to check if the value has been set.
 func (o *Account) GetDataOk() (map[string]interface{}, bool) {
-	if o == nil || IsNil(o.Data) {
+	if o == nil {
 		return map[string]interface{}{}, false
 	}
 	return o.Data, true
 }
 
-// HasData returns a boolean if a field has been set.
-func (o *Account) HasData() bool {
-	if o != nil && !IsNil(o.Data) {
-		return true
-	}
-
-	return false
-}
-
-// SetData gets a reference to the given map[string]interface{} and assigns it to the Data field.
+// SetData sets field value
 func (o *Account) SetData(v map[string]interface{}) {
 	o.Data = v
 }
 
-// GetAuthorized returns the Authorized field value if set, zero value otherwise.
+// GetAuthorized returns the Authorized field value
 func (o *Account) GetAuthorized() bool {
-	if o == nil || IsNil(o.Authorized) {
+	if o == nil {
 		var ret bool
 		return ret
 	}
-	return *o.Authorized
+
+	return o.Authorized
 }
 
-// GetAuthorizedOk returns a tuple with the Authorized field value if set, nil otherwise
+// GetAuthorizedOk returns a tuple with the Authorized field value
 // and a boolean to check if the value has been set.
 func (o *Account) GetAuthorizedOk() (*bool, bool) {
-	if o == nil || IsNil(o.Authorized) {
+	if o == nil {
 		return nil, false
 	}
-	return o.Authorized, true
+	return &o.Authorized, true
 }
 
-// HasAuthorized returns a boolean if a field has been set.
-func (o *Account) HasAuthorized() bool {
-	if o != nil && !IsNil(o.Authorized) {
-		return true
-	}
-
-	return false
-}
-
-// SetAuthorized gets a reference to the given bool and assigns it to the Authorized field.
+// SetAuthorized sets field value
 func (o *Account) SetAuthorized(v bool) {
-	o.Authorized = &v
+	o.Authorized = v
 }
 
-// GetCreatedAt returns the CreatedAt field value if set, zero value otherwise.
+// GetCreatedAt returns the CreatedAt field value
 func (o *Account) GetCreatedAt() time.Time {
-	if o == nil || IsNil(o.CreatedAt) {
+	if o == nil {
 		var ret time.Time
 		return ret
 	}
-	return *o.CreatedAt
+
+	return o.CreatedAt
 }
 
-// GetCreatedAtOk returns a tuple with the CreatedAt field value if set, nil otherwise
+// GetCreatedAtOk returns a tuple with the CreatedAt field value
 // and a boolean to check if the value has been set.
 func (o *Account) GetCreatedAtOk() (*time.Time, bool) {
-	if o == nil || IsNil(o.CreatedAt) {
+	if o == nil {
 		return nil, false
 	}
-	return o.CreatedAt, true
+	return &o.CreatedAt, true
 }
 
-// HasCreatedAt returns a boolean if a field has been set.
-func (o *Account) HasCreatedAt() bool {
-	if o != nil && !IsNil(o.CreatedAt) {
-		return true
-	}
-
-	return false
-}
-
-// SetCreatedAt gets a reference to the given time.Time and assigns it to the CreatedAt field.
+// SetCreatedAt sets field value
 func (o *Account) SetCreatedAt(v time.Time) {
-	o.CreatedAt = &v
+	o.CreatedAt = v
 }
 
 func (o Account) MarshalJSON() ([]byte, error) {
@@ -348,34 +296,62 @@ func (o Account) MarshalJSON() ([]byte, error) {
 
 func (o Account) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
-	if !IsNil(o.Id) {
-		toSerialize["id"] = o.Id
-	}
-	if !IsNil(o.Uuid) {
-		toSerialize["uuid"] = o.Uuid
-	}
-	if !IsNil(o.Name) {
-		toSerialize["name"] = o.Name
-	}
-	if !IsNil(o.Username) {
-		toSerialize["username"] = o.Username
-	}
+	toSerialize["id"] = o.Id
+	toSerialize["uuid"] = o.Uuid
+	toSerialize["name"] = o.Name
+	toSerialize["username"] = o.Username
 	if !IsNil(o.Image) {
 		toSerialize["image"] = o.Image
 	}
-	if !IsNil(o.Provider) {
-		toSerialize["provider"] = o.Provider
-	}
-	if !IsNil(o.Data) {
-		toSerialize["data"] = o.Data
-	}
-	if !IsNil(o.Authorized) {
-		toSerialize["authorized"] = o.Authorized
-	}
-	if !IsNil(o.CreatedAt) {
-		toSerialize["created_at"] = o.CreatedAt
-	}
+	toSerialize["provider"] = o.Provider
+	toSerialize["data"] = o.Data
+	toSerialize["authorized"] = o.Authorized
+	toSerialize["created_at"] = o.CreatedAt
 	return toSerialize, nil
+}
+
+func (o *Account) UnmarshalJSON(data []byte) (err error) {
+	// This validates that all required properties are included in the JSON object
+	// by unmarshalling the object into a generic map with string keys and checking
+	// that every required field exists as a key in the generic map.
+	requiredProperties := []string{
+		"id",
+		"uuid",
+		"name",
+		"username",
+		"provider",
+		"data",
+		"authorized",
+		"created_at",
+	}
+
+	allProperties := make(map[string]interface{})
+
+	err = json.Unmarshal(data, &allProperties)
+
+	if err != nil {
+		return err;
+	}
+
+	for _, requiredProperty := range(requiredProperties) {
+		if _, exists := allProperties[requiredProperty]; !exists {
+			return fmt.Errorf("no value given for required property %v", requiredProperty)
+		}
+	}
+
+	varAccount := _Account{}
+
+	decoder := json.NewDecoder(bytes.NewReader(data))
+	decoder.DisallowUnknownFields()
+	err = decoder.Decode(&varAccount)
+
+	if err != nil {
+		return err
+	}
+
+	*o = Account(varAccount)
+
+	return err
 }
 
 type NullableAccount struct {

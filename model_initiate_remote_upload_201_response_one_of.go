@@ -15,33 +15,33 @@ import (
 	"encoding/json"
 )
 
-// checks if the InitiateRemoteUpload200ResponseOneOf type satisfies the MappedNullable interface at compile time
-var _ MappedNullable = &InitiateRemoteUpload200ResponseOneOf{}
+// checks if the InitiateRemoteUpload201ResponseOneOf type satisfies the MappedNullable interface at compile time
+var _ MappedNullable = &InitiateRemoteUpload201ResponseOneOf{}
 
-// InitiateRemoteUpload200ResponseOneOf struct for InitiateRemoteUpload200ResponseOneOf
-type InitiateRemoteUpload200ResponseOneOf struct {
+// InitiateRemoteUpload201ResponseOneOf struct for InitiateRemoteUpload201ResponseOneOf
+type InitiateRemoteUpload201ResponseOneOf struct {
 	DownloadId *string `json:"download_id,omitempty"`
 }
 
-// NewInitiateRemoteUpload200ResponseOneOf instantiates a new InitiateRemoteUpload200ResponseOneOf object
+// NewInitiateRemoteUpload201ResponseOneOf instantiates a new InitiateRemoteUpload201ResponseOneOf object
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewInitiateRemoteUpload200ResponseOneOf() *InitiateRemoteUpload200ResponseOneOf {
-	this := InitiateRemoteUpload200ResponseOneOf{}
+func NewInitiateRemoteUpload201ResponseOneOf() *InitiateRemoteUpload201ResponseOneOf {
+	this := InitiateRemoteUpload201ResponseOneOf{}
 	return &this
 }
 
-// NewInitiateRemoteUpload200ResponseOneOfWithDefaults instantiates a new InitiateRemoteUpload200ResponseOneOf object
+// NewInitiateRemoteUpload201ResponseOneOfWithDefaults instantiates a new InitiateRemoteUpload201ResponseOneOf object
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set
-func NewInitiateRemoteUpload200ResponseOneOfWithDefaults() *InitiateRemoteUpload200ResponseOneOf {
-	this := InitiateRemoteUpload200ResponseOneOf{}
+func NewInitiateRemoteUpload201ResponseOneOfWithDefaults() *InitiateRemoteUpload201ResponseOneOf {
+	this := InitiateRemoteUpload201ResponseOneOf{}
 	return &this
 }
 
 // GetDownloadId returns the DownloadId field value if set, zero value otherwise.
-func (o *InitiateRemoteUpload200ResponseOneOf) GetDownloadId() string {
+func (o *InitiateRemoteUpload201ResponseOneOf) GetDownloadId() string {
 	if o == nil || IsNil(o.DownloadId) {
 		var ret string
 		return ret
@@ -51,7 +51,7 @@ func (o *InitiateRemoteUpload200ResponseOneOf) GetDownloadId() string {
 
 // GetDownloadIdOk returns a tuple with the DownloadId field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *InitiateRemoteUpload200ResponseOneOf) GetDownloadIdOk() (*string, bool) {
+func (o *InitiateRemoteUpload201ResponseOneOf) GetDownloadIdOk() (*string, bool) {
 	if o == nil || IsNil(o.DownloadId) {
 		return nil, false
 	}
@@ -59,7 +59,7 @@ func (o *InitiateRemoteUpload200ResponseOneOf) GetDownloadIdOk() (*string, bool)
 }
 
 // HasDownloadId returns a boolean if a field has been set.
-func (o *InitiateRemoteUpload200ResponseOneOf) HasDownloadId() bool {
+func (o *InitiateRemoteUpload201ResponseOneOf) HasDownloadId() bool {
 	if o != nil && !IsNil(o.DownloadId) {
 		return true
 	}
@@ -68,11 +68,11 @@ func (o *InitiateRemoteUpload200ResponseOneOf) HasDownloadId() bool {
 }
 
 // SetDownloadId gets a reference to the given string and assigns it to the DownloadId field.
-func (o *InitiateRemoteUpload200ResponseOneOf) SetDownloadId(v string) {
+func (o *InitiateRemoteUpload201ResponseOneOf) SetDownloadId(v string) {
 	o.DownloadId = &v
 }
 
-func (o InitiateRemoteUpload200ResponseOneOf) MarshalJSON() ([]byte, error) {
+func (o InitiateRemoteUpload201ResponseOneOf) MarshalJSON() ([]byte, error) {
 	toSerialize,err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
@@ -80,7 +80,7 @@ func (o InitiateRemoteUpload200ResponseOneOf) MarshalJSON() ([]byte, error) {
 	return json.Marshal(toSerialize)
 }
 
-func (o InitiateRemoteUpload200ResponseOneOf) ToMap() (map[string]interface{}, error) {
+func (o InitiateRemoteUpload201ResponseOneOf) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	if !IsNil(o.DownloadId) {
 		toSerialize["download_id"] = o.DownloadId
@@ -88,38 +88,38 @@ func (o InitiateRemoteUpload200ResponseOneOf) ToMap() (map[string]interface{}, e
 	return toSerialize, nil
 }
 
-type NullableInitiateRemoteUpload200ResponseOneOf struct {
-	value *InitiateRemoteUpload200ResponseOneOf
+type NullableInitiateRemoteUpload201ResponseOneOf struct {
+	value *InitiateRemoteUpload201ResponseOneOf
 	isSet bool
 }
 
-func (v NullableInitiateRemoteUpload200ResponseOneOf) Get() *InitiateRemoteUpload200ResponseOneOf {
+func (v NullableInitiateRemoteUpload201ResponseOneOf) Get() *InitiateRemoteUpload201ResponseOneOf {
 	return v.value
 }
 
-func (v *NullableInitiateRemoteUpload200ResponseOneOf) Set(val *InitiateRemoteUpload200ResponseOneOf) {
+func (v *NullableInitiateRemoteUpload201ResponseOneOf) Set(val *InitiateRemoteUpload201ResponseOneOf) {
 	v.value = val
 	v.isSet = true
 }
 
-func (v NullableInitiateRemoteUpload200ResponseOneOf) IsSet() bool {
+func (v NullableInitiateRemoteUpload201ResponseOneOf) IsSet() bool {
 	return v.isSet
 }
 
-func (v *NullableInitiateRemoteUpload200ResponseOneOf) Unset() {
+func (v *NullableInitiateRemoteUpload201ResponseOneOf) Unset() {
 	v.value = nil
 	v.isSet = false
 }
 
-func NewNullableInitiateRemoteUpload200ResponseOneOf(val *InitiateRemoteUpload200ResponseOneOf) *NullableInitiateRemoteUpload200ResponseOneOf {
-	return &NullableInitiateRemoteUpload200ResponseOneOf{value: val, isSet: true}
+func NewNullableInitiateRemoteUpload201ResponseOneOf(val *InitiateRemoteUpload201ResponseOneOf) *NullableInitiateRemoteUpload201ResponseOneOf {
+	return &NullableInitiateRemoteUpload201ResponseOneOf{value: val, isSet: true}
 }
 
-func (v NullableInitiateRemoteUpload200ResponseOneOf) MarshalJSON() ([]byte, error) {
+func (v NullableInitiateRemoteUpload201ResponseOneOf) MarshalJSON() ([]byte, error) {
 	return json.Marshal(v.value)
 }
 
-func (v *NullableInitiateRemoteUpload200ResponseOneOf) UnmarshalJSON(src []byte) error {
+func (v *NullableInitiateRemoteUpload201ResponseOneOf) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }

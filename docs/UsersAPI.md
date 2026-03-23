@@ -19,6 +19,8 @@ Method | HTTP request | Description
 
 Create user
 
+
+
 ### Example
 
 ```go
@@ -28,7 +30,7 @@ import (
 	"context"
 	"fmt"
 	"os"
-	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+	openapiclient "github.com/postboost-co/postboost-go"
 )
 
 func main() {
@@ -83,6 +85,8 @@ Name | Type | Description  | Notes
 
 Delete user
 
+
+
 ### Example
 
 ```go
@@ -92,7 +96,7 @@ import (
 	"context"
 	"fmt"
 	"os"
-	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+	openapiclient "github.com/postboost-co/postboost-go"
 )
 
 func main() {
@@ -151,6 +155,8 @@ Name | Type | Description  | Notes
 
 Delete users (bulk)
 
+
+
 ### Example
 
 ```go
@@ -160,7 +166,7 @@ import (
 	"context"
 	"fmt"
 	"os"
-	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+	openapiclient "github.com/postboost-co/postboost-go"
 )
 
 func main() {
@@ -215,6 +221,8 @@ Name | Type | Description  | Notes
 
 Get user
 
+
+
 ### Example
 
 ```go
@@ -224,7 +232,7 @@ import (
 	"context"
 	"fmt"
 	"os"
-	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+	openapiclient "github.com/postboost-co/postboost-go"
 )
 
 func main() {
@@ -279,9 +287,11 @@ Name | Type | Description  | Notes
 
 ## ListUsers
 
-> ListUsers200Response ListUsers(ctx).Keyword(keyword).Execute()
+> ListUsers200Response ListUsers(ctx).Keyword(keyword).Page(page).Execute()
 
 List users
+
+
 
 ### Example
 
@@ -292,15 +302,16 @@ import (
 	"context"
 	"fmt"
 	"os"
-	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+	openapiclient "github.com/postboost-co/postboost-go"
 )
 
 func main() {
 	keyword := "keyword_example" // string | Search by name or email. (optional)
+	page := int32(56) // int32 | Page number (15 items per page). (optional) (default to 1)
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.UsersAPI.ListUsers(context.Background()).Keyword(keyword).Execute()
+	resp, r, err := apiClient.UsersAPI.ListUsers(context.Background()).Keyword(keyword).Page(page).Execute()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error when calling `UsersAPI.ListUsers``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -322,6 +333,7 @@ Other parameters are passed through a pointer to a apiListUsersRequest struct vi
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **keyword** | **string** | Search by name or email. | 
+ **page** | **int32** | Page number (15 items per page). | [default to 1]
 
 ### Return type
 
@@ -347,6 +359,8 @@ Name | Type | Description  | Notes
 
 Update user
 
+
+
 ### Example
 
 ```go
@@ -356,7 +370,7 @@ import (
 	"context"
 	"fmt"
 	"os"
-	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+	openapiclient "github.com/postboost-co/postboost-go"
 )
 
 func main() {

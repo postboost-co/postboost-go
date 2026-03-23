@@ -13,6 +13,8 @@ package postboost
 
 import (
 	"encoding/json"
+	"bytes"
+	"fmt"
 )
 
 // checks if the Tag type satisfies the MappedNullable interface at compile time
@@ -20,18 +22,24 @@ var _ MappedNullable = &Tag{}
 
 // Tag struct for Tag
 type Tag struct {
-	Id *int32 `json:"id,omitempty"`
-	Uuid *string `json:"uuid,omitempty"`
-	Name *string `json:"name,omitempty"`
-	HexColor *string `json:"hex_color,omitempty"`
+	Id int32 `json:"id"`
+	Uuid string `json:"uuid"`
+	Name string `json:"name"`
+	HexColor string `json:"hex_color"`
 }
+
+type _Tag Tag
 
 // NewTag instantiates a new Tag object
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewTag() *Tag {
+func NewTag(id int32, uuid string, name string, hexColor string) *Tag {
 	this := Tag{}
+	this.Id = id
+	this.Uuid = uuid
+	this.Name = name
+	this.HexColor = hexColor
 	return &this
 }
 
@@ -43,132 +51,100 @@ func NewTagWithDefaults() *Tag {
 	return &this
 }
 
-// GetId returns the Id field value if set, zero value otherwise.
+// GetId returns the Id field value
 func (o *Tag) GetId() int32 {
-	if o == nil || IsNil(o.Id) {
+	if o == nil {
 		var ret int32
 		return ret
 	}
-	return *o.Id
+
+	return o.Id
 }
 
-// GetIdOk returns a tuple with the Id field value if set, nil otherwise
+// GetIdOk returns a tuple with the Id field value
 // and a boolean to check if the value has been set.
 func (o *Tag) GetIdOk() (*int32, bool) {
-	if o == nil || IsNil(o.Id) {
+	if o == nil {
 		return nil, false
 	}
-	return o.Id, true
+	return &o.Id, true
 }
 
-// HasId returns a boolean if a field has been set.
-func (o *Tag) HasId() bool {
-	if o != nil && !IsNil(o.Id) {
-		return true
-	}
-
-	return false
-}
-
-// SetId gets a reference to the given int32 and assigns it to the Id field.
+// SetId sets field value
 func (o *Tag) SetId(v int32) {
-	o.Id = &v
+	o.Id = v
 }
 
-// GetUuid returns the Uuid field value if set, zero value otherwise.
+// GetUuid returns the Uuid field value
 func (o *Tag) GetUuid() string {
-	if o == nil || IsNil(o.Uuid) {
+	if o == nil {
 		var ret string
 		return ret
 	}
-	return *o.Uuid
+
+	return o.Uuid
 }
 
-// GetUuidOk returns a tuple with the Uuid field value if set, nil otherwise
+// GetUuidOk returns a tuple with the Uuid field value
 // and a boolean to check if the value has been set.
 func (o *Tag) GetUuidOk() (*string, bool) {
-	if o == nil || IsNil(o.Uuid) {
+	if o == nil {
 		return nil, false
 	}
-	return o.Uuid, true
+	return &o.Uuid, true
 }
 
-// HasUuid returns a boolean if a field has been set.
-func (o *Tag) HasUuid() bool {
-	if o != nil && !IsNil(o.Uuid) {
-		return true
-	}
-
-	return false
-}
-
-// SetUuid gets a reference to the given string and assigns it to the Uuid field.
+// SetUuid sets field value
 func (o *Tag) SetUuid(v string) {
-	o.Uuid = &v
+	o.Uuid = v
 }
 
-// GetName returns the Name field value if set, zero value otherwise.
+// GetName returns the Name field value
 func (o *Tag) GetName() string {
-	if o == nil || IsNil(o.Name) {
+	if o == nil {
 		var ret string
 		return ret
 	}
-	return *o.Name
+
+	return o.Name
 }
 
-// GetNameOk returns a tuple with the Name field value if set, nil otherwise
+// GetNameOk returns a tuple with the Name field value
 // and a boolean to check if the value has been set.
 func (o *Tag) GetNameOk() (*string, bool) {
-	if o == nil || IsNil(o.Name) {
+	if o == nil {
 		return nil, false
 	}
-	return o.Name, true
+	return &o.Name, true
 }
 
-// HasName returns a boolean if a field has been set.
-func (o *Tag) HasName() bool {
-	if o != nil && !IsNil(o.Name) {
-		return true
-	}
-
-	return false
-}
-
-// SetName gets a reference to the given string and assigns it to the Name field.
+// SetName sets field value
 func (o *Tag) SetName(v string) {
-	o.Name = &v
+	o.Name = v
 }
 
-// GetHexColor returns the HexColor field value if set, zero value otherwise.
+// GetHexColor returns the HexColor field value
 func (o *Tag) GetHexColor() string {
-	if o == nil || IsNil(o.HexColor) {
+	if o == nil {
 		var ret string
 		return ret
 	}
-	return *o.HexColor
+
+	return o.HexColor
 }
 
-// GetHexColorOk returns a tuple with the HexColor field value if set, nil otherwise
+// GetHexColorOk returns a tuple with the HexColor field value
 // and a boolean to check if the value has been set.
 func (o *Tag) GetHexColorOk() (*string, bool) {
-	if o == nil || IsNil(o.HexColor) {
+	if o == nil {
 		return nil, false
 	}
-	return o.HexColor, true
+	return &o.HexColor, true
 }
 
-// HasHexColor returns a boolean if a field has been set.
-func (o *Tag) HasHexColor() bool {
-	if o != nil && !IsNil(o.HexColor) {
-		return true
-	}
-
-	return false
-}
-
-// SetHexColor gets a reference to the given string and assigns it to the HexColor field.
+// SetHexColor sets field value
 func (o *Tag) SetHexColor(v string) {
-	o.HexColor = &v
+	o.HexColor = v
 }
 
 func (o Tag) MarshalJSON() ([]byte, error) {
@@ -181,19 +157,51 @@ func (o Tag) MarshalJSON() ([]byte, error) {
 
 func (o Tag) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
-	if !IsNil(o.Id) {
-		toSerialize["id"] = o.Id
-	}
-	if !IsNil(o.Uuid) {
-		toSerialize["uuid"] = o.Uuid
-	}
-	if !IsNil(o.Name) {
-		toSerialize["name"] = o.Name
-	}
-	if !IsNil(o.HexColor) {
-		toSerialize["hex_color"] = o.HexColor
-	}
+	toSerialize["id"] = o.Id
+	toSerialize["uuid"] = o.Uuid
+	toSerialize["name"] = o.Name
+	toSerialize["hex_color"] = o.HexColor
 	return toSerialize, nil
+}
+
+func (o *Tag) UnmarshalJSON(data []byte) (err error) {
+	// This validates that all required properties are included in the JSON object
+	// by unmarshalling the object into a generic map with string keys and checking
+	// that every required field exists as a key in the generic map.
+	requiredProperties := []string{
+		"id",
+		"uuid",
+		"name",
+		"hex_color",
+	}
+
+	allProperties := make(map[string]interface{})
+
+	err = json.Unmarshal(data, &allProperties)
+
+	if err != nil {
+		return err;
+	}
+
+	for _, requiredProperty := range(requiredProperties) {
+		if _, exists := allProperties[requiredProperty]; !exists {
+			return fmt.Errorf("no value given for required property %v", requiredProperty)
+		}
+	}
+
+	varTag := _Tag{}
+
+	decoder := json.NewDecoder(bytes.NewReader(data))
+	decoder.DisallowUnknownFields()
+	err = decoder.Decode(&varTag)
+
+	if err != nil {
+		return err
+	}
+
+	*o = Tag(varTag)
+
+	return err
 }
 
 type NullableTag struct {

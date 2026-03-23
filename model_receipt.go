@@ -14,6 +14,8 @@ package postboost
 import (
 	"encoding/json"
 	"time"
+	"bytes"
+	"fmt"
 )
 
 // checks if the Receipt type satisfies the MappedNullable interface at compile time
@@ -21,24 +23,34 @@ var _ MappedNullable = &Receipt{}
 
 // Receipt struct for Receipt
 type Receipt struct {
-	Uuid *string `json:"uuid,omitempty"`
-	TransactionId *string `json:"transaction_id,omitempty"`
-	InvoiceNumber *string `json:"invoice_number,omitempty"`
-	Amount *float32 `json:"amount,omitempty"`
-	Tax *float32 `json:"tax,omitempty"`
-	Currency *string `json:"currency,omitempty"`
+	Uuid string `json:"uuid"`
+	TransactionId string `json:"transaction_id"`
+	InvoiceNumber string `json:"invoice_number"`
+	Amount float32 `json:"amount"`
+	Tax float32 `json:"tax"`
+	Currency string `json:"currency"`
 	ReceiptUrl *string `json:"receipt_url,omitempty"`
 	Description *string `json:"description,omitempty"`
-	PaidAt *time.Time `json:"paid_at,omitempty"`
-	CreatedAt *time.Time `json:"created_at,omitempty"`
+	PaidAt time.Time `json:"paid_at"`
+	CreatedAt time.Time `json:"created_at"`
 }
+
+type _Receipt Receipt
 
 // NewReceipt instantiates a new Receipt object
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewReceipt() *Receipt {
+func NewReceipt(uuid string, transactionId string, invoiceNumber string, amount float32, tax float32, currency string, paidAt time.Time, createdAt time.Time) *Receipt {
 	this := Receipt{}
+	this.Uuid = uuid
+	this.TransactionId = transactionId
+	this.InvoiceNumber = invoiceNumber
+	this.Amount = amount
+	this.Tax = tax
+	this.Currency = currency
+	this.PaidAt = paidAt
+	this.CreatedAt = createdAt
 	return &this
 }
 
@@ -50,196 +62,148 @@ func NewReceiptWithDefaults() *Receipt {
 	return &this
 }
 
-// GetUuid returns the Uuid field value if set, zero value otherwise.
+// GetUuid returns the Uuid field value
 func (o *Receipt) GetUuid() string {
-	if o == nil || IsNil(o.Uuid) {
+	if o == nil {
 		var ret string
 		return ret
 	}
-	return *o.Uuid
+
+	return o.Uuid
 }
 
-// GetUuidOk returns a tuple with the Uuid field value if set, nil otherwise
+// GetUuidOk returns a tuple with the Uuid field value
 // and a boolean to check if the value has been set.
 func (o *Receipt) GetUuidOk() (*string, bool) {
-	if o == nil || IsNil(o.Uuid) {
+	if o == nil {
 		return nil, false
 	}
-	return o.Uuid, true
+	return &o.Uuid, true
 }
 
-// HasUuid returns a boolean if a field has been set.
-func (o *Receipt) HasUuid() bool {
-	if o != nil && !IsNil(o.Uuid) {
-		return true
-	}
-
-	return false
-}
-
-// SetUuid gets a reference to the given string and assigns it to the Uuid field.
+// SetUuid sets field value
 func (o *Receipt) SetUuid(v string) {
-	o.Uuid = &v
+	o.Uuid = v
 }
 
-// GetTransactionId returns the TransactionId field value if set, zero value otherwise.
+// GetTransactionId returns the TransactionId field value
 func (o *Receipt) GetTransactionId() string {
-	if o == nil || IsNil(o.TransactionId) {
+	if o == nil {
 		var ret string
 		return ret
 	}
-	return *o.TransactionId
+
+	return o.TransactionId
 }
 
-// GetTransactionIdOk returns a tuple with the TransactionId field value if set, nil otherwise
+// GetTransactionIdOk returns a tuple with the TransactionId field value
 // and a boolean to check if the value has been set.
 func (o *Receipt) GetTransactionIdOk() (*string, bool) {
-	if o == nil || IsNil(o.TransactionId) {
+	if o == nil {
 		return nil, false
 	}
-	return o.TransactionId, true
+	return &o.TransactionId, true
 }
 
-// HasTransactionId returns a boolean if a field has been set.
-func (o *Receipt) HasTransactionId() bool {
-	if o != nil && !IsNil(o.TransactionId) {
-		return true
-	}
-
-	return false
-}
-
-// SetTransactionId gets a reference to the given string and assigns it to the TransactionId field.
+// SetTransactionId sets field value
 func (o *Receipt) SetTransactionId(v string) {
-	o.TransactionId = &v
+	o.TransactionId = v
 }
 
-// GetInvoiceNumber returns the InvoiceNumber field value if set, zero value otherwise.
+// GetInvoiceNumber returns the InvoiceNumber field value
 func (o *Receipt) GetInvoiceNumber() string {
-	if o == nil || IsNil(o.InvoiceNumber) {
+	if o == nil {
 		var ret string
 		return ret
 	}
-	return *o.InvoiceNumber
+
+	return o.InvoiceNumber
 }
 
-// GetInvoiceNumberOk returns a tuple with the InvoiceNumber field value if set, nil otherwise
+// GetInvoiceNumberOk returns a tuple with the InvoiceNumber field value
 // and a boolean to check if the value has been set.
 func (o *Receipt) GetInvoiceNumberOk() (*string, bool) {
-	if o == nil || IsNil(o.InvoiceNumber) {
+	if o == nil {
 		return nil, false
 	}
-	return o.InvoiceNumber, true
+	return &o.InvoiceNumber, true
 }
 
-// HasInvoiceNumber returns a boolean if a field has been set.
-func (o *Receipt) HasInvoiceNumber() bool {
-	if o != nil && !IsNil(o.InvoiceNumber) {
-		return true
-	}
-
-	return false
-}
-
-// SetInvoiceNumber gets a reference to the given string and assigns it to the InvoiceNumber field.
+// SetInvoiceNumber sets field value
 func (o *Receipt) SetInvoiceNumber(v string) {
-	o.InvoiceNumber = &v
+	o.InvoiceNumber = v
 }
 
-// GetAmount returns the Amount field value if set, zero value otherwise.
+// GetAmount returns the Amount field value
 func (o *Receipt) GetAmount() float32 {
-	if o == nil || IsNil(o.Amount) {
+	if o == nil {
 		var ret float32
 		return ret
 	}
-	return *o.Amount
+
+	return o.Amount
 }
 
-// GetAmountOk returns a tuple with the Amount field value if set, nil otherwise
+// GetAmountOk returns a tuple with the Amount field value
 // and a boolean to check if the value has been set.
 func (o *Receipt) GetAmountOk() (*float32, bool) {
-	if o == nil || IsNil(o.Amount) {
+	if o == nil {
 		return nil, false
 	}
-	return o.Amount, true
+	return &o.Amount, true
 }
 
-// HasAmount returns a boolean if a field has been set.
-func (o *Receipt) HasAmount() bool {
-	if o != nil && !IsNil(o.Amount) {
-		return true
-	}
-
-	return false
-}
-
-// SetAmount gets a reference to the given float32 and assigns it to the Amount field.
+// SetAmount sets field value
 func (o *Receipt) SetAmount(v float32) {
-	o.Amount = &v
+	o.Amount = v
 }
 
-// GetTax returns the Tax field value if set, zero value otherwise.
+// GetTax returns the Tax field value
 func (o *Receipt) GetTax() float32 {
-	if o == nil || IsNil(o.Tax) {
+	if o == nil {
 		var ret float32
 		return ret
 	}
-	return *o.Tax
+
+	return o.Tax
 }
 
-// GetTaxOk returns a tuple with the Tax field value if set, nil otherwise
+// GetTaxOk returns a tuple with the Tax field value
 // and a boolean to check if the value has been set.
 func (o *Receipt) GetTaxOk() (*float32, bool) {
-	if o == nil || IsNil(o.Tax) {
+	if o == nil {
 		return nil, false
 	}
-	return o.Tax, true
+	return &o.Tax, true
 }
 
-// HasTax returns a boolean if a field has been set.
-func (o *Receipt) HasTax() bool {
-	if o != nil && !IsNil(o.Tax) {
-		return true
-	}
-
-	return false
-}
-
-// SetTax gets a reference to the given float32 and assigns it to the Tax field.
+// SetTax sets field value
 func (o *Receipt) SetTax(v float32) {
-	o.Tax = &v
+	o.Tax = v
 }
 
-// GetCurrency returns the Currency field value if set, zero value otherwise.
+// GetCurrency returns the Currency field value
 func (o *Receipt) GetCurrency() string {
-	if o == nil || IsNil(o.Currency) {
+	if o == nil {
 		var ret string
 		return ret
 	}
-	return *o.Currency
+
+	return o.Currency
 }
 
-// GetCurrencyOk returns a tuple with the Currency field value if set, nil otherwise
+// GetCurrencyOk returns a tuple with the Currency field value
 // and a boolean to check if the value has been set.
 func (o *Receipt) GetCurrencyOk() (*string, bool) {
-	if o == nil || IsNil(o.Currency) {
+	if o == nil {
 		return nil, false
 	}
-	return o.Currency, true
+	return &o.Currency, true
 }
 
-// HasCurrency returns a boolean if a field has been set.
-func (o *Receipt) HasCurrency() bool {
-	if o != nil && !IsNil(o.Currency) {
-		return true
-	}
-
-	return false
-}
-
-// SetCurrency gets a reference to the given string and assigns it to the Currency field.
+// SetCurrency sets field value
 func (o *Receipt) SetCurrency(v string) {
-	o.Currency = &v
+	o.Currency = v
 }
 
 // GetReceiptUrl returns the ReceiptUrl field value if set, zero value otherwise.
@@ -306,68 +270,52 @@ func (o *Receipt) SetDescription(v string) {
 	o.Description = &v
 }
 
-// GetPaidAt returns the PaidAt field value if set, zero value otherwise.
+// GetPaidAt returns the PaidAt field value
 func (o *Receipt) GetPaidAt() time.Time {
-	if o == nil || IsNil(o.PaidAt) {
+	if o == nil {
 		var ret time.Time
 		return ret
 	}
-	return *o.PaidAt
+
+	return o.PaidAt
 }
 
-// GetPaidAtOk returns a tuple with the PaidAt field value if set, nil otherwise
+// GetPaidAtOk returns a tuple with the PaidAt field value
 // and a boolean to check if the value has been set.
 func (o *Receipt) GetPaidAtOk() (*time.Time, bool) {
-	if o == nil || IsNil(o.PaidAt) {
+	if o == nil {
 		return nil, false
 	}
-	return o.PaidAt, true
+	return &o.PaidAt, true
 }
 
-// HasPaidAt returns a boolean if a field has been set.
-func (o *Receipt) HasPaidAt() bool {
-	if o != nil && !IsNil(o.PaidAt) {
-		return true
-	}
-
-	return false
-}
-
-// SetPaidAt gets a reference to the given time.Time and assigns it to the PaidAt field.
+// SetPaidAt sets field value
 func (o *Receipt) SetPaidAt(v time.Time) {
-	o.PaidAt = &v
+	o.PaidAt = v
 }
 
-// GetCreatedAt returns the CreatedAt field value if set, zero value otherwise.
+// GetCreatedAt returns the CreatedAt field value
 func (o *Receipt) GetCreatedAt() time.Time {
-	if o == nil || IsNil(o.CreatedAt) {
+	if o == nil {
 		var ret time.Time
 		return ret
 	}
-	return *o.CreatedAt
+
+	return o.CreatedAt
 }
 
-// GetCreatedAtOk returns a tuple with the CreatedAt field value if set, nil otherwise
+// GetCreatedAtOk returns a tuple with the CreatedAt field value
 // and a boolean to check if the value has been set.
 func (o *Receipt) GetCreatedAtOk() (*time.Time, bool) {
-	if o == nil || IsNil(o.CreatedAt) {
+	if o == nil {
 		return nil, false
 	}
-	return o.CreatedAt, true
+	return &o.CreatedAt, true
 }
 
-// HasCreatedAt returns a boolean if a field has been set.
-func (o *Receipt) HasCreatedAt() bool {
-	if o != nil && !IsNil(o.CreatedAt) {
-		return true
-	}
-
-	return false
-}
-
-// SetCreatedAt gets a reference to the given time.Time and assigns it to the CreatedAt field.
+// SetCreatedAt sets field value
 func (o *Receipt) SetCreatedAt(v time.Time) {
-	o.CreatedAt = &v
+	o.CreatedAt = v
 }
 
 func (o Receipt) MarshalJSON() ([]byte, error) {
@@ -380,37 +328,65 @@ func (o Receipt) MarshalJSON() ([]byte, error) {
 
 func (o Receipt) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
-	if !IsNil(o.Uuid) {
-		toSerialize["uuid"] = o.Uuid
-	}
-	if !IsNil(o.TransactionId) {
-		toSerialize["transaction_id"] = o.TransactionId
-	}
-	if !IsNil(o.InvoiceNumber) {
-		toSerialize["invoice_number"] = o.InvoiceNumber
-	}
-	if !IsNil(o.Amount) {
-		toSerialize["amount"] = o.Amount
-	}
-	if !IsNil(o.Tax) {
-		toSerialize["tax"] = o.Tax
-	}
-	if !IsNil(o.Currency) {
-		toSerialize["currency"] = o.Currency
-	}
+	toSerialize["uuid"] = o.Uuid
+	toSerialize["transaction_id"] = o.TransactionId
+	toSerialize["invoice_number"] = o.InvoiceNumber
+	toSerialize["amount"] = o.Amount
+	toSerialize["tax"] = o.Tax
+	toSerialize["currency"] = o.Currency
 	if !IsNil(o.ReceiptUrl) {
 		toSerialize["receipt_url"] = o.ReceiptUrl
 	}
 	if !IsNil(o.Description) {
 		toSerialize["description"] = o.Description
 	}
-	if !IsNil(o.PaidAt) {
-		toSerialize["paid_at"] = o.PaidAt
-	}
-	if !IsNil(o.CreatedAt) {
-		toSerialize["created_at"] = o.CreatedAt
-	}
+	toSerialize["paid_at"] = o.PaidAt
+	toSerialize["created_at"] = o.CreatedAt
 	return toSerialize, nil
+}
+
+func (o *Receipt) UnmarshalJSON(data []byte) (err error) {
+	// This validates that all required properties are included in the JSON object
+	// by unmarshalling the object into a generic map with string keys and checking
+	// that every required field exists as a key in the generic map.
+	requiredProperties := []string{
+		"uuid",
+		"transaction_id",
+		"invoice_number",
+		"amount",
+		"tax",
+		"currency",
+		"paid_at",
+		"created_at",
+	}
+
+	allProperties := make(map[string]interface{})
+
+	err = json.Unmarshal(data, &allProperties)
+
+	if err != nil {
+		return err;
+	}
+
+	for _, requiredProperty := range(requiredProperties) {
+		if _, exists := allProperties[requiredProperty]; !exists {
+			return fmt.Errorf("no value given for required property %v", requiredProperty)
+		}
+	}
+
+	varReceipt := _Receipt{}
+
+	decoder := json.NewDecoder(bytes.NewReader(data))
+	decoder.DisallowUnknownFields()
+	err = decoder.Decode(&varReceipt)
+
+	if err != nil {
+		return err
+	}
+
+	*o = Receipt(varReceipt)
+
+	return err
 }
 
 type NullableReceipt struct {

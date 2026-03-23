@@ -43,6 +43,8 @@ func (r ApiCreateTagRequest) Execute() (*Tag, *http.Response, error) {
 /*
 CreateTag Create tag
 
+Creates a new color-coded tag in the workspace for organizing posts.
+
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @param workspaceUuid UUID of the workspace.
  @return ApiCreateTagRequest
@@ -171,6 +173,8 @@ func (r ApiDeleteTagRequest) Execute() (map[string]interface{}, *http.Response, 
 /*
 DeleteTag Delete tag
 
+Permanently deletes a tag. Posts that had this tag attached are unaffected.
+
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @param workspaceUuid UUID of the workspace.
  @param tagUuid UUID of the tag.
@@ -297,6 +301,8 @@ func (r ApiGetTagRequest) Execute() (*Tag, *http.Response, error) {
 /*
 GetTag Get tag
 
+Returns a single tag by UUID.
+
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @param workspaceUuid UUID of the workspace.
  @param tagUuid UUID of the tag.
@@ -422,6 +428,8 @@ func (r ApiListTagsRequest) Execute() (*ListTags200Response, *http.Response, err
 /*
 ListTags List tags
 
+Returns all tags defined in the workspace.
+
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @param workspaceUuid UUID of the workspace.
  @return ApiListTagsRequest
@@ -539,6 +547,8 @@ func (r ApiUpdateTagRequest) Execute() (map[string]interface{}, *http.Response, 
 
 /*
 UpdateTag Update tag
+
+Updates a tag's name or color.
 
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @param workspaceUuid UUID of the workspace.

@@ -4,11 +4,11 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Name** | Pointer to **string** |  | [optional] 
-**PlatformSubscriptionId** | Pointer to **string** |  | [optional] 
-**PlatformPlanId** | Pointer to **string** |  | [optional] 
-**Status** | Pointer to [**SubscriptionStatus**](SubscriptionStatus.md) |  | [optional] 
-**Recurring** | Pointer to **bool** |  | [optional] 
+**Name** | **string** |  | 
+**PlatformSubscriptionId** | **string** |  | 
+**PlatformPlanId** | **string** |  | 
+**Status** | [**SubscriptionStatus**](SubscriptionStatus.md) |  | 
+**Recurring** | **bool** |  | 
 **TrialEndsAt** | Pointer to **time.Time** |  | [optional] 
 **PausedFrom** | Pointer to **time.Time** |  | [optional] 
 **EndsAt** | Pointer to **time.Time** |  | [optional] 
@@ -17,7 +17,7 @@ Name | Type | Description | Notes
 
 ### NewSubscription
 
-`func NewSubscription() *Subscription`
+`func NewSubscription(name string, platformSubscriptionId string, platformPlanId string, status SubscriptionStatus, recurring bool, ) *Subscription`
 
 NewSubscription instantiates a new Subscription object
 This constructor will assign default values to properties that have it defined,
@@ -51,11 +51,6 @@ and a boolean to check if the value has been set.
 
 SetName sets Name field to given value.
 
-### HasName
-
-`func (o *Subscription) HasName() bool`
-
-HasName returns a boolean if a field has been set.
 
 ### GetPlatformSubscriptionId
 
@@ -76,11 +71,6 @@ and a boolean to check if the value has been set.
 
 SetPlatformSubscriptionId sets PlatformSubscriptionId field to given value.
 
-### HasPlatformSubscriptionId
-
-`func (o *Subscription) HasPlatformSubscriptionId() bool`
-
-HasPlatformSubscriptionId returns a boolean if a field has been set.
 
 ### GetPlatformPlanId
 
@@ -101,11 +91,6 @@ and a boolean to check if the value has been set.
 
 SetPlatformPlanId sets PlatformPlanId field to given value.
 
-### HasPlatformPlanId
-
-`func (o *Subscription) HasPlatformPlanId() bool`
-
-HasPlatformPlanId returns a boolean if a field has been set.
 
 ### GetStatus
 
@@ -126,11 +111,6 @@ and a boolean to check if the value has been set.
 
 SetStatus sets Status field to given value.
 
-### HasStatus
-
-`func (o *Subscription) HasStatus() bool`
-
-HasStatus returns a boolean if a field has been set.
 
 ### GetRecurring
 
@@ -151,11 +131,6 @@ and a boolean to check if the value has been set.
 
 SetRecurring sets Recurring field to given value.
 
-### HasRecurring
-
-`func (o *Subscription) HasRecurring() bool`
-
-HasRecurring returns a boolean if a field has been set.
 
 ### GetTrialEndsAt
 

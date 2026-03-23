@@ -1,4 +1,4 @@
-# InitiateChunkedUpload200Response
+# InitiateChunkedUpload201Response
 
 ## Properties
 
@@ -10,95 +10,95 @@ Name | Type | Description | Notes
 
 ## Methods
 
-### NewInitiateChunkedUpload200Response
+### NewInitiateChunkedUpload201Response
 
-`func NewInitiateChunkedUpload200Response() *InitiateChunkedUpload200Response`
+`func NewInitiateChunkedUpload201Response() *InitiateChunkedUpload201Response`
 
-NewInitiateChunkedUpload200Response instantiates a new InitiateChunkedUpload200Response object
+NewInitiateChunkedUpload201Response instantiates a new InitiateChunkedUpload201Response object
 This constructor will assign default values to properties that have it defined,
 and makes sure properties required by API are set, but the set of arguments
 will change when the set of required properties is changed
 
-### NewInitiateChunkedUpload200ResponseWithDefaults
+### NewInitiateChunkedUpload201ResponseWithDefaults
 
-`func NewInitiateChunkedUpload200ResponseWithDefaults() *InitiateChunkedUpload200Response`
+`func NewInitiateChunkedUpload201ResponseWithDefaults() *InitiateChunkedUpload201Response`
 
-NewInitiateChunkedUpload200ResponseWithDefaults instantiates a new InitiateChunkedUpload200Response object
+NewInitiateChunkedUpload201ResponseWithDefaults instantiates a new InitiateChunkedUpload201Response object
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
 
 ### GetUploadUuid
 
-`func (o *InitiateChunkedUpload200Response) GetUploadUuid() string`
+`func (o *InitiateChunkedUpload201Response) GetUploadUuid() string`
 
 GetUploadUuid returns the UploadUuid field if non-nil, zero value otherwise.
 
 ### GetUploadUuidOk
 
-`func (o *InitiateChunkedUpload200Response) GetUploadUuidOk() (*string, bool)`
+`func (o *InitiateChunkedUpload201Response) GetUploadUuidOk() (*string, bool)`
 
 GetUploadUuidOk returns a tuple with the UploadUuid field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetUploadUuid
 
-`func (o *InitiateChunkedUpload200Response) SetUploadUuid(v string)`
+`func (o *InitiateChunkedUpload201Response) SetUploadUuid(v string)`
 
 SetUploadUuid sets UploadUuid field to given value.
 
 ### HasUploadUuid
 
-`func (o *InitiateChunkedUpload200Response) HasUploadUuid() bool`
+`func (o *InitiateChunkedUpload201Response) HasUploadUuid() bool`
 
 HasUploadUuid returns a boolean if a field has been set.
 
 ### GetChunkSize
 
-`func (o *InitiateChunkedUpload200Response) GetChunkSize() int32`
+`func (o *InitiateChunkedUpload201Response) GetChunkSize() int32`
 
 GetChunkSize returns the ChunkSize field if non-nil, zero value otherwise.
 
 ### GetChunkSizeOk
 
-`func (o *InitiateChunkedUpload200Response) GetChunkSizeOk() (*int32, bool)`
+`func (o *InitiateChunkedUpload201Response) GetChunkSizeOk() (*int32, bool)`
 
 GetChunkSizeOk returns a tuple with the ChunkSize field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetChunkSize
 
-`func (o *InitiateChunkedUpload200Response) SetChunkSize(v int32)`
+`func (o *InitiateChunkedUpload201Response) SetChunkSize(v int32)`
 
 SetChunkSize sets ChunkSize field to given value.
 
 ### HasChunkSize
 
-`func (o *InitiateChunkedUpload200Response) HasChunkSize() bool`
+`func (o *InitiateChunkedUpload201Response) HasChunkSize() bool`
 
 HasChunkSize returns a boolean if a field has been set.
 
 ### GetTotalChunks
 
-`func (o *InitiateChunkedUpload200Response) GetTotalChunks() int32`
+`func (o *InitiateChunkedUpload201Response) GetTotalChunks() int32`
 
 GetTotalChunks returns the TotalChunks field if non-nil, zero value otherwise.
 
 ### GetTotalChunksOk
 
-`func (o *InitiateChunkedUpload200Response) GetTotalChunksOk() (*int32, bool)`
+`func (o *InitiateChunkedUpload201Response) GetTotalChunksOk() (*int32, bool)`
 
 GetTotalChunksOk returns a tuple with the TotalChunks field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetTotalChunks
 
-`func (o *InitiateChunkedUpload200Response) SetTotalChunks(v int32)`
+`func (o *InitiateChunkedUpload201Response) SetTotalChunks(v int32)`
 
 SetTotalChunks sets TotalChunks field to given value.
 
 ### HasTotalChunks
 
-`func (o *InitiateChunkedUpload200Response) HasTotalChunks() bool`
+`func (o *InitiateChunkedUpload201Response) HasTotalChunks() bool`
 
 HasTotalChunks returns a boolean if a field has been set.
 

@@ -23,6 +23,8 @@ Method | HTTP request | Description
 
 Add generic subscription
 
+
+
 ### Example
 
 ```go
@@ -32,7 +34,7 @@ import (
 	"context"
 	"fmt"
 	"os"
-	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+	openapiclient "github.com/postboost-co/postboost-go"
 )
 
 func main() {
@@ -93,6 +95,8 @@ Name | Type | Description  | Notes
 
 Cancel subscription
 
+
+
 ### Example
 
 ```go
@@ -102,7 +106,7 @@ import (
 	"context"
 	"fmt"
 	"os"
-	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+	openapiclient "github.com/postboost-co/postboost-go"
 )
 
 func main() {
@@ -161,6 +165,8 @@ Name | Type | Description  | Notes
 
 Change subscription plan
 
+
+
 ### Example
 
 ```go
@@ -170,7 +176,7 @@ import (
 	"context"
 	"fmt"
 	"os"
-	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+	openapiclient "github.com/postboost-co/postboost-go"
 )
 
 func main() {
@@ -242,7 +248,7 @@ import (
 	"context"
 	"fmt"
 	"os"
-	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+	openapiclient "github.com/postboost-co/postboost-go"
 )
 
 func main() {
@@ -303,6 +309,8 @@ Name | Type | Description  | Notes
 
 Create subscription
 
+
+
 ### Example
 
 ```go
@@ -312,7 +320,7 @@ import (
 	"context"
 	"fmt"
 	"os"
-	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+	openapiclient "github.com/postboost-co/postboost-go"
 )
 
 func main() {
@@ -373,6 +381,8 @@ Name | Type | Description  | Notes
 
 Delete subscription
 
+
+
 ### Example
 
 ```go
@@ -382,7 +392,7 @@ import (
 	"context"
 	"fmt"
 	"os"
-	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+	openapiclient "github.com/postboost-co/postboost-go"
 )
 
 func main() {
@@ -441,6 +451,8 @@ Name | Type | Description  | Notes
 
 Get subscription
 
+
+
 ### Example
 
 ```go
@@ -450,7 +462,7 @@ import (
 	"context"
 	"fmt"
 	"os"
-	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+	openapiclient "github.com/postboost-co/postboost-go"
 )
 
 func main() {
@@ -509,6 +521,8 @@ Name | Type | Description  | Notes
 
 Remove generic subscription
 
+
+
 ### Example
 
 ```go
@@ -518,7 +532,7 @@ import (
 	"context"
 	"fmt"
 	"os"
-	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+	openapiclient "github.com/postboost-co/postboost-go"
 )
 
 func main() {
@@ -577,6 +591,8 @@ Name | Type | Description  | Notes
 
 Resume subscription
 
+
+
 ### Example
 
 ```go
@@ -586,7 +602,7 @@ import (
 	"context"
 	"fmt"
 	"os"
-	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+	openapiclient "github.com/postboost-co/postboost-go"
 )
 
 func main() {
@@ -645,6 +661,8 @@ Name | Type | Description  | Notes
 
 Update subscription
 
+
+
 ### Example
 
 ```go
@@ -654,7 +672,7 @@ import (
 	"context"
 	"fmt"
 	"os"
-	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+	openapiclient "github.com/postboost-co/postboost-go"
 )
 
 func main() {

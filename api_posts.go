@@ -449,6 +449,8 @@ func (r ApiDeletePostRequest) Execute() (*DeleteResult, *http.Response, error) {
 /*
 DeletePost Delete post
 
+Deletes a post. Use `delete_mode` to control whether to also remove the published content from social platforms.
+
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @param workspaceUuid UUID of the workspace.
  @param postUuid UUID of the post.
@@ -700,6 +702,8 @@ func (r ApiGetPostRequest) Execute() (*Post, *http.Response, error) {
 
 /*
 GetPost Get post
+
+Returns a single post with all its versions and associated accounts.
 
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @param workspaceUuid UUID of the workspace.
@@ -1096,6 +1100,8 @@ func (r ApiUpdatePostRequest) Execute() (map[string]interface{}, *http.Response,
 
 /*
 UpdatePost Update post
+
+Replaces a post's versions, accounts, tags, and scheduling options. The post must not be in a published state.
 
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @param workspaceUuid UUID of the workspace.

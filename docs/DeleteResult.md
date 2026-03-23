@@ -4,15 +4,15 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Deleted** | Pointer to **bool** |  | [optional] 
-**DeletedFromApp** | Pointer to **bool** |  | [optional] 
-**ToTrash** | Pointer to **bool** |  | [optional] 
+**Deleted** | **bool** |  | 
+**DeletedFromApp** | **bool** |  | 
+**ToTrash** | **bool** |  | 
 
 ## Methods
 
 ### NewDeleteResult
 
-`func NewDeleteResult() *DeleteResult`
+`func NewDeleteResult(deleted bool, deletedFromApp bool, toTrash bool, ) *DeleteResult`
 
 NewDeleteResult instantiates a new DeleteResult object
 This constructor will assign default values to properties that have it defined,
@@ -46,11 +46,6 @@ and a boolean to check if the value has been set.
 
 SetDeleted sets Deleted field to given value.
 
-### HasDeleted
-
-`func (o *DeleteResult) HasDeleted() bool`
-
-HasDeleted returns a boolean if a field has been set.
 
 ### GetDeletedFromApp
 
@@ -71,11 +66,6 @@ and a boolean to check if the value has been set.
 
 SetDeletedFromApp sets DeletedFromApp field to given value.
 
-### HasDeletedFromApp
-
-`func (o *DeleteResult) HasDeletedFromApp() bool`
-
-HasDeletedFromApp returns a boolean if a field has been set.
 
 ### GetToTrash
 
@@ -96,11 +86,6 @@ and a boolean to check if the value has been set.
 
 SetToTrash sets ToTrash field to given value.
 
-### HasToTrash
-
-`func (o *DeleteResult) HasToTrash() bool`
-
-HasToTrash returns a boolean if a field has been set.
 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)

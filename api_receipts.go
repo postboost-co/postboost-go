@@ -42,6 +42,8 @@ func (r ApiCreateReceiptRequest) Execute() (*Receipt, *http.Response, error) {
 /*
 CreateReceipt Create receipt
 
+Creates a billing receipt record for a workspace. Admin only.
+
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @return ApiCreateReceiptRequest
 */
@@ -128,6 +130,17 @@ func (a *ReceiptsAPIService) CreateReceiptExecute(r ApiCreateReceiptRequest) (*R
 					newErr.model = v
 			return localVarReturnValue, localVarHTTPResponse, newErr
 		}
+		if localVarHTTPResponse.StatusCode == 403 {
+			var v map[string]interface{}
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
 		if localVarHTTPResponse.StatusCode == 422 {
 			var v map[string]interface{}
 			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
@@ -165,6 +178,8 @@ func (r ApiDeleteReceiptRequest) Execute() (map[string]interface{}, *http.Respon
 
 /*
 DeleteReceipt Delete receipt
+
+Permanently deletes a single receipt. Admin only.
 
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @param receiptUuid UUID of the receipt.
@@ -250,6 +265,17 @@ func (a *ReceiptsAPIService) DeleteReceiptExecute(r ApiDeleteReceiptRequest) (ma
 					newErr.model = v
 			return localVarReturnValue, localVarHTTPResponse, newErr
 		}
+		if localVarHTTPResponse.StatusCode == 403 {
+			var v map[string]interface{}
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
 		if localVarHTTPResponse.StatusCode == 404 {
 			var v map[string]interface{}
 			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
@@ -292,6 +318,8 @@ func (r ApiDeleteReceiptsBulkRequest) Execute() (map[string]interface{}, *http.R
 
 /*
 DeleteReceiptsBulk Delete receipts (bulk)
+
+Permanently deletes one or more receipt records. Admin only.
 
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @return ApiDeleteReceiptsBulkRequest
@@ -377,6 +405,17 @@ func (a *ReceiptsAPIService) DeleteReceiptsBulkExecute(r ApiDeleteReceiptsBulkRe
 			}
 					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
 					newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 403 {
+			var v map[string]interface{}
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
@@ -405,6 +444,8 @@ func (r ApiGetReceiptRequest) Execute() (*Receipt, *http.Response, error) {
 
 /*
 GetReceipt Get receipt
+
+Returns a single receipt by UUID. Admin only.
 
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @param receiptUuid UUID of the receipt.
@@ -490,6 +531,17 @@ func (a *ReceiptsAPIService) GetReceiptExecute(r ApiGetReceiptRequest) (*Receipt
 					newErr.model = v
 			return localVarReturnValue, localVarHTTPResponse, newErr
 		}
+		if localVarHTTPResponse.StatusCode == 403 {
+			var v map[string]interface{}
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
 		if localVarHTTPResponse.StatusCode == 404 {
 			var v map[string]interface{}
 			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
@@ -520,6 +572,7 @@ type ApiListReceiptsRequest struct {
 	ApiService *ReceiptsAPIService
 	workspaceUuid *string
 	invoiceNumber *string
+	page *int32
 }
 
 func (r ApiListReceiptsRequest) WorkspaceUuid(workspaceUuid string) ApiListReceiptsRequest {
@@ -532,12 +585,20 @@ func (r ApiListReceiptsRequest) InvoiceNumber(invoiceNumber string) ApiListRecei
 	return r
 }
 
+// Page number (15 items per page).
+func (r ApiListReceiptsRequest) Page(page int32) ApiListReceiptsRequest {
+	r.page = &page
+	return r
+}
+
 func (r ApiListReceiptsRequest) Execute() (*ListReceipts200Response, *http.Response, error) {
 	return r.ApiService.ListReceiptsExecute(r)
 }
 
 /*
 ListReceipts List receipts
+
+Returns a paginated list of billing receipts. Filter by workspace UUID or invoice number. Admin only.
 
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @return ApiListReceiptsRequest
@@ -575,6 +636,12 @@ func (a *ReceiptsAPIService) ListReceiptsExecute(r ApiListReceiptsRequest) (*Lis
 	}
 	if r.invoiceNumber != nil {
 		parameterAddToHeaderOrQuery(localVarQueryParams, "invoice_number", r.invoiceNumber, "form", "")
+	}
+	if r.page != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "page", r.page, "form", "")
+	} else {
+		var defaultValue int32 = 1
+		r.page = &defaultValue
 	}
 	// to determine the Content-Type header
 	localVarHTTPContentTypes := []string{}
@@ -624,6 +691,17 @@ func (a *ReceiptsAPIService) ListReceiptsExecute(r ApiListReceiptsRequest) (*Lis
 			}
 					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
 					newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 403 {
+			var v map[string]interface{}
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
@@ -658,6 +736,8 @@ func (r ApiUpdateReceiptRequest) Execute() (map[string]interface{}, *http.Respon
 
 /*
 UpdateReceipt Update receipt
+
+Updates a receipt's transaction details, amount, or payment date. Admin only.
 
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @param receiptUuid UUID of the receipt.
@@ -738,6 +818,17 @@ func (a *ReceiptsAPIService) UpdateReceiptExecute(r ApiUpdateReceiptRequest) (ma
 			error: localVarHTTPResponse.Status,
 		}
 		if localVarHTTPResponse.StatusCode == 401 {
+			var v map[string]interface{}
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 403 {
 			var v map[string]interface{}
 			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {

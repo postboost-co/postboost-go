@@ -15,35 +15,35 @@ import (
 	"encoding/json"
 )
 
-// checks if the InitiateChunkedUpload200Response type satisfies the MappedNullable interface at compile time
-var _ MappedNullable = &InitiateChunkedUpload200Response{}
+// checks if the InitiateChunkedUpload201Response type satisfies the MappedNullable interface at compile time
+var _ MappedNullable = &InitiateChunkedUpload201Response{}
 
-// InitiateChunkedUpload200Response struct for InitiateChunkedUpload200Response
-type InitiateChunkedUpload200Response struct {
+// InitiateChunkedUpload201Response struct for InitiateChunkedUpload201Response
+type InitiateChunkedUpload201Response struct {
 	UploadUuid *string `json:"upload_uuid,omitempty"`
 	ChunkSize *int32 `json:"chunk_size,omitempty"`
 	TotalChunks *int32 `json:"total_chunks,omitempty"`
 }
 
-// NewInitiateChunkedUpload200Response instantiates a new InitiateChunkedUpload200Response object
+// NewInitiateChunkedUpload201Response instantiates a new InitiateChunkedUpload201Response object
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewInitiateChunkedUpload200Response() *InitiateChunkedUpload200Response {
-	this := InitiateChunkedUpload200Response{}
+func NewInitiateChunkedUpload201Response() *InitiateChunkedUpload201Response {
+	this := InitiateChunkedUpload201Response{}
 	return &this
 }
 
-// NewInitiateChunkedUpload200ResponseWithDefaults instantiates a new InitiateChunkedUpload200Response object
+// NewInitiateChunkedUpload201ResponseWithDefaults instantiates a new InitiateChunkedUpload201Response object
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set
-func NewInitiateChunkedUpload200ResponseWithDefaults() *InitiateChunkedUpload200Response {
-	this := InitiateChunkedUpload200Response{}
+func NewInitiateChunkedUpload201ResponseWithDefaults() *InitiateChunkedUpload201Response {
+	this := InitiateChunkedUpload201Response{}
 	return &this
 }
 
 // GetUploadUuid returns the UploadUuid field value if set, zero value otherwise.
-func (o *InitiateChunkedUpload200Response) GetUploadUuid() string {
+func (o *InitiateChunkedUpload201Response) GetUploadUuid() string {
 	if o == nil || IsNil(o.UploadUuid) {
 		var ret string
 		return ret
@@ -53,7 +53,7 @@ func (o *InitiateChunkedUpload200Response) GetUploadUuid() string {
 
 // GetUploadUuidOk returns a tuple with the UploadUuid field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *InitiateChunkedUpload200Response) GetUploadUuidOk() (*string, bool) {
+func (o *InitiateChunkedUpload201Response) GetUploadUuidOk() (*string, bool) {
 	if o == nil || IsNil(o.UploadUuid) {
 		return nil, false
 	}
@@ -61,7 +61,7 @@ func (o *InitiateChunkedUpload200Response) GetUploadUuidOk() (*string, bool) {
 }
 
 // HasUploadUuid returns a boolean if a field has been set.
-func (o *InitiateChunkedUpload200Response) HasUploadUuid() bool {
+func (o *InitiateChunkedUpload201Response) HasUploadUuid() bool {
 	if o != nil && !IsNil(o.UploadUuid) {
 		return true
 	}
@@ -70,12 +70,12 @@ func (o *InitiateChunkedUpload200Response) HasUploadUuid() bool {
 }
 
 // SetUploadUuid gets a reference to the given string and assigns it to the UploadUuid field.
-func (o *InitiateChunkedUpload200Response) SetUploadUuid(v string) {
+func (o *InitiateChunkedUpload201Response) SetUploadUuid(v string) {
 	o.UploadUuid = &v
 }
 
 // GetChunkSize returns the ChunkSize field value if set, zero value otherwise.
-func (o *InitiateChunkedUpload200Response) GetChunkSize() int32 {
+func (o *InitiateChunkedUpload201Response) GetChunkSize() int32 {
 	if o == nil || IsNil(o.ChunkSize) {
 		var ret int32
 		return ret
@@ -85,7 +85,7 @@ func (o *InitiateChunkedUpload200Response) GetChunkSize() int32 {
 
 // GetChunkSizeOk returns a tuple with the ChunkSize field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *InitiateChunkedUpload200Response) GetChunkSizeOk() (*int32, bool) {
+func (o *InitiateChunkedUpload201Response) GetChunkSizeOk() (*int32, bool) {
 	if o == nil || IsNil(o.ChunkSize) {
 		return nil, false
 	}
@@ -93,7 +93,7 @@ func (o *InitiateChunkedUpload200Response) GetChunkSizeOk() (*int32, bool) {
 }
 
 // HasChunkSize returns a boolean if a field has been set.
-func (o *InitiateChunkedUpload200Response) HasChunkSize() bool {
+func (o *InitiateChunkedUpload201Response) HasChunkSize() bool {
 	if o != nil && !IsNil(o.ChunkSize) {
 		return true
 	}
@@ -102,12 +102,12 @@ func (o *InitiateChunkedUpload200Response) HasChunkSize() bool {
 }
 
 // SetChunkSize gets a reference to the given int32 and assigns it to the ChunkSize field.
-func (o *InitiateChunkedUpload200Response) SetChunkSize(v int32) {
+func (o *InitiateChunkedUpload201Response) SetChunkSize(v int32) {
 	o.ChunkSize = &v
 }
 
 // GetTotalChunks returns the TotalChunks field value if set, zero value otherwise.
-func (o *InitiateChunkedUpload200Response) GetTotalChunks() int32 {
+func (o *InitiateChunkedUpload201Response) GetTotalChunks() int32 {
 	if o == nil || IsNil(o.TotalChunks) {
 		var ret int32
 		return ret
@@ -117,7 +117,7 @@ func (o *InitiateChunkedUpload200Response) GetTotalChunks() int32 {
 
 // GetTotalChunksOk returns a tuple with the TotalChunks field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *InitiateChunkedUpload200Response) GetTotalChunksOk() (*int32, bool) {
+func (o *InitiateChunkedUpload201Response) GetTotalChunksOk() (*int32, bool) {
 	if o == nil || IsNil(o.TotalChunks) {
 		return nil, false
 	}
@@ -125,7 +125,7 @@ func (o *InitiateChunkedUpload200Response) GetTotalChunksOk() (*int32, bool) {
 }
 
 // HasTotalChunks returns a boolean if a field has been set.
-func (o *InitiateChunkedUpload200Response) HasTotalChunks() bool {
+func (o *InitiateChunkedUpload201Response) HasTotalChunks() bool {
 	if o != nil && !IsNil(o.TotalChunks) {
 		return true
 	}
@@ -134,11 +134,11 @@ func (o *InitiateChunkedUpload200Response) HasTotalChunks() bool {
 }
 
 // SetTotalChunks gets a reference to the given int32 and assigns it to the TotalChunks field.
-func (o *InitiateChunkedUpload200Response) SetTotalChunks(v int32) {
+func (o *InitiateChunkedUpload201Response) SetTotalChunks(v int32) {
 	o.TotalChunks = &v
 }
 
-func (o InitiateChunkedUpload200Response) MarshalJSON() ([]byte, error) {
+func (o InitiateChunkedUpload201Response) MarshalJSON() ([]byte, error) {
 	toSerialize,err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
@@ -146,7 +146,7 @@ func (o InitiateChunkedUpload200Response) MarshalJSON() ([]byte, error) {
 	return json.Marshal(toSerialize)
 }
 
-func (o InitiateChunkedUpload200Response) ToMap() (map[string]interface{}, error) {
+func (o InitiateChunkedUpload201Response) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	if !IsNil(o.UploadUuid) {
 		toSerialize["upload_uuid"] = o.UploadUuid
@@ -160,38 +160,38 @@ func (o InitiateChunkedUpload200Response) ToMap() (map[string]interface{}, error
 	return toSerialize, nil
 }
 
-type NullableInitiateChunkedUpload200Response struct {
-	value *InitiateChunkedUpload200Response
+type NullableInitiateChunkedUpload201Response struct {
+	value *InitiateChunkedUpload201Response
 	isSet bool
 }
 
-func (v NullableInitiateChunkedUpload200Response) Get() *InitiateChunkedUpload200Response {
+func (v NullableInitiateChunkedUpload201Response) Get() *InitiateChunkedUpload201Response {
 	return v.value
 }
 
-func (v *NullableInitiateChunkedUpload200Response) Set(val *InitiateChunkedUpload200Response) {
+func (v *NullableInitiateChunkedUpload201Response) Set(val *InitiateChunkedUpload201Response) {
 	v.value = val
 	v.isSet = true
 }
 
-func (v NullableInitiateChunkedUpload200Response) IsSet() bool {
+func (v NullableInitiateChunkedUpload201Response) IsSet() bool {
 	return v.isSet
 }
 
-func (v *NullableInitiateChunkedUpload200Response) Unset() {
+func (v *NullableInitiateChunkedUpload201Response) Unset() {
 	v.value = nil
 	v.isSet = false
 }
 
-func NewNullableInitiateChunkedUpload200Response(val *InitiateChunkedUpload200Response) *NullableInitiateChunkedUpload200Response {
-	return &NullableInitiateChunkedUpload200Response{value: val, isSet: true}
+func NewNullableInitiateChunkedUpload201Response(val *InitiateChunkedUpload201Response) *NullableInitiateChunkedUpload201Response {
+	return &NullableInitiateChunkedUpload201Response{value: val, isSet: true}
 }
 
-func (v NullableInitiateChunkedUpload200Response) MarshalJSON() ([]byte, error) {
+func (v NullableInitiateChunkedUpload201Response) MarshalJSON() ([]byte, error) {
 	return json.Marshal(v.value)
 }
 
-func (v *NullableInitiateChunkedUpload200Response) UnmarshalJSON(src []byte) error {
+func (v *NullableInitiateChunkedUpload201Response) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }

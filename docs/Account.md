@@ -4,21 +4,21 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Id** | Pointer to **int32** |  | [optional] 
-**Uuid** | Pointer to **string** |  | [optional] 
-**Name** | Pointer to **string** |  | [optional] 
-**Username** | Pointer to **string** |  | [optional] 
+**Id** | **int32** |  | 
+**Uuid** | **string** |  | 
+**Name** | **string** |  | 
+**Username** | **string** |  | 
 **Image** | Pointer to **string** |  | [optional] 
-**Provider** | Pointer to **string** |  | [optional] 
-**Data** | Pointer to **map[string]interface{}** | Provider-specific metadata. | [optional] 
-**Authorized** | Pointer to **bool** |  | [optional] 
-**CreatedAt** | Pointer to **time.Time** |  | [optional] 
+**Provider** | **string** |  | 
+**Data** | **map[string]interface{}** | Provider-specific metadata. | 
+**Authorized** | **bool** |  | 
+**CreatedAt** | **time.Time** |  | 
 
 ## Methods
 
 ### NewAccount
 
-`func NewAccount() *Account`
+`func NewAccount(id int32, uuid string, name string, username string, provider string, data map[string]interface{}, authorized bool, createdAt time.Time, ) *Account`
 
 NewAccount instantiates a new Account object
 This constructor will assign default values to properties that have it defined,
@@ -52,11 +52,6 @@ and a boolean to check if the value has been set.
 
 SetId sets Id field to given value.
 
-### HasId
-
-`func (o *Account) HasId() bool`
-
-HasId returns a boolean if a field has been set.
 
 ### GetUuid
 
@@ -77,11 +72,6 @@ and a boolean to check if the value has been set.
 
 SetUuid sets Uuid field to given value.
 
-### HasUuid
-
-`func (o *Account) HasUuid() bool`
-
-HasUuid returns a boolean if a field has been set.
 
 ### GetName
 
@@ -102,11 +92,6 @@ and a boolean to check if the value has been set.
 
 SetName sets Name field to given value.
 
-### HasName
-
-`func (o *Account) HasName() bool`
-
-HasName returns a boolean if a field has been set.
 
 ### GetUsername
 
@@ -127,11 +112,6 @@ and a boolean to check if the value has been set.
 
 SetUsername sets Username field to given value.
 
-### HasUsername
-
-`func (o *Account) HasUsername() bool`
-
-HasUsername returns a boolean if a field has been set.
 
 ### GetImage
 
@@ -177,11 +157,6 @@ and a boolean to check if the value has been set.
 
 SetProvider sets Provider field to given value.
 
-### HasProvider
-
-`func (o *Account) HasProvider() bool`
-
-HasProvider returns a boolean if a field has been set.
 
 ### GetData
 
@@ -202,11 +177,6 @@ and a boolean to check if the value has been set.
 
 SetData sets Data field to given value.
 
-### HasData
-
-`func (o *Account) HasData() bool`
-
-HasData returns a boolean if a field has been set.
 
 ### GetAuthorized
 
@@ -227,11 +197,6 @@ and a boolean to check if the value has been set.
 
 SetAuthorized sets Authorized field to given value.
 
-### HasAuthorized
-
-`func (o *Account) HasAuthorized() bool`
-
-HasAuthorized returns a boolean if a field has been set.
 
 ### GetCreatedAt
 
@@ -252,11 +217,6 @@ and a boolean to check if the value has been set.
 
 SetCreatedAt sets CreatedAt field to given value.
 
-### HasCreatedAt
-
-`func (o *Account) HasCreatedAt() bool`
-
-HasCreatedAt returns a boolean if a field has been set.
 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)

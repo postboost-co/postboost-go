@@ -33,7 +33,7 @@ import (
 	"context"
 	"fmt"
 	"os"
-	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+	openapiclient "github.com/postboost-co/postboost-go"
 )
 
 func main() {
@@ -106,7 +106,7 @@ import (
 	"context"
 	"fmt"
 	"os"
-	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+	openapiclient "github.com/postboost-co/postboost-go"
 )
 
 func main() {
@@ -179,7 +179,7 @@ import (
 	"context"
 	"fmt"
 	"os"
-	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+	openapiclient "github.com/postboost-co/postboost-go"
 )
 
 func main() {
@@ -240,6 +240,8 @@ Name | Type | Description  | Notes
 
 Delete post
 
+
+
 ### Example
 
 ```go
@@ -249,7 +251,7 @@ import (
 	"context"
 	"fmt"
 	"os"
-	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+	openapiclient "github.com/postboost-co/postboost-go"
 )
 
 func main() {
@@ -324,7 +326,7 @@ import (
 	"context"
 	"fmt"
 	"os"
-	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+	openapiclient "github.com/postboost-co/postboost-go"
 )
 
 func main() {
@@ -385,6 +387,8 @@ Name | Type | Description  | Notes
 
 Get post
 
+
+
 ### Example
 
 ```go
@@ -394,7 +398,7 @@ import (
 	"context"
 	"fmt"
 	"os"
-	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+	openapiclient "github.com/postboost-co/postboost-go"
 )
 
 func main() {
@@ -467,7 +471,7 @@ import (
 	"context"
 	"fmt"
 	"os"
-	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+	openapiclient "github.com/postboost-co/postboost-go"
 )
 
 func main() {
@@ -539,7 +543,7 @@ import (
 	"context"
 	"fmt"
 	"os"
-	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+	openapiclient "github.com/postboost-co/postboost-go"
 )
 
 func main() {
@@ -603,6 +607,8 @@ Name | Type | Description  | Notes
 
 Update post
 
+
+
 ### Example
 
 ```go
@@ -612,7 +618,7 @@ import (
 	"context"
 	"fmt"
 	"os"
-	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+	openapiclient "github.com/postboost-co/postboost-go"
 )
 
 func main() {

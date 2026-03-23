@@ -4,22 +4,22 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Id** | Pointer to **int32** |  | [optional] 
-**Uuid** | Pointer to **string** |  | [optional] 
-**Status** | Pointer to [**PostStatus**](PostStatus.md) |  | [optional] 
-**Accounts** | Pointer to [**[]Account**](Account.md) |  | [optional] 
-**Versions** | Pointer to [**[]PostVersion**](PostVersion.md) |  | [optional] 
-**Tags** | Pointer to [**[]Tag**](Tag.md) |  | [optional] 
+**Id** | **int32** |  | 
+**Uuid** | **string** |  | 
+**Status** | [**PostStatus**](PostStatus.md) |  | 
+**Accounts** | [**[]Account**](Account.md) |  | 
+**Versions** | [**[]PostVersion**](PostVersion.md) |  | 
+**Tags** | [**[]Tag**](Tag.md) |  | 
 **ScheduledAt** | Pointer to **time.Time** |  | [optional] 
 **PublishedAt** | Pointer to **time.Time** |  | [optional] 
-**CreatedAt** | Pointer to **time.Time** |  | [optional] 
-**Trashed** | Pointer to **bool** |  | [optional] 
+**CreatedAt** | **time.Time** |  | 
+**Trashed** | **bool** |  | 
 
 ## Methods
 
 ### NewPost
 
-`func NewPost() *Post`
+`func NewPost(id int32, uuid string, status PostStatus, accounts []Account, versions []PostVersion, tags []Tag, createdAt time.Time, trashed bool, ) *Post`
 
 NewPost instantiates a new Post object
 This constructor will assign default values to properties that have it defined,
@@ -53,11 +53,6 @@ and a boolean to check if the value has been set.
 
 SetId sets Id field to given value.
 
-### HasId
-
-`func (o *Post) HasId() bool`
-
-HasId returns a boolean if a field has been set.
 
 ### GetUuid
 
@@ -78,11 +73,6 @@ and a boolean to check if the value has been set.
 
 SetUuid sets Uuid field to given value.
 
-### HasUuid
-
-`func (o *Post) HasUuid() bool`
-
-HasUuid returns a boolean if a field has been set.
 
 ### GetStatus
 
@@ -103,11 +93,6 @@ and a boolean to check if the value has been set.
 
 SetStatus sets Status field to given value.
 
-### HasStatus
-
-`func (o *Post) HasStatus() bool`
-
-HasStatus returns a boolean if a field has been set.
 
 ### GetAccounts
 
@@ -128,11 +113,6 @@ and a boolean to check if the value has been set.
 
 SetAccounts sets Accounts field to given value.
 
-### HasAccounts
-
-`func (o *Post) HasAccounts() bool`
-
-HasAccounts returns a boolean if a field has been set.
 
 ### GetVersions
 
@@ -153,11 +133,6 @@ and a boolean to check if the value has been set.
 
 SetVersions sets Versions field to given value.
 
-### HasVersions
-
-`func (o *Post) HasVersions() bool`
-
-HasVersions returns a boolean if a field has been set.
 
 ### GetTags
 
@@ -178,11 +153,6 @@ and a boolean to check if the value has been set.
 
 SetTags sets Tags field to given value.
 
-### HasTags
-
-`func (o *Post) HasTags() bool`
-
-HasTags returns a boolean if a field has been set.
 
 ### GetScheduledAt
 
@@ -253,11 +223,6 @@ and a boolean to check if the value has been set.
 
 SetCreatedAt sets CreatedAt field to given value.
 
-### HasCreatedAt
-
-`func (o *Post) HasCreatedAt() bool`
-
-HasCreatedAt returns a boolean if a field has been set.
 
 ### GetTrashed
 
@@ -278,11 +243,6 @@ and a boolean to check if the value has been set.
 
 SetTrashed sets Trashed field to given value.
 
-### HasTrashed
-
-`func (o *Post) HasTrashed() bool`
-
-HasTrashed returns a boolean if a field has been set.
 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)

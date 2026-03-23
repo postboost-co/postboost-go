@@ -43,6 +43,8 @@ func (r ApiAddGenericSubscriptionRequest) Execute() (map[string]interface{}, *ht
 /*
 AddGenericSubscription Add generic subscription
 
+Assigns a non-Stripe (generic) subscription plan to the workspace, optionally granting a trial period. Used for AppSumo-style lifetime deals. Admin only.
+
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @param workspaceUuid UUID of the workspace.
  @return ApiAddGenericSubscriptionRequest
@@ -130,6 +132,17 @@ func (a *SubscriptionsAPIService) AddGenericSubscriptionExecute(r ApiAddGenericS
 			}
 					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
 					newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 403 {
+			var v map[string]interface{}
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
@@ -158,6 +171,8 @@ func (r ApiCancelSubscriptionRequest) Execute() (map[string]interface{}, *http.R
 
 /*
 CancelSubscription Cancel subscription
+
+Cancels the workspace's Stripe subscription at the end of the current billing period. Admin only.
 
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @param workspaceUuid UUID of the workspace.
@@ -241,6 +256,17 @@ func (a *SubscriptionsAPIService) CancelSubscriptionExecute(r ApiCancelSubscript
 			}
 					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
 					newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 403 {
+			var v map[string]interface{}
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
@@ -275,6 +301,8 @@ func (r ApiChangeSubscriptionPlanRequest) Execute() (map[string]interface{}, *ht
 
 /*
 ChangeSubscriptionPlan Change subscription plan
+
+Switches the workspace to a different Stripe plan. Optionally prorates the change and bills immediately. Admin only.
 
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @param workspaceUuid UUID of the workspace.
@@ -355,6 +383,17 @@ func (a *SubscriptionsAPIService) ChangeSubscriptionPlanExecute(r ApiChangeSubsc
 			error: localVarHTTPResponse.Status,
 		}
 		if localVarHTTPResponse.StatusCode == 401 {
+			var v map[string]interface{}
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 403 {
 			var v map[string]interface{}
 			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
@@ -487,6 +526,17 @@ func (a *SubscriptionsAPIService) CheckoutSubscriptionExecute(r ApiCheckoutSubsc
 			}
 					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
 					newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 403 {
+			var v map[string]interface{}
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
@@ -521,6 +571,8 @@ func (r ApiCreateSubscriptionRequest) Execute() (map[string]interface{}, *http.R
 
 /*
 CreateSubscription Create subscription
+
+Manually creates a subscription record for the workspace (for external billing integrations). Admin only.
 
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @param workspaceUuid UUID of the workspace.
@@ -611,6 +663,17 @@ func (a *SubscriptionsAPIService) CreateSubscriptionExecute(r ApiCreateSubscript
 					newErr.model = v
 			return localVarReturnValue, localVarHTTPResponse, newErr
 		}
+		if localVarHTTPResponse.StatusCode == 403 {
+			var v map[string]interface{}
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
 		if localVarHTTPResponse.StatusCode == 422 {
 			var v map[string]interface{}
 			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
@@ -648,6 +711,8 @@ func (r ApiDeleteSubscriptionRequest) Execute() (map[string]interface{}, *http.R
 
 /*
 DeleteSubscription Delete subscription
+
+Removes the subscription record from the workspace. Admin only.
 
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @param workspaceUuid UUID of the workspace.
@@ -731,6 +796,17 @@ func (a *SubscriptionsAPIService) DeleteSubscriptionExecute(r ApiDeleteSubscript
 			}
 					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
 					newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 403 {
+			var v map[string]interface{}
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
@@ -759,6 +835,8 @@ func (r ApiGetSubscriptionRequest) Execute() (*Subscription, *http.Response, err
 
 /*
 GetSubscription Get subscription
+
+Returns the active subscription for the workspace, or `null` if none exists. Admin only.
 
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @param workspaceUuid UUID of the workspace.
@@ -842,6 +920,17 @@ func (a *SubscriptionsAPIService) GetSubscriptionExecute(r ApiGetSubscriptionReq
 			}
 					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
 					newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 403 {
+			var v map[string]interface{}
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
@@ -870,6 +959,8 @@ func (r ApiRemoveGenericSubscriptionRequest) Execute() (map[string]interface{}, 
 
 /*
 RemoveGenericSubscription Remove generic subscription
+
+Removes the generic (non-Stripe) subscription from the workspace. Admin only.
 
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @param workspaceUuid UUID of the workspace.
@@ -953,6 +1044,17 @@ func (a *SubscriptionsAPIService) RemoveGenericSubscriptionExecute(r ApiRemoveGe
 			}
 					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
 					newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 403 {
+			var v map[string]interface{}
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
@@ -981,6 +1083,8 @@ func (r ApiResumeSubscriptionRequest) Execute() (map[string]interface{}, *http.R
 
 /*
 ResumeSubscription Resume subscription
+
+Resumes a previously canceled subscription before it expires. Admin only.
 
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @param workspaceUuid UUID of the workspace.
@@ -1064,6 +1168,17 @@ func (a *SubscriptionsAPIService) ResumeSubscriptionExecute(r ApiResumeSubscript
 			}
 					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
 					newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 403 {
+			var v map[string]interface{}
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
@@ -1098,6 +1213,8 @@ func (r ApiUpdateSubscriptionRequest) Execute() (map[string]interface{}, *http.R
 
 /*
 UpdateSubscription Update subscription
+
+Updates the plan ID, status, or trial/pause dates of an existing subscription. Admin only.
 
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @param workspaceUuid UUID of the workspace.
@@ -1178,6 +1295,17 @@ func (a *SubscriptionsAPIService) UpdateSubscriptionExecute(r ApiUpdateSubscript
 			error: localVarHTTPResponse.Status,
 		}
 		if localVarHTTPResponse.StatusCode == 401 {
+			var v map[string]interface{}
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 403 {
 			var v map[string]interface{}
 			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {

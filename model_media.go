@@ -14,6 +14,8 @@ package postboost
 import (
 	"encoding/json"
 	"time"
+	"bytes"
+	"fmt"
 )
 
 // checks if the Media type satisfies the MappedNullable interface at compile time
@@ -21,23 +23,33 @@ var _ MappedNullable = &Media{}
 
 // Media struct for Media
 type Media struct {
-	Id *int32 `json:"id,omitempty"`
-	Uuid *string `json:"uuid,omitempty"`
-	Name *string `json:"name,omitempty"`
-	MimeType *string `json:"mime_type,omitempty"`
-	Type *string `json:"type,omitempty"`
-	Url *string `json:"url,omitempty"`
+	Id int32 `json:"id"`
+	Uuid string `json:"uuid"`
+	Name string `json:"name"`
+	MimeType string `json:"mime_type"`
+	Type string `json:"type"`
+	Url string `json:"url"`
 	ThumbUrl *string `json:"thumb_url,omitempty"`
-	IsVideo *bool `json:"is_video,omitempty"`
-	CreatedAt *time.Time `json:"created_at,omitempty"`
+	IsVideo bool `json:"is_video"`
+	CreatedAt time.Time `json:"created_at"`
 }
+
+type _Media Media
 
 // NewMedia instantiates a new Media object
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewMedia() *Media {
+func NewMedia(id int32, uuid string, name string, mimeType string, type_ string, url string, isVideo bool, createdAt time.Time) *Media {
 	this := Media{}
+	this.Id = id
+	this.Uuid = uuid
+	this.Name = name
+	this.MimeType = mimeType
+	this.Type = type_
+	this.Url = url
+	this.IsVideo = isVideo
+	this.CreatedAt = createdAt
 	return &this
 }
 
@@ -49,196 +61,148 @@ func NewMediaWithDefaults() *Media {
 	return &this
 }
 
-// GetId returns the Id field value if set, zero value otherwise.
+// GetId returns the Id field value
 func (o *Media) GetId() int32 {
-	if o == nil || IsNil(o.Id) {
+	if o == nil {
 		var ret int32
 		return ret
 	}
-	return *o.Id
+
+	return o.Id
 }
 
-// GetIdOk returns a tuple with the Id field value if set, nil otherwise
+// GetIdOk returns a tuple with the Id field value
 // and a boolean to check if the value has been set.
 func (o *Media) GetIdOk() (*int32, bool) {
-	if o == nil || IsNil(o.Id) {
+	if o == nil {
 		return nil, false
 	}
-	return o.Id, true
+	return &o.Id, true
 }
 
-// HasId returns a boolean if a field has been set.
-func (o *Media) HasId() bool {
-	if o != nil && !IsNil(o.Id) {
-		return true
-	}
-
-	return false
-}
-
-// SetId gets a reference to the given int32 and assigns it to the Id field.
+// SetId sets field value
 func (o *Media) SetId(v int32) {
-	o.Id = &v
+	o.Id = v
 }
 
-// GetUuid returns the Uuid field value if set, zero value otherwise.
+// GetUuid returns the Uuid field value
 func (o *Media) GetUuid() string {
-	if o == nil || IsNil(o.Uuid) {
+	if o == nil {
 		var ret string
 		return ret
 	}
-	return *o.Uuid
+
+	return o.Uuid
 }
 
-// GetUuidOk returns a tuple with the Uuid field value if set, nil otherwise
+// GetUuidOk returns a tuple with the Uuid field value
 // and a boolean to check if the value has been set.
 func (o *Media) GetUuidOk() (*string, bool) {
-	if o == nil || IsNil(o.Uuid) {
+	if o == nil {
 		return nil, false
 	}
-	return o.Uuid, true
+	return &o.Uuid, true
 }
 
-// HasUuid returns a boolean if a field has been set.
-func (o *Media) HasUuid() bool {
-	if o != nil && !IsNil(o.Uuid) {
-		return true
-	}
-
-	return false
-}
-
-// SetUuid gets a reference to the given string and assigns it to the Uuid field.
+// SetUuid sets field value
 func (o *Media) SetUuid(v string) {
-	o.Uuid = &v
+	o.Uuid = v
 }
 
-// GetName returns the Name field value if set, zero value otherwise.
+// GetName returns the Name field value
 func (o *Media) GetName() string {
-	if o == nil || IsNil(o.Name) {
+	if o == nil {
 		var ret string
 		return ret
 	}
-	return *o.Name
+
+	return o.Name
 }
 
-// GetNameOk returns a tuple with the Name field value if set, nil otherwise
+// GetNameOk returns a tuple with the Name field value
 // and a boolean to check if the value has been set.
 func (o *Media) GetNameOk() (*string, bool) {
-	if o == nil || IsNil(o.Name) {
+	if o == nil {
 		return nil, false
 	}
-	return o.Name, true
+	return &o.Name, true
 }
 
-// HasName returns a boolean if a field has been set.
-func (o *Media) HasName() bool {
-	if o != nil && !IsNil(o.Name) {
-		return true
-	}
-
-	return false
-}
-
-// SetName gets a reference to the given string and assigns it to the Name field.
+// SetName sets field value
 func (o *Media) SetName(v string) {
-	o.Name = &v
+	o.Name = v
 }
 
-// GetMimeType returns the MimeType field value if set, zero value otherwise.
+// GetMimeType returns the MimeType field value
 func (o *Media) GetMimeType() string {
-	if o == nil || IsNil(o.MimeType) {
+	if o == nil {
 		var ret string
 		return ret
 	}
-	return *o.MimeType
+
+	return o.MimeType
 }
 
-// GetMimeTypeOk returns a tuple with the MimeType field value if set, nil otherwise
+// GetMimeTypeOk returns a tuple with the MimeType field value
 // and a boolean to check if the value has been set.
 func (o *Media) GetMimeTypeOk() (*string, bool) {
-	if o == nil || IsNil(o.MimeType) {
+	if o == nil {
 		return nil, false
 	}
-	return o.MimeType, true
+	return &o.MimeType, true
 }
 
-// HasMimeType returns a boolean if a field has been set.
-func (o *Media) HasMimeType() bool {
-	if o != nil && !IsNil(o.MimeType) {
-		return true
-	}
-
-	return false
-}
-
-// SetMimeType gets a reference to the given string and assigns it to the MimeType field.
+// SetMimeType sets field value
 func (o *Media) SetMimeType(v string) {
-	o.MimeType = &v
+	o.MimeType = v
 }
 
-// GetType returns the Type field value if set, zero value otherwise.
+// GetType returns the Type field value
 func (o *Media) GetType() string {
-	if o == nil || IsNil(o.Type) {
+	if o == nil {
 		var ret string
 		return ret
 	}
-	return *o.Type
+
+	return o.Type
 }
 
-// GetTypeOk returns a tuple with the Type field value if set, nil otherwise
+// GetTypeOk returns a tuple with the Type field value
 // and a boolean to check if the value has been set.
 func (o *Media) GetTypeOk() (*string, bool) {
-	if o == nil || IsNil(o.Type) {
+	if o == nil {
 		return nil, false
 	}
-	return o.Type, true
+	return &o.Type, true
 }
 
-// HasType returns a boolean if a field has been set.
-func (o *Media) HasType() bool {
-	if o != nil && !IsNil(o.Type) {
-		return true
-	}
-
-	return false
-}
-
-// SetType gets a reference to the given string and assigns it to the Type field.
+// SetType sets field value
 func (o *Media) SetType(v string) {
-	o.Type = &v
+	o.Type = v
 }
 
-// GetUrl returns the Url field value if set, zero value otherwise.
+// GetUrl returns the Url field value
 func (o *Media) GetUrl() string {
-	if o == nil || IsNil(o.Url) {
+	if o == nil {
 		var ret string
 		return ret
 	}
-	return *o.Url
+
+	return o.Url
 }
 
-// GetUrlOk returns a tuple with the Url field value if set, nil otherwise
+// GetUrlOk returns a tuple with the Url field value
 // and a boolean to check if the value has been set.
 func (o *Media) GetUrlOk() (*string, bool) {
-	if o == nil || IsNil(o.Url) {
+	if o == nil {
 		return nil, false
 	}
-	return o.Url, true
+	return &o.Url, true
 }
 
-// HasUrl returns a boolean if a field has been set.
-func (o *Media) HasUrl() bool {
-	if o != nil && !IsNil(o.Url) {
-		return true
-	}
-
-	return false
-}
-
-// SetUrl gets a reference to the given string and assigns it to the Url field.
+// SetUrl sets field value
 func (o *Media) SetUrl(v string) {
-	o.Url = &v
+	o.Url = v
 }
 
 // GetThumbUrl returns the ThumbUrl field value if set, zero value otherwise.
@@ -273,68 +237,52 @@ func (o *Media) SetThumbUrl(v string) {
 	o.ThumbUrl = &v
 }
 
-// GetIsVideo returns the IsVideo field value if set, zero value otherwise.
+// GetIsVideo returns the IsVideo field value
 func (o *Media) GetIsVideo() bool {
-	if o == nil || IsNil(o.IsVideo) {
+	if o == nil {
 		var ret bool
 		return ret
 	}
-	return *o.IsVideo
+
+	return o.IsVideo
 }
 
-// GetIsVideoOk returns a tuple with the IsVideo field value if set, nil otherwise
+// GetIsVideoOk returns a tuple with the IsVideo field value
 // and a boolean to check if the value has been set.
 func (o *Media) GetIsVideoOk() (*bool, bool) {
-	if o == nil || IsNil(o.IsVideo) {
+	if o == nil {
 		return nil, false
 	}
-	return o.IsVideo, true
+	return &o.IsVideo, true
 }
 
-// HasIsVideo returns a boolean if a field has been set.
-func (o *Media) HasIsVideo() bool {
-	if o != nil && !IsNil(o.IsVideo) {
-		return true
-	}
-
-	return false
-}
-
-// SetIsVideo gets a reference to the given bool and assigns it to the IsVideo field.
+// SetIsVideo sets field value
 func (o *Media) SetIsVideo(v bool) {
-	o.IsVideo = &v
+	o.IsVideo = v
 }
 
-// GetCreatedAt returns the CreatedAt field value if set, zero value otherwise.
+// GetCreatedAt returns the CreatedAt field value
 func (o *Media) GetCreatedAt() time.Time {
-	if o == nil || IsNil(o.CreatedAt) {
+	if o == nil {
 		var ret time.Time
 		return ret
 	}
-	return *o.CreatedAt
+
+	return o.CreatedAt
 }
 
-// GetCreatedAtOk returns a tuple with the CreatedAt field value if set, nil otherwise
+// GetCreatedAtOk returns a tuple with the CreatedAt field value
 // and a boolean to check if the value has been set.
 func (o *Media) GetCreatedAtOk() (*time.Time, bool) {
-	if o == nil || IsNil(o.CreatedAt) {
+	if o == nil {
 		return nil, false
 	}
-	return o.CreatedAt, true
+	return &o.CreatedAt, true
 }
 
-// HasCreatedAt returns a boolean if a field has been set.
-func (o *Media) HasCreatedAt() bool {
-	if o != nil && !IsNil(o.CreatedAt) {
-		return true
-	}
-
-	return false
-}
-
-// SetCreatedAt gets a reference to the given time.Time and assigns it to the CreatedAt field.
+// SetCreatedAt sets field value
 func (o *Media) SetCreatedAt(v time.Time) {
-	o.CreatedAt = &v
+	o.CreatedAt = v
 }
 
 func (o Media) MarshalJSON() ([]byte, error) {
@@ -347,34 +295,62 @@ func (o Media) MarshalJSON() ([]byte, error) {
 
 func (o Media) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
-	if !IsNil(o.Id) {
-		toSerialize["id"] = o.Id
-	}
-	if !IsNil(o.Uuid) {
-		toSerialize["uuid"] = o.Uuid
-	}
-	if !IsNil(o.Name) {
-		toSerialize["name"] = o.Name
-	}
-	if !IsNil(o.MimeType) {
-		toSerialize["mime_type"] = o.MimeType
-	}
-	if !IsNil(o.Type) {
-		toSerialize["type"] = o.Type
-	}
-	if !IsNil(o.Url) {
-		toSerialize["url"] = o.Url
-	}
+	toSerialize["id"] = o.Id
+	toSerialize["uuid"] = o.Uuid
+	toSerialize["name"] = o.Name
+	toSerialize["mime_type"] = o.MimeType
+	toSerialize["type"] = o.Type
+	toSerialize["url"] = o.Url
 	if !IsNil(o.ThumbUrl) {
 		toSerialize["thumb_url"] = o.ThumbUrl
 	}
-	if !IsNil(o.IsVideo) {
-		toSerialize["is_video"] = o.IsVideo
-	}
-	if !IsNil(o.CreatedAt) {
-		toSerialize["created_at"] = o.CreatedAt
-	}
+	toSerialize["is_video"] = o.IsVideo
+	toSerialize["created_at"] = o.CreatedAt
 	return toSerialize, nil
+}
+
+func (o *Media) UnmarshalJSON(data []byte) (err error) {
+	// This validates that all required properties are included in the JSON object
+	// by unmarshalling the object into a generic map with string keys and checking
+	// that every required field exists as a key in the generic map.
+	requiredProperties := []string{
+		"id",
+		"uuid",
+		"name",
+		"mime_type",
+		"type",
+		"url",
+		"is_video",
+		"created_at",
+	}
+
+	allProperties := make(map[string]interface{})
+
+	err = json.Unmarshal(data, &allProperties)
+
+	if err != nil {
+		return err;
+	}
+
+	for _, requiredProperty := range(requiredProperties) {
+		if _, exists := allProperties[requiredProperty]; !exists {
+			return fmt.Errorf("no value given for required property %v", requiredProperty)
+		}
+	}
+
+	varMedia := _Media{}
+
+	decoder := json.NewDecoder(bytes.NewReader(data))
+	decoder.DisallowUnknownFields()
+	err = decoder.Decode(&varMedia)
+
+	if err != nil {
+		return err
+	}
+
+	*o = Media(varMedia)
+
+	return err
 }
 
 type NullableMedia struct {

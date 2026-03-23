@@ -43,6 +43,8 @@ func (r ApiAddUserToWorkspaceRequest) Execute() (map[string]interface{}, *http.R
 /*
 AddUserToWorkspace Add user to workspace
 
+Adds an existing user to the workspace with a specified role. Admin only.
+
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @param workspaceUuid UUID of the workspace.
  @return ApiAddUserToWorkspaceRequest
@@ -122,6 +124,17 @@ func (a *WorkspacesAPIService) AddUserToWorkspaceExecute(r ApiAddUserToWorkspace
 			error: localVarHTTPResponse.Status,
 		}
 		if localVarHTTPResponse.StatusCode == 401 {
+			var v map[string]interface{}
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 403 {
 			var v map[string]interface{}
 			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
@@ -312,6 +325,8 @@ func (r ApiDeleteWorkspaceRequest) Execute() (map[string]interface{}, *http.Resp
 /*
 DeleteWorkspace Delete workspace
 
+Permanently deletes a single workspace and all its associated data. Admin only.
+
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @param workspaceUuid UUID of the workspace.
  @return ApiDeleteWorkspaceRequest
@@ -396,6 +411,17 @@ func (a *WorkspacesAPIService) DeleteWorkspaceExecute(r ApiDeleteWorkspaceReques
 					newErr.model = v
 			return localVarReturnValue, localVarHTTPResponse, newErr
 		}
+		if localVarHTTPResponse.StatusCode == 403 {
+			var v map[string]interface{}
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
 		if localVarHTTPResponse.StatusCode == 404 {
 			var v map[string]interface{}
 			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
@@ -438,6 +464,8 @@ func (r ApiDeleteWorkspacesBulkRequest) Execute() (map[string]interface{}, *http
 
 /*
 DeleteWorkspacesBulk Delete workspaces (bulk)
+
+Permanently deletes one or more workspaces and all their associated data. Admin only.
 
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @return ApiDeleteWorkspacesBulkRequest
@@ -563,6 +591,8 @@ func (r ApiGetWorkspaceRequest) Execute() (*Workspace, *http.Response, error) {
 /*
 GetWorkspace Get workspace
 
+Returns a single workspace by UUID including its subscription status. Admin only.
+
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @param workspaceUuid UUID of the workspace.
  @return ApiGetWorkspaceRequest
@@ -647,6 +677,17 @@ func (a *WorkspacesAPIService) GetWorkspaceExecute(r ApiGetWorkspaceRequest) (*W
 					newErr.model = v
 			return localVarReturnValue, localVarHTTPResponse, newErr
 		}
+		if localVarHTTPResponse.StatusCode == 403 {
+			var v map[string]interface{}
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
 		if localVarHTTPResponse.StatusCode == 404 {
 			var v map[string]interface{}
 			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
@@ -678,6 +719,7 @@ type ApiListWorkspacesRequest struct {
 	keyword *string
 	subscriptionStatus *string
 	accessStatus *string
+	page *int32
 }
 
 func (r ApiListWorkspacesRequest) Keyword(keyword string) ApiListWorkspacesRequest {
@@ -692,6 +734,12 @@ func (r ApiListWorkspacesRequest) SubscriptionStatus(subscriptionStatus string) 
 
 func (r ApiListWorkspacesRequest) AccessStatus(accessStatus string) ApiListWorkspacesRequest {
 	r.accessStatus = &accessStatus
+	return r
+}
+
+// Page number (15 items per page).
+func (r ApiListWorkspacesRequest) Page(page int32) ApiListWorkspacesRequest {
+	r.page = &page
 	return r
 }
 
@@ -743,6 +791,12 @@ func (a *WorkspacesAPIService) ListWorkspacesExecute(r ApiListWorkspacesRequest)
 	}
 	if r.accessStatus != nil {
 		parameterAddToHeaderOrQuery(localVarQueryParams, "access_status", r.accessStatus, "form", "")
+	}
+	if r.page != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "page", r.page, "form", "")
+	} else {
+		var defaultValue int32 = 1
+		r.page = &defaultValue
 	}
 	// to determine the Content-Type header
 	localVarHTTPContentTypes := []string{}
@@ -838,6 +892,8 @@ func (r ApiRemoveUserFromWorkspaceRequest) Execute() (map[string]interface{}, *h
 /*
 RemoveUserFromWorkspace Remove user from workspace
 
+Removes a user's access to the workspace. The user account is not deleted. Admin only.
+
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @param workspaceUuid UUID of the workspace.
  @return ApiRemoveUserFromWorkspaceRequest
@@ -925,6 +981,17 @@ func (a *WorkspacesAPIService) RemoveUserFromWorkspaceExecute(r ApiRemoveUserFro
 			}
 					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
 					newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 403 {
+			var v map[string]interface{}
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
@@ -959,6 +1026,8 @@ func (r ApiUpdateWorkspaceRequest) Execute() (map[string]interface{}, *http.Resp
 
 /*
 UpdateWorkspace Update workspace
+
+Updates a workspace's name, color, or access status. Admin only.
 
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @param workspaceUuid UUID of the workspace.
@@ -1049,6 +1118,17 @@ func (a *WorkspacesAPIService) UpdateWorkspaceExecute(r ApiUpdateWorkspaceReques
 					newErr.model = v
 			return localVarReturnValue, localVarHTTPResponse, newErr
 		}
+		if localVarHTTPResponse.StatusCode == 403 {
+			var v map[string]interface{}
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
 		if localVarHTTPResponse.StatusCode == 404 {
 			var v map[string]interface{}
 			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
@@ -1092,6 +1172,8 @@ func (r ApiUpdateWorkspaceUserRequest) Execute() (map[string]interface{}, *http.
 
 /*
 UpdateWorkspaceUser Update user role in workspace
+
+Changes a user's role or permissions within the workspace. Admin only.
 
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @param workspaceUuid UUID of the workspace.
@@ -1172,6 +1254,17 @@ func (a *WorkspacesAPIService) UpdateWorkspaceUserExecute(r ApiUpdateWorkspaceUs
 			error: localVarHTTPResponse.Status,
 		}
 		if localVarHTTPResponse.StatusCode == 401 {
+			var v map[string]interface{}
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 403 {
 			var v map[string]interface{}
 			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {

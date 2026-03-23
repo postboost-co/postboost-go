@@ -42,6 +42,8 @@ func (r ApiCreateUserRequest) Execute() (*User, *http.Response, error) {
 /*
 CreateUser Create user
 
+Creates a new user account on the platform. Admin only.
+
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @return ApiCreateUserRequest
 */
@@ -128,6 +130,17 @@ func (a *UsersAPIService) CreateUserExecute(r ApiCreateUserRequest) (*User, *htt
 					newErr.model = v
 			return localVarReturnValue, localVarHTTPResponse, newErr
 		}
+		if localVarHTTPResponse.StatusCode == 403 {
+			var v map[string]interface{}
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
 		if localVarHTTPResponse.StatusCode == 422 {
 			var v map[string]interface{}
 			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
@@ -165,6 +178,8 @@ func (r ApiDeleteUserRequest) Execute() (map[string]interface{}, *http.Response,
 
 /*
 DeleteUser Delete user
+
+Permanently deletes a user account. Returns 400 if you attempt to delete your own account. Admin only.
 
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @param userId ID of the user.
@@ -259,6 +274,17 @@ func (a *UsersAPIService) DeleteUserExecute(r ApiDeleteUserRequest) (map[string]
 			}
 					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
 					newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 403 {
+			var v map[string]interface{}
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
@@ -292,6 +318,8 @@ func (r ApiDeleteUsersBulkRequest) Execute() (map[string]interface{}, *http.Resp
 
 /*
 DeleteUsersBulk Delete users (bulk)
+
+Permanently deletes one or more user accounts. You cannot delete your own account. Admin only.
 
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @return ApiDeleteUsersBulkRequest
@@ -377,6 +405,17 @@ func (a *UsersAPIService) DeleteUsersBulkExecute(r ApiDeleteUsersBulkRequest) (m
 			}
 					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
 					newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 403 {
+			var v map[string]interface{}
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
@@ -405,6 +444,8 @@ func (r ApiGetUserRequest) Execute() (*User, *http.Response, error) {
 
 /*
 GetUser Get user
+
+Returns a single user account by ID. Admin only.
 
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @param userId ID of the user.
@@ -490,6 +531,17 @@ func (a *UsersAPIService) GetUserExecute(r ApiGetUserRequest) (*User, *http.Resp
 					newErr.model = v
 			return localVarReturnValue, localVarHTTPResponse, newErr
 		}
+		if localVarHTTPResponse.StatusCode == 403 {
+			var v map[string]interface{}
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
 		if localVarHTTPResponse.StatusCode == 404 {
 			var v map[string]interface{}
 			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
@@ -519,11 +571,18 @@ type ApiListUsersRequest struct {
 	ctx context.Context
 	ApiService *UsersAPIService
 	keyword *string
+	page *int32
 }
 
 // Search by name or email.
 func (r ApiListUsersRequest) Keyword(keyword string) ApiListUsersRequest {
 	r.keyword = &keyword
+	return r
+}
+
+// Page number (15 items per page).
+func (r ApiListUsersRequest) Page(page int32) ApiListUsersRequest {
+	r.page = &page
 	return r
 }
 
@@ -533,6 +592,8 @@ func (r ApiListUsersRequest) Execute() (*ListUsers200Response, *http.Response, e
 
 /*
 ListUsers List users
+
+Returns a paginated list of all users on the platform. Optionally filter by name or email. Admin only.
 
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @return ApiListUsersRequest
@@ -567,6 +628,12 @@ func (a *UsersAPIService) ListUsersExecute(r ApiListUsersRequest) (*ListUsers200
 
 	if r.keyword != nil {
 		parameterAddToHeaderOrQuery(localVarQueryParams, "keyword", r.keyword, "form", "")
+	}
+	if r.page != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "page", r.page, "form", "")
+	} else {
+		var defaultValue int32 = 1
+		r.page = &defaultValue
 	}
 	// to determine the Content-Type header
 	localVarHTTPContentTypes := []string{}
@@ -662,6 +729,8 @@ func (r ApiUpdateUserRequest) Execute() (map[string]interface{}, *http.Response,
 /*
 UpdateUser Update user
 
+Updates a user's name, email, admin status, or password. Admin only.
+
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @param userId ID of the user.
  @return ApiUpdateUserRequest
@@ -741,6 +810,17 @@ func (a *UsersAPIService) UpdateUserExecute(r ApiUpdateUserRequest) (map[string]
 			error: localVarHTTPResponse.Status,
 		}
 		if localVarHTTPResponse.StatusCode == 401 {
+			var v map[string]interface{}
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 403 {
 			var v map[string]interface{}
 			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {

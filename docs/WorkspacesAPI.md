@@ -22,6 +22,8 @@ Method | HTTP request | Description
 
 Add user to workspace
 
+
+
 ### Example
 
 ```go
@@ -31,7 +33,7 @@ import (
 	"context"
 	"fmt"
 	"os"
-	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+	openapiclient "github.com/postboost-co/postboost-go"
 )
 
 func main() {
@@ -103,7 +105,7 @@ import (
 	"context"
 	"fmt"
 	"os"
-	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+	openapiclient "github.com/postboost-co/postboost-go"
 )
 
 func main() {
@@ -158,6 +160,8 @@ Name | Type | Description  | Notes
 
 Delete workspace
 
+
+
 ### Example
 
 ```go
@@ -167,7 +171,7 @@ import (
 	"context"
 	"fmt"
 	"os"
-	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+	openapiclient "github.com/postboost-co/postboost-go"
 )
 
 func main() {
@@ -226,6 +230,8 @@ Name | Type | Description  | Notes
 
 Delete workspaces (bulk)
 
+
+
 ### Example
 
 ```go
@@ -235,7 +241,7 @@ import (
 	"context"
 	"fmt"
 	"os"
-	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+	openapiclient "github.com/postboost-co/postboost-go"
 )
 
 func main() {
@@ -290,6 +296,8 @@ Name | Type | Description  | Notes
 
 Get workspace
 
+
+
 ### Example
 
 ```go
@@ -299,7 +307,7 @@ import (
 	"context"
 	"fmt"
 	"os"
-	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+	openapiclient "github.com/postboost-co/postboost-go"
 )
 
 func main() {
@@ -354,7 +362,7 @@ Name | Type | Description  | Notes
 
 ## ListWorkspaces
 
-> ListWorkspaces200Response ListWorkspaces(ctx).Keyword(keyword).SubscriptionStatus(subscriptionStatus).AccessStatus(accessStatus).Execute()
+> ListWorkspaces200Response ListWorkspaces(ctx).Keyword(keyword).SubscriptionStatus(subscriptionStatus).AccessStatus(accessStatus).Page(page).Execute()
 
 List workspaces
 
@@ -369,17 +377,18 @@ import (
 	"context"
 	"fmt"
 	"os"
-	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+	openapiclient "github.com/postboost-co/postboost-go"
 )
 
 func main() {
 	keyword := "keyword_example" // string |  (optional)
 	subscriptionStatus := "subscriptionStatus_example" // string |  (optional)
 	accessStatus := "accessStatus_example" // string |  (optional)
+	page := int32(56) // int32 | Page number (15 items per page). (optional) (default to 1)
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.WorkspacesAPI.ListWorkspaces(context.Background()).Keyword(keyword).SubscriptionStatus(subscriptionStatus).AccessStatus(accessStatus).Execute()
+	resp, r, err := apiClient.WorkspacesAPI.ListWorkspaces(context.Background()).Keyword(keyword).SubscriptionStatus(subscriptionStatus).AccessStatus(accessStatus).Page(page).Execute()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error when calling `WorkspacesAPI.ListWorkspaces``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -403,6 +412,7 @@ Name | Type | Description  | Notes
  **keyword** | **string** |  | 
  **subscriptionStatus** | **string** |  | 
  **accessStatus** | **string** |  | 
+ **page** | **int32** | Page number (15 items per page). | [default to 1]
 
 ### Return type
 
@@ -428,6 +438,8 @@ Name | Type | Description  | Notes
 
 Remove user from workspace
 
+
+
 ### Example
 
 ```go
@@ -437,7 +449,7 @@ import (
 	"context"
 	"fmt"
 	"os"
-	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+	openapiclient "github.com/postboost-co/postboost-go"
 )
 
 func main() {
@@ -498,6 +510,8 @@ Name | Type | Description  | Notes
 
 Update workspace
 
+
+
 ### Example
 
 ```go
@@ -507,7 +521,7 @@ import (
 	"context"
 	"fmt"
 	"os"
-	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+	openapiclient "github.com/postboost-co/postboost-go"
 )
 
 func main() {
@@ -568,6 +582,8 @@ Name | Type | Description  | Notes
 
 Update user role in workspace
 
+
+
 ### Example
 
 ```go
@@ -577,7 +593,7 @@ import (
 	"context"
 	"fmt"
 	"os"
-	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+	openapiclient "github.com/postboost-co/postboost-go"
 )
 
 func main() {

@@ -18,6 +18,8 @@ Method | HTTP request | Description
 
 Create tag
 
+
+
 ### Example
 
 ```go
@@ -27,7 +29,7 @@ import (
 	"context"
 	"fmt"
 	"os"
-	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+	openapiclient "github.com/postboost-co/postboost-go"
 )
 
 func main() {
@@ -88,6 +90,8 @@ Name | Type | Description  | Notes
 
 Delete tag
 
+
+
 ### Example
 
 ```go
@@ -97,7 +101,7 @@ import (
 	"context"
 	"fmt"
 	"os"
-	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+	openapiclient "github.com/postboost-co/postboost-go"
 )
 
 func main() {
@@ -159,6 +163,8 @@ Name | Type | Description  | Notes
 
 Get tag
 
+
+
 ### Example
 
 ```go
@@ -168,7 +174,7 @@ import (
 	"context"
 	"fmt"
 	"os"
-	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+	openapiclient "github.com/postboost-co/postboost-go"
 )
 
 func main() {
@@ -230,6 +236,8 @@ Name | Type | Description  | Notes
 
 List tags
 
+
+
 ### Example
 
 ```go
@@ -239,7 +247,7 @@ import (
 	"context"
 	"fmt"
 	"os"
-	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+	openapiclient "github.com/postboost-co/postboost-go"
 )
 
 func main() {
@@ -298,6 +306,8 @@ Name | Type | Description  | Notes
 
 Update tag
 
+
+
 ### Example
 
 ```go
@@ -307,7 +317,7 @@ import (
 	"context"
 	"fmt"
 	"os"
-	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+	openapiclient "github.com/postboost-co/postboost-go"
 )
 
 func main() {

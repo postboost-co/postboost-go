@@ -14,6 +14,8 @@ package postboost
 import (
 	"encoding/json"
 	"time"
+	"bytes"
+	"fmt"
 )
 
 // checks if the Subscription type satisfies the MappedNullable interface at compile time
@@ -21,22 +23,29 @@ var _ MappedNullable = &Subscription{}
 
 // Subscription struct for Subscription
 type Subscription struct {
-	Name *string `json:"name,omitempty"`
-	PlatformSubscriptionId *string `json:"platform_subscription_id,omitempty"`
-	PlatformPlanId *string `json:"platform_plan_id,omitempty"`
-	Status *SubscriptionStatus `json:"status,omitempty"`
-	Recurring *bool `json:"recurring,omitempty"`
+	Name string `json:"name"`
+	PlatformSubscriptionId string `json:"platform_subscription_id"`
+	PlatformPlanId string `json:"platform_plan_id"`
+	Status SubscriptionStatus `json:"status"`
+	Recurring bool `json:"recurring"`
 	TrialEndsAt *time.Time `json:"trial_ends_at,omitempty"`
 	PausedFrom *time.Time `json:"paused_from,omitempty"`
 	EndsAt *time.Time `json:"ends_at,omitempty"`
 }
 
+type _Subscription Subscription
+
 // NewSubscription instantiates a new Subscription object
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewSubscription() *Subscription {
+func NewSubscription(name string, platformSubscriptionId string, platformPlanId string, status SubscriptionStatus, recurring bool) *Subscription {
 	this := Subscription{}
+	this.Name = name
+	this.PlatformSubscriptionId = platformSubscriptionId
+	this.PlatformPlanId = platformPlanId
+	this.Status = status
+	this.Recurring = recurring
 	return &this
 }
 
@@ -48,164 +57,124 @@ func NewSubscriptionWithDefaults() *Subscription {
 	return &this
 }
 
-// GetName returns the Name field value if set, zero value otherwise.
+// GetName returns the Name field value
 func (o *Subscription) GetName() string {
-	if o == nil || IsNil(o.Name) {
+	if o == nil {
 		var ret string
 		return ret
 	}
-	return *o.Name
+
+	return o.Name
 }
 
-// GetNameOk returns a tuple with the Name field value if set, nil otherwise
+// GetNameOk returns a tuple with the Name field value
 // and a boolean to check if the value has been set.
 func (o *Subscription) GetNameOk() (*string, bool) {
-	if o == nil || IsNil(o.Name) {
+	if o == nil {
 		return nil, false
 	}
-	return o.Name, true
+	return &o.Name, true
 }
 
-// HasName returns a boolean if a field has been set.
-func (o *Subscription) HasName() bool {
-	if o != nil && !IsNil(o.Name) {
-		return true
-	}
-
-	return false
-}
-
-// SetName gets a reference to the given string and assigns it to the Name field.
+// SetName sets field value
 func (o *Subscription) SetName(v string) {
-	o.Name = &v
+	o.Name = v
 }
 
-// GetPlatformSubscriptionId returns the PlatformSubscriptionId field value if set, zero value otherwise.
+// GetPlatformSubscriptionId returns the PlatformSubscriptionId field value
 func (o *Subscription) GetPlatformSubscriptionId() string {
-	if o == nil || IsNil(o.PlatformSubscriptionId) {
+	if o == nil {
 		var ret string
 		return ret
 	}
-	return *o.PlatformSubscriptionId
+
+	return o.PlatformSubscriptionId
 }
 
-// GetPlatformSubscriptionIdOk returns a tuple with the PlatformSubscriptionId field value if set, nil otherwise
+// GetPlatformSubscriptionIdOk returns a tuple with the PlatformSubscriptionId field value
 // and a boolean to check if the value has been set.
 func (o *Subscription) GetPlatformSubscriptionIdOk() (*string, bool) {
-	if o == nil || IsNil(o.PlatformSubscriptionId) {
+	if o == nil {
 		return nil, false
 	}
-	return o.PlatformSubscriptionId, true
+	return &o.PlatformSubscriptionId, true
 }
 
-// HasPlatformSubscriptionId returns a boolean if a field has been set.
-func (o *Subscription) HasPlatformSubscriptionId() bool {
-	if o != nil && !IsNil(o.PlatformSubscriptionId) {
-		return true
-	}
-
-	return false
-}
-
-// SetPlatformSubscriptionId gets a reference to the given string and assigns it to the PlatformSubscriptionId field.
+// SetPlatformSubscriptionId sets field value
 func (o *Subscription) SetPlatformSubscriptionId(v string) {
-	o.PlatformSubscriptionId = &v
+	o.PlatformSubscriptionId = v
 }
 
-// GetPlatformPlanId returns the PlatformPlanId field value if set, zero value otherwise.
+// GetPlatformPlanId returns the PlatformPlanId field value
 func (o *Subscription) GetPlatformPlanId() string {
-	if o == nil || IsNil(o.PlatformPlanId) {
+	if o == nil {
 		var ret string
 		return ret
 	}
-	return *o.PlatformPlanId
+
+	return o.PlatformPlanId
 }
 
-// GetPlatformPlanIdOk returns a tuple with the PlatformPlanId field value if set, nil otherwise
+// GetPlatformPlanIdOk returns a tuple with the PlatformPlanId field value
 // and a boolean to check if the value has been set.
 func (o *Subscription) GetPlatformPlanIdOk() (*string, bool) {
-	if o == nil || IsNil(o.PlatformPlanId) {
+	if o == nil {
 		return nil, false
 	}
-	return o.PlatformPlanId, true
+	return &o.PlatformPlanId, true
 }
 
-// HasPlatformPlanId returns a boolean if a field has been set.
-func (o *Subscription) HasPlatformPlanId() bool {
-	if o != nil && !IsNil(o.PlatformPlanId) {
-		return true
-	}
-
-	return false
-}
-
-// SetPlatformPlanId gets a reference to the given string and assigns it to the PlatformPlanId field.
+// SetPlatformPlanId sets field value
 func (o *Subscription) SetPlatformPlanId(v string) {
-	o.PlatformPlanId = &v
+	o.PlatformPlanId = v
 }
 
-// GetStatus returns the Status field value if set, zero value otherwise.
+// GetStatus returns the Status field value
 func (o *Subscription) GetStatus() SubscriptionStatus {
-	if o == nil || IsNil(o.Status) {
+	if o == nil {
 		var ret SubscriptionStatus
 		return ret
 	}
-	return *o.Status
+
+	return o.Status
 }
 
-// GetStatusOk returns a tuple with the Status field value if set, nil otherwise
+// GetStatusOk returns a tuple with the Status field value
 // and a boolean to check if the value has been set.
 func (o *Subscription) GetStatusOk() (*SubscriptionStatus, bool) {
-	if o == nil || IsNil(o.Status) {
+	if o == nil {
 		return nil, false
 	}
-	return o.Status, true
+	return &o.Status, true
 }
 
-// HasStatus returns a boolean if a field has been set.
-func (o *Subscription) HasStatus() bool {
-	if o != nil && !IsNil(o.Status) {
-		return true
-	}
-
-	return false
-}
-
-// SetStatus gets a reference to the given SubscriptionStatus and assigns it to the Status field.
+// SetStatus sets field value
 func (o *Subscription) SetStatus(v SubscriptionStatus) {
-	o.Status = &v
+	o.Status = v
 }
 
-// GetRecurring returns the Recurring field value if set, zero value otherwise.
+// GetRecurring returns the Recurring field value
 func (o *Subscription) GetRecurring() bool {
-	if o == nil || IsNil(o.Recurring) {
+	if o == nil {
 		var ret bool
 		return ret
 	}
-	return *o.Recurring
+
+	return o.Recurring
 }
 
-// GetRecurringOk returns a tuple with the Recurring field value if set, nil otherwise
+// GetRecurringOk returns a tuple with the Recurring field value
 // and a boolean to check if the value has been set.
 func (o *Subscription) GetRecurringOk() (*bool, bool) {
-	if o == nil || IsNil(o.Recurring) {
+	if o == nil {
 		return nil, false
 	}
-	return o.Recurring, true
+	return &o.Recurring, true
 }
 
-// HasRecurring returns a boolean if a field has been set.
-func (o *Subscription) HasRecurring() bool {
-	if o != nil && !IsNil(o.Recurring) {
-		return true
-	}
-
-	return false
-}
-
-// SetRecurring gets a reference to the given bool and assigns it to the Recurring field.
+// SetRecurring sets field value
 func (o *Subscription) SetRecurring(v bool) {
-	o.Recurring = &v
+	o.Recurring = v
 }
 
 // GetTrialEndsAt returns the TrialEndsAt field value if set, zero value otherwise.
@@ -314,21 +283,11 @@ func (o Subscription) MarshalJSON() ([]byte, error) {
 
 func (o Subscription) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
-	if !IsNil(o.Name) {
-		toSerialize["name"] = o.Name
-	}
-	if !IsNil(o.PlatformSubscriptionId) {
-		toSerialize["platform_subscription_id"] = o.PlatformSubscriptionId
-	}
-	if !IsNil(o.PlatformPlanId) {
-		toSerialize["platform_plan_id"] = o.PlatformPlanId
-	}
-	if !IsNil(o.Status) {
-		toSerialize["status"] = o.Status
-	}
-	if !IsNil(o.Recurring) {
-		toSerialize["recurring"] = o.Recurring
-	}
+	toSerialize["name"] = o.Name
+	toSerialize["platform_subscription_id"] = o.PlatformSubscriptionId
+	toSerialize["platform_plan_id"] = o.PlatformPlanId
+	toSerialize["status"] = o.Status
+	toSerialize["recurring"] = o.Recurring
 	if !IsNil(o.TrialEndsAt) {
 		toSerialize["trial_ends_at"] = o.TrialEndsAt
 	}
@@ -339,6 +298,47 @@ func (o Subscription) ToMap() (map[string]interface{}, error) {
 		toSerialize["ends_at"] = o.EndsAt
 	}
 	return toSerialize, nil
+}
+
+func (o *Subscription) UnmarshalJSON(data []byte) (err error) {
+	// This validates that all required properties are included in the JSON object
+	// by unmarshalling the object into a generic map with string keys and checking
+	// that every required field exists as a key in the generic map.
+	requiredProperties := []string{
+		"name",
+		"platform_subscription_id",
+		"platform_plan_id",
+		"status",
+		"recurring",
+	}
+
+	allProperties := make(map[string]interface{})
+
+	err = json.Unmarshal(data, &allProperties)
+
+	if err != nil {
+		return err;
+	}
+
+	for _, requiredProperty := range(requiredProperties) {
+		if _, exists := allProperties[requiredProperty]; !exists {
+			return fmt.Errorf("no value given for required property %v", requiredProperty)
+		}
+	}
+
+	varSubscription := _Subscription{}
+
+	decoder := json.NewDecoder(bytes.NewReader(data))
+	decoder.DisallowUnknownFields()
+	err = decoder.Decode(&varSubscription)
+
+	if err != nil {
+		return err
+	}
+
+	*o = Subscription(varSubscription)
+
+	return err
 }
 
 type NullableSubscription struct {

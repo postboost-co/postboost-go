@@ -14,6 +14,8 @@ package postboost
 import (
 	"encoding/json"
 	"time"
+	"bytes"
+	"fmt"
 )
 
 // checks if the User type satisfies the MappedNullable interface at compile time
@@ -21,20 +23,27 @@ var _ MappedNullable = &User{}
 
 // User struct for User
 type User struct {
-	Id *int32 `json:"id,omitempty"`
-	Name *string `json:"name,omitempty"`
-	Email *string `json:"email,omitempty"`
-	IsAdmin *bool `json:"is_admin,omitempty"`
+	Id int32 `json:"id"`
+	Name string `json:"name"`
+	Email string `json:"email"`
+	IsAdmin bool `json:"is_admin"`
 	EmailVerifiedAt *time.Time `json:"email_verified_at,omitempty"`
-	CreatedAt *time.Time `json:"created_at,omitempty"`
+	CreatedAt time.Time `json:"created_at"`
 }
+
+type _User User
 
 // NewUser instantiates a new User object
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewUser() *User {
+func NewUser(id int32, name string, email string, isAdmin bool, createdAt time.Time) *User {
 	this := User{}
+	this.Id = id
+	this.Name = name
+	this.Email = email
+	this.IsAdmin = isAdmin
+	this.CreatedAt = createdAt
 	return &this
 }
 
@@ -46,132 +55,100 @@ func NewUserWithDefaults() *User {
 	return &this
 }
 
-// GetId returns the Id field value if set, zero value otherwise.
+// GetId returns the Id field value
 func (o *User) GetId() int32 {
-	if o == nil || IsNil(o.Id) {
+	if o == nil {
 		var ret int32
 		return ret
 	}
-	return *o.Id
+
+	return o.Id
 }
 
-// GetIdOk returns a tuple with the Id field value if set, nil otherwise
+// GetIdOk returns a tuple with the Id field value
 // and a boolean to check if the value has been set.
 func (o *User) GetIdOk() (*int32, bool) {
-	if o == nil || IsNil(o.Id) {
+	if o == nil {
 		return nil, false
 	}
-	return o.Id, true
+	return &o.Id, true
 }
 
-// HasId returns a boolean if a field has been set.
-func (o *User) HasId() bool {
-	if o != nil && !IsNil(o.Id) {
-		return true
-	}
-
-	return false
-}
-
-// SetId gets a reference to the given int32 and assigns it to the Id field.
+// SetId sets field value
 func (o *User) SetId(v int32) {
-	o.Id = &v
+	o.Id = v
 }
 
-// GetName returns the Name field value if set, zero value otherwise.
+// GetName returns the Name field value
 func (o *User) GetName() string {
-	if o == nil || IsNil(o.Name) {
+	if o == nil {
 		var ret string
 		return ret
 	}
-	return *o.Name
+
+	return o.Name
 }
 
-// GetNameOk returns a tuple with the Name field value if set, nil otherwise
+// GetNameOk returns a tuple with the Name field value
 // and a boolean to check if the value has been set.
 func (o *User) GetNameOk() (*string, bool) {
-	if o == nil || IsNil(o.Name) {
+	if o == nil {
 		return nil, false
 	}
-	return o.Name, true
+	return &o.Name, true
 }
 
-// HasName returns a boolean if a field has been set.
-func (o *User) HasName() bool {
-	if o != nil && !IsNil(o.Name) {
-		return true
-	}
-
-	return false
-}
-
-// SetName gets a reference to the given string and assigns it to the Name field.
+// SetName sets field value
 func (o *User) SetName(v string) {
-	o.Name = &v
+	o.Name = v
 }
 
-// GetEmail returns the Email field value if set, zero value otherwise.
+// GetEmail returns the Email field value
 func (o *User) GetEmail() string {
-	if o == nil || IsNil(o.Email) {
+	if o == nil {
 		var ret string
 		return ret
 	}
-	return *o.Email
+
+	return o.Email
 }
 
-// GetEmailOk returns a tuple with the Email field value if set, nil otherwise
+// GetEmailOk returns a tuple with the Email field value
 // and a boolean to check if the value has been set.
 func (o *User) GetEmailOk() (*string, bool) {
-	if o == nil || IsNil(o.Email) {
+	if o == nil {
 		return nil, false
 	}
-	return o.Email, true
+	return &o.Email, true
 }
 
-// HasEmail returns a boolean if a field has been set.
-func (o *User) HasEmail() bool {
-	if o != nil && !IsNil(o.Email) {
-		return true
-	}
-
-	return false
-}
-
-// SetEmail gets a reference to the given string and assigns it to the Email field.
+// SetEmail sets field value
 func (o *User) SetEmail(v string) {
-	o.Email = &v
+	o.Email = v
 }
 
-// GetIsAdmin returns the IsAdmin field value if set, zero value otherwise.
+// GetIsAdmin returns the IsAdmin field value
 func (o *User) GetIsAdmin() bool {
-	if o == nil || IsNil(o.IsAdmin) {
+	if o == nil {
 		var ret bool
 		return ret
 	}
-	return *o.IsAdmin
+
+	return o.IsAdmin
 }
 
-// GetIsAdminOk returns a tuple with the IsAdmin field value if set, nil otherwise
+// GetIsAdminOk returns a tuple with the IsAdmin field value
 // and a boolean to check if the value has been set.
 func (o *User) GetIsAdminOk() (*bool, bool) {
-	if o == nil || IsNil(o.IsAdmin) {
+	if o == nil {
 		return nil, false
 	}
-	return o.IsAdmin, true
+	return &o.IsAdmin, true
 }
 
-// HasIsAdmin returns a boolean if a field has been set.
-func (o *User) HasIsAdmin() bool {
-	if o != nil && !IsNil(o.IsAdmin) {
-		return true
-	}
-
-	return false
-}
-
-// SetIsAdmin gets a reference to the given bool and assigns it to the IsAdmin field.
+// SetIsAdmin sets field value
 func (o *User) SetIsAdmin(v bool) {
-	o.IsAdmin = &v
+	o.IsAdmin = v
 }
 
 // GetEmailVerifiedAt returns the EmailVerifiedAt field value if set, zero value otherwise.
@@ -206,36 +183,28 @@ func (o *User) SetEmailVerifiedAt(v time.Time) {
 	o.EmailVerifiedAt = &v
 }
 
-// GetCreatedAt returns the CreatedAt field value if set, zero value otherwise.
+// GetCreatedAt returns the CreatedAt field value
 func (o *User) GetCreatedAt() time.Time {
-	if o == nil || IsNil(o.CreatedAt) {
+	if o == nil {
 		var ret time.Time
 		return ret
 	}
-	return *o.CreatedAt
+
+	return o.CreatedAt
 }
 
-// GetCreatedAtOk returns a tuple with the CreatedAt field value if set, nil otherwise
+// GetCreatedAtOk returns a tuple with the CreatedAt field value
 // and a boolean to check if the value has been set.
 func (o *User) GetCreatedAtOk() (*time.Time, bool) {
-	if o == nil || IsNil(o.CreatedAt) {
+	if o == nil {
 		return nil, false
 	}
-	return o.CreatedAt, true
+	return &o.CreatedAt, true
 }
 
-// HasCreatedAt returns a boolean if a field has been set.
-func (o *User) HasCreatedAt() bool {
-	if o != nil && !IsNil(o.CreatedAt) {
-		return true
-	}
-
-	return false
-}
-
-// SetCreatedAt gets a reference to the given time.Time and assigns it to the CreatedAt field.
+// SetCreatedAt sets field value
 func (o *User) SetCreatedAt(v time.Time) {
-	o.CreatedAt = &v
+	o.CreatedAt = v
 }
 
 func (o User) MarshalJSON() ([]byte, error) {
@@ -248,25 +217,56 @@ func (o User) MarshalJSON() ([]byte, error) {
 
 func (o User) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
-	if !IsNil(o.Id) {
-		toSerialize["id"] = o.Id
-	}
-	if !IsNil(o.Name) {
-		toSerialize["name"] = o.Name
-	}
-	if !IsNil(o.Email) {
-		toSerialize["email"] = o.Email
-	}
-	if !IsNil(o.IsAdmin) {
-		toSerialize["is_admin"] = o.IsAdmin
-	}
+	toSerialize["id"] = o.Id
+	toSerialize["name"] = o.Name
+	toSerialize["email"] = o.Email
+	toSerialize["is_admin"] = o.IsAdmin
 	if !IsNil(o.EmailVerifiedAt) {
 		toSerialize["email_verified_at"] = o.EmailVerifiedAt
 	}
-	if !IsNil(o.CreatedAt) {
-		toSerialize["created_at"] = o.CreatedAt
-	}
+	toSerialize["created_at"] = o.CreatedAt
 	return toSerialize, nil
+}
+
+func (o *User) UnmarshalJSON(data []byte) (err error) {
+	// This validates that all required properties are included in the JSON object
+	// by unmarshalling the object into a generic map with string keys and checking
+	// that every required field exists as a key in the generic map.
+	requiredProperties := []string{
+		"id",
+		"name",
+		"email",
+		"is_admin",
+		"created_at",
+	}
+
+	allProperties := make(map[string]interface{})
+
+	err = json.Unmarshal(data, &allProperties)
+
+	if err != nil {
+		return err;
+	}
+
+	for _, requiredProperty := range(requiredProperties) {
+		if _, exists := allProperties[requiredProperty]; !exists {
+			return fmt.Errorf("no value given for required property %v", requiredProperty)
+		}
+	}
+
+	varUser := _User{}
+
+	decoder := json.NewDecoder(bytes.NewReader(data))
+	decoder.DisallowUnknownFields()
+	err = decoder.Decode(&varUser)
+
+	if err != nil {
+		return err
+	}
+
+	*o = User(varUser)
+
+	return err
 }
 
 type NullableUser struct {

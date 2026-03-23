@@ -4,18 +4,18 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Id** | Pointer to **int32** |  | [optional] 
-**Name** | Pointer to **string** |  | [optional] 
-**Email** | Pointer to **string** |  | [optional] 
-**IsAdmin** | Pointer to **bool** |  | [optional] 
+**Id** | **int32** |  | 
+**Name** | **string** |  | 
+**Email** | **string** |  | 
+**IsAdmin** | **bool** |  | 
 **EmailVerifiedAt** | Pointer to **time.Time** |  | [optional] 
-**CreatedAt** | Pointer to **time.Time** |  | [optional] 
+**CreatedAt** | **time.Time** |  | 
 
 ## Methods
 
 ### NewUser
 
-`func NewUser() *User`
+`func NewUser(id int32, name string, email string, isAdmin bool, createdAt time.Time, ) *User`
 
 NewUser instantiates a new User object
 This constructor will assign default values to properties that have it defined,
@@ -49,11 +49,6 @@ and a boolean to check if the value has been set.
 
 SetId sets Id field to given value.
 
-### HasId
-
-`func (o *User) HasId() bool`
-
-HasId returns a boolean if a field has been set.
 
 ### GetName
 
@@ -74,11 +69,6 @@ and a boolean to check if the value has been set.
 
 SetName sets Name field to given value.
 
-### HasName
-
-`func (o *User) HasName() bool`
-
-HasName returns a boolean if a field has been set.
 
 ### GetEmail
 
@@ -99,11 +89,6 @@ and a boolean to check if the value has been set.
 
 SetEmail sets Email field to given value.
 
-### HasEmail
-
-`func (o *User) HasEmail() bool`
-
-HasEmail returns a boolean if a field has been set.
 
 ### GetIsAdmin
 
@@ -124,11 +109,6 @@ and a boolean to check if the value has been set.
 
 SetIsAdmin sets IsAdmin field to given value.
 
-### HasIsAdmin
-
-`func (o *User) HasIsAdmin() bool`
-
-HasIsAdmin returns a boolean if a field has been set.
 
 ### GetEmailVerifiedAt
 
@@ -174,11 +154,6 @@ and a boolean to check if the value has been set.
 
 SetCreatedAt sets CreatedAt field to given value.
 
-### HasCreatedAt
-
-`func (o *User) HasCreatedAt() bool`
-
-HasCreatedAt returns a boolean if a field has been set.
 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)

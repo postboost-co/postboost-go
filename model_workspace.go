@@ -14,6 +14,8 @@ package postboost
 import (
 	"encoding/json"
 	"time"
+	"bytes"
+	"fmt"
 )
 
 // checks if the Workspace type satisfies the MappedNullable interface at compile time
@@ -21,20 +23,27 @@ var _ MappedNullable = &Workspace{}
 
 // Workspace struct for Workspace
 type Workspace struct {
-	Uuid *string `json:"uuid,omitempty"`
-	Name *string `json:"name,omitempty"`
-	HexColor *string `json:"hex_color,omitempty"`
+	Uuid string `json:"uuid"`
+	Name string `json:"name"`
+	HexColor string `json:"hex_color"`
 	Owner *User `json:"owner,omitempty"`
-	AccessStatus *string `json:"access_status,omitempty"`
-	CreatedAt *time.Time `json:"created_at,omitempty"`
+	AccessStatus string `json:"access_status"`
+	CreatedAt time.Time `json:"created_at"`
 }
+
+type _Workspace Workspace
 
 // NewWorkspace instantiates a new Workspace object
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewWorkspace() *Workspace {
+func NewWorkspace(uuid string, name string, hexColor string, accessStatus string, createdAt time.Time) *Workspace {
 	this := Workspace{}
+	this.Uuid = uuid
+	this.Name = name
+	this.HexColor = hexColor
+	this.AccessStatus = accessStatus
+	this.CreatedAt = createdAt
 	return &this
 }
 
@@ -46,100 +55,76 @@ func NewWorkspaceWithDefaults() *Workspace {
 	return &this
 }
 
-// GetUuid returns the Uuid field value if set, zero value otherwise.
+// GetUuid returns the Uuid field value
 func (o *Workspace) GetUuid() string {
-	if o == nil || IsNil(o.Uuid) {
+	if o == nil {
 		var ret string
 		return ret
 	}
-	return *o.Uuid
+
+	return o.Uuid
 }
 
-// GetUuidOk returns a tuple with the Uuid field value if set, nil otherwise
+// GetUuidOk returns a tuple with the Uuid field value
 // and a boolean to check if the value has been set.
 func (o *Workspace) GetUuidOk() (*string, bool) {
-	if o == nil || IsNil(o.Uuid) {
+	if o == nil {
 		return nil, false
 	}
-	return o.Uuid, true
+	return &o.Uuid, true
 }
 
-// HasUuid returns a boolean if a field has been set.
-func (o *Workspace) HasUuid() bool {
-	if o != nil && !IsNil(o.Uuid) {
-		return true
-	}
-
-	return false
-}
-
-// SetUuid gets a reference to the given string and assigns it to the Uuid field.
+// SetUuid sets field value
 func (o *Workspace) SetUuid(v string) {
-	o.Uuid = &v
+	o.Uuid = v
 }
 
-// GetName returns the Name field value if set, zero value otherwise.
+// GetName returns the Name field value
 func (o *Workspace) GetName() string {
-	if o == nil || IsNil(o.Name) {
+	if o == nil {
 		var ret string
 		return ret
 	}
-	return *o.Name
+
+	return o.Name
 }
 
-// GetNameOk returns a tuple with the Name field value if set, nil otherwise
+// GetNameOk returns a tuple with the Name field value
 // and a boolean to check if the value has been set.
 func (o *Workspace) GetNameOk() (*string, bool) {
-	if o == nil || IsNil(o.Name) {
+	if o == nil {
 		return nil, false
 	}
-	return o.Name, true
+	return &o.Name, true
 }
 
-// HasName returns a boolean if a field has been set.
-func (o *Workspace) HasName() bool {
-	if o != nil && !IsNil(o.Name) {
-		return true
-	}
-
-	return false
-}
-
-// SetName gets a reference to the given string and assigns it to the Name field.
+// SetName sets field value
 func (o *Workspace) SetName(v string) {
-	o.Name = &v
+	o.Name = v
 }
 
-// GetHexColor returns the HexColor field value if set, zero value otherwise.
+// GetHexColor returns the HexColor field value
 func (o *Workspace) GetHexColor() string {
-	if o == nil || IsNil(o.HexColor) {
+	if o == nil {
 		var ret string
 		return ret
 	}
-	return *o.HexColor
+
+	return o.HexColor
 }
 
-// GetHexColorOk returns a tuple with the HexColor field value if set, nil otherwise
+// GetHexColorOk returns a tuple with the HexColor field value
 // and a boolean to check if the value has been set.
 func (o *Workspace) GetHexColorOk() (*string, bool) {
-	if o == nil || IsNil(o.HexColor) {
+	if o == nil {
 		return nil, false
 	}
-	return o.HexColor, true
+	return &o.HexColor, true
 }
 
-// HasHexColor returns a boolean if a field has been set.
-func (o *Workspace) HasHexColor() bool {
-	if o != nil && !IsNil(o.HexColor) {
-		return true
-	}
-
-	return false
-}
-
-// SetHexColor gets a reference to the given string and assigns it to the HexColor field.
+// SetHexColor sets field value
 func (o *Workspace) SetHexColor(v string) {
-	o.HexColor = &v
+	o.HexColor = v
 }
 
 // GetOwner returns the Owner field value if set, zero value otherwise.
@@ -174,68 +159,52 @@ func (o *Workspace) SetOwner(v User) {
 	o.Owner = &v
 }
 
-// GetAccessStatus returns the AccessStatus field value if set, zero value otherwise.
+// GetAccessStatus returns the AccessStatus field value
 func (o *Workspace) GetAccessStatus() string {
-	if o == nil || IsNil(o.AccessStatus) {
+	if o == nil {
 		var ret string
 		return ret
 	}
-	return *o.AccessStatus
+
+	return o.AccessStatus
 }
 
-// GetAccessStatusOk returns a tuple with the AccessStatus field value if set, nil otherwise
+// GetAccessStatusOk returns a tuple with the AccessStatus field value
 // and a boolean to check if the value has been set.
 func (o *Workspace) GetAccessStatusOk() (*string, bool) {
-	if o == nil || IsNil(o.AccessStatus) {
+	if o == nil {
 		return nil, false
 	}
-	return o.AccessStatus, true
+	return &o.AccessStatus, true
 }
 
-// HasAccessStatus returns a boolean if a field has been set.
-func (o *Workspace) HasAccessStatus() bool {
-	if o != nil && !IsNil(o.AccessStatus) {
-		return true
-	}
-
-	return false
-}
-
-// SetAccessStatus gets a reference to the given string and assigns it to the AccessStatus field.
+// SetAccessStatus sets field value
 func (o *Workspace) SetAccessStatus(v string) {
-	o.AccessStatus = &v
+	o.AccessStatus = v
 }
 
-// GetCreatedAt returns the CreatedAt field value if set, zero value otherwise.
+// GetCreatedAt returns the CreatedAt field value
 func (o *Workspace) GetCreatedAt() time.Time {
-	if o == nil || IsNil(o.CreatedAt) {
+	if o == nil {
 		var ret time.Time
 		return ret
 	}
-	return *o.CreatedAt
+
+	return o.CreatedAt
 }
 
-// GetCreatedAtOk returns a tuple with the CreatedAt field value if set, nil otherwise
+// GetCreatedAtOk returns a tuple with the CreatedAt field value
 // and a boolean to check if the value has been set.
 func (o *Workspace) GetCreatedAtOk() (*time.Time, bool) {
-	if o == nil || IsNil(o.CreatedAt) {
+	if o == nil {
 		return nil, false
 	}
-	return o.CreatedAt, true
+	return &o.CreatedAt, true
 }
 
-// HasCreatedAt returns a boolean if a field has been set.
-func (o *Workspace) HasCreatedAt() bool {
-	if o != nil && !IsNil(o.CreatedAt) {
-		return true
-	}
-
-	return false
-}
-
-// SetCreatedAt gets a reference to the given time.Time and assigns it to the CreatedAt field.
+// SetCreatedAt sets field value
 func (o *Workspace) SetCreatedAt(v time.Time) {
-	o.CreatedAt = &v
+	o.CreatedAt = v
 }
 
 func (o Workspace) MarshalJSON() ([]byte, error) {
@@ -248,25 +217,56 @@ func (o Workspace) MarshalJSON() ([]byte, error) {
 
 func (o Workspace) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
-	if !IsNil(o.Uuid) {
-		toSerialize["uuid"] = o.Uuid
-	}
-	if !IsNil(o.Name) {
-		toSerialize["name"] = o.Name
-	}
-	if !IsNil(o.HexColor) {
-		toSerialize["hex_color"] = o.HexColor
-	}
+	toSerialize["uuid"] = o.Uuid
+	toSerialize["name"] = o.Name
+	toSerialize["hex_color"] = o.HexColor
 	if !IsNil(o.Owner) {
 		toSerialize["owner"] = o.Owner
 	}
-	if !IsNil(o.AccessStatus) {
-		toSerialize["access_status"] = o.AccessStatus
-	}
-	if !IsNil(o.CreatedAt) {
-		toSerialize["created_at"] = o.CreatedAt
-	}
+	toSerialize["access_status"] = o.AccessStatus
+	toSerialize["created_at"] = o.CreatedAt
 	return toSerialize, nil
+}
+
+func (o *Workspace) UnmarshalJSON(data []byte) (err error) {
+	// This validates that all required properties are included in the JSON object
+	// by unmarshalling the object into a generic map with string keys and checking
+	// that every required field exists as a key in the generic map.
+	requiredProperties := []string{
+		"uuid",
+		"name",
+		"hex_color",
+		"access_status",
+		"created_at",
+	}
+
+	allProperties := make(map[string]interface{})
+
+	err = json.Unmarshal(data, &allProperties)
+
+	if err != nil {
+		return err;
+	}
+
+	for _, requiredProperty := range(requiredProperties) {
+		if _, exists := allProperties[requiredProperty]; !exists {
+			return fmt.Errorf("no value given for required property %v", requiredProperty)
+		}
+	}
+
+	varWorkspace := _Workspace{}
+
+	decoder := json.NewDecoder(bytes.NewReader(data))
+	decoder.DisallowUnknownFields()
+	err = decoder.Decode(&varWorkspace)
+
+	if err != nil {
+		return err
+	}
+
+	*o = Workspace(varWorkspace)
+
+	return err
 }
 
 type NullableWorkspace struct {

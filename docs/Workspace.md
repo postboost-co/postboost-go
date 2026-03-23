@@ -4,18 +4,18 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Uuid** | Pointer to **string** |  | [optional] 
-**Name** | Pointer to **string** |  | [optional] 
-**HexColor** | Pointer to **string** |  | [optional] 
+**Uuid** | **string** |  | 
+**Name** | **string** |  | 
+**HexColor** | **string** |  | 
 **Owner** | Pointer to [**User**](User.md) |  | [optional] 
-**AccessStatus** | Pointer to **string** |  | [optional] 
-**CreatedAt** | Pointer to **time.Time** |  | [optional] 
+**AccessStatus** | **string** |  | 
+**CreatedAt** | **time.Time** |  | 
 
 ## Methods
 
 ### NewWorkspace
 
-`func NewWorkspace() *Workspace`
+`func NewWorkspace(uuid string, name string, hexColor string, accessStatus string, createdAt time.Time, ) *Workspace`
 
 NewWorkspace instantiates a new Workspace object
 This constructor will assign default values to properties that have it defined,
@@ -49,11 +49,6 @@ and a boolean to check if the value has been set.
 
 SetUuid sets Uuid field to given value.
 
-### HasUuid
-
-`func (o *Workspace) HasUuid() bool`
-
-HasUuid returns a boolean if a field has been set.
 
 ### GetName
 
@@ -74,11 +69,6 @@ and a boolean to check if the value has been set.
 
 SetName sets Name field to given value.
 
-### HasName
-
-`func (o *Workspace) HasName() bool`
-
-HasName returns a boolean if a field has been set.
 
 ### GetHexColor
 
@@ -99,11 +89,6 @@ and a boolean to check if the value has been set.
 
 SetHexColor sets HexColor field to given value.
 
-### HasHexColor
-
-`func (o *Workspace) HasHexColor() bool`
-
-HasHexColor returns a boolean if a field has been set.
 
 ### GetOwner
 
@@ -149,11 +134,6 @@ and a boolean to check if the value has been set.
 
 SetAccessStatus sets AccessStatus field to given value.
 
-### HasAccessStatus
-
-`func (o *Workspace) HasAccessStatus() bool`
-
-HasAccessStatus returns a boolean if a field has been set.
 
 ### GetCreatedAt
 
@@ -174,11 +154,6 @@ and a boolean to check if the value has been set.
 
 SetCreatedAt sets CreatedAt field to given value.
 
-### HasCreatedAt
-
-`func (o *Workspace) HasCreatedAt() bool`
-
-HasCreatedAt returns a boolean if a field has been set.
 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
