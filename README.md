@@ -13,7 +13,7 @@ go get github.com/postboost-co/postboost-go
 | **pkg.go.dev** | [pkg.go.dev/github.com/postboost-co/postboost-go](https://pkg.go.dev/github.com/postboost-co/postboost-go) |
 | **GitHub** | [postboost-co/postboost-go](https://github.com/postboost-co/postboost-go) |
 | **Docs** | [postboost.co/docs/api](https://postboost.co/docs/api) |
-| **Version** | v1.3.0 |
+| **Version** | v1.4.0 |
 
 ## Quick start
 
@@ -35,6 +35,7 @@ All URIs are relative to *https://postboost.co/app/api*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
+*AIAPI* | [**BlogToSocial**](docs/AIAPI.md#blogtosocial) | **Post** /{workspaceUuid}/ai/blog-to-social | Generate social media captions from a blog post
 *AccountsAPI* | [**GetAccount**](docs/AccountsAPI.md#getaccount) | **Get** /{workspaceUuid}/accounts/{accountUuid} | Get account
 *AccountsAPI* | [**ListAccounts**](docs/AccountsAPI.md#listaccounts) | **Get** /{workspaceUuid}/accounts | List accounts
 *MediaAPI* | [**AbortChunkedUpload**](docs/MediaAPI.md#abortchunkedupload) | **Delete** /{workspaceUuid}/media/chunked/{uploadUuid} | Abort chunked upload
