@@ -22,7 +22,7 @@ var _ MappedNullable = &ImageGenerationResponse{}
 
 // ImageGenerationResponse struct for ImageGenerationResponse
 type ImageGenerationResponse struct {
-	Images []GeneratedImageItem `json:"images"`
+	Images []Media `json:"images"`
 	PromptUsed string `json:"prompt_used"`
 	RevisedPrompt *string `json:"revised_prompt,omitempty"`
 	AspectRatio string `json:"aspect_ratio"`
@@ -37,7 +37,7 @@ type _ImageGenerationResponse ImageGenerationResponse
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewImageGenerationResponse(images []GeneratedImageItem, promptUsed string, aspectRatio string, quality string, creditsUsed int32) *ImageGenerationResponse {
+func NewImageGenerationResponse(images []Media, promptUsed string, aspectRatio string, quality string, creditsUsed int32) *ImageGenerationResponse {
 	this := ImageGenerationResponse{}
 	this.Images = images
 	this.PromptUsed = promptUsed
@@ -56,9 +56,9 @@ func NewImageGenerationResponseWithDefaults() *ImageGenerationResponse {
 }
 
 // GetImages returns the Images field value
-func (o *ImageGenerationResponse) GetImages() []GeneratedImageItem {
+func (o *ImageGenerationResponse) GetImages() []Media {
 	if o == nil {
-		var ret []GeneratedImageItem
+		var ret []Media
 		return ret
 	}
 
@@ -67,7 +67,7 @@ func (o *ImageGenerationResponse) GetImages() []GeneratedImageItem {
 
 // GetImagesOk returns a tuple with the Images field value
 // and a boolean to check if the value has been set.
-func (o *ImageGenerationResponse) GetImagesOk() ([]GeneratedImageItem, bool) {
+func (o *ImageGenerationResponse) GetImagesOk() ([]Media, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -75,7 +75,7 @@ func (o *ImageGenerationResponse) GetImagesOk() ([]GeneratedImageItem, bool) {
 }
 
 // SetImages sets field value
-func (o *ImageGenerationResponse) SetImages(v []GeneratedImageItem) {
+func (o *ImageGenerationResponse) SetImages(v []Media) {
 	o.Images = v
 }
 

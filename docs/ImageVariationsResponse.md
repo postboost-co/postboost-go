@@ -4,7 +4,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Images** | [**[]GeneratedImageItem**](GeneratedImageItem.md) |  | 
+**Images** | [**[]Media**](Media.md) |  | 
 **AspectRatio** | **string** |  | 
 **Quality** | **string** |  | 
 **CreditsUsed** | **int32** |  | 
@@ -14,7 +14,7 @@ Name | Type | Description | Notes
 
 ### NewImageVariationsResponse
 
-`func NewImageVariationsResponse(images []GeneratedImageItem, aspectRatio string, quality string, creditsUsed int32, ) *ImageVariationsResponse`
+`func NewImageVariationsResponse(images []Media, aspectRatio string, quality string, creditsUsed int32, ) *ImageVariationsResponse`
 
 NewImageVariationsResponse instantiates a new ImageVariationsResponse object
 This constructor will assign default values to properties that have it defined,
@@ -31,20 +31,20 @@ but it doesn't guarantee that properties required by API are set
 
 ### GetImages
 
-`func (o *ImageVariationsResponse) GetImages() []GeneratedImageItem`
+`func (o *ImageVariationsResponse) GetImages() []Media`
 
 GetImages returns the Images field if non-nil, zero value otherwise.
 
 ### GetImagesOk
 
-`func (o *ImageVariationsResponse) GetImagesOk() (*[]GeneratedImageItem, bool)`
+`func (o *ImageVariationsResponse) GetImagesOk() (*[]Media, bool)`
 
 GetImagesOk returns a tuple with the Images field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetImages
 
-`func (o *ImageVariationsResponse) SetImages(v []GeneratedImageItem)`
+`func (o *ImageVariationsResponse) SetImages(v []Media)`
 
 SetImages sets Images field to given value.
 

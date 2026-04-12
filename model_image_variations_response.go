@@ -22,7 +22,7 @@ var _ MappedNullable = &ImageVariationsResponse{}
 
 // ImageVariationsResponse struct for ImageVariationsResponse
 type ImageVariationsResponse struct {
-	Images []GeneratedImageItem `json:"images"`
+	Images []Media `json:"images"`
 	AspectRatio string `json:"aspect_ratio"`
 	Quality string `json:"quality"`
 	CreditsUsed int32 `json:"credits_used"`
@@ -35,7 +35,7 @@ type _ImageVariationsResponse ImageVariationsResponse
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewImageVariationsResponse(images []GeneratedImageItem, aspectRatio string, quality string, creditsUsed int32) *ImageVariationsResponse {
+func NewImageVariationsResponse(images []Media, aspectRatio string, quality string, creditsUsed int32) *ImageVariationsResponse {
 	this := ImageVariationsResponse{}
 	this.Images = images
 	this.AspectRatio = aspectRatio
@@ -53,9 +53,9 @@ func NewImageVariationsResponseWithDefaults() *ImageVariationsResponse {
 }
 
 // GetImages returns the Images field value
-func (o *ImageVariationsResponse) GetImages() []GeneratedImageItem {
+func (o *ImageVariationsResponse) GetImages() []Media {
 	if o == nil {
-		var ret []GeneratedImageItem
+		var ret []Media
 		return ret
 	}
 
@@ -64,7 +64,7 @@ func (o *ImageVariationsResponse) GetImages() []GeneratedImageItem {
 
 // GetImagesOk returns a tuple with the Images field value
 // and a boolean to check if the value has been set.
-func (o *ImageVariationsResponse) GetImagesOk() ([]GeneratedImageItem, bool) {
+func (o *ImageVariationsResponse) GetImagesOk() ([]Media, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -72,7 +72,7 @@ func (o *ImageVariationsResponse) GetImagesOk() ([]GeneratedImageItem, bool) {
 }
 
 // SetImages sets field value
-func (o *ImageVariationsResponse) SetImages(v []GeneratedImageItem) {
+func (o *ImageVariationsResponse) SetImages(v []Media) {
 	o.Images = v
 }
 
