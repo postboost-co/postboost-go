@@ -1,9 +1,9 @@
 /*
 PostBoost API
 
-The PostBoost REST API lets you publish, schedule, and analyze social media posts across 12+ platforms from a single integration. No OAuth apps to maintain — PostBoost handles platform authorization for you.  ## Base URL All workspace-scoped endpoints are prefixed with `/{workspaceUuid}`. Panel/admin endpoints are prefixed with `/panel`.  ## Authentication All requests require a Bearer token in the `Authorization` header. Generate tokens in your PostBoost dashboard under **Settings → Access Tokens**.  ``` Authorization: Bearer YOUR_API_TOKEN ``` 
+The PostBoost REST API lets you publish, schedule, and analyze social media posts across 12+ platforms from a single integration. No OAuth apps to maintain — PostBoost handles platform authorization for you.  ## Base URL All workspace-scoped endpoints are prefixed with `/{workspaceUuid}`. Panel/admin endpoints are prefixed with `/panel`.  ## Plan access Every workspace-scoped endpoint returns `403` when the workspace's plan does not include API access (capability `api`).  ## Dates and times Post dates and times (`date`, `time`, `accounts_schedule`) are read in the request's `timezone` when one is given, otherwise in the workspace timezone.  ## Authentication All requests require a Bearer token in the `Authorization` header. Generate tokens in your PostBoost dashboard under **Settings → Access Tokens**.  ``` Authorization: Bearer YOUR_API_TOKEN ``` 
 
-API version: 1.0.0
+API version: 1.8.0
 Contact: hi@postboost.co
 */
 
@@ -25,6 +25,8 @@ var _ MappedNullable = &ScheduleResult{}
 type ScheduleResult struct {
 	Success bool `json:"success"`
 	ScheduledAt *time.Time `json:"scheduled_at,omitempty"`
+	// True when the post now waits for approval instead of being scheduled (not returned by approve).
+	NeedsApproval *bool `json:"needs_approval,omitempty"`
 }
 
 type _ScheduleResult ScheduleResult
@@ -103,6 +105,38 @@ func (o *ScheduleResult) SetScheduledAt(v time.Time) {
 	o.ScheduledAt = &v
 }
 
+// GetNeedsApproval returns the NeedsApproval field value if set, zero value otherwise.
+func (o *ScheduleResult) GetNeedsApproval() bool {
+	if o == nil || IsNil(o.NeedsApproval) {
+		var ret bool
+		return ret
+	}
+	return *o.NeedsApproval
+}
+
+// GetNeedsApprovalOk returns a tuple with the NeedsApproval field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *ScheduleResult) GetNeedsApprovalOk() (*bool, bool) {
+	if o == nil || IsNil(o.NeedsApproval) {
+		return nil, false
+	}
+	return o.NeedsApproval, true
+}
+
+// HasNeedsApproval returns a boolean if a field has been set.
+func (o *ScheduleResult) HasNeedsApproval() bool {
+	if o != nil && !IsNil(o.NeedsApproval) {
+		return true
+	}
+
+	return false
+}
+
+// SetNeedsApproval gets a reference to the given bool and assigns it to the NeedsApproval field.
+func (o *ScheduleResult) SetNeedsApproval(v bool) {
+	o.NeedsApproval = &v
+}
+
 func (o ScheduleResult) MarshalJSON() ([]byte, error) {
 	toSerialize,err := o.ToMap()
 	if err != nil {
@@ -116,6 +150,9 @@ func (o ScheduleResult) ToMap() (map[string]interface{}, error) {
 	toSerialize["success"] = o.Success
 	if !IsNil(o.ScheduledAt) {
 		toSerialize["scheduled_at"] = o.ScheduledAt
+	}
+	if !IsNil(o.NeedsApproval) {
+		toSerialize["needs_approval"] = o.NeedsApproval
 	}
 	return toSerialize, nil
 }

@@ -9,6 +9,8 @@ Method | HTTP request | Description
 [**DeleteWorkspace**](WorkspacesAPI.md#DeleteWorkspace) | **Delete** /panel/workspaces/{workspaceUuid} | Delete workspace
 [**DeleteWorkspacesBulk**](WorkspacesAPI.md#DeleteWorkspacesBulk) | **Delete** /panel/workspaces | Delete workspaces (bulk)
 [**GetWorkspace**](WorkspacesAPI.md#GetWorkspace) | **Get** /panel/workspaces/{workspaceUuid} | Get workspace
+[**GetWorkspaceAICredits**](WorkspacesAPI.md#GetWorkspaceAICredits) | **Get** /panel/workspaces/{workspaceUuid}/ai-credits | Get workspace AI credits
+[**ListMyWorkspaces**](WorkspacesAPI.md#ListMyWorkspaces) | **Get** /workspaces | List my workspaces
 [**ListWorkspaces**](WorkspacesAPI.md#ListWorkspaces) | **Get** /panel/workspaces | List workspaces
 [**RemoveUserFromWorkspace**](WorkspacesAPI.md#RemoveUserFromWorkspace) | **Delete** /panel/workspaces/{workspaceUuid}/users | Remove user from workspace
 [**UpdateWorkspace**](WorkspacesAPI.md#UpdateWorkspace) | **Put** /panel/workspaces/{workspaceUuid} | Update workspace
@@ -109,7 +111,7 @@ import (
 )
 
 func main() {
-	workspaceInput := *openapiclient.NewWorkspaceInput("Name_example", "#1d4ed8", "AccessStatus_example") // WorkspaceInput | 
+	workspaceInput := *openapiclient.NewWorkspaceInput("Name_example", "AccessStatus_example") // WorkspaceInput | 
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
@@ -360,6 +362,137 @@ Name | Type | Description  | Notes
 [[Back to README]](../README.md)
 
 
+## GetWorkspaceAICredits
+
+> AICredits GetWorkspaceAICredits(ctx, workspaceUuid).Execute()
+
+Get workspace AI credits
+
+
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/postboost-co/postboost-go"
+)
+
+func main() {
+	workspaceUuid := "38400000-8cf0-11bd-b23e-10b96e4ef00d" // string | UUID of the workspace.
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.WorkspacesAPI.GetWorkspaceAICredits(context.Background(), workspaceUuid).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `WorkspacesAPI.GetWorkspaceAICredits``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `GetWorkspaceAICredits`: AICredits
+	fmt.Fprintf(os.Stdout, "Response from `WorkspacesAPI.GetWorkspaceAICredits`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
+**workspaceUuid** | **string** | UUID of the workspace. | 
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiGetWorkspaceAICreditsRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
+
+### Return type
+
+[**AICredits**](AICredits.md)
+
+### Authorization
+
+[bearerAuth](../README.md#bearerAuth)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## ListMyWorkspaces
+
+> ListMyWorkspaces200Response ListMyWorkspaces(ctx).Execute()
+
+List my workspaces
+
+
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/postboost-co/postboost-go"
+)
+
+func main() {
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.WorkspacesAPI.ListMyWorkspaces(context.Background()).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `WorkspacesAPI.ListMyWorkspaces``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `ListMyWorkspaces`: ListMyWorkspaces200Response
+	fmt.Fprintf(os.Stdout, "Response from `WorkspacesAPI.ListMyWorkspaces`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+This endpoint does not need any parameter.
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiListMyWorkspacesRequest struct via the builder pattern
+
+
+### Return type
+
+[**ListMyWorkspaces200Response**](ListMyWorkspaces200Response.md)
+
+### Authorization
+
+[bearerAuth](../README.md#bearerAuth)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
 ## ListWorkspaces
 
 > ListWorkspaces200Response ListWorkspaces(ctx).Keyword(keyword).SubscriptionStatus(subscriptionStatus).AccessStatus(accessStatus).Page(page).Execute()
@@ -526,7 +659,7 @@ import (
 
 func main() {
 	workspaceUuid := "38400000-8cf0-11bd-b23e-10b96e4ef00d" // string | UUID of the workspace.
-	workspaceInput := *openapiclient.NewWorkspaceInput("Name_example", "#1d4ed8", "AccessStatus_example") // WorkspaceInput | 
+	workspaceInput := *openapiclient.NewWorkspaceInput("Name_example", "AccessStatus_example") // WorkspaceInput | 
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)

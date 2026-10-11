@@ -1,9 +1,9 @@
 /*
 PostBoost API
 
-The PostBoost REST API lets you publish, schedule, and analyze social media posts across 12+ platforms from a single integration. No OAuth apps to maintain — PostBoost handles platform authorization for you.  ## Base URL All workspace-scoped endpoints are prefixed with `/{workspaceUuid}`. Panel/admin endpoints are prefixed with `/panel`.  ## Authentication All requests require a Bearer token in the `Authorization` header. Generate tokens in your PostBoost dashboard under **Settings → Access Tokens**.  ``` Authorization: Bearer YOUR_API_TOKEN ``` 
+The PostBoost REST API lets you publish, schedule, and analyze social media posts across 12+ platforms from a single integration. No OAuth apps to maintain — PostBoost handles platform authorization for you.  ## Base URL All workspace-scoped endpoints are prefixed with `/{workspaceUuid}`. Panel/admin endpoints are prefixed with `/panel`.  ## Plan access Every workspace-scoped endpoint returns `403` when the workspace's plan does not include API access (capability `api`).  ## Dates and times Post dates and times (`date`, `time`, `accounts_schedule`) are read in the request's `timezone` when one is given, otherwise in the workspace timezone.  ## Authentication All requests require a Bearer token in the `Authorization` header. Generate tokens in your PostBoost dashboard under **Settings → Access Tokens**.  ``` Authorization: Bearer YOUR_API_TOKEN ``` 
 
-API version: 1.0.0
+API version: 1.8.0
 Contact: hi@postboost.co
 */
 
@@ -25,7 +25,11 @@ var _ MappedNullable = &Workspace{}
 type Workspace struct {
 	Uuid string `json:"uuid"`
 	Name string `json:"name"`
-	HexColor string `json:"hex_color"`
+	// Deprecated. Workspaces no longer have a colour (workspaces now use `avatar`); the API returns the constant `4f46e5` so existing clients keep working. Will be removed in API v2.
+	// Deprecated
+	HexColor *string `json:"hex_color,omitempty"`
+	// URL of the workspace avatar, or null when none is set. Supersedes `hex_color`.
+	Avatar *string `json:"avatar,omitempty"`
 	Owner *User `json:"owner,omitempty"`
 	AccessStatus string `json:"access_status"`
 	CreatedAt time.Time `json:"created_at"`
@@ -37,11 +41,10 @@ type _Workspace Workspace
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewWorkspace(uuid string, name string, hexColor string, accessStatus string, createdAt time.Time) *Workspace {
+func NewWorkspace(uuid string, name string, accessStatus string, createdAt time.Time) *Workspace {
 	this := Workspace{}
 	this.Uuid = uuid
 	this.Name = name
-	this.HexColor = hexColor
 	this.AccessStatus = accessStatus
 	this.CreatedAt = createdAt
 	return &this
@@ -103,28 +106,71 @@ func (o *Workspace) SetName(v string) {
 	o.Name = v
 }
 
-// GetHexColor returns the HexColor field value
+// GetHexColor returns the HexColor field value if set, zero value otherwise.
+// Deprecated
 func (o *Workspace) GetHexColor() string {
-	if o == nil {
+	if o == nil || IsNil(o.HexColor) {
 		var ret string
 		return ret
 	}
-
-	return o.HexColor
+	return *o.HexColor
 }
 
-// GetHexColorOk returns a tuple with the HexColor field value
+// GetHexColorOk returns a tuple with the HexColor field value if set, nil otherwise
 // and a boolean to check if the value has been set.
+// Deprecated
 func (o *Workspace) GetHexColorOk() (*string, bool) {
-	if o == nil {
+	if o == nil || IsNil(o.HexColor) {
 		return nil, false
 	}
-	return &o.HexColor, true
+	return o.HexColor, true
 }
 
-// SetHexColor sets field value
+// HasHexColor returns a boolean if a field has been set.
+func (o *Workspace) HasHexColor() bool {
+	if o != nil && !IsNil(o.HexColor) {
+		return true
+	}
+
+	return false
+}
+
+// SetHexColor gets a reference to the given string and assigns it to the HexColor field.
+// Deprecated
 func (o *Workspace) SetHexColor(v string) {
-	o.HexColor = v
+	o.HexColor = &v
+}
+
+// GetAvatar returns the Avatar field value if set, zero value otherwise.
+func (o *Workspace) GetAvatar() string {
+	if o == nil || IsNil(o.Avatar) {
+		var ret string
+		return ret
+	}
+	return *o.Avatar
+}
+
+// GetAvatarOk returns a tuple with the Avatar field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *Workspace) GetAvatarOk() (*string, bool) {
+	if o == nil || IsNil(o.Avatar) {
+		return nil, false
+	}
+	return o.Avatar, true
+}
+
+// HasAvatar returns a boolean if a field has been set.
+func (o *Workspace) HasAvatar() bool {
+	if o != nil && !IsNil(o.Avatar) {
+		return true
+	}
+
+	return false
+}
+
+// SetAvatar gets a reference to the given string and assigns it to the Avatar field.
+func (o *Workspace) SetAvatar(v string) {
+	o.Avatar = &v
 }
 
 // GetOwner returns the Owner field value if set, zero value otherwise.
@@ -219,7 +265,12 @@ func (o Workspace) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["uuid"] = o.Uuid
 	toSerialize["name"] = o.Name
-	toSerialize["hex_color"] = o.HexColor
+	if !IsNil(o.HexColor) {
+		toSerialize["hex_color"] = o.HexColor
+	}
+	if !IsNil(o.Avatar) {
+		toSerialize["avatar"] = o.Avatar
+	}
 	if !IsNil(o.Owner) {
 		toSerialize["owner"] = o.Owner
 	}
@@ -235,7 +286,6 @@ func (o *Workspace) UnmarshalJSON(data []byte) (err error) {
 	requiredProperties := []string{
 		"uuid",
 		"name",
-		"hex_color",
 		"access_status",
 		"created_at",
 	}

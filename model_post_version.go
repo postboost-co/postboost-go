@@ -1,9 +1,9 @@
 /*
 PostBoost API
 
-The PostBoost REST API lets you publish, schedule, and analyze social media posts across 12+ platforms from a single integration. No OAuth apps to maintain — PostBoost handles platform authorization for you.  ## Base URL All workspace-scoped endpoints are prefixed with `/{workspaceUuid}`. Panel/admin endpoints are prefixed with `/panel`.  ## Authentication All requests require a Bearer token in the `Authorization` header. Generate tokens in your PostBoost dashboard under **Settings → Access Tokens**.  ``` Authorization: Bearer YOUR_API_TOKEN ``` 
+The PostBoost REST API lets you publish, schedule, and analyze social media posts across 12+ platforms from a single integration. No OAuth apps to maintain — PostBoost handles platform authorization for you.  ## Base URL All workspace-scoped endpoints are prefixed with `/{workspaceUuid}`. Panel/admin endpoints are prefixed with `/panel`.  ## Plan access Every workspace-scoped endpoint returns `403` when the workspace's plan does not include API access (capability `api`).  ## Dates and times Post dates and times (`date`, `time`, `accounts_schedule`) are read in the request's `timezone` when one is given, otherwise in the workspace timezone.  ## Authentication All requests require a Bearer token in the `Authorization` header. Generate tokens in your PostBoost dashboard under **Settings → Access Tokens**.  ``` Authorization: Bearer YOUR_API_TOKEN ``` 
 
-API version: 1.0.0
+API version: 1.8.0
 Contact: hi@postboost.co
 */
 
@@ -26,6 +26,8 @@ type PostVersion struct {
 	AccountId int32 `json:"account_id"`
 	// Must be `true` for the first version.
 	IsOriginal bool `json:"is_original"`
+	// Account ID of the version this version follows (`0` = the original), or null when it is edited independently. Ignored on the original version.
+	SyncedWith *int32 `json:"synced_with,omitempty"`
 	Content []PostContent `json:"content"`
 	// Platform-specific publishing options.
 	Options map[string]interface{} `json:"options,omitempty"`
@@ -101,6 +103,38 @@ func (o *PostVersion) SetIsOriginal(v bool) {
 	o.IsOriginal = v
 }
 
+// GetSyncedWith returns the SyncedWith field value if set, zero value otherwise.
+func (o *PostVersion) GetSyncedWith() int32 {
+	if o == nil || IsNil(o.SyncedWith) {
+		var ret int32
+		return ret
+	}
+	return *o.SyncedWith
+}
+
+// GetSyncedWithOk returns a tuple with the SyncedWith field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *PostVersion) GetSyncedWithOk() (*int32, bool) {
+	if o == nil || IsNil(o.SyncedWith) {
+		return nil, false
+	}
+	return o.SyncedWith, true
+}
+
+// HasSyncedWith returns a boolean if a field has been set.
+func (o *PostVersion) HasSyncedWith() bool {
+	if o != nil && !IsNil(o.SyncedWith) {
+		return true
+	}
+
+	return false
+}
+
+// SetSyncedWith gets a reference to the given int32 and assigns it to the SyncedWith field.
+func (o *PostVersion) SetSyncedWith(v int32) {
+	o.SyncedWith = &v
+}
+
 // GetContent returns the Content field value
 func (o *PostVersion) GetContent() []PostContent {
 	if o == nil {
@@ -169,6 +203,9 @@ func (o PostVersion) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["account_id"] = o.AccountId
 	toSerialize["is_original"] = o.IsOriginal
+	if !IsNil(o.SyncedWith) {
+		toSerialize["synced_with"] = o.SyncedWith
+	}
 	toSerialize["content"] = o.Content
 	if !IsNil(o.Options) {
 		toSerialize["options"] = o.Options

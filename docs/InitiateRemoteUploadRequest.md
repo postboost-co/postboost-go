@@ -6,6 +6,7 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Url** | **string** | URL of the remote file to download. | 
 **AltText** | Pointer to **string** |  | [optional] 
+**Folder** | Pointer to **string** | UUID of the media folder to file the item in. Omit or null for the library root. | [optional] 
 
 ## Methods
 
@@ -70,6 +71,31 @@ SetAltText sets AltText field to given value.
 `func (o *InitiateRemoteUploadRequest) HasAltText() bool`
 
 HasAltText returns a boolean if a field has been set.
+
+### GetFolder
+
+`func (o *InitiateRemoteUploadRequest) GetFolder() string`
+
+GetFolder returns the Folder field if non-nil, zero value otherwise.
+
+### GetFolderOk
+
+`func (o *InitiateRemoteUploadRequest) GetFolderOk() (*string, bool)`
+
+GetFolderOk returns a tuple with the Folder field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetFolder
+
+`func (o *InitiateRemoteUploadRequest) SetFolder(v string)`
+
+SetFolder sets Folder field to given value.
+
+### HasFolder
+
+`func (o *InitiateRemoteUploadRequest) HasFolder() bool`
+
+HasFolder returns a boolean if a field has been set.
 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)

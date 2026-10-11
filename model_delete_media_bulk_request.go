@@ -1,9 +1,9 @@
 /*
 PostBoost API
 
-The PostBoost REST API lets you publish, schedule, and analyze social media posts across 12+ platforms from a single integration. No OAuth apps to maintain — PostBoost handles platform authorization for you.  ## Base URL All workspace-scoped endpoints are prefixed with `/{workspaceUuid}`. Panel/admin endpoints are prefixed with `/panel`.  ## Authentication All requests require a Bearer token in the `Authorization` header. Generate tokens in your PostBoost dashboard under **Settings → Access Tokens**.  ``` Authorization: Bearer YOUR_API_TOKEN ``` 
+The PostBoost REST API lets you publish, schedule, and analyze social media posts across 12+ platforms from a single integration. No OAuth apps to maintain — PostBoost handles platform authorization for you.  ## Base URL All workspace-scoped endpoints are prefixed with `/{workspaceUuid}`. Panel/admin endpoints are prefixed with `/panel`.  ## Plan access Every workspace-scoped endpoint returns `403` when the workspace's plan does not include API access (capability `api`).  ## Dates and times Post dates and times (`date`, `time`, `accounts_schedule`) are read in the request's `timezone` when one is given, otherwise in the workspace timezone.  ## Authentication All requests require a Bearer token in the `Authorization` header. Generate tokens in your PostBoost dashboard under **Settings → Access Tokens**.  ``` Authorization: Bearer YOUR_API_TOKEN ``` 
 
-API version: 1.0.0
+API version: 1.8.0
 Contact: hi@postboost.co
 */
 
@@ -22,8 +22,8 @@ var _ MappedNullable = &DeleteMediaBulkRequest{}
 
 // DeleteMediaBulkRequest struct for DeleteMediaBulkRequest
 type DeleteMediaBulkRequest struct {
-	// Array of media IDs to delete.
-	Items []int32 `json:"items"`
+	// Array of media IDs or UUIDs to delete.
+	Items []DeleteMediaBulkRequestItemsInner `json:"items"`
 }
 
 type _DeleteMediaBulkRequest DeleteMediaBulkRequest
@@ -32,7 +32,7 @@ type _DeleteMediaBulkRequest DeleteMediaBulkRequest
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewDeleteMediaBulkRequest(items []int32) *DeleteMediaBulkRequest {
+func NewDeleteMediaBulkRequest(items []DeleteMediaBulkRequestItemsInner) *DeleteMediaBulkRequest {
 	this := DeleteMediaBulkRequest{}
 	this.Items = items
 	return &this
@@ -47,9 +47,9 @@ func NewDeleteMediaBulkRequestWithDefaults() *DeleteMediaBulkRequest {
 }
 
 // GetItems returns the Items field value
-func (o *DeleteMediaBulkRequest) GetItems() []int32 {
+func (o *DeleteMediaBulkRequest) GetItems() []DeleteMediaBulkRequestItemsInner {
 	if o == nil {
-		var ret []int32
+		var ret []DeleteMediaBulkRequestItemsInner
 		return ret
 	}
 
@@ -58,7 +58,7 @@ func (o *DeleteMediaBulkRequest) GetItems() []int32 {
 
 // GetItemsOk returns a tuple with the Items field value
 // and a boolean to check if the value has been set.
-func (o *DeleteMediaBulkRequest) GetItemsOk() ([]int32, bool) {
+func (o *DeleteMediaBulkRequest) GetItemsOk() ([]DeleteMediaBulkRequestItemsInner, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -66,7 +66,7 @@ func (o *DeleteMediaBulkRequest) GetItemsOk() ([]int32, bool) {
 }
 
 // SetItems sets field value
-func (o *DeleteMediaBulkRequest) SetItems(v []int32) {
+func (o *DeleteMediaBulkRequest) SetItems(v []DeleteMediaBulkRequestItemsInner) {
 	o.Items = v
 }
 

@@ -1,9 +1,9 @@
 /*
 PostBoost API
 
-The PostBoost REST API lets you publish, schedule, and analyze social media posts across 12+ platforms from a single integration. No OAuth apps to maintain — PostBoost handles platform authorization for you.  ## Base URL All workspace-scoped endpoints are prefixed with `/{workspaceUuid}`. Panel/admin endpoints are prefixed with `/panel`.  ## Authentication All requests require a Bearer token in the `Authorization` header. Generate tokens in your PostBoost dashboard under **Settings → Access Tokens**.  ``` Authorization: Bearer YOUR_API_TOKEN ``` 
+The PostBoost REST API lets you publish, schedule, and analyze social media posts across 12+ platforms from a single integration. No OAuth apps to maintain — PostBoost handles platform authorization for you.  ## Base URL All workspace-scoped endpoints are prefixed with `/{workspaceUuid}`. Panel/admin endpoints are prefixed with `/panel`.  ## Plan access Every workspace-scoped endpoint returns `403` when the workspace's plan does not include API access (capability `api`).  ## Dates and times Post dates and times (`date`, `time`, `accounts_schedule`) are read in the request's `timezone` when one is given, otherwise in the workspace timezone.  ## Authentication All requests require a Bearer token in the `Authorization` header. Generate tokens in your PostBoost dashboard under **Settings → Access Tokens**.  ``` Authorization: Bearer YOUR_API_TOKEN ``` 
 
-API version: 1.0.0
+API version: 1.8.0
 Contact: hi@postboost.co
 */
 
@@ -25,6 +25,8 @@ type InitiateRemoteUploadRequest struct {
 	// URL of the remote file to download.
 	Url string `json:"url"`
 	AltText *string `json:"alt_text,omitempty"`
+	// UUID of the media folder to file the item in. Omit or null for the library root.
+	Folder *string `json:"folder,omitempty"`
 }
 
 type _InitiateRemoteUploadRequest InitiateRemoteUploadRequest
@@ -103,6 +105,38 @@ func (o *InitiateRemoteUploadRequest) SetAltText(v string) {
 	o.AltText = &v
 }
 
+// GetFolder returns the Folder field value if set, zero value otherwise.
+func (o *InitiateRemoteUploadRequest) GetFolder() string {
+	if o == nil || IsNil(o.Folder) {
+		var ret string
+		return ret
+	}
+	return *o.Folder
+}
+
+// GetFolderOk returns a tuple with the Folder field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *InitiateRemoteUploadRequest) GetFolderOk() (*string, bool) {
+	if o == nil || IsNil(o.Folder) {
+		return nil, false
+	}
+	return o.Folder, true
+}
+
+// HasFolder returns a boolean if a field has been set.
+func (o *InitiateRemoteUploadRequest) HasFolder() bool {
+	if o != nil && !IsNil(o.Folder) {
+		return true
+	}
+
+	return false
+}
+
+// SetFolder gets a reference to the given string and assigns it to the Folder field.
+func (o *InitiateRemoteUploadRequest) SetFolder(v string) {
+	o.Folder = &v
+}
+
 func (o InitiateRemoteUploadRequest) MarshalJSON() ([]byte, error) {
 	toSerialize,err := o.ToMap()
 	if err != nil {
@@ -116,6 +150,9 @@ func (o InitiateRemoteUploadRequest) ToMap() (map[string]interface{}, error) {
 	toSerialize["url"] = o.Url
 	if !IsNil(o.AltText) {
 		toSerialize["alt_text"] = o.AltText
+	}
+	if !IsNil(o.Folder) {
+		toSerialize["folder"] = o.Folder
 	}
 	return toSerialize, nil
 }

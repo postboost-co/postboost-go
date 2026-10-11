@@ -1,9 +1,9 @@
 /*
 PostBoost API
 
-The PostBoost REST API lets you publish, schedule, and analyze social media posts across 12+ platforms from a single integration. No OAuth apps to maintain — PostBoost handles platform authorization for you.  ## Base URL All workspace-scoped endpoints are prefixed with `/{workspaceUuid}`. Panel/admin endpoints are prefixed with `/panel`.  ## Authentication All requests require a Bearer token in the `Authorization` header. Generate tokens in your PostBoost dashboard under **Settings → Access Tokens**.  ``` Authorization: Bearer YOUR_API_TOKEN ``` 
+The PostBoost REST API lets you publish, schedule, and analyze social media posts across 12+ platforms from a single integration. No OAuth apps to maintain — PostBoost handles platform authorization for you.  ## Base URL All workspace-scoped endpoints are prefixed with `/{workspaceUuid}`. Panel/admin endpoints are prefixed with `/panel`.  ## Plan access Every workspace-scoped endpoint returns `403` when the workspace's plan does not include API access (capability `api`).  ## Dates and times Post dates and times (`date`, `time`, `accounts_schedule`) are read in the request's `timezone` when one is given, otherwise in the workspace timezone.  ## Authentication All requests require a Bearer token in the `Authorization` header. Generate tokens in your PostBoost dashboard under **Settings → Access Tokens**.  ``` Authorization: Bearer YOUR_API_TOKEN ``` 
 
-API version: 1.0.0
+API version: 1.8.0
 Contact: hi@postboost.co
 */
 
@@ -18,6 +18,7 @@ import (
 	"net/http"
 	"net/url"
 	"strings"
+	"reflect"
 )
 
 
@@ -167,6 +168,34 @@ type ApiListAccountsRequest struct {
 	ctx context.Context
 	ApiService *AccountsAPIService
 	workspaceUuid string
+	keyword *string
+	group *string
+	providers *[]string
+	unauthorized *bool
+}
+
+// Match the account name or username.
+func (r ApiListAccountsRequest) Keyword(keyword string) ApiListAccountsRequest {
+	r.keyword = &keyword
+	return r
+}
+
+// Only accounts in this account group.
+func (r ApiListAccountsRequest) Group(group string) ApiListAccountsRequest {
+	r.group = &group
+	return r
+}
+
+// Only accounts of these providers (for example &#x60;instagram&#x60;, &#x60;linkedin&#x60;).
+func (r ApiListAccountsRequest) Providers(providers []string) ApiListAccountsRequest {
+	r.providers = &providers
+	return r
+}
+
+// When &#x60;true&#x60;, only accounts that need to be reconnected.
+func (r ApiListAccountsRequest) Unauthorized(unauthorized bool) ApiListAccountsRequest {
+	r.unauthorized = &unauthorized
+	return r
 }
 
 func (r ApiListAccountsRequest) Execute() (*ListAccounts200Response, *http.Response, error) {
@@ -176,7 +205,7 @@ func (r ApiListAccountsRequest) Execute() (*ListAccounts200Response, *http.Respo
 /*
 ListAccounts List accounts
 
-Returns all social media accounts connected to the workspace.
+Returns all social media accounts connected to the workspace, newest first. Optional filters narrow the list.
 
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @param workspaceUuid UUID of the workspace.
@@ -212,6 +241,26 @@ func (a *AccountsAPIService) ListAccountsExecute(r ApiListAccountsRequest) (*Lis
 	localVarQueryParams := url.Values{}
 	localVarFormParams := url.Values{}
 
+	if r.keyword != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "keyword", r.keyword, "form", "")
+	}
+	if r.group != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "group", r.group, "form", "")
+	}
+	if r.providers != nil {
+		t := *r.providers
+		if reflect.TypeOf(t).Kind() == reflect.Slice {
+			s := reflect.ValueOf(t)
+			for i := 0; i < s.Len(); i++ {
+				parameterAddToHeaderOrQuery(localVarQueryParams, "providers[]", s.Index(i).Interface(), "form", "multi")
+			}
+		} else {
+			parameterAddToHeaderOrQuery(localVarQueryParams, "providers[]", t, "form", "multi")
+		}
+	}
+	if r.unauthorized != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "unauthorized", r.unauthorized, "form", "")
+	}
 	// to determine the Content-Type header
 	localVarHTTPContentTypes := []string{}
 

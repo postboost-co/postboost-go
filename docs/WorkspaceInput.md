@@ -5,7 +5,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Name** | **string** |  | 
-**HexColor** | **string** |  | 
+**HexColor** | Pointer to **string** | Ignored since v2.0; kept for backward compatibility | [optional] 
 **OwnerId** | Pointer to **int32** |  | [optional] 
 **AccessStatus** | **string** |  | 
 
@@ -13,7 +13,7 @@ Name | Type | Description | Notes
 
 ### NewWorkspaceInput
 
-`func NewWorkspaceInput(name string, hexColor string, accessStatus string, ) *WorkspaceInput`
+`func NewWorkspaceInput(name string, accessStatus string, ) *WorkspaceInput`
 
 NewWorkspaceInput instantiates a new WorkspaceInput object
 This constructor will assign default values to properties that have it defined,
@@ -67,6 +67,11 @@ and a boolean to check if the value has been set.
 
 SetHexColor sets HexColor field to given value.
 
+### HasHexColor
+
+`func (o *WorkspaceInput) HasHexColor() bool`
+
+HasHexColor returns a boolean if a field has been set.
 
 ### GetOwnerId
 

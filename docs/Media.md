@@ -12,6 +12,13 @@ Name | Type | Description | Notes
 **Url** | **string** |  | 
 **ThumbUrl** | Pointer to **string** |  | [optional] 
 **IsVideo** | **bool** |  | 
+**IsProcessing** | Pointer to **bool** | True while an uploaded video is still being converted. | [optional] 
+**Width** | Pointer to **int32** | Width in pixels, when stored. | [optional] 
+**Height** | Pointer to **int32** | Height in pixels, when stored. | [optional] 
+**DurationMs** | Pointer to **int32** | Video duration in milliseconds; null for images or videos not read yet. | [optional] 
+**Size** | Pointer to **int32** | File size in bytes. | [optional] 
+**AltText** | Pointer to **string** |  | [optional] 
+**Folder** | Pointer to [**NullableMediaFolderRef**](MediaFolderRef.md) |  | [optional] 
 **CreatedAt** | **time.Time** |  | 
 
 ## Methods
@@ -198,6 +205,191 @@ and a boolean to check if the value has been set.
 SetIsVideo sets IsVideo field to given value.
 
 
+### GetIsProcessing
+
+`func (o *Media) GetIsProcessing() bool`
+
+GetIsProcessing returns the IsProcessing field if non-nil, zero value otherwise.
+
+### GetIsProcessingOk
+
+`func (o *Media) GetIsProcessingOk() (*bool, bool)`
+
+GetIsProcessingOk returns a tuple with the IsProcessing field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetIsProcessing
+
+`func (o *Media) SetIsProcessing(v bool)`
+
+SetIsProcessing sets IsProcessing field to given value.
+
+### HasIsProcessing
+
+`func (o *Media) HasIsProcessing() bool`
+
+HasIsProcessing returns a boolean if a field has been set.
+
+### GetWidth
+
+`func (o *Media) GetWidth() int32`
+
+GetWidth returns the Width field if non-nil, zero value otherwise.
+
+### GetWidthOk
+
+`func (o *Media) GetWidthOk() (*int32, bool)`
+
+GetWidthOk returns a tuple with the Width field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetWidth
+
+`func (o *Media) SetWidth(v int32)`
+
+SetWidth sets Width field to given value.
+
+### HasWidth
+
+`func (o *Media) HasWidth() bool`
+
+HasWidth returns a boolean if a field has been set.
+
+### GetHeight
+
+`func (o *Media) GetHeight() int32`
+
+GetHeight returns the Height field if non-nil, zero value otherwise.
+
+### GetHeightOk
+
+`func (o *Media) GetHeightOk() (*int32, bool)`
+
+GetHeightOk returns a tuple with the Height field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetHeight
+
+`func (o *Media) SetHeight(v int32)`
+
+SetHeight sets Height field to given value.
+
+### HasHeight
+
+`func (o *Media) HasHeight() bool`
+
+HasHeight returns a boolean if a field has been set.
+
+### GetDurationMs
+
+`func (o *Media) GetDurationMs() int32`
+
+GetDurationMs returns the DurationMs field if non-nil, zero value otherwise.
+
+### GetDurationMsOk
+
+`func (o *Media) GetDurationMsOk() (*int32, bool)`
+
+GetDurationMsOk returns a tuple with the DurationMs field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetDurationMs
+
+`func (o *Media) SetDurationMs(v int32)`
+
+SetDurationMs sets DurationMs field to given value.
+
+### HasDurationMs
+
+`func (o *Media) HasDurationMs() bool`
+
+HasDurationMs returns a boolean if a field has been set.
+
+### GetSize
+
+`func (o *Media) GetSize() int32`
+
+GetSize returns the Size field if non-nil, zero value otherwise.
+
+### GetSizeOk
+
+`func (o *Media) GetSizeOk() (*int32, bool)`
+
+GetSizeOk returns a tuple with the Size field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetSize
+
+`func (o *Media) SetSize(v int32)`
+
+SetSize sets Size field to given value.
+
+### HasSize
+
+`func (o *Media) HasSize() bool`
+
+HasSize returns a boolean if a field has been set.
+
+### GetAltText
+
+`func (o *Media) GetAltText() string`
+
+GetAltText returns the AltText field if non-nil, zero value otherwise.
+
+### GetAltTextOk
+
+`func (o *Media) GetAltTextOk() (*string, bool)`
+
+GetAltTextOk returns a tuple with the AltText field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetAltText
+
+`func (o *Media) SetAltText(v string)`
+
+SetAltText sets AltText field to given value.
+
+### HasAltText
+
+`func (o *Media) HasAltText() bool`
+
+HasAltText returns a boolean if a field has been set.
+
+### GetFolder
+
+`func (o *Media) GetFolder() MediaFolderRef`
+
+GetFolder returns the Folder field if non-nil, zero value otherwise.
+
+### GetFolderOk
+
+`func (o *Media) GetFolderOk() (*MediaFolderRef, bool)`
+
+GetFolderOk returns a tuple with the Folder field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetFolder
+
+`func (o *Media) SetFolder(v MediaFolderRef)`
+
+SetFolder sets Folder field to given value.
+
+### HasFolder
+
+`func (o *Media) HasFolder() bool`
+
+HasFolder returns a boolean if a field has been set.
+
+### SetFolderNil
+
+`func (o *Media) SetFolderNil(b bool)`
+
+ SetFolderNil sets the value for Folder to be an explicit nil
+
+### UnsetFolder
+`func (o *Media) UnsetFolder()`
+
+UnsetFolder ensures that no value is present for Folder, not even an explicit nil
 ### GetCreatedAt
 
 `func (o *Media) GetCreatedAt() time.Time`

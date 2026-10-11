@@ -6,13 +6,17 @@ Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**AbortChunkedUpload**](MediaAPI.md#AbortChunkedUpload) | **Delete** /{workspaceUuid}/media/chunked/{uploadUuid} | Abort chunked upload
 [**CompleteChunkedUpload**](MediaAPI.md#CompleteChunkedUpload) | **Post** /{workspaceUuid}/media/chunked/{uploadUuid}/complete | Complete chunked upload
+[**CreateMediaFolder**](MediaAPI.md#CreateMediaFolder) | **Post** /{workspaceUuid}/media/folders | Create media folder
 [**DeleteMediaBulk**](MediaAPI.md#DeleteMediaBulk) | **Delete** /{workspaceUuid}/media | Delete media (bulk)
+[**DeleteMediaFolder**](MediaAPI.md#DeleteMediaFolder) | **Delete** /{workspaceUuid}/media/folders/{folderUuid} | Delete media folder
 [**GetMedia**](MediaAPI.md#GetMedia) | **Get** /{workspaceUuid}/media/{mediaUuid} | Get media
 [**GetRemoteUploadStatus**](MediaAPI.md#GetRemoteUploadStatus) | **Get** /{workspaceUuid}/media/remote/{downloadId}/status | Get remote upload status
 [**InitiateChunkedUpload**](MediaAPI.md#InitiateChunkedUpload) | **Post** /{workspaceUuid}/media/chunked/initiate | Initiate chunked upload
 [**InitiateRemoteUpload**](MediaAPI.md#InitiateRemoteUpload) | **Post** /{workspaceUuid}/media/remote/initiate | Initiate remote upload
 [**ListMedia**](MediaAPI.md#ListMedia) | **Get** /{workspaceUuid}/media | List media
+[**ListMediaFolders**](MediaAPI.md#ListMediaFolders) | **Get** /{workspaceUuid}/media/folders | List media folders
 [**UpdateMedia**](MediaAPI.md#UpdateMedia) | **Put** /{workspaceUuid}/media/{mediaUuid} | Update media
+[**UpdateMediaFolder**](MediaAPI.md#UpdateMediaFolder) | **Put** /{workspaceUuid}/media/folders/{folderUuid} | Update media folder
 [**UploadChunk**](MediaAPI.md#UploadChunk) | **Post** /{workspaceUuid}/media/chunked/{uploadUuid}/upload | Upload a chunk
 [**UploadMedia**](MediaAPI.md#UploadMedia) | **Post** /{workspaceUuid}/media | Upload media (binary)
 
@@ -91,7 +95,7 @@ Name | Type | Description  | Notes
 
 ## CompleteChunkedUpload
 
-> Media CompleteChunkedUpload(ctx, workspaceUuid, uploadUuid).Execute()
+> Media CompleteChunkedUpload(ctx, workspaceUuid, uploadUuid).CompleteChunkedUploadRequest(completeChunkedUploadRequest).Execute()
 
 Complete chunked upload
 
@@ -112,10 +116,11 @@ import (
 func main() {
 	workspaceUuid := "38400000-8cf0-11bd-b23e-10b96e4ef00d" // string | UUID of the workspace.
 	uploadUuid := "38400000-8cf0-11bd-b23e-10b96e4ef00d" // string | 
+	completeChunkedUploadRequest := *openapiclient.NewCompleteChunkedUploadRequest() // CompleteChunkedUploadRequest |  (optional)
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.MediaAPI.CompleteChunkedUpload(context.Background(), workspaceUuid, uploadUuid).Execute()
+	resp, r, err := apiClient.MediaAPI.CompleteChunkedUpload(context.Background(), workspaceUuid, uploadUuid).CompleteChunkedUploadRequest(completeChunkedUploadRequest).Execute()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error when calling `MediaAPI.CompleteChunkedUpload``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -143,6 +148,7 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 
 
+ **completeChunkedUploadRequest** | [**CompleteChunkedUploadRequest**](CompleteChunkedUploadRequest.md) |  | 
 
 ### Return type
 
@@ -154,7 +160,79 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
-- **Content-Type**: Not defined
+- **Content-Type**: application/json
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## CreateMediaFolder
+
+> MediaFolder CreateMediaFolder(ctx, workspaceUuid).CreateMediaFolderRequest(createMediaFolderRequest).Execute()
+
+Create media folder
+
+
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/postboost-co/postboost-go"
+)
+
+func main() {
+	workspaceUuid := "38400000-8cf0-11bd-b23e-10b96e4ef00d" // string | UUID of the workspace.
+	createMediaFolderRequest := *openapiclient.NewCreateMediaFolderRequest("Name_example") // CreateMediaFolderRequest | 
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.MediaAPI.CreateMediaFolder(context.Background(), workspaceUuid).CreateMediaFolderRequest(createMediaFolderRequest).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `MediaAPI.CreateMediaFolder``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `CreateMediaFolder`: MediaFolder
+	fmt.Fprintf(os.Stdout, "Response from `MediaAPI.CreateMediaFolder`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
+**workspaceUuid** | **string** | UUID of the workspace. | 
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiCreateMediaFolderRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
+ **createMediaFolderRequest** | [**CreateMediaFolderRequest**](CreateMediaFolderRequest.md) |  | 
+
+### Return type
+
+[**MediaFolder**](MediaFolder.md)
+
+### Authorization
+
+[bearerAuth](../README.md#bearerAuth)
+
+### HTTP request headers
+
+- **Content-Type**: application/json
 - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
@@ -184,7 +262,7 @@ import (
 
 func main() {
 	workspaceUuid := "38400000-8cf0-11bd-b23e-10b96e4ef00d" // string | UUID of the workspace.
-	deleteMediaBulkRequest := *openapiclient.NewDeleteMediaBulkRequest([]int32{int32(123)}) // DeleteMediaBulkRequest | 
+	deleteMediaBulkRequest := *openapiclient.NewDeleteMediaBulkRequest([]openapiclient.DeleteMediaBulkRequestItemsInner{openapiclient.deleteMediaBulk_request_items_inner{Int32: new(int32)}}) // DeleteMediaBulkRequest | 
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
@@ -215,6 +293,81 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 
  **deleteMediaBulkRequest** | [**DeleteMediaBulkRequest**](DeleteMediaBulkRequest.md) |  | 
+
+### Return type
+
+**map[string]interface{}**
+
+### Authorization
+
+[bearerAuth](../README.md#bearerAuth)
+
+### HTTP request headers
+
+- **Content-Type**: application/json
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## DeleteMediaFolder
+
+> map[string]interface{} DeleteMediaFolder(ctx, workspaceUuid, folderUuid).DeleteMediaFolderRequest(deleteMediaFolderRequest).Execute()
+
+Delete media folder
+
+
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/postboost-co/postboost-go"
+)
+
+func main() {
+	workspaceUuid := "38400000-8cf0-11bd-b23e-10b96e4ef00d" // string | UUID of the workspace.
+	folderUuid := "38400000-8cf0-11bd-b23e-10b96e4ef00d" // string | UUID of the media folder.
+	deleteMediaFolderRequest := *openapiclient.NewDeleteMediaFolderRequest() // DeleteMediaFolderRequest |  (optional)
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.MediaAPI.DeleteMediaFolder(context.Background(), workspaceUuid, folderUuid).DeleteMediaFolderRequest(deleteMediaFolderRequest).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `MediaAPI.DeleteMediaFolder``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `DeleteMediaFolder`: map[string]interface{}
+	fmt.Fprintf(os.Stdout, "Response from `MediaAPI.DeleteMediaFolder`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
+**workspaceUuid** | **string** | UUID of the workspace. | 
+**folderUuid** | **string** | UUID of the media folder. | 
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiDeleteMediaFolderRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
+
+ **deleteMediaFolderRequest** | [**DeleteMediaFolderRequest**](DeleteMediaFolderRequest.md) |  | 
 
 ### Return type
 
@@ -526,7 +679,7 @@ Name | Type | Description  | Notes
 
 ## ListMedia
 
-> ListMedia200Response ListMedia(ctx, workspaceUuid).Page(page).Execute()
+> ListMedia200Response ListMedia(ctx, workspaceUuid).Page(page).Limit(limit).Folder(folder).MimeTypes(mimeTypes).Type_(type_).Keyword(keyword).Usage(usage).Favorite(favorite).Sort(sort).Execute()
 
 List media
 
@@ -546,11 +699,19 @@ import (
 
 func main() {
 	workspaceUuid := "38400000-8cf0-11bd-b23e-10b96e4ef00d" // string | UUID of the workspace.
-	page := int32(56) // int32 | Page number (20 items per page). (optional) (default to 1)
+	page := int32(56) // int32 | Page number. (optional) (default to 1)
+	limit := int32(56) // int32 | Items per page. Values below 1 fall back to 50; values above 100 are capped at 100. (optional) (default to 50)
+	folder := "folder_example" // string | Media folder UUID, or `root` for items not filed in any folder. (optional)
+	mimeTypes := []string{"Inner_example"} // []string | Only these MIME types (for example `image/png`). (optional)
+	type_ := "type__example" // string | Only this media type. (optional)
+	keyword := "keyword_example" // string | Search media by name. (optional)
+	usage := "usage_example" // string | Filter by how the media is used in posts. (optional)
+	favorite := true // bool | When `true`, only media the caller marked as favorite. (optional)
+	sort := "sort_example" // string |  (optional) (default to "newest")
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.MediaAPI.ListMedia(context.Background(), workspaceUuid).Page(page).Execute()
+	resp, r, err := apiClient.MediaAPI.ListMedia(context.Background(), workspaceUuid).Page(page).Limit(limit).Folder(folder).MimeTypes(mimeTypes).Type_(type_).Keyword(keyword).Usage(usage).Favorite(favorite).Sort(sort).Execute()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error when calling `MediaAPI.ListMedia``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -576,11 +737,89 @@ Other parameters are passed through a pointer to a apiListMediaRequest struct vi
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 
- **page** | **int32** | Page number (20 items per page). | [default to 1]
+ **page** | **int32** | Page number. | [default to 1]
+ **limit** | **int32** | Items per page. Values below 1 fall back to 50; values above 100 are capped at 100. | [default to 50]
+ **folder** | **string** | Media folder UUID, or &#x60;root&#x60; for items not filed in any folder. | 
+ **mimeTypes** | **[]string** | Only these MIME types (for example &#x60;image/png&#x60;). | 
+ **type_** | **string** | Only this media type. | 
+ **keyword** | **string** | Search media by name. | 
+ **usage** | **string** | Filter by how the media is used in posts. | 
+ **favorite** | **bool** | When &#x60;true&#x60;, only media the caller marked as favorite. | 
+ **sort** | **string** |  | [default to &quot;newest&quot;]
 
 ### Return type
 
 [**ListMedia200Response**](ListMedia200Response.md)
+
+### Authorization
+
+[bearerAuth](../README.md#bearerAuth)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## ListMediaFolders
+
+> ListMediaFolders200Response ListMediaFolders(ctx, workspaceUuid).Execute()
+
+List media folders
+
+
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/postboost-co/postboost-go"
+)
+
+func main() {
+	workspaceUuid := "38400000-8cf0-11bd-b23e-10b96e4ef00d" // string | UUID of the workspace.
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.MediaAPI.ListMediaFolders(context.Background(), workspaceUuid).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `MediaAPI.ListMediaFolders``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `ListMediaFolders`: ListMediaFolders200Response
+	fmt.Fprintf(os.Stdout, "Response from `MediaAPI.ListMediaFolders`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
+**workspaceUuid** | **string** | UUID of the workspace. | 
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiListMediaFoldersRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
+
+### Return type
+
+[**ListMediaFolders200Response**](ListMediaFolders200Response.md)
 
 ### Authorization
 
@@ -619,7 +858,7 @@ import (
 func main() {
 	workspaceUuid := "38400000-8cf0-11bd-b23e-10b96e4ef00d" // string | UUID of the workspace.
 	mediaUuid := "38400000-8cf0-11bd-b23e-10b96e4ef00d" // string | UUID of the media asset.
-	updateMediaRequest := *openapiclient.NewUpdateMediaRequest("AltText_example") // UpdateMediaRequest | 
+	updateMediaRequest := *openapiclient.NewUpdateMediaRequest() // UpdateMediaRequest | 
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
@@ -656,6 +895,81 @@ Name | Type | Description  | Notes
 ### Return type
 
 **map[string]interface{}**
+
+### Authorization
+
+[bearerAuth](../README.md#bearerAuth)
+
+### HTTP request headers
+
+- **Content-Type**: application/json
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## UpdateMediaFolder
+
+> MediaFolder UpdateMediaFolder(ctx, workspaceUuid, folderUuid).MediaFolderInput(mediaFolderInput).Execute()
+
+Update media folder
+
+
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/postboost-co/postboost-go"
+)
+
+func main() {
+	workspaceUuid := "38400000-8cf0-11bd-b23e-10b96e4ef00d" // string | UUID of the workspace.
+	folderUuid := "38400000-8cf0-11bd-b23e-10b96e4ef00d" // string | UUID of the media folder.
+	mediaFolderInput := *openapiclient.NewMediaFolderInput() // MediaFolderInput | 
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.MediaAPI.UpdateMediaFolder(context.Background(), workspaceUuid, folderUuid).MediaFolderInput(mediaFolderInput).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `MediaAPI.UpdateMediaFolder``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `UpdateMediaFolder`: MediaFolder
+	fmt.Fprintf(os.Stdout, "Response from `MediaAPI.UpdateMediaFolder`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
+**workspaceUuid** | **string** | UUID of the workspace. | 
+**folderUuid** | **string** | UUID of the media folder. | 
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiUpdateMediaFolderRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
+
+ **mediaFolderInput** | [**MediaFolderInput**](MediaFolderInput.md) |  | 
+
+### Return type
+
+[**MediaFolder**](MediaFolder.md)
 
 ### Authorization
 
@@ -750,7 +1064,7 @@ Name | Type | Description  | Notes
 
 ## UploadMedia
 
-> Media UploadMedia(ctx, workspaceUuid).File(file).AltText(altText).Execute()
+> Media UploadMedia(ctx, workspaceUuid).File(file).AltText(altText).Folder(folder).Execute()
 
 Upload media (binary)
 
@@ -772,10 +1086,11 @@ func main() {
 	workspaceUuid := "38400000-8cf0-11bd-b23e-10b96e4ef00d" // string | UUID of the workspace.
 	file := os.NewFile(1234, "some_file") // *os.File | The file to upload.
 	altText := "altText_example" // string | Alternative text for accessibility. (optional)
+	folder := "38400000-8cf0-11bd-b23e-10b96e4ef00d" // string | UUID of the media folder to file the upload in. Omit or null for the library root. (optional)
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.MediaAPI.UploadMedia(context.Background(), workspaceUuid).File(file).AltText(altText).Execute()
+	resp, r, err := apiClient.MediaAPI.UploadMedia(context.Background(), workspaceUuid).File(file).AltText(altText).Folder(folder).Execute()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error when calling `MediaAPI.UploadMedia``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -803,6 +1118,7 @@ Name | Type | Description  | Notes
 
  **file** | ***os.File** | The file to upload. | 
  **altText** | **string** | Alternative text for accessibility. | 
+ **folder** | **string** | UUID of the media folder to file the upload in. Omit or null for the library root. | 
 
 ### Return type
 

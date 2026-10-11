@@ -6,7 +6,8 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Uuid** | **string** |  | 
 **Name** | **string** |  | 
-**HexColor** | **string** |  | 
+**HexColor** | Pointer to **string** | Deprecated. Workspaces no longer have a colour (workspaces now use &#x60;avatar&#x60;); the API returns the constant &#x60;4f46e5&#x60; so existing clients keep working. Will be removed in API v2. | [optional] 
+**Avatar** | Pointer to **string** | URL of the workspace avatar, or null when none is set. Supersedes &#x60;hex_color&#x60;. | [optional] 
 **Owner** | Pointer to [**User**](User.md) |  | [optional] 
 **AccessStatus** | **string** |  | 
 **CreatedAt** | **time.Time** |  | 
@@ -15,7 +16,7 @@ Name | Type | Description | Notes
 
 ### NewWorkspace
 
-`func NewWorkspace(uuid string, name string, hexColor string, accessStatus string, createdAt time.Time, ) *Workspace`
+`func NewWorkspace(uuid string, name string, accessStatus string, createdAt time.Time, ) *Workspace`
 
 NewWorkspace instantiates a new Workspace object
 This constructor will assign default values to properties that have it defined,
@@ -89,6 +90,36 @@ and a boolean to check if the value has been set.
 
 SetHexColor sets HexColor field to given value.
 
+### HasHexColor
+
+`func (o *Workspace) HasHexColor() bool`
+
+HasHexColor returns a boolean if a field has been set.
+
+### GetAvatar
+
+`func (o *Workspace) GetAvatar() string`
+
+GetAvatar returns the Avatar field if non-nil, zero value otherwise.
+
+### GetAvatarOk
+
+`func (o *Workspace) GetAvatarOk() (*string, bool)`
+
+GetAvatarOk returns a tuple with the Avatar field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetAvatar
+
+`func (o *Workspace) SetAvatar(v string)`
+
+SetAvatar sets Avatar field to given value.
+
+### HasAvatar
+
+`func (o *Workspace) HasAvatar() bool`
+
+HasAvatar returns a boolean if a field has been set.
 
 ### GetOwner
 

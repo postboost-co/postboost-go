@@ -91,7 +91,7 @@ Name | Type | Description  | Notes
 
 ## CancelSubscription
 
-> map[string]interface{} CancelSubscription(ctx, workspaceUuid).Execute()
+> map[string]interface{} CancelSubscription(ctx, workspaceUuid).CancelSubscriptionRequest(cancelSubscriptionRequest).Execute()
 
 Cancel subscription
 
@@ -111,10 +111,11 @@ import (
 
 func main() {
 	workspaceUuid := "38400000-8cf0-11bd-b23e-10b96e4ef00d" // string | UUID of the workspace.
+	cancelSubscriptionRequest := *openapiclient.NewCancelSubscriptionRequest() // CancelSubscriptionRequest |  (optional)
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.SubscriptionsAPI.CancelSubscription(context.Background(), workspaceUuid).Execute()
+	resp, r, err := apiClient.SubscriptionsAPI.CancelSubscription(context.Background(), workspaceUuid).CancelSubscriptionRequest(cancelSubscriptionRequest).Execute()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error when calling `SubscriptionsAPI.CancelSubscription``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -140,6 +141,7 @@ Other parameters are passed through a pointer to a apiCancelSubscriptionRequest 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 
+ **cancelSubscriptionRequest** | [**CancelSubscriptionRequest**](CancelSubscriptionRequest.md) |  | 
 
 ### Return type
 
@@ -151,7 +153,7 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
-- **Content-Type**: Not defined
+- **Content-Type**: application/json
 - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)

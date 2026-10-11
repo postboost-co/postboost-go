@@ -6,6 +6,7 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **AccountId** | **int32** | Use &#x60;0&#x60; for the original/default version. | 
 **IsOriginal** | **bool** | Must be &#x60;true&#x60; for the first version. | 
+**SyncedWith** | Pointer to **int32** | Account ID of the version this version follows (&#x60;0&#x60; &#x3D; the original), or null when it is edited independently. Ignored on the original version. | [optional] 
 **Content** | [**[]PostContent**](PostContent.md) |  | 
 **Options** | Pointer to **map[string]interface{}** | Platform-specific publishing options. | [optional] 
 
@@ -67,6 +68,31 @@ and a boolean to check if the value has been set.
 
 SetIsOriginal sets IsOriginal field to given value.
 
+
+### GetSyncedWith
+
+`func (o *PostVersion) GetSyncedWith() int32`
+
+GetSyncedWith returns the SyncedWith field if non-nil, zero value otherwise.
+
+### GetSyncedWithOk
+
+`func (o *PostVersion) GetSyncedWithOk() (*int32, bool)`
+
+GetSyncedWithOk returns a tuple with the SyncedWith field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetSyncedWith
+
+`func (o *PostVersion) SetSyncedWith(v int32)`
+
+SetSyncedWith sets SyncedWith field to given value.
+
+### HasSyncedWith
+
+`func (o *PostVersion) HasSyncedWith() bool`
+
+HasSyncedWith returns a boolean if a field has been set.
 
 ### GetContent
 

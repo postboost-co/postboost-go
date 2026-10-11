@@ -1,9 +1,9 @@
 /*
 PostBoost API
 
-The PostBoost REST API lets you publish, schedule, and analyze social media posts across 12+ platforms from a single integration. No OAuth apps to maintain — PostBoost handles platform authorization for you.  ## Base URL All workspace-scoped endpoints are prefixed with `/{workspaceUuid}`. Panel/admin endpoints are prefixed with `/panel`.  ## Authentication All requests require a Bearer token in the `Authorization` header. Generate tokens in your PostBoost dashboard under **Settings → Access Tokens**.  ``` Authorization: Bearer YOUR_API_TOKEN ``` 
+The PostBoost REST API lets you publish, schedule, and analyze social media posts across 12+ platforms from a single integration. No OAuth apps to maintain — PostBoost handles platform authorization for you.  ## Base URL All workspace-scoped endpoints are prefixed with `/{workspaceUuid}`. Panel/admin endpoints are prefixed with `/panel`.  ## Plan access Every workspace-scoped endpoint returns `403` when the workspace's plan does not include API access (capability `api`).  ## Dates and times Post dates and times (`date`, `time`, `accounts_schedule`) are read in the request's `timezone` when one is given, otherwise in the workspace timezone.  ## Authentication All requests require a Bearer token in the `Authorization` header. Generate tokens in your PostBoost dashboard under **Settings → Access Tokens**.  ``` Authorization: Bearer YOUR_API_TOKEN ``` 
 
-API version: 1.0.0
+API version: 1.8.0
 Contact: hi@postboost.co
 */
 
@@ -32,6 +32,12 @@ type Account struct {
 	// Provider-specific metadata.
 	Data map[string]interface{} `json:"data"`
 	Authorized bool `json:"authorized"`
+	// Public URL of the account's profile on the network, when known.
+	ProfileUrl *string `json:"profile_url,omitempty"`
+	// Only present when the account is embedded in a post. Publishing state of this account for the post.
+	PublishStatus *string `json:"publish_status,omitempty"`
+	// Only present when the account is embedded in a post. How many parts (for example thread items or a first comment) are live on the network.
+	PublishedParts *int32 `json:"published_parts,omitempty"`
 	CreatedAt time.Time `json:"created_at"`
 }
 
@@ -262,6 +268,102 @@ func (o *Account) SetAuthorized(v bool) {
 	o.Authorized = v
 }
 
+// GetProfileUrl returns the ProfileUrl field value if set, zero value otherwise.
+func (o *Account) GetProfileUrl() string {
+	if o == nil || IsNil(o.ProfileUrl) {
+		var ret string
+		return ret
+	}
+	return *o.ProfileUrl
+}
+
+// GetProfileUrlOk returns a tuple with the ProfileUrl field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *Account) GetProfileUrlOk() (*string, bool) {
+	if o == nil || IsNil(o.ProfileUrl) {
+		return nil, false
+	}
+	return o.ProfileUrl, true
+}
+
+// HasProfileUrl returns a boolean if a field has been set.
+func (o *Account) HasProfileUrl() bool {
+	if o != nil && !IsNil(o.ProfileUrl) {
+		return true
+	}
+
+	return false
+}
+
+// SetProfileUrl gets a reference to the given string and assigns it to the ProfileUrl field.
+func (o *Account) SetProfileUrl(v string) {
+	o.ProfileUrl = &v
+}
+
+// GetPublishStatus returns the PublishStatus field value if set, zero value otherwise.
+func (o *Account) GetPublishStatus() string {
+	if o == nil || IsNil(o.PublishStatus) {
+		var ret string
+		return ret
+	}
+	return *o.PublishStatus
+}
+
+// GetPublishStatusOk returns a tuple with the PublishStatus field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *Account) GetPublishStatusOk() (*string, bool) {
+	if o == nil || IsNil(o.PublishStatus) {
+		return nil, false
+	}
+	return o.PublishStatus, true
+}
+
+// HasPublishStatus returns a boolean if a field has been set.
+func (o *Account) HasPublishStatus() bool {
+	if o != nil && !IsNil(o.PublishStatus) {
+		return true
+	}
+
+	return false
+}
+
+// SetPublishStatus gets a reference to the given string and assigns it to the PublishStatus field.
+func (o *Account) SetPublishStatus(v string) {
+	o.PublishStatus = &v
+}
+
+// GetPublishedParts returns the PublishedParts field value if set, zero value otherwise.
+func (o *Account) GetPublishedParts() int32 {
+	if o == nil || IsNil(o.PublishedParts) {
+		var ret int32
+		return ret
+	}
+	return *o.PublishedParts
+}
+
+// GetPublishedPartsOk returns a tuple with the PublishedParts field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *Account) GetPublishedPartsOk() (*int32, bool) {
+	if o == nil || IsNil(o.PublishedParts) {
+		return nil, false
+	}
+	return o.PublishedParts, true
+}
+
+// HasPublishedParts returns a boolean if a field has been set.
+func (o *Account) HasPublishedParts() bool {
+	if o != nil && !IsNil(o.PublishedParts) {
+		return true
+	}
+
+	return false
+}
+
+// SetPublishedParts gets a reference to the given int32 and assigns it to the PublishedParts field.
+func (o *Account) SetPublishedParts(v int32) {
+	o.PublishedParts = &v
+}
+
 // GetCreatedAt returns the CreatedAt field value
 func (o *Account) GetCreatedAt() time.Time {
 	if o == nil {
@@ -306,6 +408,15 @@ func (o Account) ToMap() (map[string]interface{}, error) {
 	toSerialize["provider"] = o.Provider
 	toSerialize["data"] = o.Data
 	toSerialize["authorized"] = o.Authorized
+	if !IsNil(o.ProfileUrl) {
+		toSerialize["profile_url"] = o.ProfileUrl
+	}
+	if !IsNil(o.PublishStatus) {
+		toSerialize["publish_status"] = o.PublishStatus
+	}
+	if !IsNil(o.PublishedParts) {
+		toSerialize["published_parts"] = o.PublishedParts
+	}
 	toSerialize["created_at"] = o.CreatedAt
 	return toSerialize, nil
 }

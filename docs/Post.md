@@ -7,6 +7,7 @@ Name | Type | Description | Notes
 **Id** | **int32** |  | 
 **Uuid** | **string** |  | 
 **Status** | [**PostStatus**](PostStatus.md) |  | 
+**PublishProgress** | Pointer to [**PublishProgress**](PublishProgress.md) | Only present while the post is publishing. | [optional] 
 **Accounts** | [**[]Account**](Account.md) |  | 
 **Versions** | [**[]PostVersion**](PostVersion.md) |  | 
 **Tags** | [**[]Tag**](Tag.md) |  | 
@@ -93,6 +94,31 @@ and a boolean to check if the value has been set.
 
 SetStatus sets Status field to given value.
 
+
+### GetPublishProgress
+
+`func (o *Post) GetPublishProgress() PublishProgress`
+
+GetPublishProgress returns the PublishProgress field if non-nil, zero value otherwise.
+
+### GetPublishProgressOk
+
+`func (o *Post) GetPublishProgressOk() (*PublishProgress, bool)`
+
+GetPublishProgressOk returns a tuple with the PublishProgress field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetPublishProgress
+
+`func (o *Post) SetPublishProgress(v PublishProgress)`
+
+SetPublishProgress sets PublishProgress field to given value.
+
+### HasPublishProgress
+
+`func (o *Post) HasPublishProgress() bool`
+
+HasPublishProgress returns a boolean if a field has been set.
 
 ### GetAccounts
 

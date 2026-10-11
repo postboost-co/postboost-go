@@ -1,9 +1,9 @@
 /*
 PostBoost API
 
-The PostBoost REST API lets you publish, schedule, and analyze social media posts across 12+ platforms from a single integration. No OAuth apps to maintain — PostBoost handles platform authorization for you.  ## Base URL All workspace-scoped endpoints are prefixed with `/{workspaceUuid}`. Panel/admin endpoints are prefixed with `/panel`.  ## Authentication All requests require a Bearer token in the `Authorization` header. Generate tokens in your PostBoost dashboard under **Settings → Access Tokens**.  ``` Authorization: Bearer YOUR_API_TOKEN ``` 
+The PostBoost REST API lets you publish, schedule, and analyze social media posts across 12+ platforms from a single integration. No OAuth apps to maintain — PostBoost handles platform authorization for you.  ## Base URL All workspace-scoped endpoints are prefixed with `/{workspaceUuid}`. Panel/admin endpoints are prefixed with `/panel`.  ## Plan access Every workspace-scoped endpoint returns `403` when the workspace's plan does not include API access (capability `api`).  ## Dates and times Post dates and times (`date`, `time`, `accounts_schedule`) are read in the request's `timezone` when one is given, otherwise in the workspace timezone.  ## Authentication All requests require a Bearer token in the `Authorization` header. Generate tokens in your PostBoost dashboard under **Settings → Access Tokens**.  ``` Authorization: Bearer YOUR_API_TOKEN ``` 
 
-API version: 1.0.0
+API version: 1.8.0
 Contact: hi@postboost.co
 */
 
@@ -13,8 +13,6 @@ package postboost
 
 import (
 	"encoding/json"
-	"bytes"
-	"fmt"
 )
 
 // checks if the UpdateMediaRequest type satisfies the MappedNullable interface at compile time
@@ -22,19 +20,19 @@ var _ MappedNullable = &UpdateMediaRequest{}
 
 // UpdateMediaRequest struct for UpdateMediaRequest
 type UpdateMediaRequest struct {
+	Name *string `json:"name,omitempty"`
 	// Alternative text for accessibility.
-	AltText string `json:"alt_text"`
+	AltText *string `json:"alt_text,omitempty"`
+	// UUID of the media folder to move the item to, or null for the library root.
+	Folder *string `json:"folder,omitempty"`
 }
-
-type _UpdateMediaRequest UpdateMediaRequest
 
 // NewUpdateMediaRequest instantiates a new UpdateMediaRequest object
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewUpdateMediaRequest(altText string) *UpdateMediaRequest {
+func NewUpdateMediaRequest() *UpdateMediaRequest {
 	this := UpdateMediaRequest{}
-	this.AltText = altText
 	return &this
 }
 
@@ -46,28 +44,100 @@ func NewUpdateMediaRequestWithDefaults() *UpdateMediaRequest {
 	return &this
 }
 
-// GetAltText returns the AltText field value
-func (o *UpdateMediaRequest) GetAltText() string {
-	if o == nil {
+// GetName returns the Name field value if set, zero value otherwise.
+func (o *UpdateMediaRequest) GetName() string {
+	if o == nil || IsNil(o.Name) {
 		var ret string
 		return ret
 	}
-
-	return o.AltText
+	return *o.Name
 }
 
-// GetAltTextOk returns a tuple with the AltText field value
+// GetNameOk returns a tuple with the Name field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *UpdateMediaRequest) GetAltTextOk() (*string, bool) {
-	if o == nil {
+func (o *UpdateMediaRequest) GetNameOk() (*string, bool) {
+	if o == nil || IsNil(o.Name) {
 		return nil, false
 	}
-	return &o.AltText, true
+	return o.Name, true
 }
 
-// SetAltText sets field value
+// HasName returns a boolean if a field has been set.
+func (o *UpdateMediaRequest) HasName() bool {
+	if o != nil && !IsNil(o.Name) {
+		return true
+	}
+
+	return false
+}
+
+// SetName gets a reference to the given string and assigns it to the Name field.
+func (o *UpdateMediaRequest) SetName(v string) {
+	o.Name = &v
+}
+
+// GetAltText returns the AltText field value if set, zero value otherwise.
+func (o *UpdateMediaRequest) GetAltText() string {
+	if o == nil || IsNil(o.AltText) {
+		var ret string
+		return ret
+	}
+	return *o.AltText
+}
+
+// GetAltTextOk returns a tuple with the AltText field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *UpdateMediaRequest) GetAltTextOk() (*string, bool) {
+	if o == nil || IsNil(o.AltText) {
+		return nil, false
+	}
+	return o.AltText, true
+}
+
+// HasAltText returns a boolean if a field has been set.
+func (o *UpdateMediaRequest) HasAltText() bool {
+	if o != nil && !IsNil(o.AltText) {
+		return true
+	}
+
+	return false
+}
+
+// SetAltText gets a reference to the given string and assigns it to the AltText field.
 func (o *UpdateMediaRequest) SetAltText(v string) {
-	o.AltText = v
+	o.AltText = &v
+}
+
+// GetFolder returns the Folder field value if set, zero value otherwise.
+func (o *UpdateMediaRequest) GetFolder() string {
+	if o == nil || IsNil(o.Folder) {
+		var ret string
+		return ret
+	}
+	return *o.Folder
+}
+
+// GetFolderOk returns a tuple with the Folder field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *UpdateMediaRequest) GetFolderOk() (*string, bool) {
+	if o == nil || IsNil(o.Folder) {
+		return nil, false
+	}
+	return o.Folder, true
+}
+
+// HasFolder returns a boolean if a field has been set.
+func (o *UpdateMediaRequest) HasFolder() bool {
+	if o != nil && !IsNil(o.Folder) {
+		return true
+	}
+
+	return false
+}
+
+// SetFolder gets a reference to the given string and assigns it to the Folder field.
+func (o *UpdateMediaRequest) SetFolder(v string) {
+	o.Folder = &v
 }
 
 func (o UpdateMediaRequest) MarshalJSON() ([]byte, error) {
@@ -80,45 +150,16 @@ func (o UpdateMediaRequest) MarshalJSON() ([]byte, error) {
 
 func (o UpdateMediaRequest) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
-	toSerialize["alt_text"] = o.AltText
+	if !IsNil(o.Name) {
+		toSerialize["name"] = o.Name
+	}
+	if !IsNil(o.AltText) {
+		toSerialize["alt_text"] = o.AltText
+	}
+	if !IsNil(o.Folder) {
+		toSerialize["folder"] = o.Folder
+	}
 	return toSerialize, nil
-}
-
-func (o *UpdateMediaRequest) UnmarshalJSON(data []byte) (err error) {
-	// This validates that all required properties are included in the JSON object
-	// by unmarshalling the object into a generic map with string keys and checking
-	// that every required field exists as a key in the generic map.
-	requiredProperties := []string{
-		"alt_text",
-	}
-
-	allProperties := make(map[string]interface{})
-
-	err = json.Unmarshal(data, &allProperties)
-
-	if err != nil {
-		return err;
-	}
-
-	for _, requiredProperty := range(requiredProperties) {
-		if _, exists := allProperties[requiredProperty]; !exists {
-			return fmt.Errorf("no value given for required property %v", requiredProperty)
-		}
-	}
-
-	varUpdateMediaRequest := _UpdateMediaRequest{}
-
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varUpdateMediaRequest)
-
-	if err != nil {
-		return err
-	}
-
-	*o = UpdateMediaRequest(varUpdateMediaRequest)
-
-	return err
 }
 
 type NullableUpdateMediaRequest struct {

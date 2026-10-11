@@ -88,6 +88,32 @@ func Test_postboost_WorkspacesAPIService(t *testing.T) {
 
 	})
 
+	t.Run("Test WorkspacesAPIService GetWorkspaceAICredits", func(t *testing.T) {
+
+		t.Skip("skip test")  // remove to run test
+
+		var workspaceUuid string
+
+		resp, httpRes, err := apiClient.WorkspacesAPI.GetWorkspaceAICredits(context.Background(), workspaceUuid).Execute()
+
+		require.Nil(t, err)
+		require.NotNil(t, resp)
+		assert.Equal(t, 200, httpRes.StatusCode)
+
+	})
+
+	t.Run("Test WorkspacesAPIService ListMyWorkspaces", func(t *testing.T) {
+
+		t.Skip("skip test")  // remove to run test
+
+		resp, httpRes, err := apiClient.WorkspacesAPI.ListMyWorkspaces(context.Background()).Execute()
+
+		require.Nil(t, err)
+		require.NotNil(t, resp)
+		assert.Equal(t, 200, httpRes.StatusCode)
+
+	})
+
 	t.Run("Test WorkspacesAPIService ListWorkspaces", func(t *testing.T) {
 
 		t.Skip("skip test")  // remove to run test

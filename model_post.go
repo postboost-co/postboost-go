@@ -1,9 +1,9 @@
 /*
 PostBoost API
 
-The PostBoost REST API lets you publish, schedule, and analyze social media posts across 12+ platforms from a single integration. No OAuth apps to maintain — PostBoost handles platform authorization for you.  ## Base URL All workspace-scoped endpoints are prefixed with `/{workspaceUuid}`. Panel/admin endpoints are prefixed with `/panel`.  ## Authentication All requests require a Bearer token in the `Authorization` header. Generate tokens in your PostBoost dashboard under **Settings → Access Tokens**.  ``` Authorization: Bearer YOUR_API_TOKEN ``` 
+The PostBoost REST API lets you publish, schedule, and analyze social media posts across 12+ platforms from a single integration. No OAuth apps to maintain — PostBoost handles platform authorization for you.  ## Base URL All workspace-scoped endpoints are prefixed with `/{workspaceUuid}`. Panel/admin endpoints are prefixed with `/panel`.  ## Plan access Every workspace-scoped endpoint returns `403` when the workspace's plan does not include API access (capability `api`).  ## Dates and times Post dates and times (`date`, `time`, `accounts_schedule`) are read in the request's `timezone` when one is given, otherwise in the workspace timezone.  ## Authentication All requests require a Bearer token in the `Authorization` header. Generate tokens in your PostBoost dashboard under **Settings → Access Tokens**.  ``` Authorization: Bearer YOUR_API_TOKEN ``` 
 
-API version: 1.0.0
+API version: 1.8.0
 Contact: hi@postboost.co
 */
 
@@ -26,6 +26,8 @@ type Post struct {
 	Id int32 `json:"id"`
 	Uuid string `json:"uuid"`
 	Status PostStatus `json:"status"`
+	// Only present while the post is publishing.
+	PublishProgress *PublishProgress `json:"publish_progress,omitempty"`
 	Accounts []Account `json:"accounts"`
 	Versions []PostVersion `json:"versions"`
 	Tags []Tag `json:"tags"`
@@ -132,6 +134,38 @@ func (o *Post) GetStatusOk() (*PostStatus, bool) {
 // SetStatus sets field value
 func (o *Post) SetStatus(v PostStatus) {
 	o.Status = v
+}
+
+// GetPublishProgress returns the PublishProgress field value if set, zero value otherwise.
+func (o *Post) GetPublishProgress() PublishProgress {
+	if o == nil || IsNil(o.PublishProgress) {
+		var ret PublishProgress
+		return ret
+	}
+	return *o.PublishProgress
+}
+
+// GetPublishProgressOk returns a tuple with the PublishProgress field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *Post) GetPublishProgressOk() (*PublishProgress, bool) {
+	if o == nil || IsNil(o.PublishProgress) {
+		return nil, false
+	}
+	return o.PublishProgress, true
+}
+
+// HasPublishProgress returns a boolean if a field has been set.
+func (o *Post) HasPublishProgress() bool {
+	if o != nil && !IsNil(o.PublishProgress) {
+		return true
+	}
+
+	return false
+}
+
+// SetPublishProgress gets a reference to the given PublishProgress and assigns it to the PublishProgress field.
+func (o *Post) SetPublishProgress(v PublishProgress) {
+	o.PublishProgress = &v
 }
 
 // GetAccounts returns the Accounts field value
@@ -331,6 +365,9 @@ func (o Post) ToMap() (map[string]interface{}, error) {
 	toSerialize["id"] = o.Id
 	toSerialize["uuid"] = o.Uuid
 	toSerialize["status"] = o.Status
+	if !IsNil(o.PublishProgress) {
+		toSerialize["publish_progress"] = o.PublishProgress
+	}
 	toSerialize["accounts"] = o.Accounts
 	toSerialize["versions"] = o.Versions
 	toSerialize["tags"] = o.Tags

@@ -110,6 +110,21 @@ func Test_postboost_PostsAPIService(t *testing.T) {
 
 	})
 
+	t.Run("Test PostsAPIService GetPostAnalytics", func(t *testing.T) {
+
+		t.Skip("skip test")  // remove to run test
+
+		var workspaceUuid string
+		var postUuid string
+
+		resp, httpRes, err := apiClient.PostsAPI.GetPostAnalytics(context.Background(), workspaceUuid, postUuid).Execute()
+
+		require.Nil(t, err)
+		require.NotNil(t, resp)
+		assert.Equal(t, 200, httpRes.StatusCode)
+
+	})
+
 	t.Run("Test PostsAPIService ListPosts", func(t *testing.T) {
 
 		t.Skip("skip test")  // remove to run test
@@ -117,6 +132,22 @@ func Test_postboost_PostsAPIService(t *testing.T) {
 		var workspaceUuid string
 
 		resp, httpRes, err := apiClient.PostsAPI.ListPosts(context.Background(), workspaceUuid).Execute()
+
+		require.Nil(t, err)
+		require.NotNil(t, resp)
+		assert.Equal(t, 200, httpRes.StatusCode)
+
+	})
+
+	t.Run("Test PostsAPIService RetryPostAccount", func(t *testing.T) {
+
+		t.Skip("skip test")  // remove to run test
+
+		var workspaceUuid string
+		var postUuid string
+		var accountUuid string
+
+		resp, httpRes, err := apiClient.PostsAPI.RetryPostAccount(context.Background(), workspaceUuid, postUuid, accountUuid).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)

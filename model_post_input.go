@@ -1,9 +1,9 @@
 /*
 PostBoost API
 
-The PostBoost REST API lets you publish, schedule, and analyze social media posts across 12+ platforms from a single integration. No OAuth apps to maintain — PostBoost handles platform authorization for you.  ## Base URL All workspace-scoped endpoints are prefixed with `/{workspaceUuid}`. Panel/admin endpoints are prefixed with `/panel`.  ## Authentication All requests require a Bearer token in the `Authorization` header. Generate tokens in your PostBoost dashboard under **Settings → Access Tokens**.  ``` Authorization: Bearer YOUR_API_TOKEN ``` 
+The PostBoost REST API lets you publish, schedule, and analyze social media posts across 12+ platforms from a single integration. No OAuth apps to maintain — PostBoost handles platform authorization for you.  ## Base URL All workspace-scoped endpoints are prefixed with `/{workspaceUuid}`. Panel/admin endpoints are prefixed with `/panel`.  ## Plan access Every workspace-scoped endpoint returns `403` when the workspace's plan does not include API access (capability `api`).  ## Dates and times Post dates and times (`date`, `time`, `accounts_schedule`) are read in the request's `timezone` when one is given, otherwise in the workspace timezone.  ## Authentication All requests require a Bearer token in the `Authorization` header. Generate tokens in your PostBoost dashboard under **Settings → Access Tokens**.  ``` Authorization: Bearer YOUR_API_TOKEN ``` 
 
-API version: 1.0.0
+API version: 1.8.0
 Contact: hi@postboost.co
 */
 
@@ -30,7 +30,10 @@ type PostInput struct {
 	Tags []int32 `json:"tags,omitempty"`
 	Date *string `json:"date,omitempty"`
 	Time *string `json:"time,omitempty"`
+	// Timezone `date`, `time` and `accounts_schedule` are read in. Defaults to the workspace timezone.
 	Timezone *string `json:"timezone,omitempty"`
+	// Per-account departure times. When omitted on update, accounts keep their offsets from the post time.
+	AccountsSchedule []AccountSchedule `json:"accounts_schedule,omitempty"`
 	// Schedule the post for the given date/time.
 	Schedule *bool `json:"schedule,omitempty"`
 	// Publish immediately.
@@ -243,6 +246,38 @@ func (o *PostInput) SetTimezone(v string) {
 	o.Timezone = &v
 }
 
+// GetAccountsSchedule returns the AccountsSchedule field value if set, zero value otherwise.
+func (o *PostInput) GetAccountsSchedule() []AccountSchedule {
+	if o == nil || IsNil(o.AccountsSchedule) {
+		var ret []AccountSchedule
+		return ret
+	}
+	return o.AccountsSchedule
+}
+
+// GetAccountsScheduleOk returns a tuple with the AccountsSchedule field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *PostInput) GetAccountsScheduleOk() ([]AccountSchedule, bool) {
+	if o == nil || IsNil(o.AccountsSchedule) {
+		return nil, false
+	}
+	return o.AccountsSchedule, true
+}
+
+// HasAccountsSchedule returns a boolean if a field has been set.
+func (o *PostInput) HasAccountsSchedule() bool {
+	if o != nil && !IsNil(o.AccountsSchedule) {
+		return true
+	}
+
+	return false
+}
+
+// SetAccountsSchedule gets a reference to the given []AccountSchedule and assigns it to the AccountsSchedule field.
+func (o *PostInput) SetAccountsSchedule(v []AccountSchedule) {
+	o.AccountsSchedule = v
+}
+
 // GetSchedule returns the Schedule field value if set, zero value otherwise.
 func (o *PostInput) GetSchedule() bool {
 	if o == nil || IsNil(o.Schedule) {
@@ -364,6 +399,9 @@ func (o PostInput) ToMap() (map[string]interface{}, error) {
 	}
 	if !IsNil(o.Timezone) {
 		toSerialize["timezone"] = o.Timezone
+	}
+	if !IsNil(o.AccountsSchedule) {
+		toSerialize["accounts_schedule"] = o.AccountsSchedule
 	}
 	if !IsNil(o.Schedule) {
 		toSerialize["schedule"] = o.Schedule

@@ -1,9 +1,9 @@
 /*
 PostBoost API
 
-The PostBoost REST API lets you publish, schedule, and analyze social media posts across 12+ platforms from a single integration. No OAuth apps to maintain — PostBoost handles platform authorization for you.  ## Base URL All workspace-scoped endpoints are prefixed with `/{workspaceUuid}`. Panel/admin endpoints are prefixed with `/panel`.  ## Authentication All requests require a Bearer token in the `Authorization` header. Generate tokens in your PostBoost dashboard under **Settings → Access Tokens**.  ``` Authorization: Bearer YOUR_API_TOKEN ``` 
+The PostBoost REST API lets you publish, schedule, and analyze social media posts across 12+ platforms from a single integration. No OAuth apps to maintain — PostBoost handles platform authorization for you.  ## Base URL All workspace-scoped endpoints are prefixed with `/{workspaceUuid}`. Panel/admin endpoints are prefixed with `/panel`.  ## Plan access Every workspace-scoped endpoint returns `403` when the workspace's plan does not include API access (capability `api`).  ## Dates and times Post dates and times (`date`, `time`, `accounts_schedule`) are read in the request's `timezone` when one is given, otherwise in the workspace timezone.  ## Authentication All requests require a Bearer token in the `Authorization` header. Generate tokens in your PostBoost dashboard under **Settings → Access Tokens**.  ``` Authorization: Bearer YOUR_API_TOKEN ``` 
 
-API version: 1.0.0
+API version: 1.8.0
 Contact: hi@postboost.co
 */
 
@@ -31,6 +31,18 @@ type Media struct {
 	Url string `json:"url"`
 	ThumbUrl *string `json:"thumb_url,omitempty"`
 	IsVideo bool `json:"is_video"`
+	// True while an uploaded video is still being converted.
+	IsProcessing *bool `json:"is_processing,omitempty"`
+	// Width in pixels, when stored.
+	Width *int32 `json:"width,omitempty"`
+	// Height in pixels, when stored.
+	Height *int32 `json:"height,omitempty"`
+	// Video duration in milliseconds; null for images or videos not read yet.
+	DurationMs *int32 `json:"duration_ms,omitempty"`
+	// File size in bytes.
+	Size *int32 `json:"size,omitempty"`
+	AltText *string `json:"alt_text,omitempty"`
+	Folder NullableMediaFolderRef `json:"folder,omitempty"`
 	CreatedAt time.Time `json:"created_at"`
 }
 
@@ -261,6 +273,240 @@ func (o *Media) SetIsVideo(v bool) {
 	o.IsVideo = v
 }
 
+// GetIsProcessing returns the IsProcessing field value if set, zero value otherwise.
+func (o *Media) GetIsProcessing() bool {
+	if o == nil || IsNil(o.IsProcessing) {
+		var ret bool
+		return ret
+	}
+	return *o.IsProcessing
+}
+
+// GetIsProcessingOk returns a tuple with the IsProcessing field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *Media) GetIsProcessingOk() (*bool, bool) {
+	if o == nil || IsNil(o.IsProcessing) {
+		return nil, false
+	}
+	return o.IsProcessing, true
+}
+
+// HasIsProcessing returns a boolean if a field has been set.
+func (o *Media) HasIsProcessing() bool {
+	if o != nil && !IsNil(o.IsProcessing) {
+		return true
+	}
+
+	return false
+}
+
+// SetIsProcessing gets a reference to the given bool and assigns it to the IsProcessing field.
+func (o *Media) SetIsProcessing(v bool) {
+	o.IsProcessing = &v
+}
+
+// GetWidth returns the Width field value if set, zero value otherwise.
+func (o *Media) GetWidth() int32 {
+	if o == nil || IsNil(o.Width) {
+		var ret int32
+		return ret
+	}
+	return *o.Width
+}
+
+// GetWidthOk returns a tuple with the Width field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *Media) GetWidthOk() (*int32, bool) {
+	if o == nil || IsNil(o.Width) {
+		return nil, false
+	}
+	return o.Width, true
+}
+
+// HasWidth returns a boolean if a field has been set.
+func (o *Media) HasWidth() bool {
+	if o != nil && !IsNil(o.Width) {
+		return true
+	}
+
+	return false
+}
+
+// SetWidth gets a reference to the given int32 and assigns it to the Width field.
+func (o *Media) SetWidth(v int32) {
+	o.Width = &v
+}
+
+// GetHeight returns the Height field value if set, zero value otherwise.
+func (o *Media) GetHeight() int32 {
+	if o == nil || IsNil(o.Height) {
+		var ret int32
+		return ret
+	}
+	return *o.Height
+}
+
+// GetHeightOk returns a tuple with the Height field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *Media) GetHeightOk() (*int32, bool) {
+	if o == nil || IsNil(o.Height) {
+		return nil, false
+	}
+	return o.Height, true
+}
+
+// HasHeight returns a boolean if a field has been set.
+func (o *Media) HasHeight() bool {
+	if o != nil && !IsNil(o.Height) {
+		return true
+	}
+
+	return false
+}
+
+// SetHeight gets a reference to the given int32 and assigns it to the Height field.
+func (o *Media) SetHeight(v int32) {
+	o.Height = &v
+}
+
+// GetDurationMs returns the DurationMs field value if set, zero value otherwise.
+func (o *Media) GetDurationMs() int32 {
+	if o == nil || IsNil(o.DurationMs) {
+		var ret int32
+		return ret
+	}
+	return *o.DurationMs
+}
+
+// GetDurationMsOk returns a tuple with the DurationMs field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *Media) GetDurationMsOk() (*int32, bool) {
+	if o == nil || IsNil(o.DurationMs) {
+		return nil, false
+	}
+	return o.DurationMs, true
+}
+
+// HasDurationMs returns a boolean if a field has been set.
+func (o *Media) HasDurationMs() bool {
+	if o != nil && !IsNil(o.DurationMs) {
+		return true
+	}
+
+	return false
+}
+
+// SetDurationMs gets a reference to the given int32 and assigns it to the DurationMs field.
+func (o *Media) SetDurationMs(v int32) {
+	o.DurationMs = &v
+}
+
+// GetSize returns the Size field value if set, zero value otherwise.
+func (o *Media) GetSize() int32 {
+	if o == nil || IsNil(o.Size) {
+		var ret int32
+		return ret
+	}
+	return *o.Size
+}
+
+// GetSizeOk returns a tuple with the Size field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *Media) GetSizeOk() (*int32, bool) {
+	if o == nil || IsNil(o.Size) {
+		return nil, false
+	}
+	return o.Size, true
+}
+
+// HasSize returns a boolean if a field has been set.
+func (o *Media) HasSize() bool {
+	if o != nil && !IsNil(o.Size) {
+		return true
+	}
+
+	return false
+}
+
+// SetSize gets a reference to the given int32 and assigns it to the Size field.
+func (o *Media) SetSize(v int32) {
+	o.Size = &v
+}
+
+// GetAltText returns the AltText field value if set, zero value otherwise.
+func (o *Media) GetAltText() string {
+	if o == nil || IsNil(o.AltText) {
+		var ret string
+		return ret
+	}
+	return *o.AltText
+}
+
+// GetAltTextOk returns a tuple with the AltText field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *Media) GetAltTextOk() (*string, bool) {
+	if o == nil || IsNil(o.AltText) {
+		return nil, false
+	}
+	return o.AltText, true
+}
+
+// HasAltText returns a boolean if a field has been set.
+func (o *Media) HasAltText() bool {
+	if o != nil && !IsNil(o.AltText) {
+		return true
+	}
+
+	return false
+}
+
+// SetAltText gets a reference to the given string and assigns it to the AltText field.
+func (o *Media) SetAltText(v string) {
+	o.AltText = &v
+}
+
+// GetFolder returns the Folder field value if set, zero value otherwise (both if not set or set to explicit null).
+func (o *Media) GetFolder() MediaFolderRef {
+	if o == nil || IsNil(o.Folder.Get()) {
+		var ret MediaFolderRef
+		return ret
+	}
+	return *o.Folder.Get()
+}
+
+// GetFolderOk returns a tuple with the Folder field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
+func (o *Media) GetFolderOk() (*MediaFolderRef, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.Folder.Get(), o.Folder.IsSet()
+}
+
+// HasFolder returns a boolean if a field has been set.
+func (o *Media) HasFolder() bool {
+	if o != nil && o.Folder.IsSet() {
+		return true
+	}
+
+	return false
+}
+
+// SetFolder gets a reference to the given NullableMediaFolderRef and assigns it to the Folder field.
+func (o *Media) SetFolder(v MediaFolderRef) {
+	o.Folder.Set(&v)
+}
+// SetFolderNil sets the value for Folder to be an explicit nil
+func (o *Media) SetFolderNil() {
+	o.Folder.Set(nil)
+}
+
+// UnsetFolder ensures that no value is present for Folder, not even an explicit nil
+func (o *Media) UnsetFolder() {
+	o.Folder.Unset()
+}
+
 // GetCreatedAt returns the CreatedAt field value
 func (o *Media) GetCreatedAt() time.Time {
 	if o == nil {
@@ -305,6 +551,27 @@ func (o Media) ToMap() (map[string]interface{}, error) {
 		toSerialize["thumb_url"] = o.ThumbUrl
 	}
 	toSerialize["is_video"] = o.IsVideo
+	if !IsNil(o.IsProcessing) {
+		toSerialize["is_processing"] = o.IsProcessing
+	}
+	if !IsNil(o.Width) {
+		toSerialize["width"] = o.Width
+	}
+	if !IsNil(o.Height) {
+		toSerialize["height"] = o.Height
+	}
+	if !IsNil(o.DurationMs) {
+		toSerialize["duration_ms"] = o.DurationMs
+	}
+	if !IsNil(o.Size) {
+		toSerialize["size"] = o.Size
+	}
+	if !IsNil(o.AltText) {
+		toSerialize["alt_text"] = o.AltText
+	}
+	if o.Folder.IsSet() {
+		toSerialize["folder"] = o.Folder.Get()
+	}
 	toSerialize["created_at"] = o.CreatedAt
 	return toSerialize, nil
 }

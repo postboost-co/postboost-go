@@ -84,7 +84,7 @@ Name | Type | Description  | Notes
 
 ## ListAccounts
 
-> ListAccounts200Response ListAccounts(ctx, workspaceUuid).Execute()
+> ListAccounts200Response ListAccounts(ctx, workspaceUuid).Keyword(keyword).Group(group).Providers(providers).Unauthorized(unauthorized).Execute()
 
 List accounts
 
@@ -104,10 +104,14 @@ import (
 
 func main() {
 	workspaceUuid := "38400000-8cf0-11bd-b23e-10b96e4ef00d" // string | UUID of the workspace.
+	keyword := "keyword_example" // string | Match the account name or username. (optional)
+	group := "group_example" // string | Only accounts in this account group. (optional)
+	providers := []string{"Inner_example"} // []string | Only accounts of these providers (for example `instagram`, `linkedin`). (optional)
+	unauthorized := true // bool | When `true`, only accounts that need to be reconnected. (optional)
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.AccountsAPI.ListAccounts(context.Background(), workspaceUuid).Execute()
+	resp, r, err := apiClient.AccountsAPI.ListAccounts(context.Background(), workspaceUuid).Keyword(keyword).Group(group).Providers(providers).Unauthorized(unauthorized).Execute()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error when calling `AccountsAPI.ListAccounts``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -133,6 +137,10 @@ Other parameters are passed through a pointer to a apiListAccountsRequest struct
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 
+ **keyword** | **string** | Match the account name or username. | 
+ **group** | **string** | Only accounts in this account group. | 
+ **providers** | **[]string** | Only accounts of these providers (for example &#x60;instagram&#x60;, &#x60;linkedin&#x60;). | 
+ **unauthorized** | **bool** | When &#x60;true&#x60;, only accounts that need to be reconnected. | 
 
 ### Return type
 

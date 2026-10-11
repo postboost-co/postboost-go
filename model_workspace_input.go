@@ -1,9 +1,9 @@
 /*
 PostBoost API
 
-The PostBoost REST API lets you publish, schedule, and analyze social media posts across 12+ platforms from a single integration. No OAuth apps to maintain — PostBoost handles platform authorization for you.  ## Base URL All workspace-scoped endpoints are prefixed with `/{workspaceUuid}`. Panel/admin endpoints are prefixed with `/panel`.  ## Authentication All requests require a Bearer token in the `Authorization` header. Generate tokens in your PostBoost dashboard under **Settings → Access Tokens**.  ``` Authorization: Bearer YOUR_API_TOKEN ``` 
+The PostBoost REST API lets you publish, schedule, and analyze social media posts across 12+ platforms from a single integration. No OAuth apps to maintain — PostBoost handles platform authorization for you.  ## Base URL All workspace-scoped endpoints are prefixed with `/{workspaceUuid}`. Panel/admin endpoints are prefixed with `/panel`.  ## Plan access Every workspace-scoped endpoint returns `403` when the workspace's plan does not include API access (capability `api`).  ## Dates and times Post dates and times (`date`, `time`, `accounts_schedule`) are read in the request's `timezone` when one is given, otherwise in the workspace timezone.  ## Authentication All requests require a Bearer token in the `Authorization` header. Generate tokens in your PostBoost dashboard under **Settings → Access Tokens**.  ``` Authorization: Bearer YOUR_API_TOKEN ``` 
 
-API version: 1.0.0
+API version: 1.8.0
 Contact: hi@postboost.co
 */
 
@@ -23,7 +23,9 @@ var _ MappedNullable = &WorkspaceInput{}
 // WorkspaceInput struct for WorkspaceInput
 type WorkspaceInput struct {
 	Name string `json:"name"`
-	HexColor string `json:"hex_color"`
+	// Ignored since v2.0; kept for backward compatibility
+	// Deprecated
+	HexColor *string `json:"hex_color,omitempty"`
 	OwnerId *int32 `json:"owner_id,omitempty"`
 	AccessStatus string `json:"access_status"`
 }
@@ -34,10 +36,9 @@ type _WorkspaceInput WorkspaceInput
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewWorkspaceInput(name string, hexColor string, accessStatus string) *WorkspaceInput {
+func NewWorkspaceInput(name string, accessStatus string) *WorkspaceInput {
 	this := WorkspaceInput{}
 	this.Name = name
-	this.HexColor = hexColor
 	this.AccessStatus = accessStatus
 	return &this
 }
@@ -74,28 +75,39 @@ func (o *WorkspaceInput) SetName(v string) {
 	o.Name = v
 }
 
-// GetHexColor returns the HexColor field value
+// GetHexColor returns the HexColor field value if set, zero value otherwise.
+// Deprecated
 func (o *WorkspaceInput) GetHexColor() string {
-	if o == nil {
+	if o == nil || IsNil(o.HexColor) {
 		var ret string
 		return ret
 	}
-
-	return o.HexColor
+	return *o.HexColor
 }
 
-// GetHexColorOk returns a tuple with the HexColor field value
+// GetHexColorOk returns a tuple with the HexColor field value if set, nil otherwise
 // and a boolean to check if the value has been set.
+// Deprecated
 func (o *WorkspaceInput) GetHexColorOk() (*string, bool) {
-	if o == nil {
+	if o == nil || IsNil(o.HexColor) {
 		return nil, false
 	}
-	return &o.HexColor, true
+	return o.HexColor, true
 }
 
-// SetHexColor sets field value
+// HasHexColor returns a boolean if a field has been set.
+func (o *WorkspaceInput) HasHexColor() bool {
+	if o != nil && !IsNil(o.HexColor) {
+		return true
+	}
+
+	return false
+}
+
+// SetHexColor gets a reference to the given string and assigns it to the HexColor field.
+// Deprecated
 func (o *WorkspaceInput) SetHexColor(v string) {
-	o.HexColor = v
+	o.HexColor = &v
 }
 
 // GetOwnerId returns the OwnerId field value if set, zero value otherwise.
@@ -165,7 +177,9 @@ func (o WorkspaceInput) MarshalJSON() ([]byte, error) {
 func (o WorkspaceInput) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["name"] = o.Name
-	toSerialize["hex_color"] = o.HexColor
+	if !IsNil(o.HexColor) {
+		toSerialize["hex_color"] = o.HexColor
+	}
 	if !IsNil(o.OwnerId) {
 		toSerialize["owner_id"] = o.OwnerId
 	}
@@ -179,7 +193,6 @@ func (o *WorkspaceInput) UnmarshalJSON(data []byte) (err error) {
 	// that every required field exists as a key in the generic map.
 	requiredProperties := []string{
 		"name",
-		"hex_color",
 		"access_status",
 	}
 

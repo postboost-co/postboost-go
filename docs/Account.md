@@ -12,6 +12,9 @@ Name | Type | Description | Notes
 **Provider** | **string** |  | 
 **Data** | **map[string]interface{}** | Provider-specific metadata. | 
 **Authorized** | **bool** |  | 
+**ProfileUrl** | Pointer to **string** | Public URL of the account&#39;s profile on the network, when known. | [optional] 
+**PublishStatus** | Pointer to **string** | Only present when the account is embedded in a post. Publishing state of this account for the post. | [optional] 
+**PublishedParts** | Pointer to **int32** | Only present when the account is embedded in a post. How many parts (for example thread items or a first comment) are live on the network. | [optional] 
 **CreatedAt** | **time.Time** |  | 
 
 ## Methods
@@ -197,6 +200,81 @@ and a boolean to check if the value has been set.
 
 SetAuthorized sets Authorized field to given value.
 
+
+### GetProfileUrl
+
+`func (o *Account) GetProfileUrl() string`
+
+GetProfileUrl returns the ProfileUrl field if non-nil, zero value otherwise.
+
+### GetProfileUrlOk
+
+`func (o *Account) GetProfileUrlOk() (*string, bool)`
+
+GetProfileUrlOk returns a tuple with the ProfileUrl field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetProfileUrl
+
+`func (o *Account) SetProfileUrl(v string)`
+
+SetProfileUrl sets ProfileUrl field to given value.
+
+### HasProfileUrl
+
+`func (o *Account) HasProfileUrl() bool`
+
+HasProfileUrl returns a boolean if a field has been set.
+
+### GetPublishStatus
+
+`func (o *Account) GetPublishStatus() string`
+
+GetPublishStatus returns the PublishStatus field if non-nil, zero value otherwise.
+
+### GetPublishStatusOk
+
+`func (o *Account) GetPublishStatusOk() (*string, bool)`
+
+GetPublishStatusOk returns a tuple with the PublishStatus field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetPublishStatus
+
+`func (o *Account) SetPublishStatus(v string)`
+
+SetPublishStatus sets PublishStatus field to given value.
+
+### HasPublishStatus
+
+`func (o *Account) HasPublishStatus() bool`
+
+HasPublishStatus returns a boolean if a field has been set.
+
+### GetPublishedParts
+
+`func (o *Account) GetPublishedParts() int32`
+
+GetPublishedParts returns the PublishedParts field if non-nil, zero value otherwise.
+
+### GetPublishedPartsOk
+
+`func (o *Account) GetPublishedPartsOk() (*int32, bool)`
+
+GetPublishedPartsOk returns a tuple with the PublishedParts field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetPublishedParts
+
+`func (o *Account) SetPublishedParts(v int32)`
+
+SetPublishedParts sets PublishedParts field to given value.
+
+### HasPublishedParts
+
+`func (o *Account) HasPublishedParts() bool`
+
+HasPublishedParts returns a boolean if a field has been set.
 
 ### GetCreatedAt
 

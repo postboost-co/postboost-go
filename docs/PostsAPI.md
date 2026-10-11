@@ -10,7 +10,9 @@ Method | HTTP request | Description
 [**DeletePost**](PostsAPI.md#DeletePost) | **Delete** /{workspaceUuid}/posts/{postUuid} | Delete post
 [**DeletePostsBulk**](PostsAPI.md#DeletePostsBulk) | **Delete** /{workspaceUuid}/posts | Delete posts (bulk)
 [**GetPost**](PostsAPI.md#GetPost) | **Get** /{workspaceUuid}/posts/{postUuid} | Get post
+[**GetPostAnalytics**](PostsAPI.md#GetPostAnalytics) | **Get** /{workspaceUuid}/posts/{postUuid}/analytics | Get post analytics
 [**ListPosts**](PostsAPI.md#ListPosts) | **Get** /{workspaceUuid}/posts | List posts
+[**RetryPostAccount**](PostsAPI.md#RetryPostAccount) | **Post** /{workspaceUuid}/posts/retry/{postUuid}/{accountUuid} | Retry publishing to one account
 [**SchedulePost**](PostsAPI.md#SchedulePost) | **Post** /{workspaceUuid}/posts/schedule/{postUuid} | Schedule post
 [**UpdatePost**](PostsAPI.md#UpdatePost) | **Put** /{workspaceUuid}/posts/{postUuid} | Update post
 
@@ -18,7 +20,7 @@ Method | HTTP request | Description
 
 ## AddPostToQueue
 
-> ScheduleResult AddPostToQueue(ctx, workspaceUuid, postUuid).Execute()
+> ScheduleResult AddPostToQueue(ctx, workspaceUuid, postUuid).AddPostToQueueRequest(addPostToQueueRequest).Execute()
 
 Add post to queue
 
@@ -39,10 +41,11 @@ import (
 func main() {
 	workspaceUuid := "38400000-8cf0-11bd-b23e-10b96e4ef00d" // string | UUID of the workspace.
 	postUuid := "38400000-8cf0-11bd-b23e-10b96e4ef00d" // string | UUID of the post.
+	addPostToQueueRequest := *openapiclient.NewAddPostToQueueRequest() // AddPostToQueueRequest |  (optional)
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.PostsAPI.AddPostToQueue(context.Background(), workspaceUuid, postUuid).Execute()
+	resp, r, err := apiClient.PostsAPI.AddPostToQueue(context.Background(), workspaceUuid, postUuid).AddPostToQueueRequest(addPostToQueueRequest).Execute()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error when calling `PostsAPI.AddPostToQueue``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -70,6 +73,7 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 
 
+ **addPostToQueueRequest** | [**AddPostToQueueRequest**](AddPostToQueueRequest.md) |  | 
 
 ### Return type
 
@@ -81,7 +85,7 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
-- **Content-Type**: Not defined
+- **Content-Type**: application/json
 - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
@@ -91,7 +95,7 @@ Name | Type | Description  | Notes
 
 ## ApprovePost
 
-> ScheduleResult ApprovePost(ctx, workspaceUuid, postUuid).Execute()
+> ScheduleResult ApprovePost(ctx, workspaceUuid, postUuid).ApprovePostRequest(approvePostRequest).Execute()
 
 Approve post
 
@@ -112,10 +116,11 @@ import (
 func main() {
 	workspaceUuid := "38400000-8cf0-11bd-b23e-10b96e4ef00d" // string | UUID of the workspace.
 	postUuid := "38400000-8cf0-11bd-b23e-10b96e4ef00d" // string | UUID of the post.
+	approvePostRequest := *openapiclient.NewApprovePostRequest() // ApprovePostRequest |  (optional)
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.PostsAPI.ApprovePost(context.Background(), workspaceUuid, postUuid).Execute()
+	resp, r, err := apiClient.PostsAPI.ApprovePost(context.Background(), workspaceUuid, postUuid).ApprovePostRequest(approvePostRequest).Execute()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error when calling `PostsAPI.ApprovePost``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -143,6 +148,7 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 
 
+ **approvePostRequest** | [**ApprovePostRequest**](ApprovePostRequest.md) |  | 
 
 ### Return type
 
@@ -154,7 +160,7 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
-- **Content-Type**: Not defined
+- **Content-Type**: application/json
 - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
@@ -454,6 +460,79 @@ Name | Type | Description  | Notes
 [[Back to README]](../README.md)
 
 
+## GetPostAnalytics
+
+> PostAnalytics GetPostAnalytics(ctx, workspaceUuid, postUuid).Execute()
+
+Get post analytics
+
+
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/postboost-co/postboost-go"
+)
+
+func main() {
+	workspaceUuid := "38400000-8cf0-11bd-b23e-10b96e4ef00d" // string | UUID of the workspace.
+	postUuid := "38400000-8cf0-11bd-b23e-10b96e4ef00d" // string | UUID of the post.
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.PostsAPI.GetPostAnalytics(context.Background(), workspaceUuid, postUuid).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `PostsAPI.GetPostAnalytics``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `GetPostAnalytics`: PostAnalytics
+	fmt.Fprintf(os.Stdout, "Response from `PostsAPI.GetPostAnalytics`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
+**workspaceUuid** | **string** | UUID of the workspace. | 
+**postUuid** | **string** | UUID of the post. | 
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiGetPostAnalyticsRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
+
+
+### Return type
+
+[**PostAnalytics**](PostAnalytics.md)
+
+### Authorization
+
+[bearerAuth](../README.md#bearerAuth)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
 ## ListPosts
 
 > ListPosts200Response ListPosts(ctx, workspaceUuid).Page(page).Execute()
@@ -511,6 +590,82 @@ Name | Type | Description  | Notes
 ### Return type
 
 [**ListPosts200Response**](ListPosts200Response.md)
+
+### Authorization
+
+[bearerAuth](../README.md#bearerAuth)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## RetryPostAccount
+
+> RetryPostAccountResult RetryPostAccount(ctx, workspaceUuid, postUuid, accountUuid).Execute()
+
+Retry publishing to one account
+
+
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/postboost-co/postboost-go"
+)
+
+func main() {
+	workspaceUuid := "38400000-8cf0-11bd-b23e-10b96e4ef00d" // string | UUID of the workspace.
+	postUuid := "38400000-8cf0-11bd-b23e-10b96e4ef00d" // string | UUID of the post.
+	accountUuid := "38400000-8cf0-11bd-b23e-10b96e4ef00d" // string | UUID of the social media account.
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.PostsAPI.RetryPostAccount(context.Background(), workspaceUuid, postUuid, accountUuid).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `PostsAPI.RetryPostAccount``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `RetryPostAccount`: RetryPostAccountResult
+	fmt.Fprintf(os.Stdout, "Response from `PostsAPI.RetryPostAccount`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
+**workspaceUuid** | **string** | UUID of the workspace. | 
+**postUuid** | **string** | UUID of the post. | 
+**accountUuid** | **string** | UUID of the social media account. | 
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiRetryPostAccountRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
+
+
+
+### Return type
+
+[**RetryPostAccountResult**](RetryPostAccountResult.md)
 
 ### Authorization
 

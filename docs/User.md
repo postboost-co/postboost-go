@@ -7,6 +7,7 @@ Name | Type | Description | Notes
 **Id** | **int32** |  | 
 **Name** | **string** |  | 
 **Email** | **string** |  | 
+**Avatar** | Pointer to **string** | URL of the user&#39;s avatar, or null when none is set. | [optional] 
 **IsAdmin** | **bool** |  | 
 **EmailVerifiedAt** | Pointer to **time.Time** |  | [optional] 
 **CreatedAt** | **time.Time** |  | 
@@ -89,6 +90,31 @@ and a boolean to check if the value has been set.
 
 SetEmail sets Email field to given value.
 
+
+### GetAvatar
+
+`func (o *User) GetAvatar() string`
+
+GetAvatar returns the Avatar field if non-nil, zero value otherwise.
+
+### GetAvatarOk
+
+`func (o *User) GetAvatarOk() (*string, bool)`
+
+GetAvatarOk returns a tuple with the Avatar field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetAvatar
+
+`func (o *User) SetAvatar(v string)`
+
+SetAvatar sets Avatar field to given value.
+
+### HasAvatar
+
+`func (o *User) HasAvatar() bool`
+
+HasAvatar returns a boolean if a field has been set.
 
 ### GetIsAdmin
 

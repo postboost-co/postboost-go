@@ -13,7 +13,7 @@ go get github.com/postboost-co/postboost-go
 | **pkg.go.dev** | [pkg.go.dev/github.com/postboost-co/postboost-go](https://pkg.go.dev/github.com/postboost-co/postboost-go) |
 | **GitHub** | [postboost-co/postboost-go](https://github.com/postboost-co/postboost-go) |
 | **Docs** | [postboost.co/docs/api](https://postboost.co/docs/api) |
-| **Version** | v1.6.0 |
+| **Version** | v1.8.0 |
 
 ## Quick start
 
@@ -43,24 +43,40 @@ Class | Method | HTTP request | Description
 *AIAPI* | [**ImageVariations**](docs/AIAPI.md#imagevariations) | **Post** /{workspaceUuid}/ai/image-variations | Generate variations of an existing media image
 *AccountsAPI* | [**GetAccount**](docs/AccountsAPI.md#getaccount) | **Get** /{workspaceUuid}/accounts/{accountUuid} | Get account
 *AccountsAPI* | [**ListAccounts**](docs/AccountsAPI.md#listaccounts) | **Get** /{workspaceUuid}/accounts | List accounts
+*AnalyticsAPI* | [**GetAccountAnalytics**](docs/AnalyticsAPI.md#getaccountanalytics) | **Get** /{workspaceUuid}/analytics/accounts/{accountUuid} | Get account analytics
+*AnalyticsAPI* | [**GetAnalyticsSummary**](docs/AnalyticsAPI.md#getanalyticssummary) | **Get** /{workspaceUuid}/analytics | Get analytics summary
+*AnalyticsAPI* | [**GetBestPostingTimes**](docs/AnalyticsAPI.md#getbestpostingtimes) | **Get** /{workspaceUuid}/analytics/best-times | Get best posting times
+*AnalyticsAPI* | [**GetPostAnalytics_0**](docs/AnalyticsAPI.md#getpostanalytics_0) | **Get** /{workspaceUuid}/posts/{postUuid}/analytics | Get post analytics
+*AnalyticsAPI* | [**GetPostingTimes**](docs/AnalyticsAPI.md#getpostingtimes) | **Get** /{workspaceUuid}/analytics/posting-times | Get posting times heatmap
 *MediaAPI* | [**AbortChunkedUpload**](docs/MediaAPI.md#abortchunkedupload) | **Delete** /{workspaceUuid}/media/chunked/{uploadUuid} | Abort chunked upload
 *MediaAPI* | [**CompleteChunkedUpload**](docs/MediaAPI.md#completechunkedupload) | **Post** /{workspaceUuid}/media/chunked/{uploadUuid}/complete | Complete chunked upload
+*MediaAPI* | [**CreateMediaFolder**](docs/MediaAPI.md#createmediafolder) | **Post** /{workspaceUuid}/media/folders | Create media folder
 *MediaAPI* | [**DeleteMediaBulk**](docs/MediaAPI.md#deletemediabulk) | **Delete** /{workspaceUuid}/media | Delete media (bulk)
+*MediaAPI* | [**DeleteMediaFolder**](docs/MediaAPI.md#deletemediafolder) | **Delete** /{workspaceUuid}/media/folders/{folderUuid} | Delete media folder
 *MediaAPI* | [**GetMedia**](docs/MediaAPI.md#getmedia) | **Get** /{workspaceUuid}/media/{mediaUuid} | Get media
 *MediaAPI* | [**GetRemoteUploadStatus**](docs/MediaAPI.md#getremoteuploadstatus) | **Get** /{workspaceUuid}/media/remote/{downloadId}/status | Get remote upload status
 *MediaAPI* | [**InitiateChunkedUpload**](docs/MediaAPI.md#initiatechunkedupload) | **Post** /{workspaceUuid}/media/chunked/initiate | Initiate chunked upload
 *MediaAPI* | [**InitiateRemoteUpload**](docs/MediaAPI.md#initiateremoteupload) | **Post** /{workspaceUuid}/media/remote/initiate | Initiate remote upload
 *MediaAPI* | [**ListMedia**](docs/MediaAPI.md#listmedia) | **Get** /{workspaceUuid}/media | List media
+*MediaAPI* | [**ListMediaFolders**](docs/MediaAPI.md#listmediafolders) | **Get** /{workspaceUuid}/media/folders | List media folders
 *MediaAPI* | [**UpdateMedia**](docs/MediaAPI.md#updatemedia) | **Put** /{workspaceUuid}/media/{mediaUuid} | Update media
+*MediaAPI* | [**UpdateMediaFolder**](docs/MediaAPI.md#updatemediafolder) | **Put** /{workspaceUuid}/media/folders/{folderUuid} | Update media folder
 *MediaAPI* | [**UploadChunk**](docs/MediaAPI.md#uploadchunk) | **Post** /{workspaceUuid}/media/chunked/{uploadUuid}/upload | Upload a chunk
 *MediaAPI* | [**UploadMedia**](docs/MediaAPI.md#uploadmedia) | **Post** /{workspaceUuid}/media | Upload media (binary)
+*MentionsAPI* | [**CreateMention**](docs/MentionsAPI.md#createmention) | **Post** /{workspaceUuid}/mentions | Create mention
+*MentionsAPI* | [**DeleteMention**](docs/MentionsAPI.md#deletemention) | **Delete** /{workspaceUuid}/mentions/{mentionId} | Delete mention
+*MentionsAPI* | [**GetMention**](docs/MentionsAPI.md#getmention) | **Get** /{workspaceUuid}/mentions/{mentionId} | Get mention
+*MentionsAPI* | [**ListMentions**](docs/MentionsAPI.md#listmentions) | **Get** /{workspaceUuid}/mentions | List mentions
+*MentionsAPI* | [**UpdateMention**](docs/MentionsAPI.md#updatemention) | **Put** /{workspaceUuid}/mentions/{mentionId} | Update mention
 *PostsAPI* | [**AddPostToQueue**](docs/PostsAPI.md#addposttoqueue) | **Post** /{workspaceUuid}/posts/add-to-queue/{postUuid} | Add post to queue
 *PostsAPI* | [**ApprovePost**](docs/PostsAPI.md#approvepost) | **Post** /{workspaceUuid}/posts/approve/{postUuid} | Approve post
 *PostsAPI* | [**CreatePost**](docs/PostsAPI.md#createpost) | **Post** /{workspaceUuid}/posts | Create post
 *PostsAPI* | [**DeletePost**](docs/PostsAPI.md#deletepost) | **Delete** /{workspaceUuid}/posts/{postUuid} | Delete post
 *PostsAPI* | [**DeletePostsBulk**](docs/PostsAPI.md#deletepostsbulk) | **Delete** /{workspaceUuid}/posts | Delete posts (bulk)
 *PostsAPI* | [**GetPost**](docs/PostsAPI.md#getpost) | **Get** /{workspaceUuid}/posts/{postUuid} | Get post
+*PostsAPI* | [**GetPostAnalytics**](docs/PostsAPI.md#getpostanalytics) | **Get** /{workspaceUuid}/posts/{postUuid}/analytics | Get post analytics
 *PostsAPI* | [**ListPosts**](docs/PostsAPI.md#listposts) | **Get** /{workspaceUuid}/posts | List posts
+*PostsAPI* | [**RetryPostAccount**](docs/PostsAPI.md#retrypostaccount) | **Post** /{workspaceUuid}/posts/retry/{postUuid}/{accountUuid} | Retry publishing to one account
 *PostsAPI* | [**SchedulePost**](docs/PostsAPI.md#schedulepost) | **Post** /{workspaceUuid}/posts/schedule/{postUuid} | Schedule post
 *PostsAPI* | [**UpdatePost**](docs/PostsAPI.md#updatepost) | **Put** /{workspaceUuid}/posts/{postUuid} | Update post
 *ReceiptsAPI* | [**CreateReceipt**](docs/ReceiptsAPI.md#createreceipt) | **Post** /panel/receipts | Create receipt
@@ -95,6 +111,8 @@ Class | Method | HTTP request | Description
 *WorkspacesAPI* | [**DeleteWorkspace**](docs/WorkspacesAPI.md#deleteworkspace) | **Delete** /panel/workspaces/{workspaceUuid} | Delete workspace
 *WorkspacesAPI* | [**DeleteWorkspacesBulk**](docs/WorkspacesAPI.md#deleteworkspacesbulk) | **Delete** /panel/workspaces | Delete workspaces (bulk)
 *WorkspacesAPI* | [**GetWorkspace**](docs/WorkspacesAPI.md#getworkspace) | **Get** /panel/workspaces/{workspaceUuid} | Get workspace
+*WorkspacesAPI* | [**GetWorkspaceAICredits**](docs/WorkspacesAPI.md#getworkspaceaicredits) | **Get** /panel/workspaces/{workspaceUuid}/ai-credits | Get workspace AI credits
+*WorkspacesAPI* | [**ListMyWorkspaces**](docs/WorkspacesAPI.md#listmyworkspaces) | **Get** /workspaces | List my workspaces
 *WorkspacesAPI* | [**ListWorkspaces**](docs/WorkspacesAPI.md#listworkspaces) | **Get** /panel/workspaces | List workspaces
 *WorkspacesAPI* | [**RemoveUserFromWorkspace**](docs/WorkspacesAPI.md#removeuserfromworkspace) | **Delete** /panel/workspaces/{workspaceUuid}/users | Remove user from workspace
 *WorkspacesAPI* | [**UpdateWorkspace**](docs/WorkspacesAPI.md#updateworkspace) | **Put** /panel/workspaces/{workspaceUuid} | Update workspace

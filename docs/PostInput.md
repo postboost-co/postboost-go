@@ -9,7 +9,8 @@ Name | Type | Description | Notes
 **Tags** | Pointer to **[]int32** | Tag IDs to attach. | [optional] 
 **Date** | Pointer to **string** |  | [optional] 
 **Time** | Pointer to **string** |  | [optional] 
-**Timezone** | Pointer to **string** |  | [optional] 
+**Timezone** | Pointer to **string** | Timezone &#x60;date&#x60;, &#x60;time&#x60; and &#x60;accounts_schedule&#x60; are read in. Defaults to the workspace timezone. | [optional] 
+**AccountsSchedule** | Pointer to [**[]AccountSchedule**](AccountSchedule.md) | Per-account departure times. When omitted on update, accounts keep their offsets from the post time. | [optional] 
 **Schedule** | Pointer to **bool** | Schedule the post for the given date/time. | [optional] 
 **ScheduleNow** | Pointer to **bool** | Publish immediately. | [optional] 
 **Queue** | Pointer to **bool** | Add to the smart publishing queue. | [optional] 
@@ -177,6 +178,31 @@ SetTimezone sets Timezone field to given value.
 `func (o *PostInput) HasTimezone() bool`
 
 HasTimezone returns a boolean if a field has been set.
+
+### GetAccountsSchedule
+
+`func (o *PostInput) GetAccountsSchedule() []AccountSchedule`
+
+GetAccountsSchedule returns the AccountsSchedule field if non-nil, zero value otherwise.
+
+### GetAccountsScheduleOk
+
+`func (o *PostInput) GetAccountsScheduleOk() (*[]AccountSchedule, bool)`
+
+GetAccountsScheduleOk returns a tuple with the AccountsSchedule field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetAccountsSchedule
+
+`func (o *PostInput) SetAccountsSchedule(v []AccountSchedule)`
+
+SetAccountsSchedule sets AccountsSchedule field to given value.
+
+### HasAccountsSchedule
+
+`func (o *PostInput) HasAccountsSchedule() bool`
+
+HasAccountsSchedule returns a boolean if a field has been set.
 
 ### GetSchedule
 

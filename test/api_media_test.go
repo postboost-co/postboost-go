@@ -51,6 +51,20 @@ func Test_postboost_MediaAPIService(t *testing.T) {
 
 	})
 
+	t.Run("Test MediaAPIService CreateMediaFolder", func(t *testing.T) {
+
+		t.Skip("skip test")  // remove to run test
+
+		var workspaceUuid string
+
+		resp, httpRes, err := apiClient.MediaAPI.CreateMediaFolder(context.Background(), workspaceUuid).Execute()
+
+		require.Nil(t, err)
+		require.NotNil(t, resp)
+		assert.Equal(t, 200, httpRes.StatusCode)
+
+	})
+
 	t.Run("Test MediaAPIService DeleteMediaBulk", func(t *testing.T) {
 
 		t.Skip("skip test")  // remove to run test
@@ -58,6 +72,21 @@ func Test_postboost_MediaAPIService(t *testing.T) {
 		var workspaceUuid string
 
 		resp, httpRes, err := apiClient.MediaAPI.DeleteMediaBulk(context.Background(), workspaceUuid).Execute()
+
+		require.Nil(t, err)
+		require.NotNil(t, resp)
+		assert.Equal(t, 200, httpRes.StatusCode)
+
+	})
+
+	t.Run("Test MediaAPIService DeleteMediaFolder", func(t *testing.T) {
+
+		t.Skip("skip test")  // remove to run test
+
+		var workspaceUuid string
+		var folderUuid string
+
+		resp, httpRes, err := apiClient.MediaAPI.DeleteMediaFolder(context.Background(), workspaceUuid, folderUuid).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)
@@ -137,6 +166,20 @@ func Test_postboost_MediaAPIService(t *testing.T) {
 
 	})
 
+	t.Run("Test MediaAPIService ListMediaFolders", func(t *testing.T) {
+
+		t.Skip("skip test")  // remove to run test
+
+		var workspaceUuid string
+
+		resp, httpRes, err := apiClient.MediaAPI.ListMediaFolders(context.Background(), workspaceUuid).Execute()
+
+		require.Nil(t, err)
+		require.NotNil(t, resp)
+		assert.Equal(t, 200, httpRes.StatusCode)
+
+	})
+
 	t.Run("Test MediaAPIService UpdateMedia", func(t *testing.T) {
 
 		t.Skip("skip test")  // remove to run test
@@ -145,6 +188,21 @@ func Test_postboost_MediaAPIService(t *testing.T) {
 		var mediaUuid string
 
 		resp, httpRes, err := apiClient.MediaAPI.UpdateMedia(context.Background(), workspaceUuid, mediaUuid).Execute()
+
+		require.Nil(t, err)
+		require.NotNil(t, resp)
+		assert.Equal(t, 200, httpRes.StatusCode)
+
+	})
+
+	t.Run("Test MediaAPIService UpdateMediaFolder", func(t *testing.T) {
+
+		t.Skip("skip test")  // remove to run test
+
+		var workspaceUuid string
+		var folderUuid string
+
+		resp, httpRes, err := apiClient.MediaAPI.UpdateMediaFolder(context.Background(), workspaceUuid, folderUuid).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)
