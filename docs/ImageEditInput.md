@@ -7,6 +7,7 @@ Name | Type | Description | Notes
 **MediaUuid** | **string** | UUID of the source media item to edit | 
 **Prompt** | **string** | Describe what to change in the image | 
 **MaskUuid** | Pointer to **string** | UUID of a mask image. Transparent areas will be edited. | [optional] 
+**UseBrandVoice** | Pointer to **bool** | Append the workspace brand voice&#39;s visual tone to the edit prompt. Off by default because edits are literal instructions. | [optional] [default to false]
 **AspectRatio** | Pointer to **string** |  | [optional] [default to "1:1"]
 **Count** | Pointer to **int32** |  | [optional] [default to 1]
 **Quality** | Pointer to **string** |  | [optional] [default to "standard"]
@@ -94,6 +95,31 @@ SetMaskUuid sets MaskUuid field to given value.
 `func (o *ImageEditInput) HasMaskUuid() bool`
 
 HasMaskUuid returns a boolean if a field has been set.
+
+### GetUseBrandVoice
+
+`func (o *ImageEditInput) GetUseBrandVoice() bool`
+
+GetUseBrandVoice returns the UseBrandVoice field if non-nil, zero value otherwise.
+
+### GetUseBrandVoiceOk
+
+`func (o *ImageEditInput) GetUseBrandVoiceOk() (*bool, bool)`
+
+GetUseBrandVoiceOk returns a tuple with the UseBrandVoice field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetUseBrandVoice
+
+`func (o *ImageEditInput) SetUseBrandVoice(v bool)`
+
+SetUseBrandVoice sets UseBrandVoice field to given value.
+
+### HasUseBrandVoice
+
+`func (o *ImageEditInput) HasUseBrandVoice() bool`
+
+HasUseBrandVoice returns a boolean if a field has been set.
 
 ### GetAspectRatio
 

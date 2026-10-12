@@ -14,7 +14,7 @@ Method | HTTP request | Description
 
 ## CreateMention
 
-> CreateMention201Response CreateMention(ctx, workspaceUuid).MentionInput(mentionInput).Execute()
+> CreateMention201Response CreateMention(ctx, workspaceUuid).MentionInput(mentionInput).IdempotencyKey(idempotencyKey).Execute()
 
 Create mention
 
@@ -35,10 +35,11 @@ import (
 func main() {
 	workspaceUuid := "38400000-8cf0-11bd-b23e-10b96e4ef00d" // string | UUID of the workspace.
 	mentionInput := *openapiclient.NewMentionInput("Name_example") // MentionInput | 
+	idempotencyKey := "idempotencyKey_example" // string | Unique key (for example a UUID) that makes the request safe to retry. A repeat with the same key and body within 24 hours returns the stored response with `Idempotent-Replayed: true` and has no further effect. Keys are scoped to your user, the workspace, the method and the path.  (optional)
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.MentionsAPI.CreateMention(context.Background(), workspaceUuid).MentionInput(mentionInput).Execute()
+	resp, r, err := apiClient.MentionsAPI.CreateMention(context.Background(), workspaceUuid).MentionInput(mentionInput).IdempotencyKey(idempotencyKey).Execute()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error when calling `MentionsAPI.CreateMention``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -65,6 +66,7 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 
  **mentionInput** | [**MentionInput**](MentionInput.md) |  | 
+ **idempotencyKey** | **string** | Unique key (for example a UUID) that makes the request safe to retry. A repeat with the same key and body within 24 hours returns the stored response with &#x60;Idempotent-Replayed: true&#x60; and has no further effect. Keys are scoped to your user, the workspace, the method and the path.  | 
 
 ### Return type
 

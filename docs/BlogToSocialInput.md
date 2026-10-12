@@ -17,6 +17,7 @@ Name | Type | Description | Notes
 **Language** | Pointer to **string** | Output language as an ISO 639-1 code (e.g. &#x60;en&#x60;, &#x60;de&#x60;, &#x60;fr&#x60;). Use &#x60;auto&#x60; to match the blog post&#39;s language automatically.  | [optional] [default to "auto"]
 **CustomInstructions** | Pointer to **string** | Additional instructions appended to the AI prompt (e.g. \&quot;always mention our free tier\&quot;). | [optional] 
 **CreatePost** | Pointer to **bool** | When &#x60;true&#x60;, creates a draft post in the workspace with per-account caption versions. If an image is available, it is imported and attached to the post.  | [optional] [default to false]
+**UseBrandVoice** | Pointer to **bool** | Apply the workspace brand voice (see &#x60;GET brand-voice&#x60;) to the captions. An explicit &#x60;tone&#x60; is kept, but the brand voice wins on vocabulary, words to avoid and calls to action.  | [optional] [default to true]
 
 ## Methods
 
@@ -361,6 +362,31 @@ SetCreatePost sets CreatePost field to given value.
 `func (o *BlogToSocialInput) HasCreatePost() bool`
 
 HasCreatePost returns a boolean if a field has been set.
+
+### GetUseBrandVoice
+
+`func (o *BlogToSocialInput) GetUseBrandVoice() bool`
+
+GetUseBrandVoice returns the UseBrandVoice field if non-nil, zero value otherwise.
+
+### GetUseBrandVoiceOk
+
+`func (o *BlogToSocialInput) GetUseBrandVoiceOk() (*bool, bool)`
+
+GetUseBrandVoiceOk returns a tuple with the UseBrandVoice field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetUseBrandVoice
+
+`func (o *BlogToSocialInput) SetUseBrandVoice(v bool)`
+
+SetUseBrandVoice sets UseBrandVoice field to given value.
+
+### HasUseBrandVoice
+
+`func (o *BlogToSocialInput) HasUseBrandVoice() bool`
+
+HasUseBrandVoice returns a boolean if a field has been set.
 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)

@@ -19,6 +19,7 @@ Method | HTTP request | Description
 [**UpdateMediaFolder**](MediaAPI.md#UpdateMediaFolder) | **Put** /{workspaceUuid}/media/folders/{folderUuid} | Update media folder
 [**UploadChunk**](MediaAPI.md#UploadChunk) | **Post** /{workspaceUuid}/media/chunked/{uploadUuid}/upload | Upload a chunk
 [**UploadMedia**](MediaAPI.md#UploadMedia) | **Post** /{workspaceUuid}/media | Upload media (binary)
+[**UploadMediaBase64**](MediaAPI.md#UploadMediaBase64) | **Post** /{workspaceUuid}/media/base64 | Upload media (base64 JSON)
 
 
 
@@ -170,7 +171,7 @@ Name | Type | Description  | Notes
 
 ## CreateMediaFolder
 
-> MediaFolder CreateMediaFolder(ctx, workspaceUuid).CreateMediaFolderRequest(createMediaFolderRequest).Execute()
+> MediaFolder CreateMediaFolder(ctx, workspaceUuid).CreateMediaFolderRequest(createMediaFolderRequest).IdempotencyKey(idempotencyKey).Execute()
 
 Create media folder
 
@@ -191,10 +192,11 @@ import (
 func main() {
 	workspaceUuid := "38400000-8cf0-11bd-b23e-10b96e4ef00d" // string | UUID of the workspace.
 	createMediaFolderRequest := *openapiclient.NewCreateMediaFolderRequest("Name_example") // CreateMediaFolderRequest | 
+	idempotencyKey := "idempotencyKey_example" // string | Unique key (for example a UUID) that makes the request safe to retry. A repeat with the same key and body within 24 hours returns the stored response with `Idempotent-Replayed: true` and has no further effect. Keys are scoped to your user, the workspace, the method and the path.  (optional)
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.MediaAPI.CreateMediaFolder(context.Background(), workspaceUuid).CreateMediaFolderRequest(createMediaFolderRequest).Execute()
+	resp, r, err := apiClient.MediaAPI.CreateMediaFolder(context.Background(), workspaceUuid).CreateMediaFolderRequest(createMediaFolderRequest).IdempotencyKey(idempotencyKey).Execute()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error when calling `MediaAPI.CreateMediaFolder``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -221,6 +223,7 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 
  **createMediaFolderRequest** | [**CreateMediaFolderRequest**](CreateMediaFolderRequest.md) |  | 
+ **idempotencyKey** | **string** | Unique key (for example a UUID) that makes the request safe to retry. A repeat with the same key and body within 24 hours returns the stored response with &#x60;Idempotent-Replayed: true&#x60; and has no further effect. Keys are scoped to your user, the workspace, the method and the path.  | 
 
 ### Return type
 
@@ -535,7 +538,7 @@ Name | Type | Description  | Notes
 
 ## InitiateChunkedUpload
 
-> InitiateChunkedUpload201Response InitiateChunkedUpload(ctx, workspaceUuid).InitiateChunkedUploadRequest(initiateChunkedUploadRequest).Execute()
+> InitiateChunkedUpload201Response InitiateChunkedUpload(ctx, workspaceUuid).InitiateChunkedUploadRequest(initiateChunkedUploadRequest).IdempotencyKey(idempotencyKey).Execute()
 
 Initiate chunked upload
 
@@ -556,10 +559,11 @@ import (
 func main() {
 	workspaceUuid := "38400000-8cf0-11bd-b23e-10b96e4ef00d" // string | UUID of the workspace.
 	initiateChunkedUploadRequest := *openapiclient.NewInitiateChunkedUploadRequest("Filename_example", "video/mp4", int32(123)) // InitiateChunkedUploadRequest | 
+	idempotencyKey := "idempotencyKey_example" // string | Unique key (for example a UUID) that makes the request safe to retry. A repeat with the same key and body within 24 hours returns the stored response with `Idempotent-Replayed: true` and has no further effect. Keys are scoped to your user, the workspace, the method and the path.  (optional)
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.MediaAPI.InitiateChunkedUpload(context.Background(), workspaceUuid).InitiateChunkedUploadRequest(initiateChunkedUploadRequest).Execute()
+	resp, r, err := apiClient.MediaAPI.InitiateChunkedUpload(context.Background(), workspaceUuid).InitiateChunkedUploadRequest(initiateChunkedUploadRequest).IdempotencyKey(idempotencyKey).Execute()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error when calling `MediaAPI.InitiateChunkedUpload``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -586,6 +590,7 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 
  **initiateChunkedUploadRequest** | [**InitiateChunkedUploadRequest**](InitiateChunkedUploadRequest.md) |  | 
+ **idempotencyKey** | **string** | Unique key (for example a UUID) that makes the request safe to retry. A repeat with the same key and body within 24 hours returns the stored response with &#x60;Idempotent-Replayed: true&#x60; and has no further effect. Keys are scoped to your user, the workspace, the method and the path.  | 
 
 ### Return type
 
@@ -607,7 +612,7 @@ Name | Type | Description  | Notes
 
 ## InitiateRemoteUpload
 
-> InitiateRemoteUpload201Response InitiateRemoteUpload(ctx, workspaceUuid).InitiateRemoteUploadRequest(initiateRemoteUploadRequest).Execute()
+> InitiateRemoteUpload201Response InitiateRemoteUpload(ctx, workspaceUuid).InitiateRemoteUploadRequest(initiateRemoteUploadRequest).IdempotencyKey(idempotencyKey).Execute()
 
 Initiate remote upload
 
@@ -628,10 +633,11 @@ import (
 func main() {
 	workspaceUuid := "38400000-8cf0-11bd-b23e-10b96e4ef00d" // string | UUID of the workspace.
 	initiateRemoteUploadRequest := *openapiclient.NewInitiateRemoteUploadRequest("Url_example") // InitiateRemoteUploadRequest | 
+	idempotencyKey := "idempotencyKey_example" // string | Unique key (for example a UUID) that makes the request safe to retry. A repeat with the same key and body within 24 hours returns the stored response with `Idempotent-Replayed: true` and has no further effect. Keys are scoped to your user, the workspace, the method and the path.  (optional)
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.MediaAPI.InitiateRemoteUpload(context.Background(), workspaceUuid).InitiateRemoteUploadRequest(initiateRemoteUploadRequest).Execute()
+	resp, r, err := apiClient.MediaAPI.InitiateRemoteUpload(context.Background(), workspaceUuid).InitiateRemoteUploadRequest(initiateRemoteUploadRequest).IdempotencyKey(idempotencyKey).Execute()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error when calling `MediaAPI.InitiateRemoteUpload``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -658,6 +664,7 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 
  **initiateRemoteUploadRequest** | [**InitiateRemoteUploadRequest**](InitiateRemoteUploadRequest.md) |  | 
+ **idempotencyKey** | **string** | Unique key (for example a UUID) that makes the request safe to retry. A repeat with the same key and body within 24 hours returns the stored response with &#x60;Idempotent-Replayed: true&#x60; and has no further effect. Keys are scoped to your user, the workspace, the method and the path.  | 
 
 ### Return type
 
@@ -1064,7 +1071,7 @@ Name | Type | Description  | Notes
 
 ## UploadMedia
 
-> Media UploadMedia(ctx, workspaceUuid).File(file).AltText(altText).Folder(folder).Execute()
+> Media UploadMedia(ctx, workspaceUuid).File(file).IdempotencyKey(idempotencyKey).AltText(altText).Folder(folder).Execute()
 
 Upload media (binary)
 
@@ -1085,12 +1092,13 @@ import (
 func main() {
 	workspaceUuid := "38400000-8cf0-11bd-b23e-10b96e4ef00d" // string | UUID of the workspace.
 	file := os.NewFile(1234, "some_file") // *os.File | The file to upload.
+	idempotencyKey := "idempotencyKey_example" // string | Unique key (for example a UUID) that makes the request safe to retry. A repeat with the same key and body within 24 hours returns the stored response with `Idempotent-Replayed: true` and has no further effect. Keys are scoped to your user, the workspace, the method and the path.  (optional)
 	altText := "altText_example" // string | Alternative text for accessibility. (optional)
 	folder := "38400000-8cf0-11bd-b23e-10b96e4ef00d" // string | UUID of the media folder to file the upload in. Omit or null for the library root. (optional)
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.MediaAPI.UploadMedia(context.Background(), workspaceUuid).File(file).AltText(altText).Folder(folder).Execute()
+	resp, r, err := apiClient.MediaAPI.UploadMedia(context.Background(), workspaceUuid).File(file).IdempotencyKey(idempotencyKey).AltText(altText).Folder(folder).Execute()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error when calling `MediaAPI.UploadMedia``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -1117,6 +1125,7 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 
  **file** | ***os.File** | The file to upload. | 
+ **idempotencyKey** | **string** | Unique key (for example a UUID) that makes the request safe to retry. A repeat with the same key and body within 24 hours returns the stored response with &#x60;Idempotent-Replayed: true&#x60; and has no further effect. Keys are scoped to your user, the workspace, the method and the path.  | 
  **altText** | **string** | Alternative text for accessibility. | 
  **folder** | **string** | UUID of the media folder to file the upload in. Omit or null for the library root. | 
 
@@ -1131,6 +1140,80 @@ Name | Type | Description  | Notes
 ### HTTP request headers
 
 - **Content-Type**: multipart/form-data
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## UploadMediaBase64
+
+> Media UploadMediaBase64(ctx, workspaceUuid).MediaBase64Input(mediaBase64Input).IdempotencyKey(idempotencyKey).Execute()
+
+Upload media (base64 JSON)
+
+
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/postboost-co/postboost-go"
+)
+
+func main() {
+	workspaceUuid := "38400000-8cf0-11bd-b23e-10b96e4ef00d" // string | UUID of the workspace.
+	mediaBase64Input := *openapiclient.NewMediaBase64Input("Content_example", "cover.png") // MediaBase64Input | 
+	idempotencyKey := "idempotencyKey_example" // string | Unique key (for example a UUID) that makes the request safe to retry. A repeat with the same key and body within 24 hours returns the stored response with `Idempotent-Replayed: true` and has no further effect. Keys are scoped to your user, the workspace, the method and the path.  (optional)
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.MediaAPI.UploadMediaBase64(context.Background(), workspaceUuid).MediaBase64Input(mediaBase64Input).IdempotencyKey(idempotencyKey).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `MediaAPI.UploadMediaBase64``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `UploadMediaBase64`: Media
+	fmt.Fprintf(os.Stdout, "Response from `MediaAPI.UploadMediaBase64`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
+**workspaceUuid** | **string** | UUID of the workspace. | 
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiUploadMediaBase64Request struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
+ **mediaBase64Input** | [**MediaBase64Input**](MediaBase64Input.md) |  | 
+ **idempotencyKey** | **string** | Unique key (for example a UUID) that makes the request safe to retry. A repeat with the same key and body within 24 hours returns the stored response with &#x60;Idempotent-Replayed: true&#x60; and has no further effect. Keys are scoped to your user, the workspace, the method and the path.  | 
+
+### Return type
+
+[**Media**](Media.md)
+
+### Authorization
+
+[bearerAuth](../README.md#bearerAuth)
+
+### HTTP request headers
+
+- **Content-Type**: application/json
 - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)

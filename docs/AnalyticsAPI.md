@@ -4,12 +4,164 @@ All URIs are relative to *https://postboost.co/app/api*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
+[**CreateReportExport**](AnalyticsAPI.md#CreateReportExport) | **Post** /{workspaceUuid}/reports/exports | Create a report export
+[**DownloadReportExport**](AnalyticsAPI.md#DownloadReportExport) | **Get** /{workspaceUuid}/reports/exports/{exportUuid}/download | Download a report file
 [**GetAccountAnalytics**](AnalyticsAPI.md#GetAccountAnalytics) | **Get** /{workspaceUuid}/analytics/accounts/{accountUuid} | Get account analytics
 [**GetAnalyticsSummary**](AnalyticsAPI.md#GetAnalyticsSummary) | **Get** /{workspaceUuid}/analytics | Get analytics summary
 [**GetBestPostingTimes**](AnalyticsAPI.md#GetBestPostingTimes) | **Get** /{workspaceUuid}/analytics/best-times | Get best posting times
 [**GetPostAnalytics_0**](AnalyticsAPI.md#GetPostAnalytics_0) | **Get** /{workspaceUuid}/posts/{postUuid}/analytics | Get post analytics
 [**GetPostingTimes**](AnalyticsAPI.md#GetPostingTimes) | **Get** /{workspaceUuid}/analytics/posting-times | Get posting times heatmap
+[**GetReportBranding**](AnalyticsAPI.md#GetReportBranding) | **Get** /{workspaceUuid}/report-branding | Get the report branding
+[**GetReportExport**](AnalyticsAPI.md#GetReportExport) | **Get** /{workspaceUuid}/reports/exports/{exportUuid} | Get a report export
+[**ListReportExports**](AnalyticsAPI.md#ListReportExports) | **Get** /{workspaceUuid}/reports/exports | List report exports
+[**UpdateReportBranding**](AnalyticsAPI.md#UpdateReportBranding) | **Put** /{workspaceUuid}/report-branding | Update the report branding
+[**UploadReportBrandingLogo**](AnalyticsAPI.md#UploadReportBrandingLogo) | **Post** /{workspaceUuid}/report-branding/logo | Upload the report logo
 
+
+
+## CreateReportExport
+
+> CreateReportExport201Response CreateReportExport(ctx, workspaceUuid).ReportExportInput(reportExportInput).Execute()
+
+Create a report export
+
+
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/postboost-co/postboost-go"
+)
+
+func main() {
+	workspaceUuid := "38400000-8cf0-11bd-b23e-10b96e4ef00d" // string | UUID of the workspace.
+	reportExportInput := *openapiclient.NewReportExportInput("Format_example") // ReportExportInput | 
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.AnalyticsAPI.CreateReportExport(context.Background(), workspaceUuid).ReportExportInput(reportExportInput).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `AnalyticsAPI.CreateReportExport``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `CreateReportExport`: CreateReportExport201Response
+	fmt.Fprintf(os.Stdout, "Response from `AnalyticsAPI.CreateReportExport`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
+**workspaceUuid** | **string** | UUID of the workspace. | 
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiCreateReportExportRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
+ **reportExportInput** | [**ReportExportInput**](ReportExportInput.md) |  | 
+
+### Return type
+
+[**CreateReportExport201Response**](CreateReportExport201Response.md)
+
+### Authorization
+
+[bearerAuth](../README.md#bearerAuth)
+
+### HTTP request headers
+
+- **Content-Type**: application/json
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## DownloadReportExport
+
+> *os.File DownloadReportExport(ctx, workspaceUuid, exportUuid).Execute()
+
+Download a report file
+
+
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/postboost-co/postboost-go"
+)
+
+func main() {
+	workspaceUuid := "38400000-8cf0-11bd-b23e-10b96e4ef00d" // string | UUID of the workspace.
+	exportUuid := "38400000-8cf0-11bd-b23e-10b96e4ef00d" // string | UUID of the report export.
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.AnalyticsAPI.DownloadReportExport(context.Background(), workspaceUuid, exportUuid).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `AnalyticsAPI.DownloadReportExport``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `DownloadReportExport`: *os.File
+	fmt.Fprintf(os.Stdout, "Response from `AnalyticsAPI.DownloadReportExport`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
+**workspaceUuid** | **string** | UUID of the workspace. | 
+**exportUuid** | **string** | UUID of the report export. | 
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiDownloadReportExportRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
+
+
+### Return type
+
+[***os.File**](*os.File.md)
+
+### Authorization
+
+[bearerAuth](../README.md#bearerAuth)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: application/pdf, text/csv, application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
 
 
 ## GetAccountAnalytics
@@ -396,6 +548,361 @@ Name | Type | Description  | Notes
 ### HTTP request headers
 
 - **Content-Type**: Not defined
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## GetReportBranding
+
+> GetReportBranding200Response GetReportBranding(ctx, workspaceUuid).Execute()
+
+Get the report branding
+
+
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/postboost-co/postboost-go"
+)
+
+func main() {
+	workspaceUuid := "38400000-8cf0-11bd-b23e-10b96e4ef00d" // string | UUID of the workspace.
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.AnalyticsAPI.GetReportBranding(context.Background(), workspaceUuid).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `AnalyticsAPI.GetReportBranding``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `GetReportBranding`: GetReportBranding200Response
+	fmt.Fprintf(os.Stdout, "Response from `AnalyticsAPI.GetReportBranding`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
+**workspaceUuid** | **string** | UUID of the workspace. | 
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiGetReportBrandingRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
+
+### Return type
+
+[**GetReportBranding200Response**](GetReportBranding200Response.md)
+
+### Authorization
+
+[bearerAuth](../README.md#bearerAuth)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## GetReportExport
+
+> CreateReportExport201Response GetReportExport(ctx, workspaceUuid, exportUuid).Execute()
+
+Get a report export
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/postboost-co/postboost-go"
+)
+
+func main() {
+	workspaceUuid := "38400000-8cf0-11bd-b23e-10b96e4ef00d" // string | UUID of the workspace.
+	exportUuid := "38400000-8cf0-11bd-b23e-10b96e4ef00d" // string | UUID of the report export.
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.AnalyticsAPI.GetReportExport(context.Background(), workspaceUuid, exportUuid).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `AnalyticsAPI.GetReportExport``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `GetReportExport`: CreateReportExport201Response
+	fmt.Fprintf(os.Stdout, "Response from `AnalyticsAPI.GetReportExport`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
+**workspaceUuid** | **string** | UUID of the workspace. | 
+**exportUuid** | **string** | UUID of the report export. | 
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiGetReportExportRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
+
+
+### Return type
+
+[**CreateReportExport201Response**](CreateReportExport201Response.md)
+
+### Authorization
+
+[bearerAuth](../README.md#bearerAuth)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## ListReportExports
+
+> ListReportExports200Response ListReportExports(ctx, workspaceUuid).Execute()
+
+List report exports
+
+
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/postboost-co/postboost-go"
+)
+
+func main() {
+	workspaceUuid := "38400000-8cf0-11bd-b23e-10b96e4ef00d" // string | UUID of the workspace.
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.AnalyticsAPI.ListReportExports(context.Background(), workspaceUuid).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `AnalyticsAPI.ListReportExports``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `ListReportExports`: ListReportExports200Response
+	fmt.Fprintf(os.Stdout, "Response from `AnalyticsAPI.ListReportExports`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
+**workspaceUuid** | **string** | UUID of the workspace. | 
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiListReportExportsRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
+
+### Return type
+
+[**ListReportExports200Response**](ListReportExports200Response.md)
+
+### Authorization
+
+[bearerAuth](../README.md#bearerAuth)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## UpdateReportBranding
+
+> GetReportBranding200Response UpdateReportBranding(ctx, workspaceUuid).ReportBrandingInput(reportBrandingInput).Execute()
+
+Update the report branding
+
+
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/postboost-co/postboost-go"
+)
+
+func main() {
+	workspaceUuid := "38400000-8cf0-11bd-b23e-10b96e4ef00d" // string | UUID of the workspace.
+	reportBrandingInput := *openapiclient.NewReportBrandingInput() // ReportBrandingInput | 
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.AnalyticsAPI.UpdateReportBranding(context.Background(), workspaceUuid).ReportBrandingInput(reportBrandingInput).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `AnalyticsAPI.UpdateReportBranding``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `UpdateReportBranding`: GetReportBranding200Response
+	fmt.Fprintf(os.Stdout, "Response from `AnalyticsAPI.UpdateReportBranding`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
+**workspaceUuid** | **string** | UUID of the workspace. | 
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiUpdateReportBrandingRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
+ **reportBrandingInput** | [**ReportBrandingInput**](ReportBrandingInput.md) |  | 
+
+### Return type
+
+[**GetReportBranding200Response**](GetReportBranding200Response.md)
+
+### Authorization
+
+[bearerAuth](../README.md#bearerAuth)
+
+### HTTP request headers
+
+- **Content-Type**: application/json
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## UploadReportBrandingLogo
+
+> GetReportBranding200Response UploadReportBrandingLogo(ctx, workspaceUuid).Logo(logo).Execute()
+
+Upload the report logo
+
+
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/postboost-co/postboost-go"
+)
+
+func main() {
+	workspaceUuid := "38400000-8cf0-11bd-b23e-10b96e4ef00d" // string | UUID of the workspace.
+	logo := os.NewFile(1234, "some_file") // *os.File | 
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.AnalyticsAPI.UploadReportBrandingLogo(context.Background(), workspaceUuid).Logo(logo).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `AnalyticsAPI.UploadReportBrandingLogo``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `UploadReportBrandingLogo`: GetReportBranding200Response
+	fmt.Fprintf(os.Stdout, "Response from `AnalyticsAPI.UploadReportBrandingLogo`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
+**workspaceUuid** | **string** | UUID of the workspace. | 
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiUploadReportBrandingLogoRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
+ **logo** | ***os.File** |  | 
+
+### Return type
+
+[**GetReportBranding200Response**](GetReportBranding200Response.md)
+
+### Authorization
+
+[bearerAuth](../README.md#bearerAuth)
+
+### HTTP request headers
+
+- **Content-Type**: multipart/form-data
 - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)

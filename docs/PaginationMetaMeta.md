@@ -5,10 +5,10 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **CurrentPage** | Pointer to **int32** |  | [optional] 
-**From** | Pointer to **int32** |  | [optional] 
+**From** | Pointer to **NullableInt32** |  | [optional] 
 **LastPage** | Pointer to **int32** |  | [optional] 
 **PerPage** | Pointer to **int32** |  | [optional] 
-**To** | Pointer to **int32** |  | [optional] 
+**To** | Pointer to **NullableInt32** |  | [optional] 
 **Total** | Pointer to **int32** |  | [optional] 
 
 ## Methods
@@ -80,6 +80,16 @@ SetFrom sets From field to given value.
 
 HasFrom returns a boolean if a field has been set.
 
+### SetFromNil
+
+`func (o *PaginationMetaMeta) SetFromNil(b bool)`
+
+ SetFromNil sets the value for From to be an explicit nil
+
+### UnsetFrom
+`func (o *PaginationMetaMeta) UnsetFrom()`
+
+UnsetFrom ensures that no value is present for From, not even an explicit nil
 ### GetLastPage
 
 `func (o *PaginationMetaMeta) GetLastPage() int32`
@@ -155,6 +165,16 @@ SetTo sets To field to given value.
 
 HasTo returns a boolean if a field has been set.
 
+### SetToNil
+
+`func (o *PaginationMetaMeta) SetToNil(b bool)`
+
+ SetToNil sets the value for To to be an explicit nil
+
+### UnsetTo
+`func (o *PaginationMetaMeta) UnsetTo()`
+
+UnsetTo ensures that no value is present for To, not even an explicit nil
 ### GetTotal
 
 `func (o *PaginationMetaMeta) GetTotal() int32`

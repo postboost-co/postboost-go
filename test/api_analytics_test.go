@@ -22,6 +22,35 @@ func Test_postboost_AnalyticsAPIService(t *testing.T) {
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
 
+	t.Run("Test AnalyticsAPIService CreateReportExport", func(t *testing.T) {
+
+		t.Skip("skip test")  // remove to run test
+
+		var workspaceUuid string
+
+		resp, httpRes, err := apiClient.AnalyticsAPI.CreateReportExport(context.Background(), workspaceUuid).Execute()
+
+		require.Nil(t, err)
+		require.NotNil(t, resp)
+		assert.Equal(t, 200, httpRes.StatusCode)
+
+	})
+
+	t.Run("Test AnalyticsAPIService DownloadReportExport", func(t *testing.T) {
+
+		t.Skip("skip test")  // remove to run test
+
+		var workspaceUuid string
+		var exportUuid string
+
+		resp, httpRes, err := apiClient.AnalyticsAPI.DownloadReportExport(context.Background(), workspaceUuid, exportUuid).Execute()
+
+		require.Nil(t, err)
+		require.NotNil(t, resp)
+		assert.Equal(t, 200, httpRes.StatusCode)
+
+	})
+
 	t.Run("Test AnalyticsAPIService GetAccountAnalytics", func(t *testing.T) {
 
 		t.Skip("skip test")  // remove to run test
@@ -87,6 +116,77 @@ func Test_postboost_AnalyticsAPIService(t *testing.T) {
 		var workspaceUuid string
 
 		resp, httpRes, err := apiClient.AnalyticsAPI.GetPostingTimes(context.Background(), workspaceUuid).Execute()
+
+		require.Nil(t, err)
+		require.NotNil(t, resp)
+		assert.Equal(t, 200, httpRes.StatusCode)
+
+	})
+
+	t.Run("Test AnalyticsAPIService GetReportBranding", func(t *testing.T) {
+
+		t.Skip("skip test")  // remove to run test
+
+		var workspaceUuid string
+
+		resp, httpRes, err := apiClient.AnalyticsAPI.GetReportBranding(context.Background(), workspaceUuid).Execute()
+
+		require.Nil(t, err)
+		require.NotNil(t, resp)
+		assert.Equal(t, 200, httpRes.StatusCode)
+
+	})
+
+	t.Run("Test AnalyticsAPIService GetReportExport", func(t *testing.T) {
+
+		t.Skip("skip test")  // remove to run test
+
+		var workspaceUuid string
+		var exportUuid string
+
+		resp, httpRes, err := apiClient.AnalyticsAPI.GetReportExport(context.Background(), workspaceUuid, exportUuid).Execute()
+
+		require.Nil(t, err)
+		require.NotNil(t, resp)
+		assert.Equal(t, 200, httpRes.StatusCode)
+
+	})
+
+	t.Run("Test AnalyticsAPIService ListReportExports", func(t *testing.T) {
+
+		t.Skip("skip test")  // remove to run test
+
+		var workspaceUuid string
+
+		resp, httpRes, err := apiClient.AnalyticsAPI.ListReportExports(context.Background(), workspaceUuid).Execute()
+
+		require.Nil(t, err)
+		require.NotNil(t, resp)
+		assert.Equal(t, 200, httpRes.StatusCode)
+
+	})
+
+	t.Run("Test AnalyticsAPIService UpdateReportBranding", func(t *testing.T) {
+
+		t.Skip("skip test")  // remove to run test
+
+		var workspaceUuid string
+
+		resp, httpRes, err := apiClient.AnalyticsAPI.UpdateReportBranding(context.Background(), workspaceUuid).Execute()
+
+		require.Nil(t, err)
+		require.NotNil(t, resp)
+		assert.Equal(t, 200, httpRes.StatusCode)
+
+	})
+
+	t.Run("Test AnalyticsAPIService UploadReportBrandingLogo", func(t *testing.T) {
+
+		t.Skip("skip test")  // remove to run test
+
+		var workspaceUuid string
+
+		resp, httpRes, err := apiClient.AnalyticsAPI.UploadReportBrandingLogo(context.Background(), workspaceUuid).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)

@@ -8,7 +8,8 @@ Name | Type | Description | Notes
 **Platform** | **string** |  | 
 **Template** | Pointer to **string** |  | [optional] 
 **Style** | Pointer to **string** |  | [optional] 
-**BrandVoice** | Pointer to **string** |  | [optional] 
+**BrandVoice** | Pointer to **string** | Free-text tone for the image. When sent, it replaces the stored workspace brand voice for this call. | [optional] 
+**UseBrandVoice** | Pointer to **bool** | When &#x60;brand_voice&#x60; is not sent, derive the image tone from the workspace brand voice. Ignored in developer mode (&#x60;prompt&#x60;). | [optional] [default to true]
 **CustomInstructions** | Pointer to **string** |  | [optional] 
 
 ## Methods
@@ -144,6 +145,31 @@ SetBrandVoice sets BrandVoice field to given value.
 `func (o *ImagePromptInput) HasBrandVoice() bool`
 
 HasBrandVoice returns a boolean if a field has been set.
+
+### GetUseBrandVoice
+
+`func (o *ImagePromptInput) GetUseBrandVoice() bool`
+
+GetUseBrandVoice returns the UseBrandVoice field if non-nil, zero value otherwise.
+
+### GetUseBrandVoiceOk
+
+`func (o *ImagePromptInput) GetUseBrandVoiceOk() (*bool, bool)`
+
+GetUseBrandVoiceOk returns a tuple with the UseBrandVoice field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetUseBrandVoice
+
+`func (o *ImagePromptInput) SetUseBrandVoice(v bool)`
+
+SetUseBrandVoice sets UseBrandVoice field to given value.
+
+### HasUseBrandVoice
+
+`func (o *ImagePromptInput) HasUseBrandVoice() bool`
+
+HasUseBrandVoice returns a boolean if a field has been set.
 
 ### GetCustomInstructions
 

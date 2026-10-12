@@ -1,9 +1,9 @@
 /*
 PostBoost API
 
-The PostBoost REST API lets you publish, schedule, and analyze social media posts across 12+ platforms from a single integration. No OAuth apps to maintain — PostBoost handles platform authorization for you.  ## Base URL All workspace-scoped endpoints are prefixed with `/{workspaceUuid}`. Panel/admin endpoints are prefixed with `/panel`.  ## Plan access Every workspace-scoped endpoint returns `403` when the workspace's plan does not include API access (capability `api`).  ## Dates and times Post dates and times (`date`, `time`, `accounts_schedule`) are read in the request's `timezone` when one is given, otherwise in the workspace timezone.  ## Authentication All requests require a Bearer token in the `Authorization` header. Generate tokens in your PostBoost dashboard under **Settings → Access Tokens**.  ``` Authorization: Bearer YOUR_API_TOKEN ``` 
+The PostBoost REST API lets you publish, schedule, and analyze social media posts across 12+ platforms from a single integration. No OAuth apps to maintain — PostBoost handles platform authorization for you.  ## Base URL All workspace-scoped endpoints are prefixed with `/{workspaceUuid}`. Panel/admin endpoints are prefixed with `/panel`.  ## Plan access Every workspace-scoped endpoint returns `403` when the workspace's plan does not include API access (capability `api`).  ## Dates and times Post dates and times (`date`, `time`, `accounts_schedule`) are read in the request's `timezone` when one is given, otherwise in the workspace timezone.  ## Idempotent requests Send an `Idempotency-Key` header (any unique string, for example a UUID) with a `POST`. Repeating the request with the same key within 24 hours returns the stored response with `Idempotent-Replayed: true` and creates nothing new. Reusing a key with a different body returns `422`; a request still in progress with the same key returns `409`. `5xx` and `429` responses are not stored, so they can be retried with the same key.  ## Guardrails for automated clients Create and update requests are checked before anything is written: a post whose content matches one created for the same account in the last 24 hours returns `409` (`code: duplicate_post`, override with `allow_duplicate: true`), scheduling past an account's daily cap returns `429` (`code: account_daily_cap_reached`), and scheduling to an account that must be reconnected returns `422` (`code: account_unauthorized` or `account_token_missing`). Use `POST /{workspaceUuid}/posts/validate` for a dry run and `GET /{workspaceUuid}/activity` to review what API clients did.  ## Authentication All requests require a Bearer token in the `Authorization` header. Generate tokens in your PostBoost dashboard under **Settings → Access Tokens**.  ``` Authorization: Bearer YOUR_API_TOKEN ``` 
 
-API version: 1.8.0
+API version: 1.14.0
 Contact: hi@postboost.co
 */
 
@@ -295,10 +295,17 @@ type ApiCreateMediaFolderRequest struct {
 	ApiService *MediaAPIService
 	workspaceUuid string
 	createMediaFolderRequest *CreateMediaFolderRequest
+	idempotencyKey *string
 }
 
 func (r ApiCreateMediaFolderRequest) CreateMediaFolderRequest(createMediaFolderRequest CreateMediaFolderRequest) ApiCreateMediaFolderRequest {
 	r.createMediaFolderRequest = &createMediaFolderRequest
+	return r
+}
+
+// Unique key (for example a UUID) that makes the request safe to retry. A repeat with the same key and body within 24 hours returns the stored response with &#x60;Idempotent-Replayed: true&#x60; and has no further effect. Keys are scoped to your user, the workspace, the method and the path. 
+func (r ApiCreateMediaFolderRequest) IdempotencyKey(idempotencyKey string) ApiCreateMediaFolderRequest {
+	r.idempotencyKey = &idempotencyKey
 	return r
 }
 
@@ -364,6 +371,9 @@ func (a *MediaAPIService) CreateMediaFolderExecute(r ApiCreateMediaFolderRequest
 	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
 	if localVarHTTPHeaderAccept != "" {
 		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	if r.idempotencyKey != nil {
+		parameterAddToHeaderOrQuery(localVarHeaderParams, "Idempotency-Key", r.idempotencyKey, "simple", "")
 	}
 	// body params
 	localVarPostBody = r.createMediaFolderRequest
@@ -1012,10 +1022,17 @@ type ApiInitiateChunkedUploadRequest struct {
 	ApiService *MediaAPIService
 	workspaceUuid string
 	initiateChunkedUploadRequest *InitiateChunkedUploadRequest
+	idempotencyKey *string
 }
 
 func (r ApiInitiateChunkedUploadRequest) InitiateChunkedUploadRequest(initiateChunkedUploadRequest InitiateChunkedUploadRequest) ApiInitiateChunkedUploadRequest {
 	r.initiateChunkedUploadRequest = &initiateChunkedUploadRequest
+	return r
+}
+
+// Unique key (for example a UUID) that makes the request safe to retry. A repeat with the same key and body within 24 hours returns the stored response with &#x60;Idempotent-Replayed: true&#x60; and has no further effect. Keys are scoped to your user, the workspace, the method and the path. 
+func (r ApiInitiateChunkedUploadRequest) IdempotencyKey(idempotencyKey string) ApiInitiateChunkedUploadRequest {
+	r.idempotencyKey = &idempotencyKey
 	return r
 }
 
@@ -1083,6 +1100,9 @@ func (a *MediaAPIService) InitiateChunkedUploadExecute(r ApiInitiateChunkedUploa
 	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
 	if localVarHTTPHeaderAccept != "" {
 		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	if r.idempotencyKey != nil {
+		parameterAddToHeaderOrQuery(localVarHeaderParams, "Idempotency-Key", r.idempotencyKey, "simple", "")
 	}
 	// body params
 	localVarPostBody = r.initiateChunkedUploadRequest
@@ -1160,10 +1180,17 @@ type ApiInitiateRemoteUploadRequest struct {
 	ApiService *MediaAPIService
 	workspaceUuid string
 	initiateRemoteUploadRequest *InitiateRemoteUploadRequest
+	idempotencyKey *string
 }
 
 func (r ApiInitiateRemoteUploadRequest) InitiateRemoteUploadRequest(initiateRemoteUploadRequest InitiateRemoteUploadRequest) ApiInitiateRemoteUploadRequest {
 	r.initiateRemoteUploadRequest = &initiateRemoteUploadRequest
+	return r
+}
+
+// Unique key (for example a UUID) that makes the request safe to retry. A repeat with the same key and body within 24 hours returns the stored response with &#x60;Idempotent-Replayed: true&#x60; and has no further effect. Keys are scoped to your user, the workspace, the method and the path. 
+func (r ApiInitiateRemoteUploadRequest) IdempotencyKey(idempotencyKey string) ApiInitiateRemoteUploadRequest {
+	r.idempotencyKey = &idempotencyKey
 	return r
 }
 
@@ -1232,6 +1259,9 @@ func (a *MediaAPIService) InitiateRemoteUploadExecute(r ApiInitiateRemoteUploadR
 	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
 	if localVarHTTPHeaderAccept != "" {
 		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	if r.idempotencyKey != nil {
+		parameterAddToHeaderOrQuery(localVarHeaderParams, "Idempotency-Key", r.idempotencyKey, "simple", "")
 	}
 	// body params
 	localVarPostBody = r.initiateRemoteUploadRequest
@@ -2165,6 +2195,7 @@ type ApiUploadMediaRequest struct {
 	ApiService *MediaAPIService
 	workspaceUuid string
 	file *os.File
+	idempotencyKey *string
 	altText *string
 	folder *string
 }
@@ -2172,6 +2203,12 @@ type ApiUploadMediaRequest struct {
 // The file to upload.
 func (r ApiUploadMediaRequest) File(file *os.File) ApiUploadMediaRequest {
 	r.file = file
+	return r
+}
+
+// Unique key (for example a UUID) that makes the request safe to retry. A repeat with the same key and body within 24 hours returns the stored response with &#x60;Idempotent-Replayed: true&#x60; and has no further effect. Keys are scoped to your user, the workspace, the method and the path. 
+func (r ApiUploadMediaRequest) IdempotencyKey(idempotencyKey string) ApiUploadMediaRequest {
+	r.idempotencyKey = &idempotencyKey
 	return r
 }
 
@@ -2194,7 +2231,10 @@ func (r ApiUploadMediaRequest) Execute() (*Media, *http.Response, error) {
 /*
 UploadMedia Upload media (binary)
 
-Upload a file directly as multipart form data.
+Upload a file directly as multipart form data. Images and videos, plus a PDF (up to 100 MB)
+for LinkedIn document posts: a post that attaches a PDF must have it as the only media item
+and may only go to LinkedIn profiles and pages.
+
 
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @param workspaceUuid UUID of the workspace.
@@ -2249,6 +2289,9 @@ func (a *MediaAPIService) UploadMediaExecute(r ApiUploadMediaRequest) (*Media, *
 	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
 	if localVarHTTPHeaderAccept != "" {
 		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	if r.idempotencyKey != nil {
+		parameterAddToHeaderOrQuery(localVarHeaderParams, "Idempotency-Key", r.idempotencyKey, "simple", "")
 	}
 	var fileLocalVarFormFileName string
 	var fileLocalVarFileName     string
@@ -2324,6 +2367,134 @@ func (a *MediaAPIService) UploadMediaExecute(r ApiUploadMediaRequest) (*Media, *
 			}
 					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
 					newErr.model = v
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
+type ApiUploadMediaBase64Request struct {
+	ctx context.Context
+	ApiService *MediaAPIService
+	workspaceUuid string
+	mediaBase64Input *MediaBase64Input
+	idempotencyKey *string
+}
+
+func (r ApiUploadMediaBase64Request) MediaBase64Input(mediaBase64Input MediaBase64Input) ApiUploadMediaBase64Request {
+	r.mediaBase64Input = &mediaBase64Input
+	return r
+}
+
+// Unique key (for example a UUID) that makes the request safe to retry. A repeat with the same key and body within 24 hours returns the stored response with &#x60;Idempotent-Replayed: true&#x60; and has no further effect. Keys are scoped to your user, the workspace, the method and the path. 
+func (r ApiUploadMediaBase64Request) IdempotencyKey(idempotencyKey string) ApiUploadMediaBase64Request {
+	r.idempotencyKey = &idempotencyKey
+	return r
+}
+
+func (r ApiUploadMediaBase64Request) Execute() (*Media, *http.Response, error) {
+	return r.ApiService.UploadMediaBase64Execute(r)
+}
+
+/*
+UploadMediaBase64 Upload media (base64 JSON)
+
+Upload a file as base64 inside a JSON body, for agents and tools that cannot send multipart
+form data. The decoded file is checked exactly like `POST media` (allowed types and size
+limits; a PDF is accepted for LinkedIn document posts). Decoded size is capped at 20 MB; for
+larger files use remote upload by URL or chunked upload.
+
+
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @param workspaceUuid UUID of the workspace.
+ @return ApiUploadMediaBase64Request
+*/
+func (a *MediaAPIService) UploadMediaBase64(ctx context.Context, workspaceUuid string) ApiUploadMediaBase64Request {
+	return ApiUploadMediaBase64Request{
+		ApiService: a,
+		ctx: ctx,
+		workspaceUuid: workspaceUuid,
+	}
+}
+
+// Execute executes the request
+//  @return Media
+func (a *MediaAPIService) UploadMediaBase64Execute(r ApiUploadMediaBase64Request) (*Media, *http.Response, error) {
+	var (
+		localVarHTTPMethod   = http.MethodPost
+		localVarPostBody     interface{}
+		formFiles            []formFile
+		localVarReturnValue  *Media
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "MediaAPIService.UploadMediaBase64")
+	if err != nil {
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/{workspaceUuid}/media/base64"
+	localVarPath = strings.Replace(localVarPath, "{"+"workspaceUuid"+"}", url.PathEscape(parameterValueToString(r.workspaceUuid, "workspaceUuid")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+	if r.mediaBase64Input == nil {
+		return localVarReturnValue, nil, reportError("mediaBase64Input is required and must be specified")
+	}
+
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{"application/json"}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	if r.idempotencyKey != nil {
+		parameterAddToHeaderOrQuery(localVarHeaderParams, "Idempotency-Key", r.idempotencyKey, "simple", "")
+	}
+	// body params
+	localVarPostBody = r.mediaBase64Input
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}

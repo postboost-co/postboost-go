@@ -1,9 +1,9 @@
 /*
 PostBoost API
 
-The PostBoost REST API lets you publish, schedule, and analyze social media posts across 12+ platforms from a single integration. No OAuth apps to maintain — PostBoost handles platform authorization for you.  ## Base URL All workspace-scoped endpoints are prefixed with `/{workspaceUuid}`. Panel/admin endpoints are prefixed with `/panel`.  ## Plan access Every workspace-scoped endpoint returns `403` when the workspace's plan does not include API access (capability `api`).  ## Dates and times Post dates and times (`date`, `time`, `accounts_schedule`) are read in the request's `timezone` when one is given, otherwise in the workspace timezone.  ## Authentication All requests require a Bearer token in the `Authorization` header. Generate tokens in your PostBoost dashboard under **Settings → Access Tokens**.  ``` Authorization: Bearer YOUR_API_TOKEN ``` 
+The PostBoost REST API lets you publish, schedule, and analyze social media posts across 12+ platforms from a single integration. No OAuth apps to maintain — PostBoost handles platform authorization for you.  ## Base URL All workspace-scoped endpoints are prefixed with `/{workspaceUuid}`. Panel/admin endpoints are prefixed with `/panel`.  ## Plan access Every workspace-scoped endpoint returns `403` when the workspace's plan does not include API access (capability `api`).  ## Dates and times Post dates and times (`date`, `time`, `accounts_schedule`) are read in the request's `timezone` when one is given, otherwise in the workspace timezone.  ## Idempotent requests Send an `Idempotency-Key` header (any unique string, for example a UUID) with a `POST`. Repeating the request with the same key within 24 hours returns the stored response with `Idempotent-Replayed: true` and creates nothing new. Reusing a key with a different body returns `422`; a request still in progress with the same key returns `409`. `5xx` and `429` responses are not stored, so they can be retried with the same key.  ## Guardrails for automated clients Create and update requests are checked before anything is written: a post whose content matches one created for the same account in the last 24 hours returns `409` (`code: duplicate_post`, override with `allow_duplicate: true`), scheduling past an account's daily cap returns `429` (`code: account_daily_cap_reached`), and scheduling to an account that must be reconnected returns `422` (`code: account_unauthorized` or `account_token_missing`). Use `POST /{workspaceUuid}/posts/validate` for a dry run and `GET /{workspaceUuid}/activity` to review what API clients did.  ## Authentication All requests require a Bearer token in the `Authorization` header. Generate tokens in your PostBoost dashboard under **Settings → Access Tokens**.  ``` Authorization: Bearer YOUR_API_TOKEN ``` 
 
-API version: 1.8.0
+API version: 1.14.0
 Contact: hi@postboost.co
 */
 
@@ -13,7 +13,6 @@ package postboost
 
 import (
 	"encoding/json"
-	"time"
 	"bytes"
 	"fmt"
 )
@@ -38,7 +37,12 @@ type Account struct {
 	PublishStatus *string `json:"publish_status,omitempty"`
 	// Only present when the account is embedded in a post. How many parts (for example thread items or a first comment) are live on the network.
 	PublishedParts *int32 `json:"published_parts,omitempty"`
-	CreatedAt time.Time `json:"created_at"`
+	// Only present when the account is embedded in a post. URL of the published post on the network, null until it is live.
+	ExternalUrl NullableString `json:"external_url,omitempty"`
+	// Only present when the account is embedded in a post. Why publishing to this account failed. A raw network error is stored as two entries: a readable line (`\"<Network>: <message> (code <code>)\"`) and an object `{platform, code, message, raw}` with the network's original response in `raw`. Other failures are a single readable string. 
+	Errors []AccountErrorsInner `json:"errors,omitempty"`
+	// UTC, formatted `Y-m-d H:i:s`.
+	CreatedAt string `json:"created_at"`
 }
 
 type _Account Account
@@ -47,7 +51,7 @@ type _Account Account
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewAccount(id int32, uuid string, name string, username string, provider string, data map[string]interface{}, authorized bool, createdAt time.Time) *Account {
+func NewAccount(id int32, uuid string, name string, username string, provider string, data map[string]interface{}, authorized bool, createdAt string) *Account {
 	this := Account{}
 	this.Id = id
 	this.Uuid = uuid
@@ -364,10 +368,84 @@ func (o *Account) SetPublishedParts(v int32) {
 	o.PublishedParts = &v
 }
 
-// GetCreatedAt returns the CreatedAt field value
-func (o *Account) GetCreatedAt() time.Time {
+// GetExternalUrl returns the ExternalUrl field value if set, zero value otherwise (both if not set or set to explicit null).
+func (o *Account) GetExternalUrl() string {
+	if o == nil || IsNil(o.ExternalUrl.Get()) {
+		var ret string
+		return ret
+	}
+	return *o.ExternalUrl.Get()
+}
+
+// GetExternalUrlOk returns a tuple with the ExternalUrl field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
+func (o *Account) GetExternalUrlOk() (*string, bool) {
 	if o == nil {
-		var ret time.Time
+		return nil, false
+	}
+	return o.ExternalUrl.Get(), o.ExternalUrl.IsSet()
+}
+
+// HasExternalUrl returns a boolean if a field has been set.
+func (o *Account) HasExternalUrl() bool {
+	if o != nil && o.ExternalUrl.IsSet() {
+		return true
+	}
+
+	return false
+}
+
+// SetExternalUrl gets a reference to the given NullableString and assigns it to the ExternalUrl field.
+func (o *Account) SetExternalUrl(v string) {
+	o.ExternalUrl.Set(&v)
+}
+// SetExternalUrlNil sets the value for ExternalUrl to be an explicit nil
+func (o *Account) SetExternalUrlNil() {
+	o.ExternalUrl.Set(nil)
+}
+
+// UnsetExternalUrl ensures that no value is present for ExternalUrl, not even an explicit nil
+func (o *Account) UnsetExternalUrl() {
+	o.ExternalUrl.Unset()
+}
+
+// GetErrors returns the Errors field value if set, zero value otherwise.
+func (o *Account) GetErrors() []AccountErrorsInner {
+	if o == nil || IsNil(o.Errors) {
+		var ret []AccountErrorsInner
+		return ret
+	}
+	return o.Errors
+}
+
+// GetErrorsOk returns a tuple with the Errors field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *Account) GetErrorsOk() ([]AccountErrorsInner, bool) {
+	if o == nil || IsNil(o.Errors) {
+		return nil, false
+	}
+	return o.Errors, true
+}
+
+// HasErrors returns a boolean if a field has been set.
+func (o *Account) HasErrors() bool {
+	if o != nil && !IsNil(o.Errors) {
+		return true
+	}
+
+	return false
+}
+
+// SetErrors gets a reference to the given []AccountErrorsInner and assigns it to the Errors field.
+func (o *Account) SetErrors(v []AccountErrorsInner) {
+	o.Errors = v
+}
+
+// GetCreatedAt returns the CreatedAt field value
+func (o *Account) GetCreatedAt() string {
+	if o == nil {
+		var ret string
 		return ret
 	}
 
@@ -376,7 +454,7 @@ func (o *Account) GetCreatedAt() time.Time {
 
 // GetCreatedAtOk returns a tuple with the CreatedAt field value
 // and a boolean to check if the value has been set.
-func (o *Account) GetCreatedAtOk() (*time.Time, bool) {
+func (o *Account) GetCreatedAtOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -384,7 +462,7 @@ func (o *Account) GetCreatedAtOk() (*time.Time, bool) {
 }
 
 // SetCreatedAt sets field value
-func (o *Account) SetCreatedAt(v time.Time) {
+func (o *Account) SetCreatedAt(v string) {
 	o.CreatedAt = v
 }
 
@@ -416,6 +494,12 @@ func (o Account) ToMap() (map[string]interface{}, error) {
 	}
 	if !IsNil(o.PublishedParts) {
 		toSerialize["published_parts"] = o.PublishedParts
+	}
+	if o.ExternalUrl.IsSet() {
+		toSerialize["external_url"] = o.ExternalUrl.Get()
+	}
+	if !IsNil(o.Errors) {
+		toSerialize["errors"] = o.Errors
 	}
 	toSerialize["created_at"] = o.CreatedAt
 	return toSerialize, nil

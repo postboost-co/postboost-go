@@ -36,6 +36,48 @@ func Test_postboost_AIAPIService(t *testing.T) {
 
 	})
 
+	t.Run("Test AIAPIService DeleteBrandVoice", func(t *testing.T) {
+
+		t.Skip("skip test")  // remove to run test
+
+		var workspaceUuid string
+
+		resp, httpRes, err := apiClient.AIAPI.DeleteBrandVoice(context.Background(), workspaceUuid).Execute()
+
+		require.Nil(t, err)
+		require.NotNil(t, resp)
+		assert.Equal(t, 200, httpRes.StatusCode)
+
+	})
+
+	t.Run("Test AIAPIService GetAIUsage", func(t *testing.T) {
+
+		t.Skip("skip test")  // remove to run test
+
+		var workspaceUuid string
+
+		resp, httpRes, err := apiClient.AIAPI.GetAIUsage(context.Background(), workspaceUuid).Execute()
+
+		require.Nil(t, err)
+		require.NotNil(t, resp)
+		assert.Equal(t, 200, httpRes.StatusCode)
+
+	})
+
+	t.Run("Test AIAPIService GetBrandVoice", func(t *testing.T) {
+
+		t.Skip("skip test")  // remove to run test
+
+		var workspaceUuid string
+
+		resp, httpRes, err := apiClient.AIAPI.GetBrandVoice(context.Background(), workspaceUuid).Execute()
+
+		require.Nil(t, err)
+		require.NotNil(t, resp)
+		assert.Equal(t, 200, httpRes.StatusCode)
+
+	})
+
 	t.Run("Test AIAPIService ImageAltText", func(t *testing.T) {
 
 		t.Skip("skip test")  // remove to run test
@@ -99,6 +141,48 @@ func Test_postboost_AIAPIService(t *testing.T) {
 		var workspaceUuid string
 
 		resp, httpRes, err := apiClient.AIAPI.ImageVariations(context.Background(), workspaceUuid).Execute()
+
+		require.Nil(t, err)
+		require.NotNil(t, resp)
+		assert.Equal(t, 200, httpRes.StatusCode)
+
+	})
+
+	t.Run("Test AIAPIService LearnBrandVoice", func(t *testing.T) {
+
+		t.Skip("skip test")  // remove to run test
+
+		var workspaceUuid string
+
+		resp, httpRes, err := apiClient.AIAPI.LearnBrandVoice(context.Background(), workspaceUuid).Execute()
+
+		require.Nil(t, err)
+		require.NotNil(t, resp)
+		assert.Equal(t, 200, httpRes.StatusCode)
+
+	})
+
+	t.Run("Test AIAPIService RepurposeContent", func(t *testing.T) {
+
+		t.Skip("skip test")  // remove to run test
+
+		var workspaceUuid string
+
+		resp, httpRes, err := apiClient.AIAPI.RepurposeContent(context.Background(), workspaceUuid).Execute()
+
+		require.Nil(t, err)
+		require.NotNil(t, resp)
+		assert.Equal(t, 200, httpRes.StatusCode)
+
+	})
+
+	t.Run("Test AIAPIService UpdateBrandVoice", func(t *testing.T) {
+
+		t.Skip("skip test")  // remove to run test
+
+		var workspaceUuid string
+
+		resp, httpRes, err := apiClient.AIAPI.UpdateBrandVoice(context.Background(), workspaceUuid).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)

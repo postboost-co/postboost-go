@@ -5,6 +5,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Data** | [**ImageGenerationResponse**](ImageGenerationResponse.md) |  | 
+**Meta** | Pointer to [**BrandVoiceMeta**](BrandVoiceMeta.md) |  | [optional] 
 
 ## Methods
 
@@ -44,6 +45,31 @@ and a boolean to check if the value has been set.
 
 SetData sets Data field to given value.
 
+
+### GetMeta
+
+`func (o *ImageGenerate200Response) GetMeta() BrandVoiceMeta`
+
+GetMeta returns the Meta field if non-nil, zero value otherwise.
+
+### GetMetaOk
+
+`func (o *ImageGenerate200Response) GetMetaOk() (*BrandVoiceMeta, bool)`
+
+GetMetaOk returns a tuple with the Meta field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetMeta
+
+`func (o *ImageGenerate200Response) SetMeta(v BrandVoiceMeta)`
+
+SetMeta sets Meta field to given value.
+
+### HasMeta
+
+`func (o *ImageGenerate200Response) HasMeta() bool`
+
+HasMeta returns a boolean if a field has been set.
 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)

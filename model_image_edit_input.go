@@ -1,9 +1,9 @@
 /*
 PostBoost API
 
-The PostBoost REST API lets you publish, schedule, and analyze social media posts across 12+ platforms from a single integration. No OAuth apps to maintain — PostBoost handles platform authorization for you.  ## Base URL All workspace-scoped endpoints are prefixed with `/{workspaceUuid}`. Panel/admin endpoints are prefixed with `/panel`.  ## Plan access Every workspace-scoped endpoint returns `403` when the workspace's plan does not include API access (capability `api`).  ## Dates and times Post dates and times (`date`, `time`, `accounts_schedule`) are read in the request's `timezone` when one is given, otherwise in the workspace timezone.  ## Authentication All requests require a Bearer token in the `Authorization` header. Generate tokens in your PostBoost dashboard under **Settings → Access Tokens**.  ``` Authorization: Bearer YOUR_API_TOKEN ``` 
+The PostBoost REST API lets you publish, schedule, and analyze social media posts across 12+ platforms from a single integration. No OAuth apps to maintain — PostBoost handles platform authorization for you.  ## Base URL All workspace-scoped endpoints are prefixed with `/{workspaceUuid}`. Panel/admin endpoints are prefixed with `/panel`.  ## Plan access Every workspace-scoped endpoint returns `403` when the workspace's plan does not include API access (capability `api`).  ## Dates and times Post dates and times (`date`, `time`, `accounts_schedule`) are read in the request's `timezone` when one is given, otherwise in the workspace timezone.  ## Idempotent requests Send an `Idempotency-Key` header (any unique string, for example a UUID) with a `POST`. Repeating the request with the same key within 24 hours returns the stored response with `Idempotent-Replayed: true` and creates nothing new. Reusing a key with a different body returns `422`; a request still in progress with the same key returns `409`. `5xx` and `429` responses are not stored, so they can be retried with the same key.  ## Guardrails for automated clients Create and update requests are checked before anything is written: a post whose content matches one created for the same account in the last 24 hours returns `409` (`code: duplicate_post`, override with `allow_duplicate: true`), scheduling past an account's daily cap returns `429` (`code: account_daily_cap_reached`), and scheduling to an account that must be reconnected returns `422` (`code: account_unauthorized` or `account_token_missing`). Use `POST /{workspaceUuid}/posts/validate` for a dry run and `GET /{workspaceUuid}/activity` to review what API clients did.  ## Authentication All requests require a Bearer token in the `Authorization` header. Generate tokens in your PostBoost dashboard under **Settings → Access Tokens**.  ``` Authorization: Bearer YOUR_API_TOKEN ``` 
 
-API version: 1.8.0
+API version: 1.14.0
 Contact: hi@postboost.co
 */
 
@@ -28,6 +28,8 @@ type ImageEditInput struct {
 	Prompt string `json:"prompt"`
 	// UUID of a mask image. Transparent areas will be edited.
 	MaskUuid *string `json:"mask_uuid,omitempty"`
+	// Append the workspace brand voice's visual tone to the edit prompt. Off by default because edits are literal instructions.
+	UseBrandVoice *bool `json:"use_brand_voice,omitempty"`
 	AspectRatio *string `json:"aspect_ratio,omitempty"`
 	Count *int32 `json:"count,omitempty"`
 	Quality *string `json:"quality,omitempty"`
@@ -43,6 +45,8 @@ func NewImageEditInput(mediaUuid string, prompt string) *ImageEditInput {
 	this := ImageEditInput{}
 	this.MediaUuid = mediaUuid
 	this.Prompt = prompt
+	var useBrandVoice bool = false
+	this.UseBrandVoice = &useBrandVoice
 	var aspectRatio string = "1:1"
 	this.AspectRatio = &aspectRatio
 	var count int32 = 1
@@ -57,6 +61,8 @@ func NewImageEditInput(mediaUuid string, prompt string) *ImageEditInput {
 // but it doesn't guarantee that properties required by API are set
 func NewImageEditInputWithDefaults() *ImageEditInput {
 	this := ImageEditInput{}
+	var useBrandVoice bool = false
+	this.UseBrandVoice = &useBrandVoice
 	var aspectRatio string = "1:1"
 	this.AspectRatio = &aspectRatio
 	var count int32 = 1
@@ -144,6 +150,38 @@ func (o *ImageEditInput) HasMaskUuid() bool {
 // SetMaskUuid gets a reference to the given string and assigns it to the MaskUuid field.
 func (o *ImageEditInput) SetMaskUuid(v string) {
 	o.MaskUuid = &v
+}
+
+// GetUseBrandVoice returns the UseBrandVoice field value if set, zero value otherwise.
+func (o *ImageEditInput) GetUseBrandVoice() bool {
+	if o == nil || IsNil(o.UseBrandVoice) {
+		var ret bool
+		return ret
+	}
+	return *o.UseBrandVoice
+}
+
+// GetUseBrandVoiceOk returns a tuple with the UseBrandVoice field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *ImageEditInput) GetUseBrandVoiceOk() (*bool, bool) {
+	if o == nil || IsNil(o.UseBrandVoice) {
+		return nil, false
+	}
+	return o.UseBrandVoice, true
+}
+
+// HasUseBrandVoice returns a boolean if a field has been set.
+func (o *ImageEditInput) HasUseBrandVoice() bool {
+	if o != nil && !IsNil(o.UseBrandVoice) {
+		return true
+	}
+
+	return false
+}
+
+// SetUseBrandVoice gets a reference to the given bool and assigns it to the UseBrandVoice field.
+func (o *ImageEditInput) SetUseBrandVoice(v bool) {
+	o.UseBrandVoice = &v
 }
 
 // GetAspectRatio returns the AspectRatio field value if set, zero value otherwise.
@@ -256,6 +294,9 @@ func (o ImageEditInput) ToMap() (map[string]interface{}, error) {
 	toSerialize["prompt"] = o.Prompt
 	if !IsNil(o.MaskUuid) {
 		toSerialize["mask_uuid"] = o.MaskUuid
+	}
+	if !IsNil(o.UseBrandVoice) {
+		toSerialize["use_brand_voice"] = o.UseBrandVoice
 	}
 	if !IsNil(o.AspectRatio) {
 		toSerialize["aspect_ratio"] = o.AspectRatio

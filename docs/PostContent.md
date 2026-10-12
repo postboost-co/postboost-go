@@ -4,7 +4,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Body** | Pointer to **string** | Post text/caption. | [optional] 
+**Body** | Pointer to **string** | Post text/caption. For a second item on Facebook Page, Instagram or LinkedIn this is the first comment. | [optional] 
 **Url** | Pointer to **string** |  | [optional] 
 **Media** | Pointer to **[]int32** | Array of media IDs from the media library. | [optional] 
 **VideoThumbs** | Pointer to **[]map[string]interface{}** |  | [optional] 

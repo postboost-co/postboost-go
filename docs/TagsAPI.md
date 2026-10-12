@@ -14,7 +14,7 @@ Method | HTTP request | Description
 
 ## CreateTag
 
-> Tag CreateTag(ctx, workspaceUuid).TagInput(tagInput).Execute()
+> Tag CreateTag(ctx, workspaceUuid).TagInput(tagInput).IdempotencyKey(idempotencyKey).Execute()
 
 Create tag
 
@@ -35,10 +35,11 @@ import (
 func main() {
 	workspaceUuid := "38400000-8cf0-11bd-b23e-10b96e4ef00d" // string | UUID of the workspace.
 	tagInput := *openapiclient.NewTagInput("Name_example", "#3B82F6") // TagInput | 
+	idempotencyKey := "idempotencyKey_example" // string | Unique key (for example a UUID) that makes the request safe to retry. A repeat with the same key and body within 24 hours returns the stored response with `Idempotent-Replayed: true` and has no further effect. Keys are scoped to your user, the workspace, the method and the path.  (optional)
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.TagsAPI.CreateTag(context.Background(), workspaceUuid).TagInput(tagInput).Execute()
+	resp, r, err := apiClient.TagsAPI.CreateTag(context.Background(), workspaceUuid).TagInput(tagInput).IdempotencyKey(idempotencyKey).Execute()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error when calling `TagsAPI.CreateTag``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -65,6 +66,7 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 
  **tagInput** | [**TagInput**](TagInput.md) |  | 
+ **idempotencyKey** | **string** | Unique key (for example a UUID) that makes the request safe to retry. A repeat with the same key and body within 24 hours returns the stored response with &#x60;Idempotent-Replayed: true&#x60; and has no further effect. Keys are scoped to your user, the workspace, the method and the path.  | 
 
 ### Return type
 

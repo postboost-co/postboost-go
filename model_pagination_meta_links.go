@@ -1,9 +1,9 @@
 /*
 PostBoost API
 
-The PostBoost REST API lets you publish, schedule, and analyze social media posts across 12+ platforms from a single integration. No OAuth apps to maintain — PostBoost handles platform authorization for you.  ## Base URL All workspace-scoped endpoints are prefixed with `/{workspaceUuid}`. Panel/admin endpoints are prefixed with `/panel`.  ## Plan access Every workspace-scoped endpoint returns `403` when the workspace's plan does not include API access (capability `api`).  ## Dates and times Post dates and times (`date`, `time`, `accounts_schedule`) are read in the request's `timezone` when one is given, otherwise in the workspace timezone.  ## Authentication All requests require a Bearer token in the `Authorization` header. Generate tokens in your PostBoost dashboard under **Settings → Access Tokens**.  ``` Authorization: Bearer YOUR_API_TOKEN ``` 
+The PostBoost REST API lets you publish, schedule, and analyze social media posts across 12+ platforms from a single integration. No OAuth apps to maintain — PostBoost handles platform authorization for you.  ## Base URL All workspace-scoped endpoints are prefixed with `/{workspaceUuid}`. Panel/admin endpoints are prefixed with `/panel`.  ## Plan access Every workspace-scoped endpoint returns `403` when the workspace's plan does not include API access (capability `api`).  ## Dates and times Post dates and times (`date`, `time`, `accounts_schedule`) are read in the request's `timezone` when one is given, otherwise in the workspace timezone.  ## Idempotent requests Send an `Idempotency-Key` header (any unique string, for example a UUID) with a `POST`. Repeating the request with the same key within 24 hours returns the stored response with `Idempotent-Replayed: true` and creates nothing new. Reusing a key with a different body returns `422`; a request still in progress with the same key returns `409`. `5xx` and `429` responses are not stored, so they can be retried with the same key.  ## Guardrails for automated clients Create and update requests are checked before anything is written: a post whose content matches one created for the same account in the last 24 hours returns `409` (`code: duplicate_post`, override with `allow_duplicate: true`), scheduling past an account's daily cap returns `429` (`code: account_daily_cap_reached`), and scheduling to an account that must be reconnected returns `422` (`code: account_unauthorized` or `account_token_missing`). Use `POST /{workspaceUuid}/posts/validate` for a dry run and `GET /{workspaceUuid}/activity` to review what API clients did.  ## Authentication All requests require a Bearer token in the `Authorization` header. Generate tokens in your PostBoost dashboard under **Settings → Access Tokens**.  ``` Authorization: Bearer YOUR_API_TOKEN ``` 
 
-API version: 1.8.0
+API version: 1.14.0
 Contact: hi@postboost.co
 */
 
@@ -22,8 +22,8 @@ var _ MappedNullable = &PaginationMetaLinks{}
 type PaginationMetaLinks struct {
 	First *string `json:"first,omitempty"`
 	Last *string `json:"last,omitempty"`
-	Prev *string `json:"prev,omitempty"`
-	Next *string `json:"next,omitempty"`
+	Prev NullableString `json:"prev,omitempty"`
+	Next NullableString `json:"next,omitempty"`
 }
 
 // NewPaginationMetaLinks instantiates a new PaginationMetaLinks object
@@ -107,68 +107,88 @@ func (o *PaginationMetaLinks) SetLast(v string) {
 	o.Last = &v
 }
 
-// GetPrev returns the Prev field value if set, zero value otherwise.
+// GetPrev returns the Prev field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *PaginationMetaLinks) GetPrev() string {
-	if o == nil || IsNil(o.Prev) {
+	if o == nil || IsNil(o.Prev.Get()) {
 		var ret string
 		return ret
 	}
-	return *o.Prev
+	return *o.Prev.Get()
 }
 
 // GetPrevOk returns a tuple with the Prev field value if set, nil otherwise
 // and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *PaginationMetaLinks) GetPrevOk() (*string, bool) {
-	if o == nil || IsNil(o.Prev) {
+	if o == nil {
 		return nil, false
 	}
-	return o.Prev, true
+	return o.Prev.Get(), o.Prev.IsSet()
 }
 
 // HasPrev returns a boolean if a field has been set.
 func (o *PaginationMetaLinks) HasPrev() bool {
-	if o != nil && !IsNil(o.Prev) {
+	if o != nil && o.Prev.IsSet() {
 		return true
 	}
 
 	return false
 }
 
-// SetPrev gets a reference to the given string and assigns it to the Prev field.
+// SetPrev gets a reference to the given NullableString and assigns it to the Prev field.
 func (o *PaginationMetaLinks) SetPrev(v string) {
-	o.Prev = &v
+	o.Prev.Set(&v)
+}
+// SetPrevNil sets the value for Prev to be an explicit nil
+func (o *PaginationMetaLinks) SetPrevNil() {
+	o.Prev.Set(nil)
 }
 
-// GetNext returns the Next field value if set, zero value otherwise.
+// UnsetPrev ensures that no value is present for Prev, not even an explicit nil
+func (o *PaginationMetaLinks) UnsetPrev() {
+	o.Prev.Unset()
+}
+
+// GetNext returns the Next field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *PaginationMetaLinks) GetNext() string {
-	if o == nil || IsNil(o.Next) {
+	if o == nil || IsNil(o.Next.Get()) {
 		var ret string
 		return ret
 	}
-	return *o.Next
+	return *o.Next.Get()
 }
 
 // GetNextOk returns a tuple with the Next field value if set, nil otherwise
 // and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *PaginationMetaLinks) GetNextOk() (*string, bool) {
-	if o == nil || IsNil(o.Next) {
+	if o == nil {
 		return nil, false
 	}
-	return o.Next, true
+	return o.Next.Get(), o.Next.IsSet()
 }
 
 // HasNext returns a boolean if a field has been set.
 func (o *PaginationMetaLinks) HasNext() bool {
-	if o != nil && !IsNil(o.Next) {
+	if o != nil && o.Next.IsSet() {
 		return true
 	}
 
 	return false
 }
 
-// SetNext gets a reference to the given string and assigns it to the Next field.
+// SetNext gets a reference to the given NullableString and assigns it to the Next field.
 func (o *PaginationMetaLinks) SetNext(v string) {
-	o.Next = &v
+	o.Next.Set(&v)
+}
+// SetNextNil sets the value for Next to be an explicit nil
+func (o *PaginationMetaLinks) SetNextNil() {
+	o.Next.Set(nil)
+}
+
+// UnsetNext ensures that no value is present for Next, not even an explicit nil
+func (o *PaginationMetaLinks) UnsetNext() {
+	o.Next.Unset()
 }
 
 func (o PaginationMetaLinks) MarshalJSON() ([]byte, error) {
@@ -187,11 +207,11 @@ func (o PaginationMetaLinks) ToMap() (map[string]interface{}, error) {
 	if !IsNil(o.Last) {
 		toSerialize["last"] = o.Last
 	}
-	if !IsNil(o.Prev) {
-		toSerialize["prev"] = o.Prev
+	if o.Prev.IsSet() {
+		toSerialize["prev"] = o.Prev.Get()
 	}
-	if !IsNil(o.Next) {
-		toSerialize["next"] = o.Next
+	if o.Next.IsSet() {
+		toSerialize["next"] = o.Next.Get()
 	}
 	return toSerialize, nil
 }

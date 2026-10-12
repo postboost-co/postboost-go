@@ -5,11 +5,17 @@ All URIs are relative to *https://postboost.co/app/api*
 Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**BlogToSocial**](AIAPI.md#BlogToSocial) | **Post** /{workspaceUuid}/ai/blog-to-social | Generate social media captions from a blog post
+[**DeleteBrandVoice**](AIAPI.md#DeleteBrandVoice) | **Delete** /{workspaceUuid}/brand-voice | Delete the brand voice
+[**GetAIUsage**](AIAPI.md#GetAIUsage) | **Get** /{workspaceUuid}/usage/ai | AI credit usage
+[**GetBrandVoice**](AIAPI.md#GetBrandVoice) | **Get** /{workspaceUuid}/brand-voice | Get the brand voice
 [**ImageAltText**](AIAPI.md#ImageAltText) | **Post** /{workspaceUuid}/ai/image-alt-text | Generate alt text for a media image using AI
 [**ImageEdit**](AIAPI.md#ImageEdit) | **Post** /{workspaceUuid}/ai/image-edit | Edit an existing media image using AI
 [**ImageGenerate**](AIAPI.md#ImageGenerate) | **Post** /{workspaceUuid}/ai/image-generate | Generate social media images from a caption
 [**ImagePrompt**](AIAPI.md#ImagePrompt) | **Post** /{workspaceUuid}/ai/image-prompt | Build an optimized image prompt from a social media caption
 [**ImageVariations**](AIAPI.md#ImageVariations) | **Post** /{workspaceUuid}/ai/image-variations | Generate variations of an existing media image
+[**LearnBrandVoice**](AIAPI.md#LearnBrandVoice) | **Post** /{workspaceUuid}/brand-voice/learn | Learn a brand voice from past posts
+[**RepurposeContent**](AIAPI.md#RepurposeContent) | **Post** /{workspaceUuid}/ai/repurpose | Repurpose long-form content into a draft post set with a carousel
+[**UpdateBrandVoice**](AIAPI.md#UpdateBrandVoice) | **Put** /{workspaceUuid}/brand-voice | Create or update the brand voice
 
 
 
@@ -78,6 +84,216 @@ Name | Type | Description  | Notes
 ### HTTP request headers
 
 - **Content-Type**: application/json
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## DeleteBrandVoice
+
+> map[string]interface{} DeleteBrandVoice(ctx, workspaceUuid).Execute()
+
+Delete the brand voice
+
+
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/postboost-co/postboost-go"
+)
+
+func main() {
+	workspaceUuid := "38400000-8cf0-11bd-b23e-10b96e4ef00d" // string | UUID of the workspace.
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.AIAPI.DeleteBrandVoice(context.Background(), workspaceUuid).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `AIAPI.DeleteBrandVoice``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `DeleteBrandVoice`: map[string]interface{}
+	fmt.Fprintf(os.Stdout, "Response from `AIAPI.DeleteBrandVoice`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
+**workspaceUuid** | **string** | UUID of the workspace. | 
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiDeleteBrandVoiceRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
+
+### Return type
+
+**map[string]interface{}**
+
+### Authorization
+
+[bearerAuth](../README.md#bearerAuth)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## GetAIUsage
+
+> AIUsage GetAIUsage(ctx, workspaceUuid).Execute()
+
+AI credit usage
+
+
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/postboost-co/postboost-go"
+)
+
+func main() {
+	workspaceUuid := "38400000-8cf0-11bd-b23e-10b96e4ef00d" // string | UUID of the workspace.
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.AIAPI.GetAIUsage(context.Background(), workspaceUuid).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `AIAPI.GetAIUsage``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `GetAIUsage`: AIUsage
+	fmt.Fprintf(os.Stdout, "Response from `AIAPI.GetAIUsage`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
+**workspaceUuid** | **string** | UUID of the workspace. | 
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiGetAIUsageRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
+
+### Return type
+
+[**AIUsage**](AIUsage.md)
+
+### Authorization
+
+[bearerAuth](../README.md#bearerAuth)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## GetBrandVoice
+
+> GetBrandVoice200Response GetBrandVoice(ctx, workspaceUuid).Execute()
+
+Get the brand voice
+
+
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/postboost-co/postboost-go"
+)
+
+func main() {
+	workspaceUuid := "38400000-8cf0-11bd-b23e-10b96e4ef00d" // string | UUID of the workspace.
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.AIAPI.GetBrandVoice(context.Background(), workspaceUuid).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `AIAPI.GetBrandVoice``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `GetBrandVoice`: GetBrandVoice200Response
+	fmt.Fprintf(os.Stdout, "Response from `AIAPI.GetBrandVoice`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
+**workspaceUuid** | **string** | UUID of the workspace. | 
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiGetBrandVoiceRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
+
+### Return type
+
+[**GetBrandVoice200Response**](GetBrandVoice200Response.md)
+
+### Authorization
+
+[bearerAuth](../README.md#bearerAuth)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
 - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
@@ -430,6 +646,224 @@ Name | Type | Description  | Notes
 ### Return type
 
 [**ImageVariations200Response**](ImageVariations200Response.md)
+
+### Authorization
+
+[bearerAuth](../README.md#bearerAuth)
+
+### HTTP request headers
+
+- **Content-Type**: application/json
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## LearnBrandVoice
+
+> LearnBrandVoiceResponse LearnBrandVoice(ctx, workspaceUuid).LearnBrandVoiceInput(learnBrandVoiceInput).Execute()
+
+Learn a brand voice from past posts
+
+
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/postboost-co/postboost-go"
+)
+
+func main() {
+	workspaceUuid := "38400000-8cf0-11bd-b23e-10b96e4ef00d" // string | UUID of the workspace.
+	learnBrandVoiceInput := *openapiclient.NewLearnBrandVoiceInput() // LearnBrandVoiceInput |  (optional)
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.AIAPI.LearnBrandVoice(context.Background(), workspaceUuid).LearnBrandVoiceInput(learnBrandVoiceInput).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `AIAPI.LearnBrandVoice``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `LearnBrandVoice`: LearnBrandVoiceResponse
+	fmt.Fprintf(os.Stdout, "Response from `AIAPI.LearnBrandVoice`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
+**workspaceUuid** | **string** | UUID of the workspace. | 
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiLearnBrandVoiceRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
+ **learnBrandVoiceInput** | [**LearnBrandVoiceInput**](LearnBrandVoiceInput.md) |  | 
+
+### Return type
+
+[**LearnBrandVoiceResponse**](LearnBrandVoiceResponse.md)
+
+### Authorization
+
+[bearerAuth](../README.md#bearerAuth)
+
+### HTTP request headers
+
+- **Content-Type**: application/json
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## RepurposeContent
+
+> RepurposeContent200Response RepurposeContent(ctx, workspaceUuid).RepurposeInput(repurposeInput).IdempotencyKey(idempotencyKey).Execute()
+
+Repurpose long-form content into a draft post set with a carousel
+
+
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/postboost-co/postboost-go"
+)
+
+func main() {
+	workspaceUuid := "38400000-8cf0-11bd-b23e-10b96e4ef00d" // string | UUID of the workspace.
+	repurposeInput := *openapiclient.NewRepurposeInput("SourceType_example") // RepurposeInput | 
+	idempotencyKey := "idempotencyKey_example" // string | Unique key (for example a UUID) that makes the request safe to retry. A repeat with the same key and body within 24 hours returns the stored response with `Idempotent-Replayed: true` and has no further effect. Keys are scoped to your user, the workspace, the method and the path.  (optional)
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.AIAPI.RepurposeContent(context.Background(), workspaceUuid).RepurposeInput(repurposeInput).IdempotencyKey(idempotencyKey).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `AIAPI.RepurposeContent``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `RepurposeContent`: RepurposeContent200Response
+	fmt.Fprintf(os.Stdout, "Response from `AIAPI.RepurposeContent`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
+**workspaceUuid** | **string** | UUID of the workspace. | 
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiRepurposeContentRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
+ **repurposeInput** | [**RepurposeInput**](RepurposeInput.md) |  | 
+ **idempotencyKey** | **string** | Unique key (for example a UUID) that makes the request safe to retry. A repeat with the same key and body within 24 hours returns the stored response with &#x60;Idempotent-Replayed: true&#x60; and has no further effect. Keys are scoped to your user, the workspace, the method and the path.  | 
+
+### Return type
+
+[**RepurposeContent200Response**](RepurposeContent200Response.md)
+
+### Authorization
+
+[bearerAuth](../README.md#bearerAuth)
+
+### HTTP request headers
+
+- **Content-Type**: application/json
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## UpdateBrandVoice
+
+> GetBrandVoice200Response UpdateBrandVoice(ctx, workspaceUuid).BrandVoiceInput(brandVoiceInput).Execute()
+
+Create or update the brand voice
+
+
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/postboost-co/postboost-go"
+)
+
+func main() {
+	workspaceUuid := "38400000-8cf0-11bd-b23e-10b96e4ef00d" // string | UUID of the workspace.
+	brandVoiceInput := *openapiclient.NewBrandVoiceInput() // BrandVoiceInput | 
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.AIAPI.UpdateBrandVoice(context.Background(), workspaceUuid).BrandVoiceInput(brandVoiceInput).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `AIAPI.UpdateBrandVoice``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `UpdateBrandVoice`: GetBrandVoice200Response
+	fmt.Fprintf(os.Stdout, "Response from `AIAPI.UpdateBrandVoice`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
+**workspaceUuid** | **string** | UUID of the workspace. | 
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiUpdateBrandVoiceRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
+ **brandVoiceInput** | [**BrandVoiceInput**](BrandVoiceInput.md) |  | 
+
+### Return type
+
+[**GetBrandVoice200Response**](GetBrandVoice200Response.md)
 
 ### Authorization
 

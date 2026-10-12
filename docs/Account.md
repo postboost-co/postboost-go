@@ -15,13 +15,15 @@ Name | Type | Description | Notes
 **ProfileUrl** | Pointer to **string** | Public URL of the account&#39;s profile on the network, when known. | [optional] 
 **PublishStatus** | Pointer to **string** | Only present when the account is embedded in a post. Publishing state of this account for the post. | [optional] 
 **PublishedParts** | Pointer to **int32** | Only present when the account is embedded in a post. How many parts (for example thread items or a first comment) are live on the network. | [optional] 
-**CreatedAt** | **time.Time** |  | 
+**ExternalUrl** | Pointer to **NullableString** | Only present when the account is embedded in a post. URL of the published post on the network, null until it is live. | [optional] 
+**Errors** | Pointer to [**[]AccountErrorsInner**](AccountErrorsInner.md) | Only present when the account is embedded in a post. Why publishing to this account failed. A raw network error is stored as two entries: a readable line (&#x60;\&quot;&lt;Network&gt;: &lt;message&gt; (code &lt;code&gt;)\&quot;&#x60;) and an object &#x60;{platform, code, message, raw}&#x60; with the network&#39;s original response in &#x60;raw&#x60;. Other failures are a single readable string.  | [optional] 
+**CreatedAt** | **string** | UTC, formatted &#x60;Y-m-d H:i:s&#x60;. | 
 
 ## Methods
 
 ### NewAccount
 
-`func NewAccount(id int32, uuid string, name string, username string, provider string, data map[string]interface{}, authorized bool, createdAt time.Time, ) *Account`
+`func NewAccount(id int32, uuid string, name string, username string, provider string, data map[string]interface{}, authorized bool, createdAt string, ) *Account`
 
 NewAccount instantiates a new Account object
 This constructor will assign default values to properties that have it defined,
@@ -276,22 +278,82 @@ SetPublishedParts sets PublishedParts field to given value.
 
 HasPublishedParts returns a boolean if a field has been set.
 
+### GetExternalUrl
+
+`func (o *Account) GetExternalUrl() string`
+
+GetExternalUrl returns the ExternalUrl field if non-nil, zero value otherwise.
+
+### GetExternalUrlOk
+
+`func (o *Account) GetExternalUrlOk() (*string, bool)`
+
+GetExternalUrlOk returns a tuple with the ExternalUrl field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetExternalUrl
+
+`func (o *Account) SetExternalUrl(v string)`
+
+SetExternalUrl sets ExternalUrl field to given value.
+
+### HasExternalUrl
+
+`func (o *Account) HasExternalUrl() bool`
+
+HasExternalUrl returns a boolean if a field has been set.
+
+### SetExternalUrlNil
+
+`func (o *Account) SetExternalUrlNil(b bool)`
+
+ SetExternalUrlNil sets the value for ExternalUrl to be an explicit nil
+
+### UnsetExternalUrl
+`func (o *Account) UnsetExternalUrl()`
+
+UnsetExternalUrl ensures that no value is present for ExternalUrl, not even an explicit nil
+### GetErrors
+
+`func (o *Account) GetErrors() []AccountErrorsInner`
+
+GetErrors returns the Errors field if non-nil, zero value otherwise.
+
+### GetErrorsOk
+
+`func (o *Account) GetErrorsOk() (*[]AccountErrorsInner, bool)`
+
+GetErrorsOk returns a tuple with the Errors field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetErrors
+
+`func (o *Account) SetErrors(v []AccountErrorsInner)`
+
+SetErrors sets Errors field to given value.
+
+### HasErrors
+
+`func (o *Account) HasErrors() bool`
+
+HasErrors returns a boolean if a field has been set.
+
 ### GetCreatedAt
 
-`func (o *Account) GetCreatedAt() time.Time`
+`func (o *Account) GetCreatedAt() string`
 
 GetCreatedAt returns the CreatedAt field if non-nil, zero value otherwise.
 
 ### GetCreatedAtOk
 
-`func (o *Account) GetCreatedAtOk() (*time.Time, bool)`
+`func (o *Account) GetCreatedAtOk() (*string, bool)`
 
 GetCreatedAtOk returns a tuple with the CreatedAt field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetCreatedAt
 
-`func (o *Account) SetCreatedAt(v time.Time)`
+`func (o *Account) SetCreatedAt(v string)`
 
 SetCreatedAt sets CreatedAt field to given value.
 

@@ -36,11 +36,54 @@ func Test_postboost_WorkspacesAPIService(t *testing.T) {
 
 	})
 
+	t.Run("Test WorkspacesAPIService CreateApiKey", func(t *testing.T) {
+
+		t.Skip("skip test")  // remove to run test
+
+		var workspaceUuid string
+
+		resp, httpRes, err := apiClient.WorkspacesAPI.CreateApiKey(context.Background(), workspaceUuid).Execute()
+
+		require.Nil(t, err)
+		require.NotNil(t, resp)
+		assert.Equal(t, 200, httpRes.StatusCode)
+
+	})
+
+	t.Run("Test WorkspacesAPIService CreateResellerClient", func(t *testing.T) {
+
+		t.Skip("skip test")  // remove to run test
+
+		var workspaceUuid string
+
+		resp, httpRes, err := apiClient.WorkspacesAPI.CreateResellerClient(context.Background(), workspaceUuid).Execute()
+
+		require.Nil(t, err)
+		require.NotNil(t, resp)
+		assert.Equal(t, 200, httpRes.StatusCode)
+
+	})
+
 	t.Run("Test WorkspacesAPIService CreateWorkspace", func(t *testing.T) {
 
 		t.Skip("skip test")  // remove to run test
 
 		resp, httpRes, err := apiClient.WorkspacesAPI.CreateWorkspace(context.Background()).Execute()
+
+		require.Nil(t, err)
+		require.NotNil(t, resp)
+		assert.Equal(t, 200, httpRes.StatusCode)
+
+	})
+
+	t.Run("Test WorkspacesAPIService DeleteApiKey", func(t *testing.T) {
+
+		t.Skip("skip test")  // remove to run test
+
+		var workspaceUuid string
+		var apiKeyId int32
+
+		resp, httpRes, err := apiClient.WorkspacesAPI.DeleteApiKey(context.Background(), workspaceUuid, apiKeyId).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)
@@ -102,11 +145,53 @@ func Test_postboost_WorkspacesAPIService(t *testing.T) {
 
 	})
 
+	t.Run("Test WorkspacesAPIService GetXUsage", func(t *testing.T) {
+
+		t.Skip("skip test")  // remove to run test
+
+		var workspaceUuid string
+
+		resp, httpRes, err := apiClient.WorkspacesAPI.GetXUsage(context.Background(), workspaceUuid).Execute()
+
+		require.Nil(t, err)
+		require.NotNil(t, resp)
+		assert.Equal(t, 200, httpRes.StatusCode)
+
+	})
+
+	t.Run("Test WorkspacesAPIService ListApiKeys", func(t *testing.T) {
+
+		t.Skip("skip test")  // remove to run test
+
+		var workspaceUuid string
+
+		resp, httpRes, err := apiClient.WorkspacesAPI.ListApiKeys(context.Background(), workspaceUuid).Execute()
+
+		require.Nil(t, err)
+		require.NotNil(t, resp)
+		assert.Equal(t, 200, httpRes.StatusCode)
+
+	})
+
 	t.Run("Test WorkspacesAPIService ListMyWorkspaces", func(t *testing.T) {
 
 		t.Skip("skip test")  // remove to run test
 
 		resp, httpRes, err := apiClient.WorkspacesAPI.ListMyWorkspaces(context.Background()).Execute()
+
+		require.Nil(t, err)
+		require.NotNil(t, resp)
+		assert.Equal(t, 200, httpRes.StatusCode)
+
+	})
+
+	t.Run("Test WorkspacesAPIService ListResellerClients", func(t *testing.T) {
+
+		t.Skip("skip test")  // remove to run test
+
+		var workspaceUuid string
+
+		resp, httpRes, err := apiClient.WorkspacesAPI.ListResellerClients(context.Background(), workspaceUuid).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)

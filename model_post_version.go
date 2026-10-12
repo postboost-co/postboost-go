@@ -1,9 +1,9 @@
 /*
 PostBoost API
 
-The PostBoost REST API lets you publish, schedule, and analyze social media posts across 12+ platforms from a single integration. No OAuth apps to maintain — PostBoost handles platform authorization for you.  ## Base URL All workspace-scoped endpoints are prefixed with `/{workspaceUuid}`. Panel/admin endpoints are prefixed with `/panel`.  ## Plan access Every workspace-scoped endpoint returns `403` when the workspace's plan does not include API access (capability `api`).  ## Dates and times Post dates and times (`date`, `time`, `accounts_schedule`) are read in the request's `timezone` when one is given, otherwise in the workspace timezone.  ## Authentication All requests require a Bearer token in the `Authorization` header. Generate tokens in your PostBoost dashboard under **Settings → Access Tokens**.  ``` Authorization: Bearer YOUR_API_TOKEN ``` 
+The PostBoost REST API lets you publish, schedule, and analyze social media posts across 12+ platforms from a single integration. No OAuth apps to maintain — PostBoost handles platform authorization for you.  ## Base URL All workspace-scoped endpoints are prefixed with `/{workspaceUuid}`. Panel/admin endpoints are prefixed with `/panel`.  ## Plan access Every workspace-scoped endpoint returns `403` when the workspace's plan does not include API access (capability `api`).  ## Dates and times Post dates and times (`date`, `time`, `accounts_schedule`) are read in the request's `timezone` when one is given, otherwise in the workspace timezone.  ## Idempotent requests Send an `Idempotency-Key` header (any unique string, for example a UUID) with a `POST`. Repeating the request with the same key within 24 hours returns the stored response with `Idempotent-Replayed: true` and creates nothing new. Reusing a key with a different body returns `422`; a request still in progress with the same key returns `409`. `5xx` and `429` responses are not stored, so they can be retried with the same key.  ## Guardrails for automated clients Create and update requests are checked before anything is written: a post whose content matches one created for the same account in the last 24 hours returns `409` (`code: duplicate_post`, override with `allow_duplicate: true`), scheduling past an account's daily cap returns `429` (`code: account_daily_cap_reached`), and scheduling to an account that must be reconnected returns `422` (`code: account_unauthorized` or `account_token_missing`). Use `POST /{workspaceUuid}/posts/validate` for a dry run and `GET /{workspaceUuid}/activity` to review what API clients did.  ## Authentication All requests require a Bearer token in the `Authorization` header. Generate tokens in your PostBoost dashboard under **Settings → Access Tokens**.  ``` Authorization: Bearer YOUR_API_TOKEN ``` 
 
-API version: 1.8.0
+API version: 1.14.0
 Contact: hi@postboost.co
 */
 
@@ -28,9 +28,9 @@ type PostVersion struct {
 	IsOriginal bool `json:"is_original"`
 	// Account ID of the version this version follows (`0` = the original), or null when it is edited independently. Ignored on the original version.
 	SyncedWith *int32 `json:"synced_with,omitempty"`
+	// Ordered content items. Item 0 is the post. Item 1 is the first comment on Facebook Page, Instagram and LinkedIn, or the next thread post on X, Threads, Bluesky, Mastodon and Pixelfed. See `PostContent`. 
 	Content []PostContent `json:"content"`
-	// Platform-specific publishing options.
-	Options map[string]interface{} `json:"options,omitempty"`
+	Options *PostVersionOptions `json:"options,omitempty"`
 }
 
 type _PostVersion PostVersion
@@ -160,19 +160,19 @@ func (o *PostVersion) SetContent(v []PostContent) {
 }
 
 // GetOptions returns the Options field value if set, zero value otherwise.
-func (o *PostVersion) GetOptions() map[string]interface{} {
+func (o *PostVersion) GetOptions() PostVersionOptions {
 	if o == nil || IsNil(o.Options) {
-		var ret map[string]interface{}
+		var ret PostVersionOptions
 		return ret
 	}
-	return o.Options
+	return *o.Options
 }
 
 // GetOptionsOk returns a tuple with the Options field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *PostVersion) GetOptionsOk() (map[string]interface{}, bool) {
+func (o *PostVersion) GetOptionsOk() (*PostVersionOptions, bool) {
 	if o == nil || IsNil(o.Options) {
-		return map[string]interface{}{}, false
+		return nil, false
 	}
 	return o.Options, true
 }
@@ -186,9 +186,9 @@ func (o *PostVersion) HasOptions() bool {
 	return false
 }
 
-// SetOptions gets a reference to the given map[string]interface{} and assigns it to the Options field.
-func (o *PostVersion) SetOptions(v map[string]interface{}) {
-	o.Options = v
+// SetOptions gets a reference to the given PostVersionOptions and assigns it to the Options field.
+func (o *PostVersion) SetOptions(v PostVersionOptions) {
+	o.Options = &v
 }
 
 func (o PostVersion) MarshalJSON() ([]byte, error) {

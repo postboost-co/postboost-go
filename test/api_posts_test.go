@@ -66,6 +66,34 @@ func Test_postboost_PostsAPIService(t *testing.T) {
 
 	})
 
+	t.Run("Test PostsAPIService CreateRecyclingRule", func(t *testing.T) {
+
+		t.Skip("skip test")  // remove to run test
+
+		var workspaceUuid string
+
+		resp, httpRes, err := apiClient.PostsAPI.CreateRecyclingRule(context.Background(), workspaceUuid).Execute()
+
+		require.Nil(t, err)
+		require.NotNil(t, resp)
+		assert.Equal(t, 200, httpRes.StatusCode)
+
+	})
+
+	t.Run("Test PostsAPIService CreateRssFeed", func(t *testing.T) {
+
+		t.Skip("skip test")  // remove to run test
+
+		var workspaceUuid string
+
+		resp, httpRes, err := apiClient.PostsAPI.CreateRssFeed(context.Background(), workspaceUuid).Execute()
+
+		require.Nil(t, err)
+		require.NotNil(t, resp)
+		assert.Equal(t, 200, httpRes.StatusCode)
+
+	})
+
 	t.Run("Test PostsAPIService DeletePost", func(t *testing.T) {
 
 		t.Skip("skip test")  // remove to run test
@@ -88,6 +116,36 @@ func Test_postboost_PostsAPIService(t *testing.T) {
 		var workspaceUuid string
 
 		resp, httpRes, err := apiClient.PostsAPI.DeletePostsBulk(context.Background(), workspaceUuid).Execute()
+
+		require.Nil(t, err)
+		require.NotNil(t, resp)
+		assert.Equal(t, 200, httpRes.StatusCode)
+
+	})
+
+	t.Run("Test PostsAPIService DeleteRecyclingRule", func(t *testing.T) {
+
+		t.Skip("skip test")  // remove to run test
+
+		var workspaceUuid string
+		var ruleUuid string
+
+		resp, httpRes, err := apiClient.PostsAPI.DeleteRecyclingRule(context.Background(), workspaceUuid, ruleUuid).Execute()
+
+		require.Nil(t, err)
+		require.NotNil(t, resp)
+		assert.Equal(t, 200, httpRes.StatusCode)
+
+	})
+
+	t.Run("Test PostsAPIService DeleteRssFeed", func(t *testing.T) {
+
+		t.Skip("skip test")  // remove to run test
+
+		var workspaceUuid string
+		var feedUuid string
+
+		resp, httpRes, err := apiClient.PostsAPI.DeleteRssFeed(context.Background(), workspaceUuid, feedUuid).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)
@@ -125,6 +183,36 @@ func Test_postboost_PostsAPIService(t *testing.T) {
 
 	})
 
+	t.Run("Test PostsAPIService GetRecyclingRule", func(t *testing.T) {
+
+		t.Skip("skip test")  // remove to run test
+
+		var workspaceUuid string
+		var ruleUuid string
+
+		resp, httpRes, err := apiClient.PostsAPI.GetRecyclingRule(context.Background(), workspaceUuid, ruleUuid).Execute()
+
+		require.Nil(t, err)
+		require.NotNil(t, resp)
+		assert.Equal(t, 200, httpRes.StatusCode)
+
+	})
+
+	t.Run("Test PostsAPIService GetRssFeed", func(t *testing.T) {
+
+		t.Skip("skip test")  // remove to run test
+
+		var workspaceUuid string
+		var feedUuid string
+
+		resp, httpRes, err := apiClient.PostsAPI.GetRssFeed(context.Background(), workspaceUuid, feedUuid).Execute()
+
+		require.Nil(t, err)
+		require.NotNil(t, resp)
+		assert.Equal(t, 200, httpRes.StatusCode)
+
+	})
+
 	t.Run("Test PostsAPIService ListPosts", func(t *testing.T) {
 
 		t.Skip("skip test")  // remove to run test
@@ -132,6 +220,79 @@ func Test_postboost_PostsAPIService(t *testing.T) {
 		var workspaceUuid string
 
 		resp, httpRes, err := apiClient.PostsAPI.ListPosts(context.Background(), workspaceUuid).Execute()
+
+		require.Nil(t, err)
+		require.NotNil(t, resp)
+		assert.Equal(t, 200, httpRes.StatusCode)
+
+	})
+
+	t.Run("Test PostsAPIService ListRecyclingRules", func(t *testing.T) {
+
+		t.Skip("skip test")  // remove to run test
+
+		var workspaceUuid string
+
+		resp, httpRes, err := apiClient.PostsAPI.ListRecyclingRules(context.Background(), workspaceUuid).Execute()
+
+		require.Nil(t, err)
+		require.NotNil(t, resp)
+		assert.Equal(t, 200, httpRes.StatusCode)
+
+	})
+
+	t.Run("Test PostsAPIService ListRecyclingRuns", func(t *testing.T) {
+
+		t.Skip("skip test")  // remove to run test
+
+		var workspaceUuid string
+		var ruleUuid string
+
+		resp, httpRes, err := apiClient.PostsAPI.ListRecyclingRuns(context.Background(), workspaceUuid, ruleUuid).Execute()
+
+		require.Nil(t, err)
+		require.NotNil(t, resp)
+		assert.Equal(t, 200, httpRes.StatusCode)
+
+	})
+
+	t.Run("Test PostsAPIService ListRssFeeds", func(t *testing.T) {
+
+		t.Skip("skip test")  // remove to run test
+
+		var workspaceUuid string
+
+		resp, httpRes, err := apiClient.PostsAPI.ListRssFeeds(context.Background(), workspaceUuid).Execute()
+
+		require.Nil(t, err)
+		require.NotNil(t, resp)
+		assert.Equal(t, 200, httpRes.StatusCode)
+
+	})
+
+	t.Run("Test PostsAPIService PollRssFeed", func(t *testing.T) {
+
+		t.Skip("skip test")  // remove to run test
+
+		var workspaceUuid string
+		var feedUuid string
+
+		resp, httpRes, err := apiClient.PostsAPI.PollRssFeed(context.Background(), workspaceUuid, feedUuid).Execute()
+
+		require.Nil(t, err)
+		require.NotNil(t, resp)
+		assert.Equal(t, 200, httpRes.StatusCode)
+
+	})
+
+	t.Run("Test PostsAPIService RecyclePost", func(t *testing.T) {
+
+		t.Skip("skip test")  // remove to run test
+
+		var workspaceUuid string
+		var postUuid string
+
+		resp, httpRes, err := apiClient.PostsAPI.RecyclePost(context.Background(), workspaceUuid, postUuid).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)
@@ -178,6 +339,50 @@ func Test_postboost_PostsAPIService(t *testing.T) {
 		var postUuid string
 
 		resp, httpRes, err := apiClient.PostsAPI.UpdatePost(context.Background(), workspaceUuid, postUuid).Execute()
+
+		require.Nil(t, err)
+		require.NotNil(t, resp)
+		assert.Equal(t, 200, httpRes.StatusCode)
+
+	})
+
+	t.Run("Test PostsAPIService UpdateRecyclingRule", func(t *testing.T) {
+
+		t.Skip("skip test")  // remove to run test
+
+		var workspaceUuid string
+		var ruleUuid string
+
+		resp, httpRes, err := apiClient.PostsAPI.UpdateRecyclingRule(context.Background(), workspaceUuid, ruleUuid).Execute()
+
+		require.Nil(t, err)
+		require.NotNil(t, resp)
+		assert.Equal(t, 200, httpRes.StatusCode)
+
+	})
+
+	t.Run("Test PostsAPIService UpdateRssFeed", func(t *testing.T) {
+
+		t.Skip("skip test")  // remove to run test
+
+		var workspaceUuid string
+		var feedUuid string
+
+		resp, httpRes, err := apiClient.PostsAPI.UpdateRssFeed(context.Background(), workspaceUuid, feedUuid).Execute()
+
+		require.Nil(t, err)
+		require.NotNil(t, resp)
+		assert.Equal(t, 200, httpRes.StatusCode)
+
+	})
+
+	t.Run("Test PostsAPIService ValidatePost", func(t *testing.T) {
+
+		t.Skip("skip test")  // remove to run test
+
+		var workspaceUuid string
+
+		resp, httpRes, err := apiClient.PostsAPI.ValidatePost(context.Background(), workspaceUuid).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)

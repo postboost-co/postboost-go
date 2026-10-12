@@ -6,8 +6,8 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **First** | Pointer to **string** |  | [optional] 
 **Last** | Pointer to **string** |  | [optional] 
-**Prev** | Pointer to **string** |  | [optional] 
-**Next** | Pointer to **string** |  | [optional] 
+**Prev** | Pointer to **NullableString** |  | [optional] 
+**Next** | Pointer to **NullableString** |  | [optional] 
 
 ## Methods
 
@@ -103,6 +103,16 @@ SetPrev sets Prev field to given value.
 
 HasPrev returns a boolean if a field has been set.
 
+### SetPrevNil
+
+`func (o *PaginationMetaLinks) SetPrevNil(b bool)`
+
+ SetPrevNil sets the value for Prev to be an explicit nil
+
+### UnsetPrev
+`func (o *PaginationMetaLinks) UnsetPrev()`
+
+UnsetPrev ensures that no value is present for Prev, not even an explicit nil
 ### GetNext
 
 `func (o *PaginationMetaLinks) GetNext() string`
@@ -128,6 +138,16 @@ SetNext sets Next field to given value.
 
 HasNext returns a boolean if a field has been set.
 
+### SetNextNil
+
+`func (o *PaginationMetaLinks) SetNextNil(b bool)`
+
+ SetNextNil sets the value for Next to be an explicit nil
+
+### UnsetNext
+`func (o *PaginationMetaLinks) UnsetNext()`
+
+UnsetNext ensures that no value is present for Next, not even an explicit nil
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

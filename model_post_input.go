@@ -1,9 +1,9 @@
 /*
 PostBoost API
 
-The PostBoost REST API lets you publish, schedule, and analyze social media posts across 12+ platforms from a single integration. No OAuth apps to maintain — PostBoost handles platform authorization for you.  ## Base URL All workspace-scoped endpoints are prefixed with `/{workspaceUuid}`. Panel/admin endpoints are prefixed with `/panel`.  ## Plan access Every workspace-scoped endpoint returns `403` when the workspace's plan does not include API access (capability `api`).  ## Dates and times Post dates and times (`date`, `time`, `accounts_schedule`) are read in the request's `timezone` when one is given, otherwise in the workspace timezone.  ## Authentication All requests require a Bearer token in the `Authorization` header. Generate tokens in your PostBoost dashboard under **Settings → Access Tokens**.  ``` Authorization: Bearer YOUR_API_TOKEN ``` 
+The PostBoost REST API lets you publish, schedule, and analyze social media posts across 12+ platforms from a single integration. No OAuth apps to maintain — PostBoost handles platform authorization for you.  ## Base URL All workspace-scoped endpoints are prefixed with `/{workspaceUuid}`. Panel/admin endpoints are prefixed with `/panel`.  ## Plan access Every workspace-scoped endpoint returns `403` when the workspace's plan does not include API access (capability `api`).  ## Dates and times Post dates and times (`date`, `time`, `accounts_schedule`) are read in the request's `timezone` when one is given, otherwise in the workspace timezone.  ## Idempotent requests Send an `Idempotency-Key` header (any unique string, for example a UUID) with a `POST`. Repeating the request with the same key within 24 hours returns the stored response with `Idempotent-Replayed: true` and creates nothing new. Reusing a key with a different body returns `422`; a request still in progress with the same key returns `409`. `5xx` and `429` responses are not stored, so they can be retried with the same key.  ## Guardrails for automated clients Create and update requests are checked before anything is written: a post whose content matches one created for the same account in the last 24 hours returns `409` (`code: duplicate_post`, override with `allow_duplicate: true`), scheduling past an account's daily cap returns `429` (`code: account_daily_cap_reached`), and scheduling to an account that must be reconnected returns `422` (`code: account_unauthorized` or `account_token_missing`). Use `POST /{workspaceUuid}/posts/validate` for a dry run and `GET /{workspaceUuid}/activity` to review what API clients did.  ## Authentication All requests require a Bearer token in the `Authorization` header. Generate tokens in your PostBoost dashboard under **Settings → Access Tokens**.  ``` Authorization: Bearer YOUR_API_TOKEN ``` 
 
-API version: 1.8.0
+API version: 1.14.0
 Contact: hi@postboost.co
 */
 
@@ -40,6 +40,10 @@ type PostInput struct {
 	ScheduleNow *bool `json:"schedule_now,omitempty"`
 	// Add to the smart publishing queue.
 	Queue *bool `json:"queue,omitempty"`
+	// Declares the post AI-generated (or, with `false`, not). PostBoost sets each network's own AI label: TikTok's `is_aigc` for every TikTok account in `accounts`, Instagram's \"AI info\" label (`instagram.ai_generated`) and YouTube's synthetic-media disclosure (`youtube.contains_synthetic_media`). The other networks have no API label. The response carries `X-AI-Disclosure: applied` when every network with a label got it. When omitted, a post that attaches images made by the AI image endpoints is labelled automatically. See the AI disclosure guide. 
+	AiGenerated *bool `json:"ai_generated,omitempty"`
+	// Skip the duplicate guard. By default the API refuses (`409`, `code: duplicate_post`) content that matches a post created for the same account in the last 24 hours. The header `X-Allow-Duplicate: true` does the same. 
+	AllowDuplicate *bool `json:"allow_duplicate,omitempty"`
 }
 
 type _PostInput PostInput
@@ -51,6 +55,8 @@ type _PostInput PostInput
 func NewPostInput(versions []PostVersion) *PostInput {
 	this := PostInput{}
 	this.Versions = versions
+	var allowDuplicate bool = false
+	this.AllowDuplicate = &allowDuplicate
 	return &this
 }
 
@@ -59,6 +65,8 @@ func NewPostInput(versions []PostVersion) *PostInput {
 // but it doesn't guarantee that properties required by API are set
 func NewPostInputWithDefaults() *PostInput {
 	this := PostInput{}
+	var allowDuplicate bool = false
+	this.AllowDuplicate = &allowDuplicate
 	return &this
 }
 
@@ -374,6 +382,70 @@ func (o *PostInput) SetQueue(v bool) {
 	o.Queue = &v
 }
 
+// GetAiGenerated returns the AiGenerated field value if set, zero value otherwise.
+func (o *PostInput) GetAiGenerated() bool {
+	if o == nil || IsNil(o.AiGenerated) {
+		var ret bool
+		return ret
+	}
+	return *o.AiGenerated
+}
+
+// GetAiGeneratedOk returns a tuple with the AiGenerated field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *PostInput) GetAiGeneratedOk() (*bool, bool) {
+	if o == nil || IsNil(o.AiGenerated) {
+		return nil, false
+	}
+	return o.AiGenerated, true
+}
+
+// HasAiGenerated returns a boolean if a field has been set.
+func (o *PostInput) HasAiGenerated() bool {
+	if o != nil && !IsNil(o.AiGenerated) {
+		return true
+	}
+
+	return false
+}
+
+// SetAiGenerated gets a reference to the given bool and assigns it to the AiGenerated field.
+func (o *PostInput) SetAiGenerated(v bool) {
+	o.AiGenerated = &v
+}
+
+// GetAllowDuplicate returns the AllowDuplicate field value if set, zero value otherwise.
+func (o *PostInput) GetAllowDuplicate() bool {
+	if o == nil || IsNil(o.AllowDuplicate) {
+		var ret bool
+		return ret
+	}
+	return *o.AllowDuplicate
+}
+
+// GetAllowDuplicateOk returns a tuple with the AllowDuplicate field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *PostInput) GetAllowDuplicateOk() (*bool, bool) {
+	if o == nil || IsNil(o.AllowDuplicate) {
+		return nil, false
+	}
+	return o.AllowDuplicate, true
+}
+
+// HasAllowDuplicate returns a boolean if a field has been set.
+func (o *PostInput) HasAllowDuplicate() bool {
+	if o != nil && !IsNil(o.AllowDuplicate) {
+		return true
+	}
+
+	return false
+}
+
+// SetAllowDuplicate gets a reference to the given bool and assigns it to the AllowDuplicate field.
+func (o *PostInput) SetAllowDuplicate(v bool) {
+	o.AllowDuplicate = &v
+}
+
 func (o PostInput) MarshalJSON() ([]byte, error) {
 	toSerialize,err := o.ToMap()
 	if err != nil {
@@ -411,6 +483,12 @@ func (o PostInput) ToMap() (map[string]interface{}, error) {
 	}
 	if !IsNil(o.Queue) {
 		toSerialize["queue"] = o.Queue
+	}
+	if !IsNil(o.AiGenerated) {
+		toSerialize["ai_generated"] = o.AiGenerated
+	}
+	if !IsNil(o.AllowDuplicate) {
+		toSerialize["allow_duplicate"] = o.AllowDuplicate
 	}
 	return toSerialize, nil
 }

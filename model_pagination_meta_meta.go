@@ -1,9 +1,9 @@
 /*
 PostBoost API
 
-The PostBoost REST API lets you publish, schedule, and analyze social media posts across 12+ platforms from a single integration. No OAuth apps to maintain — PostBoost handles platform authorization for you.  ## Base URL All workspace-scoped endpoints are prefixed with `/{workspaceUuid}`. Panel/admin endpoints are prefixed with `/panel`.  ## Plan access Every workspace-scoped endpoint returns `403` when the workspace's plan does not include API access (capability `api`).  ## Dates and times Post dates and times (`date`, `time`, `accounts_schedule`) are read in the request's `timezone` when one is given, otherwise in the workspace timezone.  ## Authentication All requests require a Bearer token in the `Authorization` header. Generate tokens in your PostBoost dashboard under **Settings → Access Tokens**.  ``` Authorization: Bearer YOUR_API_TOKEN ``` 
+The PostBoost REST API lets you publish, schedule, and analyze social media posts across 12+ platforms from a single integration. No OAuth apps to maintain — PostBoost handles platform authorization for you.  ## Base URL All workspace-scoped endpoints are prefixed with `/{workspaceUuid}`. Panel/admin endpoints are prefixed with `/panel`.  ## Plan access Every workspace-scoped endpoint returns `403` when the workspace's plan does not include API access (capability `api`).  ## Dates and times Post dates and times (`date`, `time`, `accounts_schedule`) are read in the request's `timezone` when one is given, otherwise in the workspace timezone.  ## Idempotent requests Send an `Idempotency-Key` header (any unique string, for example a UUID) with a `POST`. Repeating the request with the same key within 24 hours returns the stored response with `Idempotent-Replayed: true` and creates nothing new. Reusing a key with a different body returns `422`; a request still in progress with the same key returns `409`. `5xx` and `429` responses are not stored, so they can be retried with the same key.  ## Guardrails for automated clients Create and update requests are checked before anything is written: a post whose content matches one created for the same account in the last 24 hours returns `409` (`code: duplicate_post`, override with `allow_duplicate: true`), scheduling past an account's daily cap returns `429` (`code: account_daily_cap_reached`), and scheduling to an account that must be reconnected returns `422` (`code: account_unauthorized` or `account_token_missing`). Use `POST /{workspaceUuid}/posts/validate` for a dry run and `GET /{workspaceUuid}/activity` to review what API clients did.  ## Authentication All requests require a Bearer token in the `Authorization` header. Generate tokens in your PostBoost dashboard under **Settings → Access Tokens**.  ``` Authorization: Bearer YOUR_API_TOKEN ``` 
 
-API version: 1.8.0
+API version: 1.14.0
 Contact: hi@postboost.co
 */
 
@@ -21,10 +21,10 @@ var _ MappedNullable = &PaginationMetaMeta{}
 // PaginationMetaMeta struct for PaginationMetaMeta
 type PaginationMetaMeta struct {
 	CurrentPage *int32 `json:"current_page,omitempty"`
-	From *int32 `json:"from,omitempty"`
+	From NullableInt32 `json:"from,omitempty"`
 	LastPage *int32 `json:"last_page,omitempty"`
 	PerPage *int32 `json:"per_page,omitempty"`
-	To *int32 `json:"to,omitempty"`
+	To NullableInt32 `json:"to,omitempty"`
 	Total *int32 `json:"total,omitempty"`
 }
 
@@ -77,36 +77,46 @@ func (o *PaginationMetaMeta) SetCurrentPage(v int32) {
 	o.CurrentPage = &v
 }
 
-// GetFrom returns the From field value if set, zero value otherwise.
+// GetFrom returns the From field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *PaginationMetaMeta) GetFrom() int32 {
-	if o == nil || IsNil(o.From) {
+	if o == nil || IsNil(o.From.Get()) {
 		var ret int32
 		return ret
 	}
-	return *o.From
+	return *o.From.Get()
 }
 
 // GetFromOk returns a tuple with the From field value if set, nil otherwise
 // and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *PaginationMetaMeta) GetFromOk() (*int32, bool) {
-	if o == nil || IsNil(o.From) {
+	if o == nil {
 		return nil, false
 	}
-	return o.From, true
+	return o.From.Get(), o.From.IsSet()
 }
 
 // HasFrom returns a boolean if a field has been set.
 func (o *PaginationMetaMeta) HasFrom() bool {
-	if o != nil && !IsNil(o.From) {
+	if o != nil && o.From.IsSet() {
 		return true
 	}
 
 	return false
 }
 
-// SetFrom gets a reference to the given int32 and assigns it to the From field.
+// SetFrom gets a reference to the given NullableInt32 and assigns it to the From field.
 func (o *PaginationMetaMeta) SetFrom(v int32) {
-	o.From = &v
+	o.From.Set(&v)
+}
+// SetFromNil sets the value for From to be an explicit nil
+func (o *PaginationMetaMeta) SetFromNil() {
+	o.From.Set(nil)
+}
+
+// UnsetFrom ensures that no value is present for From, not even an explicit nil
+func (o *PaginationMetaMeta) UnsetFrom() {
+	o.From.Unset()
 }
 
 // GetLastPage returns the LastPage field value if set, zero value otherwise.
@@ -173,36 +183,46 @@ func (o *PaginationMetaMeta) SetPerPage(v int32) {
 	o.PerPage = &v
 }
 
-// GetTo returns the To field value if set, zero value otherwise.
+// GetTo returns the To field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *PaginationMetaMeta) GetTo() int32 {
-	if o == nil || IsNil(o.To) {
+	if o == nil || IsNil(o.To.Get()) {
 		var ret int32
 		return ret
 	}
-	return *o.To
+	return *o.To.Get()
 }
 
 // GetToOk returns a tuple with the To field value if set, nil otherwise
 // and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *PaginationMetaMeta) GetToOk() (*int32, bool) {
-	if o == nil || IsNil(o.To) {
+	if o == nil {
 		return nil, false
 	}
-	return o.To, true
+	return o.To.Get(), o.To.IsSet()
 }
 
 // HasTo returns a boolean if a field has been set.
 func (o *PaginationMetaMeta) HasTo() bool {
-	if o != nil && !IsNil(o.To) {
+	if o != nil && o.To.IsSet() {
 		return true
 	}
 
 	return false
 }
 
-// SetTo gets a reference to the given int32 and assigns it to the To field.
+// SetTo gets a reference to the given NullableInt32 and assigns it to the To field.
 func (o *PaginationMetaMeta) SetTo(v int32) {
-	o.To = &v
+	o.To.Set(&v)
+}
+// SetToNil sets the value for To to be an explicit nil
+func (o *PaginationMetaMeta) SetToNil() {
+	o.To.Set(nil)
+}
+
+// UnsetTo ensures that no value is present for To, not even an explicit nil
+func (o *PaginationMetaMeta) UnsetTo() {
+	o.To.Unset()
 }
 
 // GetTotal returns the Total field value if set, zero value otherwise.
@@ -250,8 +270,8 @@ func (o PaginationMetaMeta) ToMap() (map[string]interface{}, error) {
 	if !IsNil(o.CurrentPage) {
 		toSerialize["current_page"] = o.CurrentPage
 	}
-	if !IsNil(o.From) {
-		toSerialize["from"] = o.From
+	if o.From.IsSet() {
+		toSerialize["from"] = o.From.Get()
 	}
 	if !IsNil(o.LastPage) {
 		toSerialize["last_page"] = o.LastPage
@@ -259,8 +279,8 @@ func (o PaginationMetaMeta) ToMap() (map[string]interface{}, error) {
 	if !IsNil(o.PerPage) {
 		toSerialize["per_page"] = o.PerPage
 	}
-	if !IsNil(o.To) {
-		toSerialize["to"] = o.To
+	if o.To.IsSet() {
+		toSerialize["to"] = o.To.Get()
 	}
 	if !IsNil(o.Total) {
 		toSerialize["total"] = o.Total

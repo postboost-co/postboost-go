@@ -239,4 +239,18 @@ func Test_postboost_MediaAPIService(t *testing.T) {
 
 	})
 
+	t.Run("Test MediaAPIService UploadMediaBase64", func(t *testing.T) {
+
+		t.Skip("skip test")  // remove to run test
+
+		var workspaceUuid string
+
+		resp, httpRes, err := apiClient.MediaAPI.UploadMediaBase64(context.Background(), workspaceUuid).Execute()
+
+		require.Nil(t, err)
+		require.NotNil(t, resp)
+		assert.Equal(t, 200, httpRes.StatusCode)
+
+	})
+
 }

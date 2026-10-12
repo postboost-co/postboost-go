@@ -22,6 +22,36 @@ func Test_postboost_AccountsAPIService(t *testing.T) {
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
 
+	t.Run("Test AccountsAPIService ConnectChannel", func(t *testing.T) {
+
+		t.Skip("skip test")  // remove to run test
+
+		var workspaceUuid string
+		var provider string
+
+		resp, httpRes, err := apiClient.AccountsAPI.ConnectChannel(context.Background(), workspaceUuid, provider).Execute()
+
+		require.Nil(t, err)
+		require.NotNil(t, resp)
+		assert.Equal(t, 200, httpRes.StatusCode)
+
+	})
+
+	t.Run("Test AccountsAPIService CreateReconnectLink", func(t *testing.T) {
+
+		t.Skip("skip test")  // remove to run test
+
+		var workspaceUuid string
+		var accountUuid string
+
+		resp, httpRes, err := apiClient.AccountsAPI.CreateReconnectLink(context.Background(), workspaceUuid, accountUuid).Execute()
+
+		require.Nil(t, err)
+		require.NotNil(t, resp)
+		assert.Equal(t, 200, httpRes.StatusCode)
+
+	})
+
 	t.Run("Test AccountsAPIService GetAccount", func(t *testing.T) {
 
 		t.Skip("skip test")  // remove to run test
@@ -30,6 +60,20 @@ func Test_postboost_AccountsAPIService(t *testing.T) {
 		var accountUuid string
 
 		resp, httpRes, err := apiClient.AccountsAPI.GetAccount(context.Background(), workspaceUuid, accountUuid).Execute()
+
+		require.Nil(t, err)
+		require.NotNil(t, resp)
+		assert.Equal(t, 200, httpRes.StatusCode)
+
+	})
+
+	t.Run("Test AccountsAPIService GetAccountHealth", func(t *testing.T) {
+
+		t.Skip("skip test")  // remove to run test
+
+		var workspaceUuid string
+
+		resp, httpRes, err := apiClient.AccountsAPI.GetAccountHealth(context.Background(), workspaceUuid).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)
