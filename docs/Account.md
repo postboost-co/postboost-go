@@ -16,6 +16,7 @@ Name | Type | Description | Notes
 **PublishStatus** | Pointer to **string** | Only present when the account is embedded in a post. Publishing state of this account for the post. | [optional] 
 **PublishedParts** | Pointer to **int32** | Only present when the account is embedded in a post. How many parts (for example thread items or a first comment) are live on the network. | [optional] 
 **ExternalUrl** | Pointer to **NullableString** | Only present when the account is embedded in a post. URL of the published post on the network, null until it is live. | [optional] 
+**ProviderPostId** | Pointer to **NullableString** | Only present when the account is embedded in a post. The network&#39;s own ID of the published post (for example a LinkedIn share URN or a tweet ID), null until it is live. | [optional] 
 **Errors** | Pointer to [**[]AccountErrorsInner**](AccountErrorsInner.md) | Only present when the account is embedded in a post. Why publishing to this account failed. A raw network error is stored as two entries: a readable line (&#x60;\&quot;&lt;Network&gt;: &lt;message&gt; (code &lt;code&gt;)\&quot;&#x60;) and an object &#x60;{platform, code, message, raw}&#x60; with the network&#39;s original response in &#x60;raw&#x60;. Other failures are a single readable string.  | [optional] 
 **CreatedAt** | **string** | UTC, formatted &#x60;Y-m-d H:i:s&#x60;. | 
 
@@ -313,6 +314,41 @@ HasExternalUrl returns a boolean if a field has been set.
 `func (o *Account) UnsetExternalUrl()`
 
 UnsetExternalUrl ensures that no value is present for ExternalUrl, not even an explicit nil
+### GetProviderPostId
+
+`func (o *Account) GetProviderPostId() string`
+
+GetProviderPostId returns the ProviderPostId field if non-nil, zero value otherwise.
+
+### GetProviderPostIdOk
+
+`func (o *Account) GetProviderPostIdOk() (*string, bool)`
+
+GetProviderPostIdOk returns a tuple with the ProviderPostId field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetProviderPostId
+
+`func (o *Account) SetProviderPostId(v string)`
+
+SetProviderPostId sets ProviderPostId field to given value.
+
+### HasProviderPostId
+
+`func (o *Account) HasProviderPostId() bool`
+
+HasProviderPostId returns a boolean if a field has been set.
+
+### SetProviderPostIdNil
+
+`func (o *Account) SetProviderPostIdNil(b bool)`
+
+ SetProviderPostIdNil sets the value for ProviderPostId to be an explicit nil
+
+### UnsetProviderPostId
+`func (o *Account) UnsetProviderPostId()`
+
+UnsetProviderPostId ensures that no value is present for ProviderPostId, not even an explicit nil
 ### GetErrors
 
 `func (o *Account) GetErrors() []AccountErrorsInner`

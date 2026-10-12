@@ -3,7 +3,7 @@ PostBoost API
 
 The PostBoost REST API lets you publish, schedule, and analyze social media posts across 12+ platforms from a single integration. No OAuth apps to maintain — PostBoost handles platform authorization for you.  ## Base URL All workspace-scoped endpoints are prefixed with `/{workspaceUuid}`. Panel/admin endpoints are prefixed with `/panel`.  ## Plan access Every workspace-scoped endpoint returns `403` when the workspace's plan does not include API access (capability `api`).  ## Dates and times Post dates and times (`date`, `time`, `accounts_schedule`) are read in the request's `timezone` when one is given, otherwise in the workspace timezone.  ## Idempotent requests Send an `Idempotency-Key` header (any unique string, for example a UUID) with a `POST`. Repeating the request with the same key within 24 hours returns the stored response with `Idempotent-Replayed: true` and creates nothing new. Reusing a key with a different body returns `422`; a request still in progress with the same key returns `409`. `5xx` and `429` responses are not stored, so they can be retried with the same key.  ## Guardrails for automated clients Create and update requests are checked before anything is written: a post whose content matches one created for the same account in the last 24 hours returns `409` (`code: duplicate_post`, override with `allow_duplicate: true`), scheduling past an account's daily cap returns `429` (`code: account_daily_cap_reached`), and scheduling to an account that must be reconnected returns `422` (`code: account_unauthorized` or `account_token_missing`). Use `POST /{workspaceUuid}/posts/validate` for a dry run and `GET /{workspaceUuid}/activity` to review what API clients did.  ## Authentication All requests require a Bearer token in the `Authorization` header. Generate tokens in your PostBoost dashboard under **Settings → Access Tokens**.  ``` Authorization: Bearer YOUR_API_TOKEN ``` 
 
-API version: 1.14.0
+API version: 1.15.0
 Contact: hi@postboost.co
 */
 
@@ -39,6 +39,8 @@ type Account struct {
 	PublishedParts *int32 `json:"published_parts,omitempty"`
 	// Only present when the account is embedded in a post. URL of the published post on the network, null until it is live.
 	ExternalUrl NullableString `json:"external_url,omitempty"`
+	// Only present when the account is embedded in a post. The network's own ID of the published post (for example a LinkedIn share URN or a tweet ID), null until it is live.
+	ProviderPostId NullableString `json:"provider_post_id,omitempty"`
 	// Only present when the account is embedded in a post. Why publishing to this account failed. A raw network error is stored as two entries: a readable line (`\"<Network>: <message> (code <code>)\"`) and an object `{platform, code, message, raw}` with the network's original response in `raw`. Other failures are a single readable string. 
 	Errors []AccountErrorsInner `json:"errors,omitempty"`
 	// UTC, formatted `Y-m-d H:i:s`.
@@ -410,6 +412,48 @@ func (o *Account) UnsetExternalUrl() {
 	o.ExternalUrl.Unset()
 }
 
+// GetProviderPostId returns the ProviderPostId field value if set, zero value otherwise (both if not set or set to explicit null).
+func (o *Account) GetProviderPostId() string {
+	if o == nil || IsNil(o.ProviderPostId.Get()) {
+		var ret string
+		return ret
+	}
+	return *o.ProviderPostId.Get()
+}
+
+// GetProviderPostIdOk returns a tuple with the ProviderPostId field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
+func (o *Account) GetProviderPostIdOk() (*string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.ProviderPostId.Get(), o.ProviderPostId.IsSet()
+}
+
+// HasProviderPostId returns a boolean if a field has been set.
+func (o *Account) HasProviderPostId() bool {
+	if o != nil && o.ProviderPostId.IsSet() {
+		return true
+	}
+
+	return false
+}
+
+// SetProviderPostId gets a reference to the given NullableString and assigns it to the ProviderPostId field.
+func (o *Account) SetProviderPostId(v string) {
+	o.ProviderPostId.Set(&v)
+}
+// SetProviderPostIdNil sets the value for ProviderPostId to be an explicit nil
+func (o *Account) SetProviderPostIdNil() {
+	o.ProviderPostId.Set(nil)
+}
+
+// UnsetProviderPostId ensures that no value is present for ProviderPostId, not even an explicit nil
+func (o *Account) UnsetProviderPostId() {
+	o.ProviderPostId.Unset()
+}
+
 // GetErrors returns the Errors field value if set, zero value otherwise.
 func (o *Account) GetErrors() []AccountErrorsInner {
 	if o == nil || IsNil(o.Errors) {
@@ -497,6 +541,9 @@ func (o Account) ToMap() (map[string]interface{}, error) {
 	}
 	if o.ExternalUrl.IsSet() {
 		toSerialize["external_url"] = o.ExternalUrl.Get()
+	}
+	if o.ProviderPostId.IsSet() {
+		toSerialize["provider_post_id"] = o.ProviderPostId.Get()
 	}
 	if !IsNil(o.Errors) {
 		toSerialize["errors"] = o.Errors
