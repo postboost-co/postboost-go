@@ -53,7 +53,9 @@ AddPostToQueue Add post to queue
 
 Add an existing post to the smart publishing queue. Each account of the post gets its own
 next free queue slot. Returns `422` when the post has no accounts, the posting schedule has no
-available times, or provider requirements are not met.
+available times, or provider requirements are not met. The guardrails check the saved post as
+publishing today (UTC), as on create: `409` duplicate (override with `X-Allow-Duplicate: true`),
+`422` account cannot publish, `429` daily or X cap.
 
 
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
@@ -170,8 +172,30 @@ func (a *PostsAPIService) AddPostToQueueExecute(r ApiAddPostToQueueRequest) (*Sc
 					newErr.model = v
 			return localVarReturnValue, localVarHTTPResponse, newErr
 		}
+		if localVarHTTPResponse.StatusCode == 409 {
+			var v GuardrailError
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
 		if localVarHTTPResponse.StatusCode == 422 {
 			var v map[string]interface{}
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 429 {
+			var v GuardrailError
 			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
 				newErr.error = err.Error()
@@ -3033,7 +3057,9 @@ SchedulePost Schedule post
 Schedule an existing post. Optionally move it with `date`/`time` (read in `timezone`) and give
 accounts their own times with `accounts_schedule`. Set `postNow: true` to publish immediately;
 publishing starts within the request and any per-account times are dropped.
-Provider requirements are validated and reported as `422`.
+Provider requirements are validated and reported as `422`. The guardrails check the saved post at
+the time it would publish, as on create: `409` duplicate (override with `X-Allow-Duplicate: true`),
+`422` account cannot publish, `429` daily or X cap.
 
 
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
@@ -3153,8 +3179,30 @@ func (a *PostsAPIService) SchedulePostExecute(r ApiSchedulePostRequest) (*Schedu
 					newErr.model = v
 			return localVarReturnValue, localVarHTTPResponse, newErr
 		}
+		if localVarHTTPResponse.StatusCode == 409 {
+			var v GuardrailError
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
 		if localVarHTTPResponse.StatusCode == 422 {
 			var v map[string]interface{}
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 429 {
+			var v GuardrailError
 			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
 				newErr.error = err.Error()
