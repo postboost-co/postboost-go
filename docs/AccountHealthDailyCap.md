@@ -4,7 +4,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Limit** | **int32** | Posts allowed per UTC day for this network. | 
+**Limit** | **int32** | Posts allowed per UTC day for this network; Free workspaces get half (rounded down, at least 1). | 
 **UsedToday** | **int32** | Scheduled, awaiting-approval and published posts counted for today (UTC). | 
 
 ## Methods
