@@ -3,7 +3,7 @@ PostBoost API
 
 The PostBoost REST API lets you publish, schedule, and analyze social media posts across 12+ platforms from a single integration. No OAuth apps to maintain — PostBoost handles platform authorization for you.  ## Base URL All workspace-scoped endpoints are prefixed with `/{workspaceUuid}`. Panel/admin endpoints are prefixed with `/panel`.  ## Plan access Every workspace-scoped endpoint returns `403` when the workspace's plan does not include API access (capability `api`).  ## Dates and times Post dates and times (`date`, `time`, `accounts_schedule`) are read in the request's `timezone` when one is given, otherwise in the workspace timezone.  ## Idempotent requests Send an `Idempotency-Key` header (any unique string, for example a UUID) with a `POST`. Repeating the request with the same key within 24 hours returns the stored response with `Idempotent-Replayed: true` and creates nothing new. Reusing a key with a different body returns `422`; a request still in progress with the same key returns `409`. `5xx` and `429` responses are not stored, so they can be retried with the same key.  ## Guardrails for automated clients Create and update requests are checked before anything is written: a post whose content matches one created for the same account in the last 24 hours returns `409` (`code: duplicate_post`, override with `allow_duplicate: true`), scheduling past an account's daily cap returns `429` (`code: account_daily_cap_reached`), and scheduling to an account that must be reconnected returns `422` (`code: account_unauthorized` or `account_token_missing`). Use `POST /{workspaceUuid}/posts/validate` for a dry run and `GET /{workspaceUuid}/activity` to review what API clients did.  ## Authentication All requests require a Bearer token in the `Authorization` header. Generate tokens in your PostBoost dashboard under **Settings → Access Tokens**.  ``` Authorization: Bearer YOUR_API_TOKEN ``` 
 
-API version: 1.18.0
+API version: 1.19.0
 Contact: hi@postboost.co
 */
 
@@ -51,6 +51,8 @@ type RepurposeInput struct {
 	// Create the draft post. `false` returns captions and slides only.
 	CreatePost *bool `json:"create_post,omitempty"`
 	UseBrandVoice *bool `json:"use_brand_voice,omitempty"`
+	// Answer `202` with a run id right away instead of waiting up to 20 seconds for the result.
+	Async *bool `json:"async,omitempty"`
 }
 
 type _RepurposeInput RepurposeInput
@@ -80,6 +82,8 @@ func NewRepurposeInput(sourceType string) *RepurposeInput {
 	this.CreatePost = &createPost
 	var useBrandVoice bool = true
 	this.UseBrandVoice = &useBrandVoice
+	var async bool = false
+	this.Async = &async
 	return &this
 }
 
@@ -106,6 +110,8 @@ func NewRepurposeInputWithDefaults() *RepurposeInput {
 	this.CreatePost = &createPost
 	var useBrandVoice bool = true
 	this.UseBrandVoice = &useBrandVoice
+	var async bool = false
+	this.Async = &async
 	return &this
 }
 
@@ -709,6 +715,38 @@ func (o *RepurposeInput) SetUseBrandVoice(v bool) {
 	o.UseBrandVoice = &v
 }
 
+// GetAsync returns the Async field value if set, zero value otherwise.
+func (o *RepurposeInput) GetAsync() bool {
+	if o == nil || IsNil(o.Async) {
+		var ret bool
+		return ret
+	}
+	return *o.Async
+}
+
+// GetAsyncOk returns a tuple with the Async field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *RepurposeInput) GetAsyncOk() (*bool, bool) {
+	if o == nil || IsNil(o.Async) {
+		return nil, false
+	}
+	return o.Async, true
+}
+
+// HasAsync returns a boolean if a field has been set.
+func (o *RepurposeInput) HasAsync() bool {
+	if o != nil && !IsNil(o.Async) {
+		return true
+	}
+
+	return false
+}
+
+// SetAsync gets a reference to the given bool and assigns it to the Async field.
+func (o *RepurposeInput) SetAsync(v bool) {
+	o.Async = &v
+}
+
 func (o RepurposeInput) MarshalJSON() ([]byte, error) {
 	toSerialize,err := o.ToMap()
 	if err != nil {
@@ -773,6 +811,9 @@ func (o RepurposeInput) ToMap() (map[string]interface{}, error) {
 	}
 	if !IsNil(o.UseBrandVoice) {
 		toSerialize["use_brand_voice"] = o.UseBrandVoice
+	}
+	if !IsNil(o.Async) {
+		toSerialize["async"] = o.Async
 	}
 	return toSerialize, nil
 }

@@ -13,7 +13,7 @@ go get github.com/postboost-co/postboost-go
 | **pkg.go.dev** | [pkg.go.dev/github.com/postboost-co/postboost-go](https://pkg.go.dev/github.com/postboost-co/postboost-go) |
 | **GitHub** | [postboost-co/postboost-go](https://github.com/postboost-co/postboost-go) |
 | **Docs** | [postboost.co/docs/api](https://postboost.co/docs/api) |
-| **Version** | v1.18.0 |
+| **Version** | v1.19.0 |
 
 ## Quick start
 
@@ -39,6 +39,7 @@ Class | Method | HTTP request | Description
 *AIAPI* | [**DeleteBrandVoice**](docs/AIAPI.md#deletebrandvoice) | **Delete** /{workspaceUuid}/brand-voice | Delete the brand voice
 *AIAPI* | [**GetAIUsage**](docs/AIAPI.md#getaiusage) | **Get** /{workspaceUuid}/usage/ai | AI credit usage
 *AIAPI* | [**GetBrandVoice**](docs/AIAPI.md#getbrandvoice) | **Get** /{workspaceUuid}/brand-voice | Get the brand voice
+*AIAPI* | [**GetRepurposeRun**](docs/AIAPI.md#getrepurposerun) | **Get** /{workspaceUuid}/ai/repurpose/runs/{runId} | Get a repurpose run
 *AIAPI* | [**ImageAltText**](docs/AIAPI.md#imagealttext) | **Post** /{workspaceUuid}/ai/image-alt-text | Generate alt text for a media image using AI
 *AIAPI* | [**ImageEdit**](docs/AIAPI.md#imageedit) | **Post** /{workspaceUuid}/ai/image-edit | Edit an existing media image using AI
 *AIAPI* | [**ImageGenerate**](docs/AIAPI.md#imagegenerate) | **Post** /{workspaceUuid}/ai/image-generate | Generate social media images from a caption

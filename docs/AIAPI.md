@@ -8,6 +8,7 @@ Method | HTTP request | Description
 [**DeleteBrandVoice**](AIAPI.md#DeleteBrandVoice) | **Delete** /{workspaceUuid}/brand-voice | Delete the brand voice
 [**GetAIUsage**](AIAPI.md#GetAIUsage) | **Get** /{workspaceUuid}/usage/ai | AI credit usage
 [**GetBrandVoice**](AIAPI.md#GetBrandVoice) | **Get** /{workspaceUuid}/brand-voice | Get the brand voice
+[**GetRepurposeRun**](AIAPI.md#GetRepurposeRun) | **Get** /{workspaceUuid}/ai/repurpose/runs/{runId} | Get a repurpose run
 [**ImageAltText**](AIAPI.md#ImageAltText) | **Post** /{workspaceUuid}/ai/image-alt-text | Generate alt text for a media image using AI
 [**ImageEdit**](AIAPI.md#ImageEdit) | **Post** /{workspaceUuid}/ai/image-edit | Edit an existing media image using AI
 [**ImageGenerate**](AIAPI.md#ImageGenerate) | **Post** /{workspaceUuid}/ai/image-generate | Generate social media images from a caption
@@ -286,6 +287,79 @@ Name | Type | Description  | Notes
 ### Return type
 
 [**GetBrandVoice200Response**](GetBrandVoice200Response.md)
+
+### Authorization
+
+[bearerAuth](../README.md#bearerAuth)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## GetRepurposeRun
+
+> GetRepurposeRun200Response GetRepurposeRun(ctx, workspaceUuid, runId).Execute()
+
+Get a repurpose run
+
+
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/postboost-co/postboost-go"
+)
+
+func main() {
+	workspaceUuid := "38400000-8cf0-11bd-b23e-10b96e4ef00d" // string | UUID of the workspace.
+	runId := int32(56) // int32 | The `run_id` from `repurposeContent`.
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.AIAPI.GetRepurposeRun(context.Background(), workspaceUuid, runId).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `AIAPI.GetRepurposeRun``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `GetRepurposeRun`: GetRepurposeRun200Response
+	fmt.Fprintf(os.Stdout, "Response from `AIAPI.GetRepurposeRun`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
+**workspaceUuid** | **string** | UUID of the workspace. | 
+**runId** | **int32** | The &#x60;run_id&#x60; from &#x60;repurposeContent&#x60;. | 
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiGetRepurposeRunRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
+
+
+### Return type
+
+[**GetRepurposeRun200Response**](GetRepurposeRun200Response.md)
 
 ### Authorization
 

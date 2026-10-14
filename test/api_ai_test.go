@@ -78,6 +78,21 @@ func Test_postboost_AIAPIService(t *testing.T) {
 
 	})
 
+	t.Run("Test AIAPIService GetRepurposeRun", func(t *testing.T) {
+
+		t.Skip("skip test")  // remove to run test
+
+		var workspaceUuid string
+		var runId int32
+
+		resp, httpRes, err := apiClient.AIAPI.GetRepurposeRun(context.Background(), workspaceUuid, runId).Execute()
+
+		require.Nil(t, err)
+		require.NotNil(t, resp)
+		assert.Equal(t, 200, httpRes.StatusCode)
+
+	})
+
 	t.Run("Test AIAPIService ImageAltText", func(t *testing.T) {
 
 		t.Skip("skip test")  // remove to run test

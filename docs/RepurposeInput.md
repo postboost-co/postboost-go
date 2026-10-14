@@ -23,6 +23,7 @@ Name | Type | Description | Notes
 **Theme** | Pointer to [**RepurposeInputTheme**](RepurposeInputTheme.md) |  | [optional] 
 **CreatePost** | Pointer to **bool** | Create the draft post. &#x60;false&#x60; returns captions and slides only. | [optional] [default to true]
 **UseBrandVoice** | Pointer to **bool** |  | [optional] [default to true]
+**Async** | Pointer to **bool** | Answer &#x60;202&#x60; with a run id right away instead of waiting up to 20 seconds for the result. | [optional] [default to false]
 
 ## Methods
 
@@ -512,6 +513,31 @@ SetUseBrandVoice sets UseBrandVoice field to given value.
 `func (o *RepurposeInput) HasUseBrandVoice() bool`
 
 HasUseBrandVoice returns a boolean if a field has been set.
+
+### GetAsync
+
+`func (o *RepurposeInput) GetAsync() bool`
+
+GetAsync returns the Async field if non-nil, zero value otherwise.
+
+### GetAsyncOk
+
+`func (o *RepurposeInput) GetAsyncOk() (*bool, bool)`
+
+GetAsyncOk returns a tuple with the Async field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetAsync
+
+`func (o *RepurposeInput) SetAsync(v bool)`
+
+SetAsync sets Async field to given value.
+
+### HasAsync
+
+`func (o *RepurposeInput) HasAsync() bool`
+
+HasAsync returns a boolean if a field has been set.
 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
