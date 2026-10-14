@@ -188,7 +188,7 @@ Name | Type | Description  | Notes
 
 ## CreatePost
 
-> Post CreatePost(ctx, workspaceUuid).PostInput(postInput).IdempotencyKey(idempotencyKey).Execute()
+> CreatePost201Response CreatePost(ctx, workspaceUuid).PostInput(postInput).IdempotencyKey(idempotencyKey).Execute()
 
 Create post
 
@@ -218,7 +218,7 @@ func main() {
 		fmt.Fprintf(os.Stderr, "Error when calling `PostsAPI.CreatePost``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `CreatePost`: Post
+	// response from `CreatePost`: CreatePost201Response
 	fmt.Fprintf(os.Stdout, "Response from `PostsAPI.CreatePost`: %v\n", resp)
 }
 ```
@@ -244,7 +244,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**Post**](Post.md)
+[**CreatePost201Response**](CreatePost201Response.md)
 
 ### Authorization
 
@@ -1575,7 +1575,7 @@ Name | Type | Description  | Notes
 
 ## UpdatePost
 
-> map[string]interface{} UpdatePost(ctx, workspaceUuid, postUuid).PostInput(postInput).Execute()
+> UpdatePost200Response UpdatePost(ctx, workspaceUuid, postUuid).PostInput(postInput).Execute()
 
 Update post
 
@@ -1605,7 +1605,7 @@ func main() {
 		fmt.Fprintf(os.Stderr, "Error when calling `PostsAPI.UpdatePost``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `UpdatePost`: map[string]interface{}
+	// response from `UpdatePost`: UpdatePost200Response
 	fmt.Fprintf(os.Stdout, "Response from `PostsAPI.UpdatePost`: %v\n", resp)
 }
 ```
@@ -1632,7 +1632,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-**map[string]interface{}**
+[**UpdatePost200Response**](UpdatePost200Response.md)
 
 ### Authorization
 
