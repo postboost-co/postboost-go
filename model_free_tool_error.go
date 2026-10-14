@@ -3,7 +3,7 @@ PostBoost API
 
 The PostBoost REST API lets you publish, schedule, and analyze social media posts across 12+ platforms from a single integration. No OAuth apps to maintain — PostBoost handles platform authorization for you.  ## Base URL All workspace-scoped endpoints are prefixed with `/{workspaceUuid}`. Panel/admin endpoints are prefixed with `/panel`.  ## Plan access Every workspace-scoped endpoint returns `403` when the workspace's plan does not include API access (capability `api`).  ## Dates and times Post dates and times (`date`, `time`, `accounts_schedule`) are read in the request's `timezone` when one is given, otherwise in the workspace timezone.  ## Idempotent requests Send an `Idempotency-Key` header (any unique string, for example a UUID) with a `POST`. Repeating the request with the same key within 24 hours returns the stored response with `Idempotent-Replayed: true` and creates nothing new. Reusing a key with a different body returns `422`; a request still in progress with the same key returns `409`. `5xx` and `429` responses are not stored, so they can be retried with the same key.  ## Guardrails for automated clients Create and update requests are checked before anything is written: a post whose content matches one created for the same account in the last 24 hours returns `409` (`code: duplicate_post`, override with `allow_duplicate: true`), scheduling past an account's daily cap returns `429` (`code: account_daily_cap_reached`), and scheduling to an account that must be reconnected returns `422` (`code: account_unauthorized` or `account_token_missing`). Use `POST /{workspaceUuid}/posts/validate` for a dry run and `GET /{workspaceUuid}/activity` to review what API clients did.  ## Authentication All requests require a Bearer token in the `Authorization` header. Generate tokens in your PostBoost dashboard under **Settings → Access Tokens**.  ``` Authorization: Bearer YOUR_API_TOKEN ``` 
 
-API version: 1.22.0
+API version: 1.23.0
 Contact: hi@postboost.co
 */
 
@@ -23,6 +23,12 @@ var _ MappedNullable = &FreeToolError{}
 // FreeToolError struct for FreeToolError
 type FreeToolError struct {
 	Message string `json:"message"`
+	// 429 only: seconds until the limit resets.
+	RetryAfter *int32 `json:"retry_after,omitempty"`
+	// 429 for guests: sign up for a token with higher limits.
+	RegisterUrl *string `json:"register_url,omitempty"`
+	// 429 when a token user reached the plan's daily cap.
+	UpgradeUrl *string `json:"upgrade_url,omitempty"`
 }
 
 type _FreeToolError FreeToolError
@@ -69,6 +75,102 @@ func (o *FreeToolError) SetMessage(v string) {
 	o.Message = v
 }
 
+// GetRetryAfter returns the RetryAfter field value if set, zero value otherwise.
+func (o *FreeToolError) GetRetryAfter() int32 {
+	if o == nil || IsNil(o.RetryAfter) {
+		var ret int32
+		return ret
+	}
+	return *o.RetryAfter
+}
+
+// GetRetryAfterOk returns a tuple with the RetryAfter field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *FreeToolError) GetRetryAfterOk() (*int32, bool) {
+	if o == nil || IsNil(o.RetryAfter) {
+		return nil, false
+	}
+	return o.RetryAfter, true
+}
+
+// HasRetryAfter returns a boolean if a field has been set.
+func (o *FreeToolError) HasRetryAfter() bool {
+	if o != nil && !IsNil(o.RetryAfter) {
+		return true
+	}
+
+	return false
+}
+
+// SetRetryAfter gets a reference to the given int32 and assigns it to the RetryAfter field.
+func (o *FreeToolError) SetRetryAfter(v int32) {
+	o.RetryAfter = &v
+}
+
+// GetRegisterUrl returns the RegisterUrl field value if set, zero value otherwise.
+func (o *FreeToolError) GetRegisterUrl() string {
+	if o == nil || IsNil(o.RegisterUrl) {
+		var ret string
+		return ret
+	}
+	return *o.RegisterUrl
+}
+
+// GetRegisterUrlOk returns a tuple with the RegisterUrl field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *FreeToolError) GetRegisterUrlOk() (*string, bool) {
+	if o == nil || IsNil(o.RegisterUrl) {
+		return nil, false
+	}
+	return o.RegisterUrl, true
+}
+
+// HasRegisterUrl returns a boolean if a field has been set.
+func (o *FreeToolError) HasRegisterUrl() bool {
+	if o != nil && !IsNil(o.RegisterUrl) {
+		return true
+	}
+
+	return false
+}
+
+// SetRegisterUrl gets a reference to the given string and assigns it to the RegisterUrl field.
+func (o *FreeToolError) SetRegisterUrl(v string) {
+	o.RegisterUrl = &v
+}
+
+// GetUpgradeUrl returns the UpgradeUrl field value if set, zero value otherwise.
+func (o *FreeToolError) GetUpgradeUrl() string {
+	if o == nil || IsNil(o.UpgradeUrl) {
+		var ret string
+		return ret
+	}
+	return *o.UpgradeUrl
+}
+
+// GetUpgradeUrlOk returns a tuple with the UpgradeUrl field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *FreeToolError) GetUpgradeUrlOk() (*string, bool) {
+	if o == nil || IsNil(o.UpgradeUrl) {
+		return nil, false
+	}
+	return o.UpgradeUrl, true
+}
+
+// HasUpgradeUrl returns a boolean if a field has been set.
+func (o *FreeToolError) HasUpgradeUrl() bool {
+	if o != nil && !IsNil(o.UpgradeUrl) {
+		return true
+	}
+
+	return false
+}
+
+// SetUpgradeUrl gets a reference to the given string and assigns it to the UpgradeUrl field.
+func (o *FreeToolError) SetUpgradeUrl(v string) {
+	o.UpgradeUrl = &v
+}
+
 func (o FreeToolError) MarshalJSON() ([]byte, error) {
 	toSerialize,err := o.ToMap()
 	if err != nil {
@@ -80,6 +182,15 @@ func (o FreeToolError) MarshalJSON() ([]byte, error) {
 func (o FreeToolError) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["message"] = o.Message
+	if !IsNil(o.RetryAfter) {
+		toSerialize["retry_after"] = o.RetryAfter
+	}
+	if !IsNil(o.RegisterUrl) {
+		toSerialize["register_url"] = o.RegisterUrl
+	}
+	if !IsNil(o.UpgradeUrl) {
+		toSerialize["upgrade_url"] = o.UpgradeUrl
+	}
 	return toSerialize, nil
 }
 
