@@ -3,7 +3,7 @@ PostBoost API
 
 The PostBoost REST API lets you publish, schedule, and analyze social media posts across 12+ platforms from a single integration. No OAuth apps to maintain — PostBoost handles platform authorization for you.  ## Base URL All workspace-scoped endpoints are prefixed with `/{workspaceUuid}`. Panel/admin endpoints are prefixed with `/panel`.  ## Plan access Every workspace-scoped endpoint returns `403` when the workspace's plan does not include API access (capability `api`).  ## Dates and times Post dates and times (`date`, `time`, `accounts_schedule`) are read in the request's `timezone` when one is given, otherwise in the workspace timezone.  ## Idempotent requests Send an `Idempotency-Key` header (any unique string, for example a UUID) with a `POST`. Repeating the request with the same key within 24 hours returns the stored response with `Idempotent-Replayed: true` and creates nothing new. Reusing a key with a different body returns `422`; a request still in progress with the same key returns `409`. `5xx` and `429` responses are not stored, so they can be retried with the same key.  ## Guardrails for automated clients Create and update requests are checked before anything is written: a post whose content matches one created for the same account in the last 24 hours returns `409` (`code: duplicate_post`, override with `allow_duplicate: true`), scheduling past an account's daily cap returns `429` (`code: account_daily_cap_reached`), and scheduling to an account that must be reconnected returns `422` (`code: account_unauthorized` or `account_token_missing`). Use `POST /{workspaceUuid}/posts/validate` for a dry run and `GET /{workspaceUuid}/activity` to review what API clients did.  ## Authentication All requests require a Bearer token in the `Authorization` header. Generate tokens in your PostBoost dashboard under **Settings → Access Tokens**.  ``` Authorization: Bearer YOUR_API_TOKEN ``` 
 
-API version: 1.20.0
+API version: 1.21.0
 Contact: hi@postboost.co
 */
 
@@ -27,11 +27,11 @@ type AgentProposal struct {
 	RunUuid NullableString `json:"run_uuid,omitempty"`
 	PostUuid NullableString `json:"post_uuid,omitempty"`
 	AccountId NullableInt32 `json:"account_id,omitempty"`
-	// `hold_post` moves the post back to draft; `edit_caption` replaces one caption.
+	// `hold_post` moves the post back to draft; `edit_caption` replaces one caption; `retry_account` publishes one failed account again; `reconnect_account` asks to reconnect the account first. 
 	Kind string `json:"kind"`
 	Severity string `json:"severity"`
 	Reason string `json:"reason"`
-	// The proposed change. `hold_post`: `reasons[]` (`code`, `account_id`, `message`, `severity`) and `scheduled_at`. `edit_caption`: `version_account_id` (0 = original), `item_index`, `before`, `after`. Both carry `post_updated_at`. 
+	// The proposed change. `hold_post`: `reasons[]` (`code`, `account_id`, `message`, `severity`) and `scheduled_at`. `edit_caption`: `version_account_id` (0 = original), `item_index`, `before`, `after`. `retry_account`: `error` (up to 300 characters) and, for a shortened caption, `source_account_id` (the version it was taken from, 0 = original), `item_index`, `before`, `after`. `reconnect_account`: `error`, `reconnect_url`. All carry `post_updated_at`. 
 	Payload map[string]interface{} `json:"payload"`
 	Status string `json:"status"`
 	DecidedAt NullableTime `json:"decided_at,omitempty"`

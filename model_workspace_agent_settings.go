@@ -3,7 +3,7 @@ PostBoost API
 
 The PostBoost REST API lets you publish, schedule, and analyze social media posts across 12+ platforms from a single integration. No OAuth apps to maintain — PostBoost handles platform authorization for you.  ## Base URL All workspace-scoped endpoints are prefixed with `/{workspaceUuid}`. Panel/admin endpoints are prefixed with `/panel`.  ## Plan access Every workspace-scoped endpoint returns `403` when the workspace's plan does not include API access (capability `api`).  ## Dates and times Post dates and times (`date`, `time`, `accounts_schedule`) are read in the request's `timezone` when one is given, otherwise in the workspace timezone.  ## Idempotent requests Send an `Idempotency-Key` header (any unique string, for example a UUID) with a `POST`. Repeating the request with the same key within 24 hours returns the stored response with `Idempotent-Replayed: true` and creates nothing new. Reusing a key with a different body returns `422`; a request still in progress with the same key returns `409`. `5xx` and `429` responses are not stored, so they can be retried with the same key.  ## Guardrails for automated clients Create and update requests are checked before anything is written: a post whose content matches one created for the same account in the last 24 hours returns `409` (`code: duplicate_post`, override with `allow_duplicate: true`), scheduling past an account's daily cap returns `429` (`code: account_daily_cap_reached`), and scheduling to an account that must be reconnected returns `422` (`code: account_unauthorized` or `account_token_missing`). Use `POST /{workspaceUuid}/posts/validate` for a dry run and `GET /{workspaceUuid}/activity` to review what API clients did.  ## Authentication All requests require a Bearer token in the `Authorization` header. Generate tokens in your PostBoost dashboard under **Settings → Access Tokens**.  ``` Authorization: Bearer YOUR_API_TOKEN ``` 
 
-API version: 1.20.0
+API version: 1.21.0
 Contact: hi@postboost.co
 */
 
@@ -18,7 +18,7 @@ import (
 // checks if the WorkspaceAgentSettings type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &WorkspaceAgentSettings{}
 
-// WorkspaceAgentSettings Pre-publish checker settings.
+// WorkspaceAgentSettings Agent settings; each type reads its own keys. Pre-publish checker: `horizon_hours`, `check_links`, `banned_phrases`, `ai_review`, `max_ai_reviews_per_run`. Failed-post fixer: `lookback_hours`. 
 type WorkspaceAgentSettings struct {
 	// Check posts scheduled within this many hours.
 	HorizonHours *int32 `json:"horizon_hours,omitempty"`
@@ -29,6 +29,8 @@ type WorkspaceAgentSettings struct {
 	// Ask AI to review captions (one AI credit per reviewed post).
 	AiReview *bool `json:"ai_review,omitempty"`
 	MaxAiReviewsPerRun *int32 `json:"max_ai_reviews_per_run,omitempty"`
+	// Look at posts that failed within this many hours.
+	LookbackHours *int32 `json:"lookback_hours,omitempty"`
 }
 
 // NewWorkspaceAgentSettings instantiates a new WorkspaceAgentSettings object
@@ -45,6 +47,8 @@ func NewWorkspaceAgentSettings() *WorkspaceAgentSettings {
 	this.AiReview = &aiReview
 	var maxAiReviewsPerRun int32 = 10
 	this.MaxAiReviewsPerRun = &maxAiReviewsPerRun
+	var lookbackHours int32 = 24
+	this.LookbackHours = &lookbackHours
 	return &this
 }
 
@@ -61,6 +65,8 @@ func NewWorkspaceAgentSettingsWithDefaults() *WorkspaceAgentSettings {
 	this.AiReview = &aiReview
 	var maxAiReviewsPerRun int32 = 10
 	this.MaxAiReviewsPerRun = &maxAiReviewsPerRun
+	var lookbackHours int32 = 24
+	this.LookbackHours = &lookbackHours
 	return &this
 }
 
@@ -224,6 +230,38 @@ func (o *WorkspaceAgentSettings) SetMaxAiReviewsPerRun(v int32) {
 	o.MaxAiReviewsPerRun = &v
 }
 
+// GetLookbackHours returns the LookbackHours field value if set, zero value otherwise.
+func (o *WorkspaceAgentSettings) GetLookbackHours() int32 {
+	if o == nil || IsNil(o.LookbackHours) {
+		var ret int32
+		return ret
+	}
+	return *o.LookbackHours
+}
+
+// GetLookbackHoursOk returns a tuple with the LookbackHours field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *WorkspaceAgentSettings) GetLookbackHoursOk() (*int32, bool) {
+	if o == nil || IsNil(o.LookbackHours) {
+		return nil, false
+	}
+	return o.LookbackHours, true
+}
+
+// HasLookbackHours returns a boolean if a field has been set.
+func (o *WorkspaceAgentSettings) HasLookbackHours() bool {
+	if o != nil && !IsNil(o.LookbackHours) {
+		return true
+	}
+
+	return false
+}
+
+// SetLookbackHours gets a reference to the given int32 and assigns it to the LookbackHours field.
+func (o *WorkspaceAgentSettings) SetLookbackHours(v int32) {
+	o.LookbackHours = &v
+}
+
 func (o WorkspaceAgentSettings) MarshalJSON() ([]byte, error) {
 	toSerialize,err := o.ToMap()
 	if err != nil {
@@ -248,6 +286,9 @@ func (o WorkspaceAgentSettings) ToMap() (map[string]interface{}, error) {
 	}
 	if !IsNil(o.MaxAiReviewsPerRun) {
 		toSerialize["max_ai_reviews_per_run"] = o.MaxAiReviewsPerRun
+	}
+	if !IsNil(o.LookbackHours) {
+		toSerialize["lookback_hours"] = o.LookbackHours
 	}
 	return toSerialize, nil
 }

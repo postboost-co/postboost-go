@@ -9,6 +9,7 @@ Name | Type | Description | Notes
 **BannedPhrases** | Pointer to **[]string** | Phrases to propose removing from captions. | [optional] [default to []]
 **AiReview** | Pointer to **bool** | Ask AI to review captions (one AI credit per reviewed post). | [optional] [default to false]
 **MaxAiReviewsPerRun** | Pointer to **int32** |  | [optional] [default to 10]
+**LookbackHours** | Pointer to **int32** | Look at posts that failed within this many hours. | [optional] [default to 24]
 
 ## Methods
 
@@ -153,6 +154,31 @@ SetMaxAiReviewsPerRun sets MaxAiReviewsPerRun field to given value.
 `func (o *WorkspaceAgentSettings) HasMaxAiReviewsPerRun() bool`
 
 HasMaxAiReviewsPerRun returns a boolean if a field has been set.
+
+### GetLookbackHours
+
+`func (o *WorkspaceAgentSettings) GetLookbackHours() int32`
+
+GetLookbackHours returns the LookbackHours field if non-nil, zero value otherwise.
+
+### GetLookbackHoursOk
+
+`func (o *WorkspaceAgentSettings) GetLookbackHoursOk() (*int32, bool)`
+
+GetLookbackHoursOk returns a tuple with the LookbackHours field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetLookbackHours
+
+`func (o *WorkspaceAgentSettings) SetLookbackHours(v int32)`
+
+SetLookbackHours sets LookbackHours field to given value.
+
+### HasLookbackHours
+
+`func (o *WorkspaceAgentSettings) HasLookbackHours() bool`
+
+HasLookbackHours returns a boolean if a field has been set.
 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
