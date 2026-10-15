@@ -5,7 +5,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Topic** | **string** | What the post is about. | 
-**Niche** | Pointer to **string** | Optional niche, e.g. \&quot;fitness\&quot; or \&quot;real estate\&quot;. | [optional] 
+**Niche** | Pointer to **string** | Optional niche from the hashtag generator page. | [optional] 
 **Network** | Pointer to **string** | The network the text is written for. | [optional] [default to "instagram"]
 **Workspace** | Pointer to **string** | UUID of the workspace whose AI credits pay for the call. Default: your active workspace (a scoped API key: its own workspace). | [optional] 
 
