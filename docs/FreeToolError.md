@@ -6,8 +6,9 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Message** | **string** |  | 
 **RetryAfter** | Pointer to **int32** | 429 only: seconds until the limit resets. | [optional] 
-**RegisterUrl** | Pointer to **string** | 429 for guests: sign up for a token with higher limits. | [optional] 
-**UpgradeUrl** | Pointer to **string** | 429 when a token user reached the plan&#39;s daily cap. | [optional] 
+**Code** | Pointer to **string** | 429 of a paid AI tool: &#x60;ai_credits_exhausted&#x60;. | [optional] 
+**RegisterUrl** | Pointer to **string** | 429 for guests: sign up for a token with higher limits. 401 of a paid AI tool: sign up for a token. | [optional] 
+**UpgradeUrl** | Pointer to **string** | 429 when a token user reached the plan&#39;s daily cap, or a paid AI tool&#39;s workspace has no AI credits left. | [optional] 
 
 ## Methods
 
@@ -72,6 +73,31 @@ SetRetryAfter sets RetryAfter field to given value.
 `func (o *FreeToolError) HasRetryAfter() bool`
 
 HasRetryAfter returns a boolean if a field has been set.
+
+### GetCode
+
+`func (o *FreeToolError) GetCode() string`
+
+GetCode returns the Code field if non-nil, zero value otherwise.
+
+### GetCodeOk
+
+`func (o *FreeToolError) GetCodeOk() (*string, bool)`
+
+GetCodeOk returns a tuple with the Code field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetCode
+
+`func (o *FreeToolError) SetCode(v string)`
+
+SetCode sets Code field to given value.
+
+### HasCode
+
+`func (o *FreeToolError) HasCode() bool`
+
+HasCode returns a boolean if a field has been set.
 
 ### GetRegisterUrl
 

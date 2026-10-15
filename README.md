@@ -13,7 +13,7 @@ go get github.com/postboost-co/postboost-go
 | **pkg.go.dev** | [pkg.go.dev/github.com/postboost-co/postboost-go](https://pkg.go.dev/github.com/postboost-co/postboost-go) |
 | **GitHub** | [postboost-co/postboost-go](https://github.com/postboost-co/postboost-go) |
 | **Docs** | [postboost.co/docs/api](https://postboost.co/docs/api) |
-| **Version** | v1.28.0 |
+| **Version** | v1.29.0 |
 
 ## Quick start
 
@@ -92,7 +92,9 @@ Class | Method | HTTP request | Description
 *FreeToolsAPI* | [**CleanText**](docs/FreeToolsAPI.md#cleantext) | **Post** /tools/ai-text-cleaner | Clean AI-written text: dashes, quotes, invisible characters, markdown
 *FreeToolsAPI* | [**CountCharacters**](docs/FreeToolsAPI.md#countcharacters) | **Post** /tools/social-media-character-counter | Count characters as each network counts them
 *FreeToolsAPI* | [**FormatLinkedInPost**](docs/FreeToolsAPI.md#formatlinkedinpost) | **Post** /tools/linkedin-post-formatter | Format a LinkedIn post with bold, italic and lists
+*FreeToolsAPI* | [**GenerateCaption**](docs/FreeToolsAPI.md#generatecaption) | **Post** /tools/instagram-caption-generator | Write three post captions for a topic with AI (needs a token, spends AI credits)
 *FreeToolsAPI* | [**GenerateFancyText**](docs/FreeToolsAPI.md#generatefancytext) | **Post** /tools/fancy-text-generator | Convert text to fancy Unicode styles
+*FreeToolsAPI* | [**GenerateHashtags**](docs/FreeToolsAPI.md#generatehashtags) | **Post** /tools/instagram-hashtag-generator | Generate hashtags for a post topic with AI (needs a token, spends AI credits)
 *FreeToolsAPI* | [**ListFreeTools**](docs/FreeToolsAPI.md#listfreetools) | **Get** /tools | List the free tools
 *FreeToolsAPI* | [**SplitThread**](docs/FreeToolsAPI.md#splitthread) | **Post** /tools/x-thread-maker | Split long text into a thread
 *HashtagGroupsAPI* | [**CreateHashtagGroup**](docs/HashtagGroupsAPI.md#createhashtaggroup) | **Post** /{workspaceUuid}/hashtag-groups | Create a hashtag group
