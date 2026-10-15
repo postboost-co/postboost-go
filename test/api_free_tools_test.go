@@ -34,6 +34,18 @@ func Test_postboost_FreeToolsAPIService(t *testing.T) {
 
 	})
 
+	t.Run("Test FreeToolsAPIService CalculateCrop", func(t *testing.T) {
+
+		t.Skip("skip test")  // remove to run test
+
+		resp, httpRes, err := apiClient.FreeToolsAPI.CalculateCrop(context.Background()).Execute()
+
+		require.Nil(t, err)
+		require.NotNil(t, resp)
+		assert.Equal(t, 200, httpRes.StatusCode)
+
+	})
+
 	t.Run("Test FreeToolsAPIService CalculateEngagementRate", func(t *testing.T) {
 
 		t.Skip("skip test")  // remove to run test
@@ -123,6 +135,30 @@ func Test_postboost_FreeToolsAPIService(t *testing.T) {
 		t.Skip("skip test")  // remove to run test
 
 		resp, httpRes, err := apiClient.FreeToolsAPI.GenerateHashtags(context.Background()).Execute()
+
+		require.Nil(t, err)
+		require.NotNil(t, resp)
+		assert.Equal(t, 200, httpRes.StatusCode)
+
+	})
+
+	t.Run("Test FreeToolsAPIService GetBestTimesToPost", func(t *testing.T) {
+
+		t.Skip("skip test")  // remove to run test
+
+		resp, httpRes, err := apiClient.FreeToolsAPI.GetBestTimesToPost(context.Background()).Execute()
+
+		require.Nil(t, err)
+		require.NotNil(t, resp)
+		assert.Equal(t, 200, httpRes.StatusCode)
+
+	})
+
+	t.Run("Test FreeToolsAPIService GetImageSizes", func(t *testing.T) {
+
+		t.Skip("skip test")  // remove to run test
+
+		resp, httpRes, err := apiClient.FreeToolsAPI.GetImageSizes(context.Background()).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)

@@ -5,6 +5,7 @@ All URIs are relative to *https://postboost.co/app/api*
 Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**BuildUtmUrl**](FreeToolsAPI.md#BuildUtmUrl) | **Post** /tools/utm-builder | Build a UTM-tagged campaign URL
+[**CalculateCrop**](FreeToolsAPI.md#CalculateCrop) | **Post** /tools/social-media-image-sizes/crop | Calculate the crop box that fits an image to a social media size
 [**CalculateEngagementRate**](FreeToolsAPI.md#CalculateEngagementRate) | **Post** /tools/engagement-rate-calculator | Calculate an engagement rate
 [**CheckPost**](FreeToolsAPI.md#CheckPost) | **Post** /tools/social-media-post-checker | Check a post against each network&#39;s publishing rules
 [**CleanText**](FreeToolsAPI.md#CleanText) | **Post** /tools/ai-text-cleaner | Clean AI-written text: dashes, quotes, invisible characters, markdown
@@ -13,6 +14,8 @@ Method | HTTP request | Description
 [**GenerateCaption**](FreeToolsAPI.md#GenerateCaption) | **Post** /tools/instagram-caption-generator | Write three post captions for a topic with AI (needs a token, spends AI credits)
 [**GenerateFancyText**](FreeToolsAPI.md#GenerateFancyText) | **Post** /tools/fancy-text-generator | Convert text to fancy Unicode styles
 [**GenerateHashtags**](FreeToolsAPI.md#GenerateHashtags) | **Post** /tools/instagram-hashtag-generator | Generate hashtags for a post topic with AI (needs a token, spends AI credits)
+[**GetBestTimesToPost**](FreeToolsAPI.md#GetBestTimesToPost) | **Get** /tools/best-time-to-post | Get the best times to post per network from published studies, with sources
+[**GetImageSizes**](FreeToolsAPI.md#GetImageSizes) | **Get** /tools/social-media-image-sizes | Get social media image sizes per network, each with its source
 [**ListFreeTools**](FreeToolsAPI.md#ListFreeTools) | **Get** /tools | List the free tools
 [**SplitThread**](FreeToolsAPI.md#SplitThread) | **Post** /tools/x-thread-maker | Split long text into a thread
 
@@ -69,6 +72,72 @@ Name | Type | Description  | Notes
 ### Return type
 
 [**FreeToolBuildUtmUrlResponse**](FreeToolBuildUtmUrlResponse.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: application/json
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## CalculateCrop
+
+> FreeToolCalculateCropResponse CalculateCrop(ctx).FreeToolCalculateCropRequest(freeToolCalculateCropRequest).Execute()
+
+Calculate the crop box that fits an image to a social media size
+
+
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/postboost-co/postboost-go"
+)
+
+func main() {
+	freeToolCalculateCropRequest := *openapiclient.NewFreeToolCalculateCropRequest(int32(123), int32(123)) // FreeToolCalculateCropRequest | 
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.FreeToolsAPI.CalculateCrop(context.Background()).FreeToolCalculateCropRequest(freeToolCalculateCropRequest).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `FreeToolsAPI.CalculateCrop``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `CalculateCrop`: FreeToolCalculateCropResponse
+	fmt.Fprintf(os.Stdout, "Response from `FreeToolsAPI.CalculateCrop`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiCalculateCropRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **freeToolCalculateCropRequest** | [**FreeToolCalculateCropRequest**](FreeToolCalculateCropRequest.md) |  | 
+
+### Return type
+
+[**FreeToolCalculateCropResponse**](FreeToolCalculateCropResponse.md)
 
 ### Authorization
 
@@ -605,6 +674,138 @@ Name | Type | Description  | Notes
 ### HTTP request headers
 
 - **Content-Type**: application/json
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## GetBestTimesToPost
+
+> FreeToolGetBestTimesToPostResponse GetBestTimesToPost(ctx).Network(network).Execute()
+
+Get the best times to post per network from published studies, with sources
+
+
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/postboost-co/postboost-go"
+)
+
+func main() {
+	network := "network_example" // string |  (optional)
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.FreeToolsAPI.GetBestTimesToPost(context.Background()).Network(network).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `FreeToolsAPI.GetBestTimesToPost``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `GetBestTimesToPost`: FreeToolGetBestTimesToPostResponse
+	fmt.Fprintf(os.Stdout, "Response from `FreeToolsAPI.GetBestTimesToPost`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiGetBestTimesToPostRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **network** | **string** |  | 
+
+### Return type
+
+[**FreeToolGetBestTimesToPostResponse**](FreeToolGetBestTimesToPostResponse.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## GetImageSizes
+
+> FreeToolGetImageSizesResponse GetImageSizes(ctx).Network(network).Execute()
+
+Get social media image sizes per network, each with its source
+
+
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/postboost-co/postboost-go"
+)
+
+func main() {
+	network := "network_example" // string |  (optional)
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.FreeToolsAPI.GetImageSizes(context.Background()).Network(network).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `FreeToolsAPI.GetImageSizes``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `GetImageSizes`: FreeToolGetImageSizesResponse
+	fmt.Fprintf(os.Stdout, "Response from `FreeToolsAPI.GetImageSizes`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiGetImageSizesRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **network** | **string** |  | 
+
+### Return type
+
+[**FreeToolGetImageSizesResponse**](FreeToolGetImageSizesResponse.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
 - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)

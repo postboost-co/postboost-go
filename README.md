@@ -13,7 +13,7 @@ go get github.com/postboost-co/postboost-go
 | **pkg.go.dev** | [pkg.go.dev/github.com/postboost-co/postboost-go](https://pkg.go.dev/github.com/postboost-co/postboost-go) |
 | **GitHub** | [postboost-co/postboost-go](https://github.com/postboost-co/postboost-go) |
 | **Docs** | [postboost.co/docs/api](https://postboost.co/docs/api) |
-| **Version** | v1.29.1 |
+| **Version** | v1.30.0 |
 
 ## Quick start
 
@@ -87,6 +87,7 @@ Class | Method | HTTP request | Description
 *CompetitorsAPI* | [**GetCompetitor**](docs/CompetitorsAPI.md#getcompetitor) | **Get** /{workspaceUuid}/competitors/{competitorId} | Get a competitor
 *CompetitorsAPI* | [**ListCompetitors**](docs/CompetitorsAPI.md#listcompetitors) | **Get** /{workspaceUuid}/competitors | List competitors
 *FreeToolsAPI* | [**BuildUtmUrl**](docs/FreeToolsAPI.md#buildutmurl) | **Post** /tools/utm-builder | Build a UTM-tagged campaign URL
+*FreeToolsAPI* | [**CalculateCrop**](docs/FreeToolsAPI.md#calculatecrop) | **Post** /tools/social-media-image-sizes/crop | Calculate the crop box that fits an image to a social media size
 *FreeToolsAPI* | [**CalculateEngagementRate**](docs/FreeToolsAPI.md#calculateengagementrate) | **Post** /tools/engagement-rate-calculator | Calculate an engagement rate
 *FreeToolsAPI* | [**CheckPost**](docs/FreeToolsAPI.md#checkpost) | **Post** /tools/social-media-post-checker | Check a post against each network&#39;s publishing rules
 *FreeToolsAPI* | [**CleanText**](docs/FreeToolsAPI.md#cleantext) | **Post** /tools/ai-text-cleaner | Clean AI-written text: dashes, quotes, invisible characters, markdown
@@ -95,6 +96,8 @@ Class | Method | HTTP request | Description
 *FreeToolsAPI* | [**GenerateCaption**](docs/FreeToolsAPI.md#generatecaption) | **Post** /tools/instagram-caption-generator | Write three post captions for a topic with AI (needs a token, spends AI credits)
 *FreeToolsAPI* | [**GenerateFancyText**](docs/FreeToolsAPI.md#generatefancytext) | **Post** /tools/fancy-text-generator | Convert text to fancy Unicode styles
 *FreeToolsAPI* | [**GenerateHashtags**](docs/FreeToolsAPI.md#generatehashtags) | **Post** /tools/instagram-hashtag-generator | Generate hashtags for a post topic with AI (needs a token, spends AI credits)
+*FreeToolsAPI* | [**GetBestTimesToPost**](docs/FreeToolsAPI.md#getbesttimestopost) | **Get** /tools/best-time-to-post | Get the best times to post per network from published studies, with sources
+*FreeToolsAPI* | [**GetImageSizes**](docs/FreeToolsAPI.md#getimagesizes) | **Get** /tools/social-media-image-sizes | Get social media image sizes per network, each with its source
 *FreeToolsAPI* | [**ListFreeTools**](docs/FreeToolsAPI.md#listfreetools) | **Get** /tools | List the free tools
 *FreeToolsAPI* | [**SplitThread**](docs/FreeToolsAPI.md#splitthread) | **Post** /tools/x-thread-maker | Split long text into a thread
 *HashtagGroupsAPI* | [**CreateHashtagGroup**](docs/HashtagGroupsAPI.md#createhashtaggroup) | **Post** /{workspaceUuid}/hashtag-groups | Create a hashtag group
