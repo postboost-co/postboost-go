@@ -4,7 +4,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Text** | Pointer to **string** | The post text, up to 10,000 characters (twice the longest network limit). | [optional] [default to ""]
+**Text** | Pointer to **string** | The post text, up to 10,000 characters (twice the longest network limit); 5,000 without an API token. | [optional] [default to ""]
 **Network** | Pointer to **string** | Count for one network only; all networks when omitted. | [optional] 
 
 ## Methods
