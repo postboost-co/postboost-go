@@ -13,7 +13,7 @@ go get github.com/postboost-co/postboost-go
 | **pkg.go.dev** | [pkg.go.dev/github.com/postboost-co/postboost-go](https://pkg.go.dev/github.com/postboost-co/postboost-go) |
 | **GitHub** | [postboost-co/postboost-go](https://github.com/postboost-co/postboost-go) |
 | **Docs** | [postboost.co/docs/api](https://postboost.co/docs/api) |
-| **Version** | v1.23.0 |
+| **Version** | v1.24.0 |
 
 ## Quick start
 
@@ -54,6 +54,7 @@ Class | Method | HTTP request | Description
 *AccountGroupsAPI* | [**ListAccountGroups**](docs/AccountGroupsAPI.md#listaccountgroups) | **Get** /{workspaceUuid}/account-groups | List account groups
 *AccountGroupsAPI* | [**UpdateAccountGroup**](docs/AccountGroupsAPI.md#updateaccountgroup) | **Put** /{workspaceUuid}/account-groups/{accountGroupUuid} | Update an account group
 *AccountsAPI* | [**ConnectChannel**](docs/AccountsAPI.md#connectchannel) | **Post** /{workspaceUuid}/accounts/connect/{provider} | Connect a Telegram, Discord or Slack channel
+*AccountsAPI* | [**CreateConnectLink**](docs/AccountsAPI.md#createconnectlink) | **Post** /{workspaceUuid}/accounts/connect-links | Create a connect link
 *AccountsAPI* | [**CreateReconnectLink**](docs/AccountsAPI.md#createreconnectlink) | **Post** /{workspaceUuid}/accounts/{accountUuid}/reconnect-links | Create a reconnect link
 *AccountsAPI* | [**GetAccount**](docs/AccountsAPI.md#getaccount) | **Get** /{workspaceUuid}/accounts/{accountUuid} | Get account
 *AccountsAPI* | [**GetAccountHealth**](docs/AccountsAPI.md#getaccounthealth) | **Get** /{workspaceUuid}/account-health | Account health

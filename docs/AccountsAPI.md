@@ -5,6 +5,7 @@ All URIs are relative to *https://postboost.co/app/api*
 Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**ConnectChannel**](AccountsAPI.md#ConnectChannel) | **Post** /{workspaceUuid}/accounts/connect/{provider} | Connect a Telegram, Discord or Slack channel
+[**CreateConnectLink**](AccountsAPI.md#CreateConnectLink) | **Post** /{workspaceUuid}/accounts/connect-links | Create a connect link
 [**CreateReconnectLink**](AccountsAPI.md#CreateReconnectLink) | **Post** /{workspaceUuid}/accounts/{accountUuid}/reconnect-links | Create a reconnect link
 [**GetAccount**](AccountsAPI.md#GetAccount) | **Get** /{workspaceUuid}/accounts/{accountUuid} | Get account
 [**GetAccountHealth**](AccountsAPI.md#GetAccountHealth) | **Get** /{workspaceUuid}/account-health | Account health
@@ -72,6 +73,78 @@ Name | Type | Description  | Notes
 ### Return type
 
 [**ChannelAccount**](ChannelAccount.md)
+
+### Authorization
+
+[bearerAuth](../README.md#bearerAuth)
+
+### HTTP request headers
+
+- **Content-Type**: application/json
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## CreateConnectLink
+
+> ConnectLink CreateConnectLink(ctx, workspaceUuid).CreateConnectLinkRequest(createConnectLinkRequest).Execute()
+
+Create a connect link
+
+
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/postboost-co/postboost-go"
+)
+
+func main() {
+	workspaceUuid := "38400000-8cf0-11bd-b23e-10b96e4ef00d" // string | UUID of the workspace.
+	createConnectLinkRequest := *openapiclient.NewCreateConnectLinkRequest("Provider_example") // CreateConnectLinkRequest | 
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.AccountsAPI.CreateConnectLink(context.Background(), workspaceUuid).CreateConnectLinkRequest(createConnectLinkRequest).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `AccountsAPI.CreateConnectLink``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `CreateConnectLink`: ConnectLink
+	fmt.Fprintf(os.Stdout, "Response from `AccountsAPI.CreateConnectLink`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
+**workspaceUuid** | **string** | UUID of the workspace. | 
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiCreateConnectLinkRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
+ **createConnectLinkRequest** | [**CreateConnectLinkRequest**](CreateConnectLinkRequest.md) |  | 
+
+### Return type
+
+[**ConnectLink**](ConnectLink.md)
 
 ### Authorization
 
