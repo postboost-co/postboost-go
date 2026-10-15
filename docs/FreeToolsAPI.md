@@ -6,6 +6,7 @@ Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**BuildUtmUrl**](FreeToolsAPI.md#BuildUtmUrl) | **Post** /tools/utm-builder | Build a UTM-tagged campaign URL
 [**CalculateEngagementRate**](FreeToolsAPI.md#CalculateEngagementRate) | **Post** /tools/engagement-rate-calculator | Calculate an engagement rate
+[**CheckPost**](FreeToolsAPI.md#CheckPost) | **Post** /tools/social-media-post-checker | Check a post against each network&#39;s publishing rules
 [**CleanText**](FreeToolsAPI.md#CleanText) | **Post** /tools/ai-text-cleaner | Clean AI-written text: dashes, quotes, invisible characters, markdown
 [**CountCharacters**](FreeToolsAPI.md#CountCharacters) | **Post** /tools/social-media-character-counter | Count characters as each network counts them
 [**FormatLinkedInPost**](FreeToolsAPI.md#FormatLinkedInPost) | **Post** /tools/linkedin-post-formatter | Format a LinkedIn post with bold, italic and lists
@@ -132,6 +133,72 @@ Name | Type | Description  | Notes
 ### Return type
 
 [**FreeToolCalculateEngagementRateResponse**](FreeToolCalculateEngagementRateResponse.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: application/json
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## CheckPost
+
+> FreeToolCheckPostResponse CheckPost(ctx).FreeToolCheckPostRequest(freeToolCheckPostRequest).Execute()
+
+Check a post against each network's publishing rules
+
+
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/postboost-co/postboost-go"
+)
+
+func main() {
+	freeToolCheckPostRequest := *openapiclient.NewFreeToolCheckPostRequest([]string{"Networks_example"}) // FreeToolCheckPostRequest | 
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.FreeToolsAPI.CheckPost(context.Background()).FreeToolCheckPostRequest(freeToolCheckPostRequest).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `FreeToolsAPI.CheckPost``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `CheckPost`: FreeToolCheckPostResponse
+	fmt.Fprintf(os.Stdout, "Response from `FreeToolsAPI.CheckPost`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiCheckPostRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **freeToolCheckPostRequest** | [**FreeToolCheckPostRequest**](FreeToolCheckPostRequest.md) |  | 
+
+### Return type
+
+[**FreeToolCheckPostResponse**](FreeToolCheckPostResponse.md)
 
 ### Authorization
 
