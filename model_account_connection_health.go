@@ -3,7 +3,7 @@ PostBoost API
 
 The PostBoost REST API lets you publish, schedule, and analyze social media posts on every supported network from a single integration. No OAuth apps to maintain — PostBoost handles platform authorization for you.  ## Base URL All workspace-scoped endpoints are prefixed with `/{workspaceUuid}`. Panel/admin endpoints are prefixed with `/panel`.  ## Plan access Every workspace-scoped endpoint returns `403` when the workspace's plan does not include API access (capability `api`).  ## Dates and times Post dates and times (`date`, `time`, `accounts_schedule`) are read in the request's `timezone` when one is given, otherwise in the workspace timezone.  ## Idempotent requests Send an `Idempotency-Key` header (any unique string, for example a UUID) with a `POST`. Repeating the request with the same key within 24 hours returns the stored response with `Idempotent-Replayed: true` and creates nothing new. Reusing a key with a different body returns `422`; a request still in progress with the same key returns `409`. `5xx` and `429` responses are not stored, so they can be retried with the same key.  ## Guardrails for automated clients Create and update requests are checked before anything is written: a post whose content matches one created for the same account in the last 24 hours returns `409` (`code: duplicate_post`, override with `allow_duplicate: true`), scheduling past an account's daily cap returns `429` (`code: account_daily_cap_reached`), and scheduling to an account that must be reconnected returns `422` (`code: account_unauthorized` or `account_token_missing`). Use `POST /{workspaceUuid}/posts/validate` for a dry run and `GET /{workspaceUuid}/activity` to review what API clients did.  ## Authentication All requests require a Bearer token in the `Authorization` header. Generate tokens in your PostBoost dashboard under **Settings → Access Tokens**.  ``` Authorization: Bearer YOUR_API_TOKEN ``` 
 
-API version: 1.30.0
+API version: 1.31.0
 Contact: hi@postboost.co
 */
 
@@ -35,6 +35,7 @@ type AccountConnectionHealth struct {
 	Refreshable bool `json:"refreshable"`
 	// Plain-language explanation of the prediction.
 	Note string `json:"note"`
+	ReconnectReason AccountConnectionHealthReconnectReason `json:"reconnect_reason"`
 	// When the account last published successfully.
 	LastSuccessAt NullableTime `json:"last_success_at"`
 	// The error of the account's latest failed publish, shortened to 300 characters.
@@ -49,7 +50,7 @@ type _AccountConnectionHealth AccountConnectionHealth
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewAccountConnectionHealth(status string, expiryKind string, expiresAt NullableTime, daysLeft NullableInt32, refreshable bool, note string, lastSuccessAt NullableTime, lastError NullableString, reconnectUrl string) *AccountConnectionHealth {
+func NewAccountConnectionHealth(status string, expiryKind string, expiresAt NullableTime, daysLeft NullableInt32, refreshable bool, note string, reconnectReason AccountConnectionHealthReconnectReason, lastSuccessAt NullableTime, lastError NullableString, reconnectUrl string) *AccountConnectionHealth {
 	this := AccountConnectionHealth{}
 	this.Status = status
 	this.ExpiryKind = expiryKind
@@ -57,6 +58,7 @@ func NewAccountConnectionHealth(status string, expiryKind string, expiresAt Null
 	this.DaysLeft = daysLeft
 	this.Refreshable = refreshable
 	this.Note = note
+	this.ReconnectReason = reconnectReason
 	this.LastSuccessAt = lastSuccessAt
 	this.LastError = lastError
 	this.ReconnectUrl = reconnectUrl
@@ -219,6 +221,30 @@ func (o *AccountConnectionHealth) SetNote(v string) {
 	o.Note = v
 }
 
+// GetReconnectReason returns the ReconnectReason field value
+func (o *AccountConnectionHealth) GetReconnectReason() AccountConnectionHealthReconnectReason {
+	if o == nil {
+		var ret AccountConnectionHealthReconnectReason
+		return ret
+	}
+
+	return o.ReconnectReason
+}
+
+// GetReconnectReasonOk returns a tuple with the ReconnectReason field value
+// and a boolean to check if the value has been set.
+func (o *AccountConnectionHealth) GetReconnectReasonOk() (*AccountConnectionHealthReconnectReason, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return &o.ReconnectReason, true
+}
+
+// SetReconnectReason sets field value
+func (o *AccountConnectionHealth) SetReconnectReason(v AccountConnectionHealthReconnectReason) {
+	o.ReconnectReason = v
+}
+
 // GetLastSuccessAt returns the LastSuccessAt field value
 // If the value is explicit nil, the zero value for time.Time will be returned
 func (o *AccountConnectionHealth) GetLastSuccessAt() time.Time {
@@ -311,6 +337,7 @@ func (o AccountConnectionHealth) ToMap() (map[string]interface{}, error) {
 	toSerialize["days_left"] = o.DaysLeft.Get()
 	toSerialize["refreshable"] = o.Refreshable
 	toSerialize["note"] = o.Note
+	toSerialize["reconnect_reason"] = o.ReconnectReason
 	toSerialize["last_success_at"] = o.LastSuccessAt.Get()
 	toSerialize["last_error"] = o.LastError.Get()
 	toSerialize["reconnect_url"] = o.ReconnectUrl
@@ -328,6 +355,7 @@ func (o *AccountConnectionHealth) UnmarshalJSON(data []byte) (err error) {
 		"days_left",
 		"refreshable",
 		"note",
+		"reconnect_reason",
 		"last_success_at",
 		"last_error",
 		"reconnect_url",

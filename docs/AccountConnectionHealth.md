@@ -10,6 +10,7 @@ Name | Type | Description | Notes
 **DaysLeft** | **NullableInt32** | Whole days until &#x60;expires_at&#x60; (0 &#x3D; less than a day). | 
 **Refreshable** | **bool** | PostBoost refreshes the token automatically until the hard expiry. | 
 **Note** | **string** | Plain-language explanation of the prediction. | 
+**ReconnectReason** | [**AccountConnectionHealthReconnectReason**](AccountConnectionHealthReconnectReason.md) |  | 
 **LastSuccessAt** | **NullableTime** | When the account last published successfully. | 
 **LastError** | **NullableString** | The error of the account&#39;s latest failed publish, shortened to 300 characters. | 
 **ReconnectUrl** | **string** | Where a workspace member reconnects the account. | 
@@ -18,7 +19,7 @@ Name | Type | Description | Notes
 
 ### NewAccountConnectionHealth
 
-`func NewAccountConnectionHealth(status string, expiryKind string, expiresAt NullableTime, daysLeft NullableInt32, refreshable bool, note string, lastSuccessAt NullableTime, lastError NullableString, reconnectUrl string, ) *AccountConnectionHealth`
+`func NewAccountConnectionHealth(status string, expiryKind string, expiresAt NullableTime, daysLeft NullableInt32, refreshable bool, note string, reconnectReason AccountConnectionHealthReconnectReason, lastSuccessAt NullableTime, lastError NullableString, reconnectUrl string, ) *AccountConnectionHealth`
 
 NewAccountConnectionHealth instantiates a new AccountConnectionHealth object
 This constructor will assign default values to properties that have it defined,
@@ -171,6 +172,26 @@ and a boolean to check if the value has been set.
 `func (o *AccountConnectionHealth) SetNote(v string)`
 
 SetNote sets Note field to given value.
+
+
+### GetReconnectReason
+
+`func (o *AccountConnectionHealth) GetReconnectReason() AccountConnectionHealthReconnectReason`
+
+GetReconnectReason returns the ReconnectReason field if non-nil, zero value otherwise.
+
+### GetReconnectReasonOk
+
+`func (o *AccountConnectionHealth) GetReconnectReasonOk() (*AccountConnectionHealthReconnectReason, bool)`
+
+GetReconnectReasonOk returns a tuple with the ReconnectReason field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetReconnectReason
+
+`func (o *AccountConnectionHealth) SetReconnectReason(v AccountConnectionHealthReconnectReason)`
+
+SetReconnectReason sets ReconnectReason field to given value.
 
 
 ### GetLastSuccessAt
