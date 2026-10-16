@@ -13,7 +13,7 @@ go get github.com/postboost-co/postboost-go
 | **pkg.go.dev** | [pkg.go.dev/github.com/postboost-co/postboost-go](https://pkg.go.dev/github.com/postboost-co/postboost-go) |
 | **GitHub** | [postboost-co/postboost-go](https://github.com/postboost-co/postboost-go) |
 | **Docs** | [postboost.co/docs/api](https://postboost.co/docs/api) |
-| **Version** | v1.39.0 |
+| **Version** | v1.40.0 |
 
 ## Quick start
 
@@ -92,6 +92,7 @@ Class | Method | HTTP request | Description
 *FreeToolsAPI* | [**CalculateEngagementRate**](docs/FreeToolsAPI.md#calculateengagementrate) | **Post** /tools/engagement-rate-calculator | Calculate an engagement rate
 *FreeToolsAPI* | [**CheckLinkPreview**](docs/FreeToolsAPI.md#checklinkpreview) | **Post** /tools/link-preview-checker | Check how a link previews on X, LinkedIn, Facebook and chat apps (Open Graph and Twitter card tags)
 *FreeToolsAPI* | [**CheckPost**](docs/FreeToolsAPI.md#checkpost) | **Post** /tools/social-media-post-checker | Check a post against each network&#39;s publishing rules
+*FreeToolsAPI* | [**CheckYoutubeThumbnail**](docs/FreeToolsAPI.md#checkyoutubethumbnail) | **Post** /tools/youtube-thumbnail-size-checker | Check a YouTube thumbnail&#39;s ratio, width, file size and format against YouTube&#39;s requirements
 *FreeToolsAPI* | [**CleanText**](docs/FreeToolsAPI.md#cleantext) | **Post** /tools/ai-text-cleaner | Clean AI-written text: dashes, quotes, invisible characters, markdown
 *FreeToolsAPI* | [**CountCharacters**](docs/FreeToolsAPI.md#countcharacters) | **Post** /tools/social-media-character-counter | Count characters as each network counts them
 *FreeToolsAPI* | [**FormatLinkedInPost**](docs/FreeToolsAPI.md#formatlinkedinpost) | **Post** /tools/linkedin-post-formatter | Format a LinkedIn post with bold, italic and lists
@@ -103,6 +104,7 @@ Class | Method | HTTP request | Description
 *FreeToolsAPI* | [**GetBestTimesToPost**](docs/FreeToolsAPI.md#getbesttimestopost) | **Get** /tools/best-time-to-post | Get the best times to post per network from published studies, with sources
 *FreeToolsAPI* | [**GetHookTemplates**](docs/FreeToolsAPI.md#gethooktemplates) | **Get** /tools/hook-generator/library | Get free hook templates for social media posts, filtered by style and network
 *FreeToolsAPI* | [**GetImageSizes**](docs/FreeToolsAPI.md#getimagesizes) | **Get** /tools/social-media-image-sizes | Get social media image sizes per network, each with its source
+*FreeToolsAPI* | [**GetVideoSpecs**](docs/FreeToolsAPI.md#getvideospecs) | **Get** /tools/social-media-video-specs | Get social media video ratios, resolutions, lengths and file size limits per network, with sources
 *FreeToolsAPI* | [**ListFreeTools**](docs/FreeToolsAPI.md#listfreetools) | **Get** /tools | List the free tools
 *FreeToolsAPI* | [**PreviewPost**](docs/FreeToolsAPI.md#previewpost) | **Post** /tools/social-media-post-preview | Preview where a post folds and when its image is cropped on Instagram, X, LinkedIn and Facebook
 *FreeToolsAPI* | [**SplitThread**](docs/FreeToolsAPI.md#splitthread) | **Post** /tools/x-thread-maker | Split long text into a thread
