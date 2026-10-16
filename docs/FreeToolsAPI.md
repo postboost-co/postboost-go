@@ -16,8 +16,10 @@ Method | HTTP request | Description
 [**GenerateCaption**](FreeToolsAPI.md#GenerateCaption) | **Post** /tools/instagram-caption-generator | Write three post captions for a topic with AI (needs a token, spends AI credits)
 [**GenerateFancyText**](FreeToolsAPI.md#GenerateFancyText) | **Post** /tools/fancy-text-generator | Convert text to fancy Unicode styles
 [**GenerateHashtags**](FreeToolsAPI.md#GenerateHashtags) | **Post** /tools/instagram-hashtag-generator | Generate hashtags for a post topic with AI (needs a token, spends AI credits)
+[**GenerateHooks**](FreeToolsAPI.md#GenerateHooks) | **Post** /tools/hook-generator | Generate hooks (opening lines) for a social media post with AI (needs a token, spends AI credits)
 [**GenerateQrCode**](FreeToolsAPI.md#GenerateQrCode) | **Post** /tools/qr-code-generator | Generate a QR code (SVG) for a link or text, with optional UTM tags
 [**GetBestTimesToPost**](FreeToolsAPI.md#GetBestTimesToPost) | **Get** /tools/best-time-to-post | Get the best times to post per network from published studies, with sources
+[**GetHookTemplates**](FreeToolsAPI.md#GetHookTemplates) | **Get** /tools/hook-generator/library | Get free hook templates for social media posts, filtered by style and network
 [**GetImageSizes**](FreeToolsAPI.md#GetImageSizes) | **Get** /tools/social-media-image-sizes | Get social media image sizes per network, each with its source
 [**ListFreeTools**](FreeToolsAPI.md#ListFreeTools) | **Get** /tools | List the free tools
 [**PreviewPost**](FreeToolsAPI.md#PreviewPost) | **Post** /tools/social-media-post-preview | Preview where a post folds and when its image is cropped on Instagram, X, LinkedIn and Facebook
@@ -817,6 +819,72 @@ Name | Type | Description  | Notes
 [[Back to README]](../README.md)
 
 
+## GenerateHooks
+
+> FreeToolGenerateHooksResponse GenerateHooks(ctx).FreeToolGenerateHooksRequest(freeToolGenerateHooksRequest).Execute()
+
+Generate hooks (opening lines) for a social media post with AI (needs a token, spends AI credits)
+
+
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/postboost-co/postboost-go"
+)
+
+func main() {
+	freeToolGenerateHooksRequest := *openapiclient.NewFreeToolGenerateHooksRequest("Topic_example") // FreeToolGenerateHooksRequest | 
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.FreeToolsAPI.GenerateHooks(context.Background()).FreeToolGenerateHooksRequest(freeToolGenerateHooksRequest).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `FreeToolsAPI.GenerateHooks``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `GenerateHooks`: FreeToolGenerateHooksResponse
+	fmt.Fprintf(os.Stdout, "Response from `FreeToolsAPI.GenerateHooks`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiGenerateHooksRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **freeToolGenerateHooksRequest** | [**FreeToolGenerateHooksRequest**](FreeToolGenerateHooksRequest.md) |  | 
+
+### Return type
+
+[**FreeToolGenerateHooksResponse**](FreeToolGenerateHooksResponse.md)
+
+### Authorization
+
+[bearerAuth](../README.md#bearerAuth)
+
+### HTTP request headers
+
+- **Content-Type**: application/json
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
 ## GenerateQrCode
 
 > FreeToolGenerateQrCodeResponse GenerateQrCode(ctx).FreeToolGenerateQrCodeRequest(freeToolGenerateQrCodeRequest).Execute()
@@ -934,6 +1002,78 @@ Name | Type | Description  | Notes
 ### Return type
 
 [**FreeToolGetBestTimesToPostResponse**](FreeToolGetBestTimesToPostResponse.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## GetHookTemplates
+
+> FreeToolGetHookTemplatesResponse GetHookTemplates(ctx).Topic(topic).Category(category).Network(network).Search(search).Execute()
+
+Get free hook templates for social media posts, filtered by style and network
+
+
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/postboost-co/postboost-go"
+)
+
+func main() {
+	topic := "topic_example" // string |  (optional)
+	category := "category_example" // string |  (optional)
+	network := "network_example" // string |  (optional)
+	search := "search_example" // string |  (optional)
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.FreeToolsAPI.GetHookTemplates(context.Background()).Topic(topic).Category(category).Network(network).Search(search).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `FreeToolsAPI.GetHookTemplates``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `GetHookTemplates`: FreeToolGetHookTemplatesResponse
+	fmt.Fprintf(os.Stdout, "Response from `FreeToolsAPI.GetHookTemplates`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiGetHookTemplatesRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **topic** | **string** |  | 
+ **category** | **string** |  | 
+ **network** | **string** |  | 
+ **search** | **string** |  | 
+
+### Return type
+
+[**FreeToolGetHookTemplatesResponse**](FreeToolGetHookTemplatesResponse.md)
 
 ### Authorization
 

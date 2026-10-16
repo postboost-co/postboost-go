@@ -13,7 +13,7 @@ go get github.com/postboost-co/postboost-go
 | **pkg.go.dev** | [pkg.go.dev/github.com/postboost-co/postboost-go](https://pkg.go.dev/github.com/postboost-co/postboost-go) |
 | **GitHub** | [postboost-co/postboost-go](https://github.com/postboost-co/postboost-go) |
 | **Docs** | [postboost.co/docs/api](https://postboost.co/docs/api) |
-| **Version** | v1.38.0 |
+| **Version** | v1.39.0 |
 
 ## Quick start
 
@@ -98,8 +98,10 @@ Class | Method | HTTP request | Description
 *FreeToolsAPI* | [**GenerateCaption**](docs/FreeToolsAPI.md#generatecaption) | **Post** /tools/instagram-caption-generator | Write three post captions for a topic with AI (needs a token, spends AI credits)
 *FreeToolsAPI* | [**GenerateFancyText**](docs/FreeToolsAPI.md#generatefancytext) | **Post** /tools/fancy-text-generator | Convert text to fancy Unicode styles
 *FreeToolsAPI* | [**GenerateHashtags**](docs/FreeToolsAPI.md#generatehashtags) | **Post** /tools/instagram-hashtag-generator | Generate hashtags for a post topic with AI (needs a token, spends AI credits)
+*FreeToolsAPI* | [**GenerateHooks**](docs/FreeToolsAPI.md#generatehooks) | **Post** /tools/hook-generator | Generate hooks (opening lines) for a social media post with AI (needs a token, spends AI credits)
 *FreeToolsAPI* | [**GenerateQrCode**](docs/FreeToolsAPI.md#generateqrcode) | **Post** /tools/qr-code-generator | Generate a QR code (SVG) for a link or text, with optional UTM tags
 *FreeToolsAPI* | [**GetBestTimesToPost**](docs/FreeToolsAPI.md#getbesttimestopost) | **Get** /tools/best-time-to-post | Get the best times to post per network from published studies, with sources
+*FreeToolsAPI* | [**GetHookTemplates**](docs/FreeToolsAPI.md#gethooktemplates) | **Get** /tools/hook-generator/library | Get free hook templates for social media posts, filtered by style and network
 *FreeToolsAPI* | [**GetImageSizes**](docs/FreeToolsAPI.md#getimagesizes) | **Get** /tools/social-media-image-sizes | Get social media image sizes per network, each with its source
 *FreeToolsAPI* | [**ListFreeTools**](docs/FreeToolsAPI.md#listfreetools) | **Get** /tools | List the free tools
 *FreeToolsAPI* | [**PreviewPost**](docs/FreeToolsAPI.md#previewpost) | **Post** /tools/social-media-post-preview | Preview where a post folds and when its image is cropped on Instagram, X, LinkedIn and Facebook
