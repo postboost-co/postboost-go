@@ -13,7 +13,7 @@ go get github.com/postboost-co/postboost-go
 | **pkg.go.dev** | [pkg.go.dev/github.com/postboost-co/postboost-go](https://pkg.go.dev/github.com/postboost-co/postboost-go) |
 | **GitHub** | [postboost-co/postboost-go](https://github.com/postboost-co/postboost-go) |
 | **Docs** | [postboost.co/docs/api](https://postboost.co/docs/api) |
-| **Version** | v1.35.0 |
+| **Version** | v1.36.0 |
 
 ## Quick start
 
@@ -90,6 +90,7 @@ Class | Method | HTTP request | Description
 *FreeToolsAPI* | [**CalculateAspectRatio**](docs/FreeToolsAPI.md#calculateaspectratio) | **Post** /tools/aspect-ratio-calculator | Calculate an aspect ratio, or the missing side of an image at a given ratio
 *FreeToolsAPI* | [**CalculateCrop**](docs/FreeToolsAPI.md#calculatecrop) | **Post** /tools/social-media-image-sizes/crop | Calculate the crop box that fits an image to a social media size
 *FreeToolsAPI* | [**CalculateEngagementRate**](docs/FreeToolsAPI.md#calculateengagementrate) | **Post** /tools/engagement-rate-calculator | Calculate an engagement rate
+*FreeToolsAPI* | [**CheckLinkPreview**](docs/FreeToolsAPI.md#checklinkpreview) | **Post** /tools/link-preview-checker | Check how a link previews on X, LinkedIn, Facebook and chat apps (Open Graph and Twitter card tags)
 *FreeToolsAPI* | [**CheckPost**](docs/FreeToolsAPI.md#checkpost) | **Post** /tools/social-media-post-checker | Check a post against each network&#39;s publishing rules
 *FreeToolsAPI* | [**CleanText**](docs/FreeToolsAPI.md#cleantext) | **Post** /tools/ai-text-cleaner | Clean AI-written text: dashes, quotes, invisible characters, markdown
 *FreeToolsAPI* | [**CountCharacters**](docs/FreeToolsAPI.md#countcharacters) | **Post** /tools/social-media-character-counter | Count characters as each network counts them
