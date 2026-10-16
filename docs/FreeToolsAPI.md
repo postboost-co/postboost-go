@@ -13,6 +13,7 @@ Method | HTTP request | Description
 [**CheckYoutubeThumbnail**](FreeToolsAPI.md#CheckYoutubeThumbnail) | **Post** /tools/youtube-thumbnail-size-checker | Check a YouTube thumbnail&#39;s ratio, width, file size and format against YouTube&#39;s requirements
 [**CleanText**](FreeToolsAPI.md#CleanText) | **Post** /tools/ai-text-cleaner | Clean AI-written text: dashes, quotes, invisible characters, markdown
 [**CountCharacters**](FreeToolsAPI.md#CountCharacters) | **Post** /tools/social-media-character-counter | Count characters as each network counts them
+[**FormatInstagramCaption**](FreeToolsAPI.md#FormatInstagramCaption) | **Post** /tools/instagram-line-break-generator | Keep blank lines in an Instagram caption with spacer lines, and count it
 [**FormatLinkedInPost**](FreeToolsAPI.md#FormatLinkedInPost) | **Post** /tools/linkedin-post-formatter | Format a LinkedIn post with bold, italic and lists
 [**GenerateCaption**](FreeToolsAPI.md#GenerateCaption) | **Post** /tools/instagram-caption-generator | Write three post captions for a topic with AI (needs a token, spends AI credits)
 [**GenerateFancyText**](FreeToolsAPI.md#GenerateFancyText) | **Post** /tools/fancy-text-generator | Convert text to fancy Unicode styles
@@ -609,6 +610,72 @@ Name | Type | Description  | Notes
 ### Return type
 
 [**FreeToolCountCharactersResponse**](FreeToolCountCharactersResponse.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: application/json
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## FormatInstagramCaption
+
+> FreeToolFormatInstagramCaptionResponse FormatInstagramCaption(ctx).FreeToolFormatInstagramCaptionRequest(freeToolFormatInstagramCaptionRequest).Execute()
+
+Keep blank lines in an Instagram caption with spacer lines, and count it
+
+
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/postboost-co/postboost-go"
+)
+
+func main() {
+	freeToolFormatInstagramCaptionRequest := *openapiclient.NewFreeToolFormatInstagramCaptionRequest("Text_example") // FreeToolFormatInstagramCaptionRequest | 
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.FreeToolsAPI.FormatInstagramCaption(context.Background()).FreeToolFormatInstagramCaptionRequest(freeToolFormatInstagramCaptionRequest).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `FreeToolsAPI.FormatInstagramCaption``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `FormatInstagramCaption`: FreeToolFormatInstagramCaptionResponse
+	fmt.Fprintf(os.Stdout, "Response from `FreeToolsAPI.FormatInstagramCaption`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiFormatInstagramCaptionRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **freeToolFormatInstagramCaptionRequest** | [**FreeToolFormatInstagramCaptionRequest**](FreeToolFormatInstagramCaptionRequest.md) |  | 
+
+### Return type
+
+[**FreeToolFormatInstagramCaptionResponse**](FreeToolFormatInstagramCaptionResponse.md)
 
 ### Authorization
 
