@@ -6,17 +6,19 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Images** | [**[]Media**](Media.md) |  | 
 **PromptUsed** | **string** |  | 
-**RevisedPrompt** | Pointer to **string** |  | [optional] 
+**RevisedPrompt** | Pointer to **NullableString** |  | [optional] 
 **AspectRatio** | **string** |  | 
 **Quality** | **string** |  | 
-**CreditsUsed** | **int32** |  | 
-**CreditsRemaining** | Pointer to **int32** |  | [optional] 
+**CreditsUsed** | **int32** | Text credits only. 0 while the image credit pool is on; &#x60;count × credit_weight&#x60; when it is switched off. | 
+**CreditsRemaining** | Pointer to **NullableInt32** | Text credits left this billing cycle (null &#x3D; no limit). | [optional] 
+**ImageCreditsUsed** | **int32** | Image credits this call spent (1 per image; 0 when the image credit pool is switched off). | 
+**ImageCreditsRemaining** | **NullableInt32** | Image credits left this month (null &#x3D; no limit, or the image credit pool is switched off). | 
 
 ## Methods
 
 ### NewImageGenerationResponse
 
-`func NewImageGenerationResponse(images []Media, promptUsed string, aspectRatio string, quality string, creditsUsed int32, ) *ImageGenerationResponse`
+`func NewImageGenerationResponse(images []Media, promptUsed string, aspectRatio string, quality string, creditsUsed int32, imageCreditsUsed int32, imageCreditsRemaining NullableInt32, ) *ImageGenerationResponse`
 
 NewImageGenerationResponse instantiates a new ImageGenerationResponse object
 This constructor will assign default values to properties that have it defined,
@@ -96,6 +98,16 @@ SetRevisedPrompt sets RevisedPrompt field to given value.
 
 HasRevisedPrompt returns a boolean if a field has been set.
 
+### SetRevisedPromptNil
+
+`func (o *ImageGenerationResponse) SetRevisedPromptNil(b bool)`
+
+ SetRevisedPromptNil sets the value for RevisedPrompt to be an explicit nil
+
+### UnsetRevisedPrompt
+`func (o *ImageGenerationResponse) UnsetRevisedPrompt()`
+
+UnsetRevisedPrompt ensures that no value is present for RevisedPrompt, not even an explicit nil
 ### GetAspectRatio
 
 `func (o *ImageGenerationResponse) GetAspectRatio() string`
@@ -181,6 +193,66 @@ SetCreditsRemaining sets CreditsRemaining field to given value.
 
 HasCreditsRemaining returns a boolean if a field has been set.
 
+### SetCreditsRemainingNil
+
+`func (o *ImageGenerationResponse) SetCreditsRemainingNil(b bool)`
+
+ SetCreditsRemainingNil sets the value for CreditsRemaining to be an explicit nil
+
+### UnsetCreditsRemaining
+`func (o *ImageGenerationResponse) UnsetCreditsRemaining()`
+
+UnsetCreditsRemaining ensures that no value is present for CreditsRemaining, not even an explicit nil
+### GetImageCreditsUsed
+
+`func (o *ImageGenerationResponse) GetImageCreditsUsed() int32`
+
+GetImageCreditsUsed returns the ImageCreditsUsed field if non-nil, zero value otherwise.
+
+### GetImageCreditsUsedOk
+
+`func (o *ImageGenerationResponse) GetImageCreditsUsedOk() (*int32, bool)`
+
+GetImageCreditsUsedOk returns a tuple with the ImageCreditsUsed field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetImageCreditsUsed
+
+`func (o *ImageGenerationResponse) SetImageCreditsUsed(v int32)`
+
+SetImageCreditsUsed sets ImageCreditsUsed field to given value.
+
+
+### GetImageCreditsRemaining
+
+`func (o *ImageGenerationResponse) GetImageCreditsRemaining() int32`
+
+GetImageCreditsRemaining returns the ImageCreditsRemaining field if non-nil, zero value otherwise.
+
+### GetImageCreditsRemainingOk
+
+`func (o *ImageGenerationResponse) GetImageCreditsRemainingOk() (*int32, bool)`
+
+GetImageCreditsRemainingOk returns a tuple with the ImageCreditsRemaining field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetImageCreditsRemaining
+
+`func (o *ImageGenerationResponse) SetImageCreditsRemaining(v int32)`
+
+SetImageCreditsRemaining sets ImageCreditsRemaining field to given value.
+
+
+### SetImageCreditsRemainingNil
+
+`func (o *ImageGenerationResponse) SetImageCreditsRemainingNil(b bool)`
+
+ SetImageCreditsRemainingNil sets the value for ImageCreditsRemaining to be an explicit nil
+
+### UnsetImageCreditsRemaining
+`func (o *ImageGenerationResponse) UnsetImageCreditsRemaining()`
+
+UnsetImageCreditsRemaining ensures that no value is present for ImageCreditsRemaining, not even an explicit nil
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

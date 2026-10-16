@@ -3,7 +3,7 @@ PostBoost API
 
 The PostBoost REST API lets you publish, schedule, and analyze social media posts on every supported network from a single integration. No OAuth apps to maintain — PostBoost handles platform authorization for you.  ## Base URL All workspace-scoped endpoints are prefixed with `/{workspaceUuid}`. Panel/admin endpoints are prefixed with `/panel`.  ## Plan access Every workspace-scoped endpoint returns `403` when the workspace's plan does not include API access (capability `api`).  ## Dates and times Post dates and times (`date`, `time`, `accounts_schedule`) are read in the request's `timezone` when one is given, otherwise in the workspace timezone.  ## Idempotent requests Send an `Idempotency-Key` header (any unique string, for example a UUID) with a `POST`. Repeating the request with the same key within 24 hours returns the stored response with `Idempotent-Replayed: true` and creates nothing new. Reusing a key with a different body returns `422`; a request still in progress with the same key returns `409`. `5xx` and `429` responses are not stored, so they can be retried with the same key.  ## Guardrails for automated clients Create and update requests are checked before anything is written: a post whose content matches one created for the same account in the last 24 hours returns `409` (`code: duplicate_post`, override with `allow_duplicate: true`), scheduling past an account's daily cap returns `429` (`code: account_daily_cap_reached`), and scheduling to an account that must be reconnected returns `422` (`code: account_unauthorized` or `account_token_missing`). Use `POST /{workspaceUuid}/posts/validate` for a dry run and `GET /{workspaceUuid}/activity` to review what API clients did.  ## Authentication All requests require a Bearer token in the `Authorization` header. Generate tokens in your PostBoost dashboard under **Settings → Access Tokens**.  ``` Authorization: Bearer YOUR_API_TOKEN ``` 
 
-API version: 1.36.0
+API version: 1.37.0
 Contact: hi@postboost.co
 */
 
@@ -25,8 +25,14 @@ type ImageVariationsResponse struct {
 	Images []Media `json:"images"`
 	AspectRatio string `json:"aspect_ratio"`
 	Quality string `json:"quality"`
+	// Text credits only. 0 while the image credit pool is on; `count × credit_weight` when it is switched off.
 	CreditsUsed int32 `json:"credits_used"`
-	CreditsRemaining *int32 `json:"credits_remaining,omitempty"`
+	// Text credits left this billing cycle (null = no limit).
+	CreditsRemaining NullableInt32 `json:"credits_remaining,omitempty"`
+	// Image credits this call spent (1 per image; 0 when the image credit pool is switched off).
+	ImageCreditsUsed int32 `json:"image_credits_used"`
+	// Image credits left this month (null = no limit, or the image credit pool is switched off).
+	ImageCreditsRemaining NullableInt32 `json:"image_credits_remaining"`
 }
 
 type _ImageVariationsResponse ImageVariationsResponse
@@ -35,12 +41,14 @@ type _ImageVariationsResponse ImageVariationsResponse
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewImageVariationsResponse(images []Media, aspectRatio string, quality string, creditsUsed int32) *ImageVariationsResponse {
+func NewImageVariationsResponse(images []Media, aspectRatio string, quality string, creditsUsed int32, imageCreditsUsed int32, imageCreditsRemaining NullableInt32) *ImageVariationsResponse {
 	this := ImageVariationsResponse{}
 	this.Images = images
 	this.AspectRatio = aspectRatio
 	this.Quality = quality
 	this.CreditsUsed = creditsUsed
+	this.ImageCreditsUsed = imageCreditsUsed
+	this.ImageCreditsRemaining = imageCreditsRemaining
 	return &this
 }
 
@@ -148,36 +156,96 @@ func (o *ImageVariationsResponse) SetCreditsUsed(v int32) {
 	o.CreditsUsed = v
 }
 
-// GetCreditsRemaining returns the CreditsRemaining field value if set, zero value otherwise.
+// GetCreditsRemaining returns the CreditsRemaining field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *ImageVariationsResponse) GetCreditsRemaining() int32 {
-	if o == nil || IsNil(o.CreditsRemaining) {
+	if o == nil || IsNil(o.CreditsRemaining.Get()) {
 		var ret int32
 		return ret
 	}
-	return *o.CreditsRemaining
+	return *o.CreditsRemaining.Get()
 }
 
 // GetCreditsRemainingOk returns a tuple with the CreditsRemaining field value if set, nil otherwise
 // and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *ImageVariationsResponse) GetCreditsRemainingOk() (*int32, bool) {
-	if o == nil || IsNil(o.CreditsRemaining) {
+	if o == nil {
 		return nil, false
 	}
-	return o.CreditsRemaining, true
+	return o.CreditsRemaining.Get(), o.CreditsRemaining.IsSet()
 }
 
 // HasCreditsRemaining returns a boolean if a field has been set.
 func (o *ImageVariationsResponse) HasCreditsRemaining() bool {
-	if o != nil && !IsNil(o.CreditsRemaining) {
+	if o != nil && o.CreditsRemaining.IsSet() {
 		return true
 	}
 
 	return false
 }
 
-// SetCreditsRemaining gets a reference to the given int32 and assigns it to the CreditsRemaining field.
+// SetCreditsRemaining gets a reference to the given NullableInt32 and assigns it to the CreditsRemaining field.
 func (o *ImageVariationsResponse) SetCreditsRemaining(v int32) {
-	o.CreditsRemaining = &v
+	o.CreditsRemaining.Set(&v)
+}
+// SetCreditsRemainingNil sets the value for CreditsRemaining to be an explicit nil
+func (o *ImageVariationsResponse) SetCreditsRemainingNil() {
+	o.CreditsRemaining.Set(nil)
+}
+
+// UnsetCreditsRemaining ensures that no value is present for CreditsRemaining, not even an explicit nil
+func (o *ImageVariationsResponse) UnsetCreditsRemaining() {
+	o.CreditsRemaining.Unset()
+}
+
+// GetImageCreditsUsed returns the ImageCreditsUsed field value
+func (o *ImageVariationsResponse) GetImageCreditsUsed() int32 {
+	if o == nil {
+		var ret int32
+		return ret
+	}
+
+	return o.ImageCreditsUsed
+}
+
+// GetImageCreditsUsedOk returns a tuple with the ImageCreditsUsed field value
+// and a boolean to check if the value has been set.
+func (o *ImageVariationsResponse) GetImageCreditsUsedOk() (*int32, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return &o.ImageCreditsUsed, true
+}
+
+// SetImageCreditsUsed sets field value
+func (o *ImageVariationsResponse) SetImageCreditsUsed(v int32) {
+	o.ImageCreditsUsed = v
+}
+
+// GetImageCreditsRemaining returns the ImageCreditsRemaining field value
+// If the value is explicit nil, the zero value for int32 will be returned
+func (o *ImageVariationsResponse) GetImageCreditsRemaining() int32 {
+	if o == nil || o.ImageCreditsRemaining.Get() == nil {
+		var ret int32
+		return ret
+	}
+
+	return *o.ImageCreditsRemaining.Get()
+}
+
+// GetImageCreditsRemainingOk returns a tuple with the ImageCreditsRemaining field value
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
+func (o *ImageVariationsResponse) GetImageCreditsRemainingOk() (*int32, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.ImageCreditsRemaining.Get(), o.ImageCreditsRemaining.IsSet()
+}
+
+// SetImageCreditsRemaining sets field value
+func (o *ImageVariationsResponse) SetImageCreditsRemaining(v int32) {
+	o.ImageCreditsRemaining.Set(&v)
 }
 
 func (o ImageVariationsResponse) MarshalJSON() ([]byte, error) {
@@ -194,9 +262,11 @@ func (o ImageVariationsResponse) ToMap() (map[string]interface{}, error) {
 	toSerialize["aspect_ratio"] = o.AspectRatio
 	toSerialize["quality"] = o.Quality
 	toSerialize["credits_used"] = o.CreditsUsed
-	if !IsNil(o.CreditsRemaining) {
-		toSerialize["credits_remaining"] = o.CreditsRemaining
+	if o.CreditsRemaining.IsSet() {
+		toSerialize["credits_remaining"] = o.CreditsRemaining.Get()
 	}
+	toSerialize["image_credits_used"] = o.ImageCreditsUsed
+	toSerialize["image_credits_remaining"] = o.ImageCreditsRemaining.Get()
 	return toSerialize, nil
 }
 
@@ -209,6 +279,8 @@ func (o *ImageVariationsResponse) UnmarshalJSON(data []byte) (err error) {
 		"aspect_ratio",
 		"quality",
 		"credits_used",
+		"image_credits_used",
+		"image_credits_remaining",
 	}
 
 	allProperties := make(map[string]interface{})

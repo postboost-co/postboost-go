@@ -4,28 +4,28 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Id** | **int32** |  | 
+**Id** | **string** | Numeric media id, returned as a string (the engine casts it). Use &#x60;uuid&#x60; to address media in the API. | 
 **Uuid** | **string** |  | 
 **Name** | **string** |  | 
 **MimeType** | **string** |  | 
 **Type** | **string** |  | 
 **Url** | **string** |  | 
-**ThumbUrl** | Pointer to **string** |  | [optional] 
+**ThumbUrl** | Pointer to **NullableString** |  | [optional] 
 **IsVideo** | **bool** |  | 
 **IsProcessing** | Pointer to **bool** | True while an uploaded video is still being converted. | [optional] 
-**Width** | Pointer to **int32** | Width in pixels, when stored. | [optional] 
-**Height** | Pointer to **int32** | Height in pixels, when stored. | [optional] 
-**DurationMs** | Pointer to **int32** | Video duration in milliseconds; null for images or videos not read yet. | [optional] 
+**Width** | Pointer to **NullableInt32** | Width in pixels, when stored. | [optional] 
+**Height** | Pointer to **NullableInt32** | Height in pixels, when stored. | [optional] 
+**DurationMs** | Pointer to **NullableInt32** | Video duration in milliseconds; null for images or videos not read yet. | [optional] 
 **Size** | Pointer to **int32** | File size in bytes. | [optional] 
-**AltText** | Pointer to **string** |  | [optional] 
+**AltText** | Pointer to **NullableString** |  | [optional] 
 **Folder** | Pointer to [**NullableMediaFolderRef**](MediaFolderRef.md) |  | [optional] 
-**CreatedAt** | **time.Time** |  | 
+**CreatedAt** | **string** | &#x60;Y-m-d H:i:s&#x60; in UTC (not RFC 3339). | 
 
 ## Methods
 
 ### NewMedia
 
-`func NewMedia(id int32, uuid string, name string, mimeType string, type_ string, url string, isVideo bool, createdAt time.Time, ) *Media`
+`func NewMedia(id string, uuid string, name string, mimeType string, type_ string, url string, isVideo bool, createdAt string, ) *Media`
 
 NewMedia instantiates a new Media object
 This constructor will assign default values to properties that have it defined,
@@ -42,20 +42,20 @@ but it doesn't guarantee that properties required by API are set
 
 ### GetId
 
-`func (o *Media) GetId() int32`
+`func (o *Media) GetId() string`
 
 GetId returns the Id field if non-nil, zero value otherwise.
 
 ### GetIdOk
 
-`func (o *Media) GetIdOk() (*int32, bool)`
+`func (o *Media) GetIdOk() (*string, bool)`
 
 GetIdOk returns a tuple with the Id field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetId
 
-`func (o *Media) SetId(v int32)`
+`func (o *Media) SetId(v string)`
 
 SetId sets Id field to given value.
 
@@ -185,6 +185,16 @@ SetThumbUrl sets ThumbUrl field to given value.
 
 HasThumbUrl returns a boolean if a field has been set.
 
+### SetThumbUrlNil
+
+`func (o *Media) SetThumbUrlNil(b bool)`
+
+ SetThumbUrlNil sets the value for ThumbUrl to be an explicit nil
+
+### UnsetThumbUrl
+`func (o *Media) UnsetThumbUrl()`
+
+UnsetThumbUrl ensures that no value is present for ThumbUrl, not even an explicit nil
 ### GetIsVideo
 
 `func (o *Media) GetIsVideo() bool`
@@ -255,6 +265,16 @@ SetWidth sets Width field to given value.
 
 HasWidth returns a boolean if a field has been set.
 
+### SetWidthNil
+
+`func (o *Media) SetWidthNil(b bool)`
+
+ SetWidthNil sets the value for Width to be an explicit nil
+
+### UnsetWidth
+`func (o *Media) UnsetWidth()`
+
+UnsetWidth ensures that no value is present for Width, not even an explicit nil
 ### GetHeight
 
 `func (o *Media) GetHeight() int32`
@@ -280,6 +300,16 @@ SetHeight sets Height field to given value.
 
 HasHeight returns a boolean if a field has been set.
 
+### SetHeightNil
+
+`func (o *Media) SetHeightNil(b bool)`
+
+ SetHeightNil sets the value for Height to be an explicit nil
+
+### UnsetHeight
+`func (o *Media) UnsetHeight()`
+
+UnsetHeight ensures that no value is present for Height, not even an explicit nil
 ### GetDurationMs
 
 `func (o *Media) GetDurationMs() int32`
@@ -305,6 +335,16 @@ SetDurationMs sets DurationMs field to given value.
 
 HasDurationMs returns a boolean if a field has been set.
 
+### SetDurationMsNil
+
+`func (o *Media) SetDurationMsNil(b bool)`
+
+ SetDurationMsNil sets the value for DurationMs to be an explicit nil
+
+### UnsetDurationMs
+`func (o *Media) UnsetDurationMs()`
+
+UnsetDurationMs ensures that no value is present for DurationMs, not even an explicit nil
 ### GetSize
 
 `func (o *Media) GetSize() int32`
@@ -355,6 +395,16 @@ SetAltText sets AltText field to given value.
 
 HasAltText returns a boolean if a field has been set.
 
+### SetAltTextNil
+
+`func (o *Media) SetAltTextNil(b bool)`
+
+ SetAltTextNil sets the value for AltText to be an explicit nil
+
+### UnsetAltText
+`func (o *Media) UnsetAltText()`
+
+UnsetAltText ensures that no value is present for AltText, not even an explicit nil
 ### GetFolder
 
 `func (o *Media) GetFolder() MediaFolderRef`
@@ -392,20 +442,20 @@ HasFolder returns a boolean if a field has been set.
 UnsetFolder ensures that no value is present for Folder, not even an explicit nil
 ### GetCreatedAt
 
-`func (o *Media) GetCreatedAt() time.Time`
+`func (o *Media) GetCreatedAt() string`
 
 GetCreatedAt returns the CreatedAt field if non-nil, zero value otherwise.
 
 ### GetCreatedAtOk
 
-`func (o *Media) GetCreatedAtOk() (*time.Time, bool)`
+`func (o *Media) GetCreatedAtOk() (*string, bool)`
 
 GetCreatedAtOk returns a tuple with the CreatedAt field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetCreatedAt
 
-`func (o *Media) SetCreatedAt(v time.Time)`
+`func (o *Media) SetCreatedAt(v string)`
 
 SetCreatedAt sets CreatedAt field to given value.
 

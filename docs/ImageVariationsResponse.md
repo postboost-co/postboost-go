@@ -7,14 +7,16 @@ Name | Type | Description | Notes
 **Images** | [**[]Media**](Media.md) |  | 
 **AspectRatio** | **string** |  | 
 **Quality** | **string** |  | 
-**CreditsUsed** | **int32** |  | 
-**CreditsRemaining** | Pointer to **int32** |  | [optional] 
+**CreditsUsed** | **int32** | Text credits only. 0 while the image credit pool is on; &#x60;count × credit_weight&#x60; when it is switched off. | 
+**CreditsRemaining** | Pointer to **NullableInt32** | Text credits left this billing cycle (null &#x3D; no limit). | [optional] 
+**ImageCreditsUsed** | **int32** | Image credits this call spent (1 per image; 0 when the image credit pool is switched off). | 
+**ImageCreditsRemaining** | **NullableInt32** | Image credits left this month (null &#x3D; no limit, or the image credit pool is switched off). | 
 
 ## Methods
 
 ### NewImageVariationsResponse
 
-`func NewImageVariationsResponse(images []Media, aspectRatio string, quality string, creditsUsed int32, ) *ImageVariationsResponse`
+`func NewImageVariationsResponse(images []Media, aspectRatio string, quality string, creditsUsed int32, imageCreditsUsed int32, imageCreditsRemaining NullableInt32, ) *ImageVariationsResponse`
 
 NewImageVariationsResponse instantiates a new ImageVariationsResponse object
 This constructor will assign default values to properties that have it defined,
@@ -134,6 +136,66 @@ SetCreditsRemaining sets CreditsRemaining field to given value.
 
 HasCreditsRemaining returns a boolean if a field has been set.
 
+### SetCreditsRemainingNil
+
+`func (o *ImageVariationsResponse) SetCreditsRemainingNil(b bool)`
+
+ SetCreditsRemainingNil sets the value for CreditsRemaining to be an explicit nil
+
+### UnsetCreditsRemaining
+`func (o *ImageVariationsResponse) UnsetCreditsRemaining()`
+
+UnsetCreditsRemaining ensures that no value is present for CreditsRemaining, not even an explicit nil
+### GetImageCreditsUsed
+
+`func (o *ImageVariationsResponse) GetImageCreditsUsed() int32`
+
+GetImageCreditsUsed returns the ImageCreditsUsed field if non-nil, zero value otherwise.
+
+### GetImageCreditsUsedOk
+
+`func (o *ImageVariationsResponse) GetImageCreditsUsedOk() (*int32, bool)`
+
+GetImageCreditsUsedOk returns a tuple with the ImageCreditsUsed field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetImageCreditsUsed
+
+`func (o *ImageVariationsResponse) SetImageCreditsUsed(v int32)`
+
+SetImageCreditsUsed sets ImageCreditsUsed field to given value.
+
+
+### GetImageCreditsRemaining
+
+`func (o *ImageVariationsResponse) GetImageCreditsRemaining() int32`
+
+GetImageCreditsRemaining returns the ImageCreditsRemaining field if non-nil, zero value otherwise.
+
+### GetImageCreditsRemainingOk
+
+`func (o *ImageVariationsResponse) GetImageCreditsRemainingOk() (*int32, bool)`
+
+GetImageCreditsRemainingOk returns a tuple with the ImageCreditsRemaining field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetImageCreditsRemaining
+
+`func (o *ImageVariationsResponse) SetImageCreditsRemaining(v int32)`
+
+SetImageCreditsRemaining sets ImageCreditsRemaining field to given value.
+
+
+### SetImageCreditsRemainingNil
+
+`func (o *ImageVariationsResponse) SetImageCreditsRemainingNil(b bool)`
+
+ SetImageCreditsRemainingNil sets the value for ImageCreditsRemaining to be an explicit nil
+
+### UnsetImageCreditsRemaining
+`func (o *ImageVariationsResponse) UnsetImageCreditsRemaining()`
+
+UnsetImageCreditsRemaining ensures that no value is present for ImageCreditsRemaining, not even an explicit nil
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

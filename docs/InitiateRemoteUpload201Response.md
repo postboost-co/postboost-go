@@ -4,7 +4,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Id** | **int32** |  | 
+**Id** | **string** | Numeric media id, returned as a string (the engine casts it). Use &#x60;uuid&#x60; to address media in the API. | 
 **Uuid** | **string** |  | 
 **Name** | **string** |  | 
 **MimeType** | **string** |  | 
@@ -19,14 +19,14 @@ Name | Type | Description | Notes
 **Size** | Pointer to **int32** | File size in bytes. | [optional] 
 **AltText** | Pointer to **string** |  | [optional] 
 **Folder** | Pointer to [**MediaFolderRef**](MediaFolderRef.md) |  | [optional] 
-**CreatedAt** | **time.Time** |  | 
+**CreatedAt** | **string** | &#x60;Y-m-d H:i:s&#x60; in UTC (not RFC 3339). | 
 **DownloadId** | Pointer to **string** |  | [optional] 
 
 ## Methods
 
 ### NewInitiateRemoteUpload201Response
 
-`func NewInitiateRemoteUpload201Response(id int32, uuid string, name string, mimeType string, type_ string, url string, isVideo bool, createdAt time.Time, ) *InitiateRemoteUpload201Response`
+`func NewInitiateRemoteUpload201Response(id string, uuid string, name string, mimeType string, type_ string, url string, isVideo bool, createdAt string, ) *InitiateRemoteUpload201Response`
 
 NewInitiateRemoteUpload201Response instantiates a new InitiateRemoteUpload201Response object
 This constructor will assign default values to properties that have it defined,
@@ -43,20 +43,20 @@ but it doesn't guarantee that properties required by API are set
 
 ### GetId
 
-`func (o *InitiateRemoteUpload201Response) GetId() int32`
+`func (o *InitiateRemoteUpload201Response) GetId() string`
 
 GetId returns the Id field if non-nil, zero value otherwise.
 
 ### GetIdOk
 
-`func (o *InitiateRemoteUpload201Response) GetIdOk() (*int32, bool)`
+`func (o *InitiateRemoteUpload201Response) GetIdOk() (*string, bool)`
 
 GetIdOk returns a tuple with the Id field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetId
 
-`func (o *InitiateRemoteUpload201Response) SetId(v int32)`
+`func (o *InitiateRemoteUpload201Response) SetId(v string)`
 
 SetId sets Id field to given value.
 
@@ -383,20 +383,20 @@ HasFolder returns a boolean if a field has been set.
 
 ### GetCreatedAt
 
-`func (o *InitiateRemoteUpload201Response) GetCreatedAt() time.Time`
+`func (o *InitiateRemoteUpload201Response) GetCreatedAt() string`
 
 GetCreatedAt returns the CreatedAt field if non-nil, zero value otherwise.
 
 ### GetCreatedAtOk
 
-`func (o *InitiateRemoteUpload201Response) GetCreatedAtOk() (*time.Time, bool)`
+`func (o *InitiateRemoteUpload201Response) GetCreatedAtOk() (*string, bool)`
 
 GetCreatedAtOk returns a tuple with the CreatedAt field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetCreatedAt
 
-`func (o *InitiateRemoteUpload201Response) SetCreatedAt(v time.Time)`
+`func (o *InitiateRemoteUpload201Response) SetCreatedAt(v string)`
 
 SetCreatedAt sets CreatedAt field to given value.
 
