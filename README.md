@@ -13,7 +13,7 @@ go get github.com/postboost-co/postboost-go
 | **pkg.go.dev** | [pkg.go.dev/github.com/postboost-co/postboost-go](https://pkg.go.dev/github.com/postboost-co/postboost-go) |
 | **GitHub** | [postboost-co/postboost-go](https://github.com/postboost-co/postboost-go) |
 | **Docs** | [postboost.co/docs/api](https://postboost.co/docs/api) |
-| **Version** | v1.32.0 |
+| **Version** | v1.33.0 |
 
 ## Quick start
 
@@ -87,6 +87,7 @@ Class | Method | HTTP request | Description
 *CompetitorsAPI* | [**GetCompetitor**](docs/CompetitorsAPI.md#getcompetitor) | **Get** /{workspaceUuid}/competitors/{competitorId} | Get a competitor
 *CompetitorsAPI* | [**ListCompetitors**](docs/CompetitorsAPI.md#listcompetitors) | **Get** /{workspaceUuid}/competitors | List competitors
 *FreeToolsAPI* | [**BuildUtmUrl**](docs/FreeToolsAPI.md#buildutmurl) | **Post** /tools/utm-builder | Build a UTM-tagged campaign URL
+*FreeToolsAPI* | [**CalculateAspectRatio**](docs/FreeToolsAPI.md#calculateaspectratio) | **Post** /tools/aspect-ratio-calculator | Calculate an aspect ratio, or the missing side of an image at a given ratio
 *FreeToolsAPI* | [**CalculateCrop**](docs/FreeToolsAPI.md#calculatecrop) | **Post** /tools/social-media-image-sizes/crop | Calculate the crop box that fits an image to a social media size
 *FreeToolsAPI* | [**CalculateEngagementRate**](docs/FreeToolsAPI.md#calculateengagementrate) | **Post** /tools/engagement-rate-calculator | Calculate an engagement rate
 *FreeToolsAPI* | [**CheckPost**](docs/FreeToolsAPI.md#checkpost) | **Post** /tools/social-media-post-checker | Check a post against each network&#39;s publishing rules
