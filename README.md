@@ -13,7 +13,7 @@ go get github.com/postboost-co/postboost-go
 | **pkg.go.dev** | [pkg.go.dev/github.com/postboost-co/postboost-go](https://pkg.go.dev/github.com/postboost-co/postboost-go) |
 | **GitHub** | [postboost-co/postboost-go](https://github.com/postboost-co/postboost-go) |
 | **Docs** | [postboost.co/docs/api](https://postboost.co/docs/api) |
-| **Version** | v1.40.0 |
+| **Version** | v1.41.0 |
 
 ## Quick start
 
@@ -101,6 +101,7 @@ Class | Method | HTTP request | Description
 *FreeToolsAPI* | [**GenerateHashtags**](docs/FreeToolsAPI.md#generatehashtags) | **Post** /tools/instagram-hashtag-generator | Generate hashtags for a post topic with AI (needs a token, spends AI credits)
 *FreeToolsAPI* | [**GenerateHooks**](docs/FreeToolsAPI.md#generatehooks) | **Post** /tools/hook-generator | Generate hooks (opening lines) for a social media post with AI (needs a token, spends AI credits)
 *FreeToolsAPI* | [**GenerateQrCode**](docs/FreeToolsAPI.md#generateqrcode) | **Post** /tools/qr-code-generator | Generate a QR code (SVG) for a link or text, with optional UTM tags
+*FreeToolsAPI* | [**GenerateSocialPostsFromBlog**](docs/FreeToolsAPI.md#generatesocialpostsfromblog) | **Post** /tools/blog-to-social-media | Turn a blog post (URL or text) into one social post per network with AI (needs a token, spends AI credits)
 *FreeToolsAPI* | [**GetBestTimesToPost**](docs/FreeToolsAPI.md#getbesttimestopost) | **Get** /tools/best-time-to-post | Get the best times to post per network from published studies, with sources
 *FreeToolsAPI* | [**GetHookTemplates**](docs/FreeToolsAPI.md#gethooktemplates) | **Get** /tools/hook-generator/library | Get free hook templates for social media posts, filtered by style and network
 *FreeToolsAPI* | [**GetImageSizes**](docs/FreeToolsAPI.md#getimagesizes) | **Get** /tools/social-media-image-sizes | Get social media image sizes per network, each with its source

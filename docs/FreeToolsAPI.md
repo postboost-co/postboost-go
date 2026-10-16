@@ -19,6 +19,7 @@ Method | HTTP request | Description
 [**GenerateHashtags**](FreeToolsAPI.md#GenerateHashtags) | **Post** /tools/instagram-hashtag-generator | Generate hashtags for a post topic with AI (needs a token, spends AI credits)
 [**GenerateHooks**](FreeToolsAPI.md#GenerateHooks) | **Post** /tools/hook-generator | Generate hooks (opening lines) for a social media post with AI (needs a token, spends AI credits)
 [**GenerateQrCode**](FreeToolsAPI.md#GenerateQrCode) | **Post** /tools/qr-code-generator | Generate a QR code (SVG) for a link or text, with optional UTM tags
+[**GenerateSocialPostsFromBlog**](FreeToolsAPI.md#GenerateSocialPostsFromBlog) | **Post** /tools/blog-to-social-media | Turn a blog post (URL or text) into one social post per network with AI (needs a token, spends AI credits)
 [**GetBestTimesToPost**](FreeToolsAPI.md#GetBestTimesToPost) | **Get** /tools/best-time-to-post | Get the best times to post per network from published studies, with sources
 [**GetHookTemplates**](FreeToolsAPI.md#GetHookTemplates) | **Get** /tools/hook-generator/library | Get free hook templates for social media posts, filtered by style and network
 [**GetImageSizes**](FreeToolsAPI.md#GetImageSizes) | **Get** /tools/social-media-image-sizes | Get social media image sizes per network, each with its source
@@ -1008,6 +1009,72 @@ Name | Type | Description  | Notes
 ### Authorization
 
 No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: application/json
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## GenerateSocialPostsFromBlog
+
+> FreeToolGenerateSocialPostsFromBlogResponse GenerateSocialPostsFromBlog(ctx).FreeToolGenerateSocialPostsFromBlogRequest(freeToolGenerateSocialPostsFromBlogRequest).Execute()
+
+Turn a blog post (URL or text) into one social post per network with AI (needs a token, spends AI credits)
+
+
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/postboost-co/postboost-go"
+)
+
+func main() {
+	freeToolGenerateSocialPostsFromBlogRequest := *openapiclient.NewFreeToolGenerateSocialPostsFromBlogRequest([]string{"Platforms_example"}) // FreeToolGenerateSocialPostsFromBlogRequest | 
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.FreeToolsAPI.GenerateSocialPostsFromBlog(context.Background()).FreeToolGenerateSocialPostsFromBlogRequest(freeToolGenerateSocialPostsFromBlogRequest).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `FreeToolsAPI.GenerateSocialPostsFromBlog``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `GenerateSocialPostsFromBlog`: FreeToolGenerateSocialPostsFromBlogResponse
+	fmt.Fprintf(os.Stdout, "Response from `FreeToolsAPI.GenerateSocialPostsFromBlog`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiGenerateSocialPostsFromBlogRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **freeToolGenerateSocialPostsFromBlogRequest** | [**FreeToolGenerateSocialPostsFromBlogRequest**](FreeToolGenerateSocialPostsFromBlogRequest.md) |  | 
+
+### Return type
+
+[**FreeToolGenerateSocialPostsFromBlogResponse**](FreeToolGenerateSocialPostsFromBlogResponse.md)
+
+### Authorization
+
+[bearerAuth](../README.md#bearerAuth)
 
 ### HTTP request headers
 
