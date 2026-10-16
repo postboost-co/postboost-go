@@ -26,6 +26,7 @@ Method | HTTP request | Description
 [**GetImageSizes**](FreeToolsAPI.md#GetImageSizes) | **Get** /tools/social-media-image-sizes | Get social media image sizes per network, each with its source
 [**GetVideoSpecs**](FreeToolsAPI.md#GetVideoSpecs) | **Get** /tools/social-media-video-specs | Get social media video ratios, resolutions, lengths and file size limits per network, with sources
 [**ListFreeTools**](FreeToolsAPI.md#ListFreeTools) | **Get** /tools | List the free tools
+[**PlanContentCalendar**](FreeToolsAPI.md#PlanContentCalendar) | **Post** /tools/social-media-content-calendar-generator | Plan a social media content calendar and get it as CSV and ICS
 [**PreviewPost**](FreeToolsAPI.md#PreviewPost) | **Post** /tools/social-media-post-preview | Preview where a post folds and when its image is cropped on Instagram, X, LinkedIn and Facebook
 [**SplitThread**](FreeToolsAPI.md#SplitThread) | **Post** /tools/x-thread-maker | Split long text into a thread
 
@@ -1477,6 +1478,72 @@ No authorization required
 ### HTTP request headers
 
 - **Content-Type**: Not defined
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## PlanContentCalendar
+
+> FreeToolPlanContentCalendarResponse PlanContentCalendar(ctx).FreeToolPlanContentCalendarRequest(freeToolPlanContentCalendarRequest).Execute()
+
+Plan a social media content calendar and get it as CSV and ICS
+
+
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/postboost-co/postboost-go"
+)
+
+func main() {
+	freeToolPlanContentCalendarRequest := *openapiclient.NewFreeToolPlanContentCalendarRequest("StartDate_example", *openapiclient.NewFreeToolPlanContentCalendarRequestPostsPerWeek()) // FreeToolPlanContentCalendarRequest | 
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.FreeToolsAPI.PlanContentCalendar(context.Background()).FreeToolPlanContentCalendarRequest(freeToolPlanContentCalendarRequest).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `FreeToolsAPI.PlanContentCalendar``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `PlanContentCalendar`: FreeToolPlanContentCalendarResponse
+	fmt.Fprintf(os.Stdout, "Response from `FreeToolsAPI.PlanContentCalendar`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiPlanContentCalendarRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **freeToolPlanContentCalendarRequest** | [**FreeToolPlanContentCalendarRequest**](FreeToolPlanContentCalendarRequest.md) |  | 
+
+### Return type
+
+[**FreeToolPlanContentCalendarResponse**](FreeToolPlanContentCalendarResponse.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: application/json
 - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)

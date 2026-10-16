@@ -13,7 +13,7 @@ go get github.com/postboost-co/postboost-go
 | **pkg.go.dev** | [pkg.go.dev/github.com/postboost-co/postboost-go](https://pkg.go.dev/github.com/postboost-co/postboost-go) |
 | **GitHub** | [postboost-co/postboost-go](https://github.com/postboost-co/postboost-go) |
 | **Docs** | [postboost.co/docs/api](https://postboost.co/docs/api) |
-| **Version** | v1.43.0 |
+| **Version** | v1.44.0 |
 
 ## Quick start
 
@@ -108,6 +108,7 @@ Class | Method | HTTP request | Description
 *FreeToolsAPI* | [**GetImageSizes**](docs/FreeToolsAPI.md#getimagesizes) | **Get** /tools/social-media-image-sizes | Get social media image sizes per network, each with its source
 *FreeToolsAPI* | [**GetVideoSpecs**](docs/FreeToolsAPI.md#getvideospecs) | **Get** /tools/social-media-video-specs | Get social media video ratios, resolutions, lengths and file size limits per network, with sources
 *FreeToolsAPI* | [**ListFreeTools**](docs/FreeToolsAPI.md#listfreetools) | **Get** /tools | List the free tools
+*FreeToolsAPI* | [**PlanContentCalendar**](docs/FreeToolsAPI.md#plancontentcalendar) | **Post** /tools/social-media-content-calendar-generator | Plan a social media content calendar and get it as CSV and ICS
 *FreeToolsAPI* | [**PreviewPost**](docs/FreeToolsAPI.md#previewpost) | **Post** /tools/social-media-post-preview | Preview where a post folds and when its image is cropped on Instagram, X, LinkedIn and Facebook
 *FreeToolsAPI* | [**SplitThread**](docs/FreeToolsAPI.md#splitthread) | **Post** /tools/x-thread-maker | Split long text into a thread
 *HashtagGroupsAPI* | [**CreateHashtagGroup**](docs/HashtagGroupsAPI.md#createhashtaggroup) | **Post** /{workspaceUuid}/hashtag-groups | Create a hashtag group
