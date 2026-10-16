@@ -3,7 +3,7 @@ PostBoost API
 
 The PostBoost REST API lets you publish, schedule, and analyze social media posts on every supported network from a single integration. No OAuth apps to maintain — PostBoost handles platform authorization for you.  ## Base URL All workspace-scoped endpoints are prefixed with `/{workspaceUuid}`. Panel/admin endpoints are prefixed with `/panel`.  ## Plan access Every workspace-scoped endpoint returns `403` when the workspace's plan does not include API access (capability `api`).  ## Dates and times Post dates and times (`date`, `time`, `accounts_schedule`) are read in the request's `timezone` when one is given, otherwise in the workspace timezone.  ## Idempotent requests Send an `Idempotency-Key` header (any unique string, for example a UUID) with a `POST`. Repeating the request with the same key within 24 hours returns the stored response with `Idempotent-Replayed: true` and creates nothing new. Reusing a key with a different body returns `422`; a request still in progress with the same key returns `409`. `5xx` and `429` responses are not stored, so they can be retried with the same key.  ## Guardrails for automated clients Create and update requests are checked before anything is written: a post whose content matches one created for the same account in the last 24 hours returns `409` (`code: duplicate_post`, override with `allow_duplicate: true`), scheduling past an account's daily cap returns `429` (`code: account_daily_cap_reached`), and scheduling to an account that must be reconnected returns `422` (`code: account_unauthorized` or `account_token_missing`). Use `POST /{workspaceUuid}/posts/validate` for a dry run and `GET /{workspaceUuid}/activity` to review what API clients did.  ## Authentication All requests require a Bearer token in the `Authorization` header. Generate tokens in your PostBoost dashboard under **Settings → Access Tokens**.  ``` Authorization: Bearer YOUR_API_TOKEN ``` 
 
-API version: 1.44.0
+API version: 1.45.0
 Contact: hi@postboost.co
 */
 
@@ -13,7 +13,6 @@ package postboost
 
 import (
 	"encoding/json"
-	"time"
 	"bytes"
 	"fmt"
 )
@@ -28,9 +27,12 @@ type Subscription struct {
 	PlatformPlanId string `json:"platform_plan_id"`
 	Status SubscriptionStatus `json:"status"`
 	Recurring bool `json:"recurring"`
-	TrialEndsAt NullableTime `json:"trial_ends_at,omitempty"`
-	PausedFrom NullableTime `json:"paused_from,omitempty"`
-	EndsAt NullableTime `json:"ends_at,omitempty"`
+	// Display date in the configured timezone, `M j, Y` (not RFC 3339).
+	TrialEndsAt NullableString `json:"trial_ends_at,omitempty"`
+	// Display date in the configured timezone, `M j, Y` (not RFC 3339).
+	PausedFrom NullableString `json:"paused_from,omitempty"`
+	// Display date in the configured timezone, `M j, Y` (not RFC 3339).
+	EndsAt NullableString `json:"ends_at,omitempty"`
 }
 
 type _Subscription Subscription
@@ -178,9 +180,9 @@ func (o *Subscription) SetRecurring(v bool) {
 }
 
 // GetTrialEndsAt returns the TrialEndsAt field value if set, zero value otherwise (both if not set or set to explicit null).
-func (o *Subscription) GetTrialEndsAt() time.Time {
+func (o *Subscription) GetTrialEndsAt() string {
 	if o == nil || IsNil(o.TrialEndsAt.Get()) {
-		var ret time.Time
+		var ret string
 		return ret
 	}
 	return *o.TrialEndsAt.Get()
@@ -189,7 +191,7 @@ func (o *Subscription) GetTrialEndsAt() time.Time {
 // GetTrialEndsAtOk returns a tuple with the TrialEndsAt field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned
-func (o *Subscription) GetTrialEndsAtOk() (*time.Time, bool) {
+func (o *Subscription) GetTrialEndsAtOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -205,8 +207,8 @@ func (o *Subscription) HasTrialEndsAt() bool {
 	return false
 }
 
-// SetTrialEndsAt gets a reference to the given NullableTime and assigns it to the TrialEndsAt field.
-func (o *Subscription) SetTrialEndsAt(v time.Time) {
+// SetTrialEndsAt gets a reference to the given NullableString and assigns it to the TrialEndsAt field.
+func (o *Subscription) SetTrialEndsAt(v string) {
 	o.TrialEndsAt.Set(&v)
 }
 // SetTrialEndsAtNil sets the value for TrialEndsAt to be an explicit nil
@@ -220,9 +222,9 @@ func (o *Subscription) UnsetTrialEndsAt() {
 }
 
 // GetPausedFrom returns the PausedFrom field value if set, zero value otherwise (both if not set or set to explicit null).
-func (o *Subscription) GetPausedFrom() time.Time {
+func (o *Subscription) GetPausedFrom() string {
 	if o == nil || IsNil(o.PausedFrom.Get()) {
-		var ret time.Time
+		var ret string
 		return ret
 	}
 	return *o.PausedFrom.Get()
@@ -231,7 +233,7 @@ func (o *Subscription) GetPausedFrom() time.Time {
 // GetPausedFromOk returns a tuple with the PausedFrom field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned
-func (o *Subscription) GetPausedFromOk() (*time.Time, bool) {
+func (o *Subscription) GetPausedFromOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -247,8 +249,8 @@ func (o *Subscription) HasPausedFrom() bool {
 	return false
 }
 
-// SetPausedFrom gets a reference to the given NullableTime and assigns it to the PausedFrom field.
-func (o *Subscription) SetPausedFrom(v time.Time) {
+// SetPausedFrom gets a reference to the given NullableString and assigns it to the PausedFrom field.
+func (o *Subscription) SetPausedFrom(v string) {
 	o.PausedFrom.Set(&v)
 }
 // SetPausedFromNil sets the value for PausedFrom to be an explicit nil
@@ -262,9 +264,9 @@ func (o *Subscription) UnsetPausedFrom() {
 }
 
 // GetEndsAt returns the EndsAt field value if set, zero value otherwise (both if not set or set to explicit null).
-func (o *Subscription) GetEndsAt() time.Time {
+func (o *Subscription) GetEndsAt() string {
 	if o == nil || IsNil(o.EndsAt.Get()) {
-		var ret time.Time
+		var ret string
 		return ret
 	}
 	return *o.EndsAt.Get()
@@ -273,7 +275,7 @@ func (o *Subscription) GetEndsAt() time.Time {
 // GetEndsAtOk returns a tuple with the EndsAt field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned
-func (o *Subscription) GetEndsAtOk() (*time.Time, bool) {
+func (o *Subscription) GetEndsAtOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -289,8 +291,8 @@ func (o *Subscription) HasEndsAt() bool {
 	return false
 }
 
-// SetEndsAt gets a reference to the given NullableTime and assigns it to the EndsAt field.
-func (o *Subscription) SetEndsAt(v time.Time) {
+// SetEndsAt gets a reference to the given NullableString and assigns it to the EndsAt field.
+func (o *Subscription) SetEndsAt(v string) {
 	o.EndsAt.Set(&v)
 }
 // SetEndsAtNil sets the value for EndsAt to be an explicit nil

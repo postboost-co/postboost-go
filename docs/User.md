@@ -9,14 +9,14 @@ Name | Type | Description | Notes
 **Email** | **string** |  | 
 **Avatar** | Pointer to **NullableString** | URL of the user&#39;s avatar, or null when none is set. | [optional] 
 **IsAdmin** | **bool** |  | 
-**EmailVerifiedAt** | Pointer to **NullableTime** |  | [optional] 
-**CreatedAt** | **time.Time** |  | 
+**EmailVerifiedAt** | Pointer to **NullableString** | Display string in the configured timezone and clock: &#x60;M j, H:i&#x60; this year, &#x60;M j, Y, H:i&#x60; otherwise (12-hour setting: &#x60;h:ia&#x60;), not RFC 3339. | [optional] 
+**CreatedAt** | **string** | Display string in the configured timezone and clock: &#x60;M j, H:i&#x60; this year, &#x60;M j, Y, H:i&#x60; otherwise (12-hour setting: &#x60;h:ia&#x60;), not RFC 3339. | 
 
 ## Methods
 
 ### NewUser
 
-`func NewUser(id int32, name string, email string, isAdmin bool, createdAt time.Time, ) *User`
+`func NewUser(id int32, name string, email string, isAdmin bool, createdAt string, ) *User`
 
 NewUser instantiates a new User object
 This constructor will assign default values to properties that have it defined,
@@ -148,20 +148,20 @@ SetIsAdmin sets IsAdmin field to given value.
 
 ### GetEmailVerifiedAt
 
-`func (o *User) GetEmailVerifiedAt() time.Time`
+`func (o *User) GetEmailVerifiedAt() string`
 
 GetEmailVerifiedAt returns the EmailVerifiedAt field if non-nil, zero value otherwise.
 
 ### GetEmailVerifiedAtOk
 
-`func (o *User) GetEmailVerifiedAtOk() (*time.Time, bool)`
+`func (o *User) GetEmailVerifiedAtOk() (*string, bool)`
 
 GetEmailVerifiedAtOk returns a tuple with the EmailVerifiedAt field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetEmailVerifiedAt
 
-`func (o *User) SetEmailVerifiedAt(v time.Time)`
+`func (o *User) SetEmailVerifiedAt(v string)`
 
 SetEmailVerifiedAt sets EmailVerifiedAt field to given value.
 
@@ -183,20 +183,20 @@ HasEmailVerifiedAt returns a boolean if a field has been set.
 UnsetEmailVerifiedAt ensures that no value is present for EmailVerifiedAt, not even an explicit nil
 ### GetCreatedAt
 
-`func (o *User) GetCreatedAt() time.Time`
+`func (o *User) GetCreatedAt() string`
 
 GetCreatedAt returns the CreatedAt field if non-nil, zero value otherwise.
 
 ### GetCreatedAtOk
 
-`func (o *User) GetCreatedAtOk() (*time.Time, bool)`
+`func (o *User) GetCreatedAtOk() (*string, bool)`
 
 GetCreatedAtOk returns a tuple with the CreatedAt field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetCreatedAt
 
-`func (o *User) SetCreatedAt(v time.Time)`
+`func (o *User) SetCreatedAt(v string)`
 
 SetCreatedAt sets CreatedAt field to given value.
 

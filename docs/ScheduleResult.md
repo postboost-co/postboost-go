@@ -5,7 +5,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Success** | **bool** |  | 
-**ScheduledAt** | Pointer to **time.Time** |  | [optional] 
+**ScheduledAt** | Pointer to **string** | &#x60;Y-m-d H:i:s&#x60; in UTC (not RFC 3339). | [optional] 
 **NeedsApproval** | Pointer to **bool** | True when the post now waits for approval instead of being scheduled (not returned by approve). | [optional] 
 
 ## Methods
@@ -49,20 +49,20 @@ SetSuccess sets Success field to given value.
 
 ### GetScheduledAt
 
-`func (o *ScheduleResult) GetScheduledAt() time.Time`
+`func (o *ScheduleResult) GetScheduledAt() string`
 
 GetScheduledAt returns the ScheduledAt field if non-nil, zero value otherwise.
 
 ### GetScheduledAtOk
 
-`func (o *ScheduleResult) GetScheduledAtOk() (*time.Time, bool)`
+`func (o *ScheduleResult) GetScheduledAtOk() (*string, bool)`
 
 GetScheduledAtOk returns a tuple with the ScheduledAt field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetScheduledAt
 
-`func (o *ScheduleResult) SetScheduledAt(v time.Time)`
+`func (o *ScheduleResult) SetScheduledAt(v string)`
 
 SetScheduledAt sets ScheduledAt field to given value.
 

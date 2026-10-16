@@ -3,7 +3,7 @@ PostBoost API
 
 The PostBoost REST API lets you publish, schedule, and analyze social media posts on every supported network from a single integration. No OAuth apps to maintain — PostBoost handles platform authorization for you.  ## Base URL All workspace-scoped endpoints are prefixed with `/{workspaceUuid}`. Panel/admin endpoints are prefixed with `/panel`.  ## Plan access Every workspace-scoped endpoint returns `403` when the workspace's plan does not include API access (capability `api`).  ## Dates and times Post dates and times (`date`, `time`, `accounts_schedule`) are read in the request's `timezone` when one is given, otherwise in the workspace timezone.  ## Idempotent requests Send an `Idempotency-Key` header (any unique string, for example a UUID) with a `POST`. Repeating the request with the same key within 24 hours returns the stored response with `Idempotent-Replayed: true` and creates nothing new. Reusing a key with a different body returns `422`; a request still in progress with the same key returns `409`. `5xx` and `429` responses are not stored, so they can be retried with the same key.  ## Guardrails for automated clients Create and update requests are checked before anything is written: a post whose content matches one created for the same account in the last 24 hours returns `409` (`code: duplicate_post`, override with `allow_duplicate: true`), scheduling past an account's daily cap returns `429` (`code: account_daily_cap_reached`), and scheduling to an account that must be reconnected returns `422` (`code: account_unauthorized` or `account_token_missing`). Use `POST /{workspaceUuid}/posts/validate` for a dry run and `GET /{workspaceUuid}/activity` to review what API clients did.  ## Authentication All requests require a Bearer token in the `Authorization` header. Generate tokens in your PostBoost dashboard under **Settings → Access Tokens**.  ``` Authorization: Bearer YOUR_API_TOKEN ``` 
 
-API version: 1.44.0
+API version: 1.45.0
 Contact: hi@postboost.co
 */
 
@@ -13,7 +13,6 @@ package postboost
 
 import (
 	"encoding/json"
-	"time"
 	"bytes"
 	"fmt"
 )
@@ -24,7 +23,8 @@ var _ MappedNullable = &ScheduleResult{}
 // ScheduleResult struct for ScheduleResult
 type ScheduleResult struct {
 	Success bool `json:"success"`
-	ScheduledAt *time.Time `json:"scheduled_at,omitempty"`
+	// `Y-m-d H:i:s` in UTC (not RFC 3339).
+	ScheduledAt *string `json:"scheduled_at,omitempty"`
 	// True when the post now waits for approval instead of being scheduled (not returned by approve).
 	NeedsApproval *bool `json:"needs_approval,omitempty"`
 }
@@ -74,9 +74,9 @@ func (o *ScheduleResult) SetSuccess(v bool) {
 }
 
 // GetScheduledAt returns the ScheduledAt field value if set, zero value otherwise.
-func (o *ScheduleResult) GetScheduledAt() time.Time {
+func (o *ScheduleResult) GetScheduledAt() string {
 	if o == nil || IsNil(o.ScheduledAt) {
-		var ret time.Time
+		var ret string
 		return ret
 	}
 	return *o.ScheduledAt
@@ -84,7 +84,7 @@ func (o *ScheduleResult) GetScheduledAt() time.Time {
 
 // GetScheduledAtOk returns a tuple with the ScheduledAt field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *ScheduleResult) GetScheduledAtOk() (*time.Time, bool) {
+func (o *ScheduleResult) GetScheduledAtOk() (*string, bool) {
 	if o == nil || IsNil(o.ScheduledAt) {
 		return nil, false
 	}
@@ -100,8 +100,8 @@ func (o *ScheduleResult) HasScheduledAt() bool {
 	return false
 }
 
-// SetScheduledAt gets a reference to the given time.Time and assigns it to the ScheduledAt field.
-func (o *ScheduleResult) SetScheduledAt(v time.Time) {
+// SetScheduledAt gets a reference to the given string and assigns it to the ScheduledAt field.
+func (o *ScheduleResult) SetScheduledAt(v string) {
 	o.ScheduledAt = &v
 }
 

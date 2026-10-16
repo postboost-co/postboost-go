@@ -12,14 +12,14 @@ Name | Type | Description | Notes
 **Currency** | **string** |  | 
 **ReceiptUrl** | Pointer to **NullableString** |  | [optional] 
 **Description** | Pointer to **NullableString** |  | [optional] 
-**PaidAt** | **time.Time** |  | 
-**CreatedAt** | **time.Time** |  | 
+**PaidAt** | **string** | Display date in the configured timezone, &#x60;M j, Y&#x60; (not RFC 3339). | 
+**CreatedAt** | **string** | Display date in the configured timezone, &#x60;M j, Y&#x60; (not RFC 3339). | 
 
 ## Methods
 
 ### NewReceipt
 
-`func NewReceipt(uuid string, transactionId string, invoiceNumber string, amount float32, tax float32, currency string, paidAt time.Time, createdAt time.Time, ) *Receipt`
+`func NewReceipt(uuid string, transactionId string, invoiceNumber string, amount float32, tax float32, currency string, paidAt string, createdAt string, ) *Receipt`
 
 NewReceipt instantiates a new Receipt object
 This constructor will assign default values to properties that have it defined,
@@ -226,40 +226,40 @@ HasDescription returns a boolean if a field has been set.
 UnsetDescription ensures that no value is present for Description, not even an explicit nil
 ### GetPaidAt
 
-`func (o *Receipt) GetPaidAt() time.Time`
+`func (o *Receipt) GetPaidAt() string`
 
 GetPaidAt returns the PaidAt field if non-nil, zero value otherwise.
 
 ### GetPaidAtOk
 
-`func (o *Receipt) GetPaidAtOk() (*time.Time, bool)`
+`func (o *Receipt) GetPaidAtOk() (*string, bool)`
 
 GetPaidAtOk returns a tuple with the PaidAt field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetPaidAt
 
-`func (o *Receipt) SetPaidAt(v time.Time)`
+`func (o *Receipt) SetPaidAt(v string)`
 
 SetPaidAt sets PaidAt field to given value.
 
 
 ### GetCreatedAt
 
-`func (o *Receipt) GetCreatedAt() time.Time`
+`func (o *Receipt) GetCreatedAt() string`
 
 GetCreatedAt returns the CreatedAt field if non-nil, zero value otherwise.
 
 ### GetCreatedAtOk
 
-`func (o *Receipt) GetCreatedAtOk() (*time.Time, bool)`
+`func (o *Receipt) GetCreatedAtOk() (*string, bool)`
 
 GetCreatedAtOk returns a tuple with the CreatedAt field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetCreatedAt
 
-`func (o *Receipt) SetCreatedAt(v time.Time)`
+`func (o *Receipt) SetCreatedAt(v string)`
 
 SetCreatedAt sets CreatedAt field to given value.
 

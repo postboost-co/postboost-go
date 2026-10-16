@@ -10,13 +10,13 @@ Name | Type | Description | Notes
 **Avatar** | Pointer to **NullableString** | URL of the workspace avatar, or null when none is set. Supersedes &#x60;hex_color&#x60;. | [optional] 
 **Owner** | Pointer to [**User**](User.md) |  | [optional] 
 **AccessStatus** | **string** |  | 
-**CreatedAt** | **time.Time** |  | 
+**CreatedAt** | **string** | Display string in the configured timezone and clock: &#x60;M j, H:i&#x60; this year, &#x60;M j, Y, H:i&#x60; otherwise (12-hour setting: &#x60;h:ia&#x60;), not RFC 3339. | 
 
 ## Methods
 
 ### NewWorkspace
 
-`func NewWorkspace(uuid string, name string, accessStatus string, createdAt time.Time, ) *Workspace`
+`func NewWorkspace(uuid string, name string, accessStatus string, createdAt string, ) *Workspace`
 
 NewWorkspace instantiates a new Workspace object
 This constructor will assign default values to properties that have it defined,
@@ -178,20 +178,20 @@ SetAccessStatus sets AccessStatus field to given value.
 
 ### GetCreatedAt
 
-`func (o *Workspace) GetCreatedAt() time.Time`
+`func (o *Workspace) GetCreatedAt() string`
 
 GetCreatedAt returns the CreatedAt field if non-nil, zero value otherwise.
 
 ### GetCreatedAtOk
 
-`func (o *Workspace) GetCreatedAtOk() (*time.Time, bool)`
+`func (o *Workspace) GetCreatedAtOk() (*string, bool)`
 
 GetCreatedAtOk returns a tuple with the CreatedAt field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetCreatedAt
 
-`func (o *Workspace) SetCreatedAt(v time.Time)`
+`func (o *Workspace) SetCreatedAt(v string)`
 
 SetCreatedAt sets CreatedAt field to given value.
 

@@ -9,9 +9,9 @@ Name | Type | Description | Notes
 **PlatformPlanId** | **string** |  | 
 **Status** | [**SubscriptionStatus**](SubscriptionStatus.md) |  | 
 **Recurring** | **bool** |  | 
-**TrialEndsAt** | Pointer to **NullableTime** |  | [optional] 
-**PausedFrom** | Pointer to **NullableTime** |  | [optional] 
-**EndsAt** | Pointer to **NullableTime** |  | [optional] 
+**TrialEndsAt** | Pointer to **NullableString** | Display date in the configured timezone, &#x60;M j, Y&#x60; (not RFC 3339). | [optional] 
+**PausedFrom** | Pointer to **NullableString** | Display date in the configured timezone, &#x60;M j, Y&#x60; (not RFC 3339). | [optional] 
+**EndsAt** | Pointer to **NullableString** | Display date in the configured timezone, &#x60;M j, Y&#x60; (not RFC 3339). | [optional] 
 
 ## Methods
 
@@ -134,20 +134,20 @@ SetRecurring sets Recurring field to given value.
 
 ### GetTrialEndsAt
 
-`func (o *Subscription) GetTrialEndsAt() time.Time`
+`func (o *Subscription) GetTrialEndsAt() string`
 
 GetTrialEndsAt returns the TrialEndsAt field if non-nil, zero value otherwise.
 
 ### GetTrialEndsAtOk
 
-`func (o *Subscription) GetTrialEndsAtOk() (*time.Time, bool)`
+`func (o *Subscription) GetTrialEndsAtOk() (*string, bool)`
 
 GetTrialEndsAtOk returns a tuple with the TrialEndsAt field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetTrialEndsAt
 
-`func (o *Subscription) SetTrialEndsAt(v time.Time)`
+`func (o *Subscription) SetTrialEndsAt(v string)`
 
 SetTrialEndsAt sets TrialEndsAt field to given value.
 
@@ -169,20 +169,20 @@ HasTrialEndsAt returns a boolean if a field has been set.
 UnsetTrialEndsAt ensures that no value is present for TrialEndsAt, not even an explicit nil
 ### GetPausedFrom
 
-`func (o *Subscription) GetPausedFrom() time.Time`
+`func (o *Subscription) GetPausedFrom() string`
 
 GetPausedFrom returns the PausedFrom field if non-nil, zero value otherwise.
 
 ### GetPausedFromOk
 
-`func (o *Subscription) GetPausedFromOk() (*time.Time, bool)`
+`func (o *Subscription) GetPausedFromOk() (*string, bool)`
 
 GetPausedFromOk returns a tuple with the PausedFrom field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetPausedFrom
 
-`func (o *Subscription) SetPausedFrom(v time.Time)`
+`func (o *Subscription) SetPausedFrom(v string)`
 
 SetPausedFrom sets PausedFrom field to given value.
 
@@ -204,20 +204,20 @@ HasPausedFrom returns a boolean if a field has been set.
 UnsetPausedFrom ensures that no value is present for PausedFrom, not even an explicit nil
 ### GetEndsAt
 
-`func (o *Subscription) GetEndsAt() time.Time`
+`func (o *Subscription) GetEndsAt() string`
 
 GetEndsAt returns the EndsAt field if non-nil, zero value otherwise.
 
 ### GetEndsAtOk
 
-`func (o *Subscription) GetEndsAtOk() (*time.Time, bool)`
+`func (o *Subscription) GetEndsAtOk() (*string, bool)`
 
 GetEndsAtOk returns a tuple with the EndsAt field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetEndsAt
 
-`func (o *Subscription) SetEndsAt(v time.Time)`
+`func (o *Subscription) SetEndsAt(v string)`
 
 SetEndsAt sets EndsAt field to given value.
 

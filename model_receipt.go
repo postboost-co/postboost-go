@@ -3,7 +3,7 @@ PostBoost API
 
 The PostBoost REST API lets you publish, schedule, and analyze social media posts on every supported network from a single integration. No OAuth apps to maintain — PostBoost handles platform authorization for you.  ## Base URL All workspace-scoped endpoints are prefixed with `/{workspaceUuid}`. Panel/admin endpoints are prefixed with `/panel`.  ## Plan access Every workspace-scoped endpoint returns `403` when the workspace's plan does not include API access (capability `api`).  ## Dates and times Post dates and times (`date`, `time`, `accounts_schedule`) are read in the request's `timezone` when one is given, otherwise in the workspace timezone.  ## Idempotent requests Send an `Idempotency-Key` header (any unique string, for example a UUID) with a `POST`. Repeating the request with the same key within 24 hours returns the stored response with `Idempotent-Replayed: true` and creates nothing new. Reusing a key with a different body returns `422`; a request still in progress with the same key returns `409`. `5xx` and `429` responses are not stored, so they can be retried with the same key.  ## Guardrails for automated clients Create and update requests are checked before anything is written: a post whose content matches one created for the same account in the last 24 hours returns `409` (`code: duplicate_post`, override with `allow_duplicate: true`), scheduling past an account's daily cap returns `429` (`code: account_daily_cap_reached`), and scheduling to an account that must be reconnected returns `422` (`code: account_unauthorized` or `account_token_missing`). Use `POST /{workspaceUuid}/posts/validate` for a dry run and `GET /{workspaceUuid}/activity` to review what API clients did.  ## Authentication All requests require a Bearer token in the `Authorization` header. Generate tokens in your PostBoost dashboard under **Settings → Access Tokens**.  ``` Authorization: Bearer YOUR_API_TOKEN ``` 
 
-API version: 1.44.0
+API version: 1.45.0
 Contact: hi@postboost.co
 */
 
@@ -13,7 +13,6 @@ package postboost
 
 import (
 	"encoding/json"
-	"time"
 	"bytes"
 	"fmt"
 )
@@ -31,8 +30,10 @@ type Receipt struct {
 	Currency string `json:"currency"`
 	ReceiptUrl NullableString `json:"receipt_url,omitempty"`
 	Description NullableString `json:"description,omitempty"`
-	PaidAt time.Time `json:"paid_at"`
-	CreatedAt time.Time `json:"created_at"`
+	// Display date in the configured timezone, `M j, Y` (not RFC 3339).
+	PaidAt string `json:"paid_at"`
+	// Display date in the configured timezone, `M j, Y` (not RFC 3339).
+	CreatedAt string `json:"created_at"`
 }
 
 type _Receipt Receipt
@@ -41,7 +42,7 @@ type _Receipt Receipt
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewReceipt(uuid string, transactionId string, invoiceNumber string, amount float32, tax float32, currency string, paidAt time.Time, createdAt time.Time) *Receipt {
+func NewReceipt(uuid string, transactionId string, invoiceNumber string, amount float32, tax float32, currency string, paidAt string, createdAt string) *Receipt {
 	this := Receipt{}
 	this.Uuid = uuid
 	this.TransactionId = transactionId
@@ -291,9 +292,9 @@ func (o *Receipt) UnsetDescription() {
 }
 
 // GetPaidAt returns the PaidAt field value
-func (o *Receipt) GetPaidAt() time.Time {
+func (o *Receipt) GetPaidAt() string {
 	if o == nil {
-		var ret time.Time
+		var ret string
 		return ret
 	}
 
@@ -302,7 +303,7 @@ func (o *Receipt) GetPaidAt() time.Time {
 
 // GetPaidAtOk returns a tuple with the PaidAt field value
 // and a boolean to check if the value has been set.
-func (o *Receipt) GetPaidAtOk() (*time.Time, bool) {
+func (o *Receipt) GetPaidAtOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -310,14 +311,14 @@ func (o *Receipt) GetPaidAtOk() (*time.Time, bool) {
 }
 
 // SetPaidAt sets field value
-func (o *Receipt) SetPaidAt(v time.Time) {
+func (o *Receipt) SetPaidAt(v string) {
 	o.PaidAt = v
 }
 
 // GetCreatedAt returns the CreatedAt field value
-func (o *Receipt) GetCreatedAt() time.Time {
+func (o *Receipt) GetCreatedAt() string {
 	if o == nil {
-		var ret time.Time
+		var ret string
 		return ret
 	}
 
@@ -326,7 +327,7 @@ func (o *Receipt) GetCreatedAt() time.Time {
 
 // GetCreatedAtOk returns a tuple with the CreatedAt field value
 // and a boolean to check if the value has been set.
-func (o *Receipt) GetCreatedAtOk() (*time.Time, bool) {
+func (o *Receipt) GetCreatedAtOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -334,7 +335,7 @@ func (o *Receipt) GetCreatedAtOk() (*time.Time, bool) {
 }
 
 // SetCreatedAt sets field value
-func (o *Receipt) SetCreatedAt(v time.Time) {
+func (o *Receipt) SetCreatedAt(v string) {
 	o.CreatedAt = v
 }
 
