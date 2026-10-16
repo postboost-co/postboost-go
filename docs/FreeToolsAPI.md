@@ -9,8 +9,10 @@ Method | HTTP request | Description
 [**CalculateCrop**](FreeToolsAPI.md#CalculateCrop) | **Post** /tools/social-media-image-sizes/crop | Calculate the crop box that fits an image to a social media size
 [**CalculateEngagementRate**](FreeToolsAPI.md#CalculateEngagementRate) | **Post** /tools/engagement-rate-calculator | Calculate an engagement rate
 [**CalculateSocialRoi**](FreeToolsAPI.md#CalculateSocialRoi) | **Post** /tools/social-media-roi-calculator | Calculate social media ROI
+[**CalculateXApiCost**](FreeToolsAPI.md#CalculateXApiCost) | **Post** /tools/x-api-cost-calculator | Calculate the monthly X API cost
 [**CheckLinkPreview**](FreeToolsAPI.md#CheckLinkPreview) | **Post** /tools/link-preview-checker | Check how a link previews on X, LinkedIn, Facebook and chat apps (Open Graph and Twitter card tags)
 [**CheckPost**](FreeToolsAPI.md#CheckPost) | **Post** /tools/social-media-post-checker | Check a post against each network&#39;s publishing rules
+[**CheckReadability**](FreeToolsAPI.md#CheckReadability) | **Post** /tools/post-readability-checker | Check the readability of a post: Flesch scores, long sentences and passive hints
 [**CheckYoutubeThumbnail**](FreeToolsAPI.md#CheckYoutubeThumbnail) | **Post** /tools/youtube-thumbnail-size-checker | Check a YouTube thumbnail&#39;s ratio, width, file size and format against YouTube&#39;s requirements
 [**CleanText**](FreeToolsAPI.md#CleanText) | **Post** /tools/ai-text-cleaner | Clean AI-written text: dashes, quotes, invisible characters, markdown
 [**CountCharacters**](FreeToolsAPI.md#CountCharacters) | **Post** /tools/social-media-character-counter | Count characters as each network counts them
@@ -29,6 +31,7 @@ Method | HTTP request | Description
 [**ListFreeTools**](FreeToolsAPI.md#ListFreeTools) | **Get** /tools | List the free tools
 [**PlanContentCalendar**](FreeToolsAPI.md#PlanContentCalendar) | **Post** /tools/social-media-content-calendar-generator | Plan a social media content calendar and get it as CSV and ICS
 [**PreviewPost**](FreeToolsAPI.md#PreviewPost) | **Post** /tools/social-media-post-preview | Preview where a post folds and when its image is cropped on Instagram, X, LinkedIn and Facebook
+[**SearchEmoji**](FreeToolsAPI.md#SearchEmoji) | **Post** /tools/social-media-emoji-picker | Search emoji by name or keyword, to copy and paste into a post
 [**SplitThread**](FreeToolsAPI.md#SplitThread) | **Post** /tools/x-thread-maker | Split long text into a thread
 
 
@@ -363,6 +366,72 @@ No authorization required
 [[Back to README]](../README.md)
 
 
+## CalculateXApiCost
+
+> FreeToolCalculateXApiCostResponse CalculateXApiCost(ctx).FreeToolCalculateXApiCostRequest(freeToolCalculateXApiCostRequest).Execute()
+
+Calculate the monthly X API cost
+
+
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/postboost-co/postboost-go"
+)
+
+func main() {
+	freeToolCalculateXApiCostRequest := *openapiclient.NewFreeToolCalculateXApiCostRequest() // FreeToolCalculateXApiCostRequest | 
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.FreeToolsAPI.CalculateXApiCost(context.Background()).FreeToolCalculateXApiCostRequest(freeToolCalculateXApiCostRequest).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `FreeToolsAPI.CalculateXApiCost``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `CalculateXApiCost`: FreeToolCalculateXApiCostResponse
+	fmt.Fprintf(os.Stdout, "Response from `FreeToolsAPI.CalculateXApiCost`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiCalculateXApiCostRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **freeToolCalculateXApiCostRequest** | [**FreeToolCalculateXApiCostRequest**](FreeToolCalculateXApiCostRequest.md) |  | 
+
+### Return type
+
+[**FreeToolCalculateXApiCostResponse**](FreeToolCalculateXApiCostResponse.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: application/json
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
 ## CheckLinkPreview
 
 > FreeToolCheckLinkPreviewResponse CheckLinkPreview(ctx).FreeToolCheckLinkPreviewRequest(freeToolCheckLinkPreviewRequest).Execute()
@@ -480,6 +549,72 @@ Name | Type | Description  | Notes
 ### Return type
 
 [**FreeToolCheckPostResponse**](FreeToolCheckPostResponse.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: application/json
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## CheckReadability
+
+> FreeToolCheckReadabilityResponse CheckReadability(ctx).FreeToolCheckReadabilityRequest(freeToolCheckReadabilityRequest).Execute()
+
+Check the readability of a post: Flesch scores, long sentences and passive hints
+
+
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/postboost-co/postboost-go"
+)
+
+func main() {
+	freeToolCheckReadabilityRequest := *openapiclient.NewFreeToolCheckReadabilityRequest("Text_example") // FreeToolCheckReadabilityRequest | 
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.FreeToolsAPI.CheckReadability(context.Background()).FreeToolCheckReadabilityRequest(freeToolCheckReadabilityRequest).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `FreeToolsAPI.CheckReadability``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `CheckReadability`: FreeToolCheckReadabilityResponse
+	fmt.Fprintf(os.Stdout, "Response from `FreeToolsAPI.CheckReadability`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiCheckReadabilityRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **freeToolCheckReadabilityRequest** | [**FreeToolCheckReadabilityRequest**](FreeToolCheckReadabilityRequest.md) |  | 
+
+### Return type
+
+[**FreeToolCheckReadabilityResponse**](FreeToolCheckReadabilityResponse.md)
 
 ### Authorization
 
@@ -1669,6 +1804,72 @@ Name | Type | Description  | Notes
 ### Return type
 
 [**FreeToolPreviewPostResponse**](FreeToolPreviewPostResponse.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: application/json
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## SearchEmoji
+
+> FreeToolSearchEmojiResponse SearchEmoji(ctx).FreeToolSearchEmojiRequest(freeToolSearchEmojiRequest).Execute()
+
+Search emoji by name or keyword, to copy and paste into a post
+
+
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/postboost-co/postboost-go"
+)
+
+func main() {
+	freeToolSearchEmojiRequest := *openapiclient.NewFreeToolSearchEmojiRequest() // FreeToolSearchEmojiRequest | 
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.FreeToolsAPI.SearchEmoji(context.Background()).FreeToolSearchEmojiRequest(freeToolSearchEmojiRequest).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `FreeToolsAPI.SearchEmoji``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `SearchEmoji`: FreeToolSearchEmojiResponse
+	fmt.Fprintf(os.Stdout, "Response from `FreeToolsAPI.SearchEmoji`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiSearchEmojiRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **freeToolSearchEmojiRequest** | [**FreeToolSearchEmojiRequest**](FreeToolSearchEmojiRequest.md) |  | 
+
+### Return type
+
+[**FreeToolSearchEmojiResponse**](FreeToolSearchEmojiResponse.md)
 
 ### Authorization
 

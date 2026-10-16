@@ -13,18 +13,29 @@ go get github.com/postboost-co/postboost-go
 | **pkg.go.dev** | [pkg.go.dev/github.com/postboost-co/postboost-go](https://pkg.go.dev/github.com/postboost-co/postboost-go) |
 | **GitHub** | [postboost-co/postboost-go](https://github.com/postboost-co/postboost-go) |
 | **Docs** | [postboost.co/docs/api](https://postboost.co/docs/api) |
-| **Version** | v1.46.0 |
+| **Version** | v1.49.0 |
 
 ## Quick start
 
 ```go
-import postboost "github.com/postboost-co/postboost-go"
+import (
+    "fmt"
+    "log"
+
+    postboost "github.com/postboost-co/postboost-go"
+)
 
 cfg := postboost.NewConfiguration()
 cfg.AddDefaultHeader("Authorization", "Bearer "+apiToken)
 client := postboost.NewAPIClient(cfg)
 
-posts, _, err := client.PostsAPI.ListPosts(ctx, "YOUR_WORKSPACE_UUID").Execute()
+resp, _, err := client.PostsAPI.ListPosts(ctx, "YOUR_WORKSPACE_UUID").Execute()
+if err != nil {
+    log.Fatal(err)
+}
+for _, post := range resp.Data {
+    fmt.Println(post.Uuid)
+}
 ```
 
 ---
@@ -91,8 +102,10 @@ Class | Method | HTTP request | Description
 *FreeToolsAPI* | [**CalculateCrop**](docs/FreeToolsAPI.md#calculatecrop) | **Post** /tools/social-media-image-sizes/crop | Calculate the crop box that fits an image to a social media size
 *FreeToolsAPI* | [**CalculateEngagementRate**](docs/FreeToolsAPI.md#calculateengagementrate) | **Post** /tools/engagement-rate-calculator | Calculate an engagement rate
 *FreeToolsAPI* | [**CalculateSocialRoi**](docs/FreeToolsAPI.md#calculatesocialroi) | **Post** /tools/social-media-roi-calculator | Calculate social media ROI
+*FreeToolsAPI* | [**CalculateXApiCost**](docs/FreeToolsAPI.md#calculatexapicost) | **Post** /tools/x-api-cost-calculator | Calculate the monthly X API cost
 *FreeToolsAPI* | [**CheckLinkPreview**](docs/FreeToolsAPI.md#checklinkpreview) | **Post** /tools/link-preview-checker | Check how a link previews on X, LinkedIn, Facebook and chat apps (Open Graph and Twitter card tags)
 *FreeToolsAPI* | [**CheckPost**](docs/FreeToolsAPI.md#checkpost) | **Post** /tools/social-media-post-checker | Check a post against each network&#39;s publishing rules
+*FreeToolsAPI* | [**CheckReadability**](docs/FreeToolsAPI.md#checkreadability) | **Post** /tools/post-readability-checker | Check the readability of a post: Flesch scores, long sentences and passive hints
 *FreeToolsAPI* | [**CheckYoutubeThumbnail**](docs/FreeToolsAPI.md#checkyoutubethumbnail) | **Post** /tools/youtube-thumbnail-size-checker | Check a YouTube thumbnail&#39;s ratio, width, file size and format against YouTube&#39;s requirements
 *FreeToolsAPI* | [**CleanText**](docs/FreeToolsAPI.md#cleantext) | **Post** /tools/ai-text-cleaner | Clean AI-written text: dashes, quotes, invisible characters, markdown
 *FreeToolsAPI* | [**CountCharacters**](docs/FreeToolsAPI.md#countcharacters) | **Post** /tools/social-media-character-counter | Count characters as each network counts them
@@ -111,6 +124,7 @@ Class | Method | HTTP request | Description
 *FreeToolsAPI* | [**ListFreeTools**](docs/FreeToolsAPI.md#listfreetools) | **Get** /tools | List the free tools
 *FreeToolsAPI* | [**PlanContentCalendar**](docs/FreeToolsAPI.md#plancontentcalendar) | **Post** /tools/social-media-content-calendar-generator | Plan a social media content calendar and get it as CSV and ICS
 *FreeToolsAPI* | [**PreviewPost**](docs/FreeToolsAPI.md#previewpost) | **Post** /tools/social-media-post-preview | Preview where a post folds and when its image is cropped on Instagram, X, LinkedIn and Facebook
+*FreeToolsAPI* | [**SearchEmoji**](docs/FreeToolsAPI.md#searchemoji) | **Post** /tools/social-media-emoji-picker | Search emoji by name or keyword, to copy and paste into a post
 *FreeToolsAPI* | [**SplitThread**](docs/FreeToolsAPI.md#splitthread) | **Post** /tools/x-thread-maker | Split long text into a thread
 *HashtagGroupsAPI* | [**CreateHashtagGroup**](docs/HashtagGroupsAPI.md#createhashtaggroup) | **Post** /{workspaceUuid}/hashtag-groups | Create a hashtag group
 *HashtagGroupsAPI* | [**DeleteHashtagGroup**](docs/HashtagGroupsAPI.md#deletehashtaggroup) | **Delete** /{workspaceUuid}/hashtag-groups/{hashtagGroupId} | Delete a hashtag group
