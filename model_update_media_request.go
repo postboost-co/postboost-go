@@ -3,7 +3,7 @@ PostBoost API
 
 The PostBoost REST API lets you publish, schedule, and analyze social media posts on every supported network from a single integration. No OAuth apps to maintain — PostBoost handles platform authorization for you.  ## Base URL All workspace-scoped endpoints are prefixed with `/{workspaceUuid}`. Panel/admin endpoints are prefixed with `/panel`.  ## Plan access Every workspace-scoped endpoint returns `403` when the workspace's plan does not include API access (capability `api`).  ## Dates and times Post dates and times (`date`, `time`, `accounts_schedule`) are read in the request's `timezone` when one is given, otherwise in the workspace timezone.  ## Idempotent requests Send an `Idempotency-Key` header (any unique string, for example a UUID) with a `POST`. Repeating the request with the same key within 24 hours returns the stored response with `Idempotent-Replayed: true` and creates nothing new. Reusing a key with a different body returns `422`; a request still in progress with the same key returns `409`. `5xx` and `429` responses are not stored, so they can be retried with the same key.  ## Guardrails for automated clients Create and update requests are checked before anything is written: a post whose content matches one created for the same account in the last 24 hours returns `409` (`code: duplicate_post`, override with `allow_duplicate: true`), scheduling past an account's daily cap returns `429` (`code: account_daily_cap_reached`), and scheduling to an account that must be reconnected returns `422` (`code: account_unauthorized` or `account_token_missing`). Use `POST /{workspaceUuid}/posts/validate` for a dry run and `GET /{workspaceUuid}/activity` to review what API clients did.  ## Authentication All requests require a Bearer token in the `Authorization` header. Generate tokens in your PostBoost dashboard under **Settings → Access Tokens**.  ``` Authorization: Bearer YOUR_API_TOKEN ``` 
 
-API version: 1.37.0
+API version: 1.38.0
 Contact: hi@postboost.co
 */
 
@@ -20,11 +20,11 @@ var _ MappedNullable = &UpdateMediaRequest{}
 
 // UpdateMediaRequest struct for UpdateMediaRequest
 type UpdateMediaRequest struct {
-	Name *string `json:"name,omitempty"`
+	Name NullableString `json:"name,omitempty"`
 	// Alternative text for accessibility.
-	AltText *string `json:"alt_text,omitempty"`
+	AltText NullableString `json:"alt_text,omitempty"`
 	// UUID of the media folder to move the item to, or null for the library root.
-	Folder *string `json:"folder,omitempty"`
+	Folder NullableString `json:"folder,omitempty"`
 }
 
 // NewUpdateMediaRequest instantiates a new UpdateMediaRequest object
@@ -44,100 +44,130 @@ func NewUpdateMediaRequestWithDefaults() *UpdateMediaRequest {
 	return &this
 }
 
-// GetName returns the Name field value if set, zero value otherwise.
+// GetName returns the Name field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *UpdateMediaRequest) GetName() string {
-	if o == nil || IsNil(o.Name) {
+	if o == nil || IsNil(o.Name.Get()) {
 		var ret string
 		return ret
 	}
-	return *o.Name
+	return *o.Name.Get()
 }
 
 // GetNameOk returns a tuple with the Name field value if set, nil otherwise
 // and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *UpdateMediaRequest) GetNameOk() (*string, bool) {
-	if o == nil || IsNil(o.Name) {
+	if o == nil {
 		return nil, false
 	}
-	return o.Name, true
+	return o.Name.Get(), o.Name.IsSet()
 }
 
 // HasName returns a boolean if a field has been set.
 func (o *UpdateMediaRequest) HasName() bool {
-	if o != nil && !IsNil(o.Name) {
+	if o != nil && o.Name.IsSet() {
 		return true
 	}
 
 	return false
 }
 
-// SetName gets a reference to the given string and assigns it to the Name field.
+// SetName gets a reference to the given NullableString and assigns it to the Name field.
 func (o *UpdateMediaRequest) SetName(v string) {
-	o.Name = &v
+	o.Name.Set(&v)
+}
+// SetNameNil sets the value for Name to be an explicit nil
+func (o *UpdateMediaRequest) SetNameNil() {
+	o.Name.Set(nil)
 }
 
-// GetAltText returns the AltText field value if set, zero value otherwise.
+// UnsetName ensures that no value is present for Name, not even an explicit nil
+func (o *UpdateMediaRequest) UnsetName() {
+	o.Name.Unset()
+}
+
+// GetAltText returns the AltText field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *UpdateMediaRequest) GetAltText() string {
-	if o == nil || IsNil(o.AltText) {
+	if o == nil || IsNil(o.AltText.Get()) {
 		var ret string
 		return ret
 	}
-	return *o.AltText
+	return *o.AltText.Get()
 }
 
 // GetAltTextOk returns a tuple with the AltText field value if set, nil otherwise
 // and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *UpdateMediaRequest) GetAltTextOk() (*string, bool) {
-	if o == nil || IsNil(o.AltText) {
+	if o == nil {
 		return nil, false
 	}
-	return o.AltText, true
+	return o.AltText.Get(), o.AltText.IsSet()
 }
 
 // HasAltText returns a boolean if a field has been set.
 func (o *UpdateMediaRequest) HasAltText() bool {
-	if o != nil && !IsNil(o.AltText) {
+	if o != nil && o.AltText.IsSet() {
 		return true
 	}
 
 	return false
 }
 
-// SetAltText gets a reference to the given string and assigns it to the AltText field.
+// SetAltText gets a reference to the given NullableString and assigns it to the AltText field.
 func (o *UpdateMediaRequest) SetAltText(v string) {
-	o.AltText = &v
+	o.AltText.Set(&v)
+}
+// SetAltTextNil sets the value for AltText to be an explicit nil
+func (o *UpdateMediaRequest) SetAltTextNil() {
+	o.AltText.Set(nil)
 }
 
-// GetFolder returns the Folder field value if set, zero value otherwise.
+// UnsetAltText ensures that no value is present for AltText, not even an explicit nil
+func (o *UpdateMediaRequest) UnsetAltText() {
+	o.AltText.Unset()
+}
+
+// GetFolder returns the Folder field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *UpdateMediaRequest) GetFolder() string {
-	if o == nil || IsNil(o.Folder) {
+	if o == nil || IsNil(o.Folder.Get()) {
 		var ret string
 		return ret
 	}
-	return *o.Folder
+	return *o.Folder.Get()
 }
 
 // GetFolderOk returns a tuple with the Folder field value if set, nil otherwise
 // and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *UpdateMediaRequest) GetFolderOk() (*string, bool) {
-	if o == nil || IsNil(o.Folder) {
+	if o == nil {
 		return nil, false
 	}
-	return o.Folder, true
+	return o.Folder.Get(), o.Folder.IsSet()
 }
 
 // HasFolder returns a boolean if a field has been set.
 func (o *UpdateMediaRequest) HasFolder() bool {
-	if o != nil && !IsNil(o.Folder) {
+	if o != nil && o.Folder.IsSet() {
 		return true
 	}
 
 	return false
 }
 
-// SetFolder gets a reference to the given string and assigns it to the Folder field.
+// SetFolder gets a reference to the given NullableString and assigns it to the Folder field.
 func (o *UpdateMediaRequest) SetFolder(v string) {
-	o.Folder = &v
+	o.Folder.Set(&v)
+}
+// SetFolderNil sets the value for Folder to be an explicit nil
+func (o *UpdateMediaRequest) SetFolderNil() {
+	o.Folder.Set(nil)
+}
+
+// UnsetFolder ensures that no value is present for Folder, not even an explicit nil
+func (o *UpdateMediaRequest) UnsetFolder() {
+	o.Folder.Unset()
 }
 
 func (o UpdateMediaRequest) MarshalJSON() ([]byte, error) {
@@ -150,14 +180,14 @@ func (o UpdateMediaRequest) MarshalJSON() ([]byte, error) {
 
 func (o UpdateMediaRequest) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
-	if !IsNil(o.Name) {
-		toSerialize["name"] = o.Name
+	if o.Name.IsSet() {
+		toSerialize["name"] = o.Name.Get()
 	}
-	if !IsNil(o.AltText) {
-		toSerialize["alt_text"] = o.AltText
+	if o.AltText.IsSet() {
+		toSerialize["alt_text"] = o.AltText.Get()
 	}
-	if !IsNil(o.Folder) {
-		toSerialize["folder"] = o.Folder
+	if o.Folder.IsSet() {
+		toSerialize["folder"] = o.Folder.Get()
 	}
 	return toSerialize, nil
 }

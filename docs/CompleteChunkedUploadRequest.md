@@ -4,8 +4,8 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**AltText** | Pointer to **string** |  | [optional] 
-**Folder** | Pointer to **string** | UUID of the media folder to file the item in. Omit or null for the library root. | [optional] 
+**AltText** | Pointer to **NullableString** |  | [optional] 
+**Folder** | Pointer to **NullableString** | UUID of the media folder to file the item in. Omit or null for the library root. | [optional] 
 
 ## Methods
 
@@ -51,6 +51,16 @@ SetAltText sets AltText field to given value.
 
 HasAltText returns a boolean if a field has been set.
 
+### SetAltTextNil
+
+`func (o *CompleteChunkedUploadRequest) SetAltTextNil(b bool)`
+
+ SetAltTextNil sets the value for AltText to be an explicit nil
+
+### UnsetAltText
+`func (o *CompleteChunkedUploadRequest) UnsetAltText()`
+
+UnsetAltText ensures that no value is present for AltText, not even an explicit nil
 ### GetFolder
 
 `func (o *CompleteChunkedUploadRequest) GetFolder() string`
@@ -76,6 +86,16 @@ SetFolder sets Folder field to given value.
 
 HasFolder returns a boolean if a field has been set.
 
+### SetFolderNil
+
+`func (o *CompleteChunkedUploadRequest) SetFolderNil(b bool)`
+
+ SetFolderNil sets the value for Folder to be an explicit nil
+
+### UnsetFolder
+`func (o *CompleteChunkedUploadRequest) UnsetFolder()`
+
+UnsetFolder ensures that no value is present for Folder, not even an explicit nil
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

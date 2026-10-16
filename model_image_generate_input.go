@@ -3,7 +3,7 @@ PostBoost API
 
 The PostBoost REST API lets you publish, schedule, and analyze social media posts on every supported network from a single integration. No OAuth apps to maintain — PostBoost handles platform authorization for you.  ## Base URL All workspace-scoped endpoints are prefixed with `/{workspaceUuid}`. Panel/admin endpoints are prefixed with `/panel`.  ## Plan access Every workspace-scoped endpoint returns `403` when the workspace's plan does not include API access (capability `api`).  ## Dates and times Post dates and times (`date`, `time`, `accounts_schedule`) are read in the request's `timezone` when one is given, otherwise in the workspace timezone.  ## Idempotent requests Send an `Idempotency-Key` header (any unique string, for example a UUID) with a `POST`. Repeating the request with the same key within 24 hours returns the stored response with `Idempotent-Replayed: true` and creates nothing new. Reusing a key with a different body returns `422`; a request still in progress with the same key returns `409`. `5xx` and `429` responses are not stored, so they can be retried with the same key.  ## Guardrails for automated clients Create and update requests are checked before anything is written: a post whose content matches one created for the same account in the last 24 hours returns `409` (`code: duplicate_post`, override with `allow_duplicate: true`), scheduling past an account's daily cap returns `429` (`code: account_daily_cap_reached`), and scheduling to an account that must be reconnected returns `422` (`code: account_unauthorized` or `account_token_missing`). Use `POST /{workspaceUuid}/posts/validate` for a dry run and `GET /{workspaceUuid}/activity` to review what API clients did.  ## Authentication All requests require a Bearer token in the `Authorization` header. Generate tokens in your PostBoost dashboard under **Settings → Access Tokens**.  ``` Authorization: Bearer YOUR_API_TOKEN ``` 
 
-API version: 1.37.0
+API version: 1.38.0
 Contact: hi@postboost.co
 */
 
@@ -24,16 +24,16 @@ type ImageGenerateInput struct {
 	Caption *string `json:"caption,omitempty"`
 	// Required when caption is provided.
 	Platform *string `json:"platform,omitempty"`
-	Template *string `json:"template,omitempty"`
-	Style *string `json:"style,omitempty"`
+	Template NullableString `json:"template,omitempty"`
+	Style NullableString `json:"style,omitempty"`
 	// Free-text tone for the image. When sent, it replaces the stored workspace brand voice for this call.
-	BrandVoice *string `json:"brand_voice,omitempty"`
+	BrandVoice NullableString `json:"brand_voice,omitempty"`
 	// When `brand_voice` is not sent, derive the image tone from the workspace brand voice. Ignored in developer mode (`prompt`).
-	UseBrandVoice *bool `json:"use_brand_voice,omitempty"`
-	CustomInstructions *string `json:"custom_instructions,omitempty"`
+	UseBrandVoice NullableBool `json:"use_brand_voice,omitempty"`
+	CustomInstructions NullableString `json:"custom_instructions,omitempty"`
 	// Developer escape hatch. Bypasses internal prompt builder. Ignored if caption is present.
 	Prompt *string `json:"prompt,omitempty"`
-	AspectRatio *string `json:"aspect_ratio,omitempty"`
+	AspectRatio NullableString `json:"aspect_ratio,omitempty"`
 	Count *int32 `json:"count,omitempty"`
 	Quality *string `json:"quality,omitempty"`
 }
@@ -45,9 +45,9 @@ type ImageGenerateInput struct {
 func NewImageGenerateInput() *ImageGenerateInput {
 	this := ImageGenerateInput{}
 	var useBrandVoice bool = true
-	this.UseBrandVoice = &useBrandVoice
-	var aspectRatio string = "1:1"
-	this.AspectRatio = &aspectRatio
+	this.UseBrandVoice = *NewNullableBool(&useBrandVoice)
+	var aspectRatio ASPECT_RATIO = "1:1"
+	this.AspectRatio = *NewNullableString(&aspectRatio)
 	var count int32 = 1
 	this.Count = &count
 	var quality string = "standard"
@@ -61,9 +61,9 @@ func NewImageGenerateInput() *ImageGenerateInput {
 func NewImageGenerateInputWithDefaults() *ImageGenerateInput {
 	this := ImageGenerateInput{}
 	var useBrandVoice bool = true
-	this.UseBrandVoice = &useBrandVoice
-	var aspectRatio string = "1:1"
-	this.AspectRatio = &aspectRatio
+	this.UseBrandVoice = *NewNullableBool(&useBrandVoice)
+	var aspectRatio ASPECT_RATIO = "1:1"
+	this.AspectRatio = *NewNullableString(&aspectRatio)
 	var count int32 = 1
 	this.Count = &count
 	var quality string = "standard"
@@ -135,164 +135,214 @@ func (o *ImageGenerateInput) SetPlatform(v string) {
 	o.Platform = &v
 }
 
-// GetTemplate returns the Template field value if set, zero value otherwise.
+// GetTemplate returns the Template field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *ImageGenerateInput) GetTemplate() string {
-	if o == nil || IsNil(o.Template) {
+	if o == nil || IsNil(o.Template.Get()) {
 		var ret string
 		return ret
 	}
-	return *o.Template
+	return *o.Template.Get()
 }
 
 // GetTemplateOk returns a tuple with the Template field value if set, nil otherwise
 // and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *ImageGenerateInput) GetTemplateOk() (*string, bool) {
-	if o == nil || IsNil(o.Template) {
+	if o == nil {
 		return nil, false
 	}
-	return o.Template, true
+	return o.Template.Get(), o.Template.IsSet()
 }
 
 // HasTemplate returns a boolean if a field has been set.
 func (o *ImageGenerateInput) HasTemplate() bool {
-	if o != nil && !IsNil(o.Template) {
+	if o != nil && o.Template.IsSet() {
 		return true
 	}
 
 	return false
 }
 
-// SetTemplate gets a reference to the given string and assigns it to the Template field.
+// SetTemplate gets a reference to the given NullableString and assigns it to the Template field.
 func (o *ImageGenerateInput) SetTemplate(v string) {
-	o.Template = &v
+	o.Template.Set(&v)
+}
+// SetTemplateNil sets the value for Template to be an explicit nil
+func (o *ImageGenerateInput) SetTemplateNil() {
+	o.Template.Set(nil)
 }
 
-// GetStyle returns the Style field value if set, zero value otherwise.
+// UnsetTemplate ensures that no value is present for Template, not even an explicit nil
+func (o *ImageGenerateInput) UnsetTemplate() {
+	o.Template.Unset()
+}
+
+// GetStyle returns the Style field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *ImageGenerateInput) GetStyle() string {
-	if o == nil || IsNil(o.Style) {
+	if o == nil || IsNil(o.Style.Get()) {
 		var ret string
 		return ret
 	}
-	return *o.Style
+	return *o.Style.Get()
 }
 
 // GetStyleOk returns a tuple with the Style field value if set, nil otherwise
 // and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *ImageGenerateInput) GetStyleOk() (*string, bool) {
-	if o == nil || IsNil(o.Style) {
+	if o == nil {
 		return nil, false
 	}
-	return o.Style, true
+	return o.Style.Get(), o.Style.IsSet()
 }
 
 // HasStyle returns a boolean if a field has been set.
 func (o *ImageGenerateInput) HasStyle() bool {
-	if o != nil && !IsNil(o.Style) {
+	if o != nil && o.Style.IsSet() {
 		return true
 	}
 
 	return false
 }
 
-// SetStyle gets a reference to the given string and assigns it to the Style field.
+// SetStyle gets a reference to the given NullableString and assigns it to the Style field.
 func (o *ImageGenerateInput) SetStyle(v string) {
-	o.Style = &v
+	o.Style.Set(&v)
+}
+// SetStyleNil sets the value for Style to be an explicit nil
+func (o *ImageGenerateInput) SetStyleNil() {
+	o.Style.Set(nil)
 }
 
-// GetBrandVoice returns the BrandVoice field value if set, zero value otherwise.
+// UnsetStyle ensures that no value is present for Style, not even an explicit nil
+func (o *ImageGenerateInput) UnsetStyle() {
+	o.Style.Unset()
+}
+
+// GetBrandVoice returns the BrandVoice field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *ImageGenerateInput) GetBrandVoice() string {
-	if o == nil || IsNil(o.BrandVoice) {
+	if o == nil || IsNil(o.BrandVoice.Get()) {
 		var ret string
 		return ret
 	}
-	return *o.BrandVoice
+	return *o.BrandVoice.Get()
 }
 
 // GetBrandVoiceOk returns a tuple with the BrandVoice field value if set, nil otherwise
 // and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *ImageGenerateInput) GetBrandVoiceOk() (*string, bool) {
-	if o == nil || IsNil(o.BrandVoice) {
+	if o == nil {
 		return nil, false
 	}
-	return o.BrandVoice, true
+	return o.BrandVoice.Get(), o.BrandVoice.IsSet()
 }
 
 // HasBrandVoice returns a boolean if a field has been set.
 func (o *ImageGenerateInput) HasBrandVoice() bool {
-	if o != nil && !IsNil(o.BrandVoice) {
+	if o != nil && o.BrandVoice.IsSet() {
 		return true
 	}
 
 	return false
 }
 
-// SetBrandVoice gets a reference to the given string and assigns it to the BrandVoice field.
+// SetBrandVoice gets a reference to the given NullableString and assigns it to the BrandVoice field.
 func (o *ImageGenerateInput) SetBrandVoice(v string) {
-	o.BrandVoice = &v
+	o.BrandVoice.Set(&v)
+}
+// SetBrandVoiceNil sets the value for BrandVoice to be an explicit nil
+func (o *ImageGenerateInput) SetBrandVoiceNil() {
+	o.BrandVoice.Set(nil)
 }
 
-// GetUseBrandVoice returns the UseBrandVoice field value if set, zero value otherwise.
+// UnsetBrandVoice ensures that no value is present for BrandVoice, not even an explicit nil
+func (o *ImageGenerateInput) UnsetBrandVoice() {
+	o.BrandVoice.Unset()
+}
+
+// GetUseBrandVoice returns the UseBrandVoice field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *ImageGenerateInput) GetUseBrandVoice() bool {
-	if o == nil || IsNil(o.UseBrandVoice) {
+	if o == nil || IsNil(o.UseBrandVoice.Get()) {
 		var ret bool
 		return ret
 	}
-	return *o.UseBrandVoice
+	return *o.UseBrandVoice.Get()
 }
 
 // GetUseBrandVoiceOk returns a tuple with the UseBrandVoice field value if set, nil otherwise
 // and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *ImageGenerateInput) GetUseBrandVoiceOk() (*bool, bool) {
-	if o == nil || IsNil(o.UseBrandVoice) {
+	if o == nil {
 		return nil, false
 	}
-	return o.UseBrandVoice, true
+	return o.UseBrandVoice.Get(), o.UseBrandVoice.IsSet()
 }
 
 // HasUseBrandVoice returns a boolean if a field has been set.
 func (o *ImageGenerateInput) HasUseBrandVoice() bool {
-	if o != nil && !IsNil(o.UseBrandVoice) {
+	if o != nil && o.UseBrandVoice.IsSet() {
 		return true
 	}
 
 	return false
 }
 
-// SetUseBrandVoice gets a reference to the given bool and assigns it to the UseBrandVoice field.
+// SetUseBrandVoice gets a reference to the given NullableBool and assigns it to the UseBrandVoice field.
 func (o *ImageGenerateInput) SetUseBrandVoice(v bool) {
-	o.UseBrandVoice = &v
+	o.UseBrandVoice.Set(&v)
+}
+// SetUseBrandVoiceNil sets the value for UseBrandVoice to be an explicit nil
+func (o *ImageGenerateInput) SetUseBrandVoiceNil() {
+	o.UseBrandVoice.Set(nil)
 }
 
-// GetCustomInstructions returns the CustomInstructions field value if set, zero value otherwise.
+// UnsetUseBrandVoice ensures that no value is present for UseBrandVoice, not even an explicit nil
+func (o *ImageGenerateInput) UnsetUseBrandVoice() {
+	o.UseBrandVoice.Unset()
+}
+
+// GetCustomInstructions returns the CustomInstructions field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *ImageGenerateInput) GetCustomInstructions() string {
-	if o == nil || IsNil(o.CustomInstructions) {
+	if o == nil || IsNil(o.CustomInstructions.Get()) {
 		var ret string
 		return ret
 	}
-	return *o.CustomInstructions
+	return *o.CustomInstructions.Get()
 }
 
 // GetCustomInstructionsOk returns a tuple with the CustomInstructions field value if set, nil otherwise
 // and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *ImageGenerateInput) GetCustomInstructionsOk() (*string, bool) {
-	if o == nil || IsNil(o.CustomInstructions) {
+	if o == nil {
 		return nil, false
 	}
-	return o.CustomInstructions, true
+	return o.CustomInstructions.Get(), o.CustomInstructions.IsSet()
 }
 
 // HasCustomInstructions returns a boolean if a field has been set.
 func (o *ImageGenerateInput) HasCustomInstructions() bool {
-	if o != nil && !IsNil(o.CustomInstructions) {
+	if o != nil && o.CustomInstructions.IsSet() {
 		return true
 	}
 
 	return false
 }
 
-// SetCustomInstructions gets a reference to the given string and assigns it to the CustomInstructions field.
+// SetCustomInstructions gets a reference to the given NullableString and assigns it to the CustomInstructions field.
 func (o *ImageGenerateInput) SetCustomInstructions(v string) {
-	o.CustomInstructions = &v
+	o.CustomInstructions.Set(&v)
+}
+// SetCustomInstructionsNil sets the value for CustomInstructions to be an explicit nil
+func (o *ImageGenerateInput) SetCustomInstructionsNil() {
+	o.CustomInstructions.Set(nil)
+}
+
+// UnsetCustomInstructions ensures that no value is present for CustomInstructions, not even an explicit nil
+func (o *ImageGenerateInput) UnsetCustomInstructions() {
+	o.CustomInstructions.Unset()
 }
 
 // GetPrompt returns the Prompt field value if set, zero value otherwise.
@@ -327,36 +377,46 @@ func (o *ImageGenerateInput) SetPrompt(v string) {
 	o.Prompt = &v
 }
 
-// GetAspectRatio returns the AspectRatio field value if set, zero value otherwise.
+// GetAspectRatio returns the AspectRatio field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *ImageGenerateInput) GetAspectRatio() string {
-	if o == nil || IsNil(o.AspectRatio) {
+	if o == nil || IsNil(o.AspectRatio.Get()) {
 		var ret string
 		return ret
 	}
-	return *o.AspectRatio
+	return *o.AspectRatio.Get()
 }
 
 // GetAspectRatioOk returns a tuple with the AspectRatio field value if set, nil otherwise
 // and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *ImageGenerateInput) GetAspectRatioOk() (*string, bool) {
-	if o == nil || IsNil(o.AspectRatio) {
+	if o == nil {
 		return nil, false
 	}
-	return o.AspectRatio, true
+	return o.AspectRatio.Get(), o.AspectRatio.IsSet()
 }
 
 // HasAspectRatio returns a boolean if a field has been set.
 func (o *ImageGenerateInput) HasAspectRatio() bool {
-	if o != nil && !IsNil(o.AspectRatio) {
+	if o != nil && o.AspectRatio.IsSet() {
 		return true
 	}
 
 	return false
 }
 
-// SetAspectRatio gets a reference to the given string and assigns it to the AspectRatio field.
+// SetAspectRatio gets a reference to the given NullableString and assigns it to the AspectRatio field.
 func (o *ImageGenerateInput) SetAspectRatio(v string) {
-	o.AspectRatio = &v
+	o.AspectRatio.Set(&v)
+}
+// SetAspectRatioNil sets the value for AspectRatio to be an explicit nil
+func (o *ImageGenerateInput) SetAspectRatioNil() {
+	o.AspectRatio.Set(nil)
+}
+
+// UnsetAspectRatio ensures that no value is present for AspectRatio, not even an explicit nil
+func (o *ImageGenerateInput) UnsetAspectRatio() {
+	o.AspectRatio.Unset()
 }
 
 // GetCount returns the Count field value if set, zero value otherwise.
@@ -439,26 +499,26 @@ func (o ImageGenerateInput) ToMap() (map[string]interface{}, error) {
 	if !IsNil(o.Platform) {
 		toSerialize["platform"] = o.Platform
 	}
-	if !IsNil(o.Template) {
-		toSerialize["template"] = o.Template
+	if o.Template.IsSet() {
+		toSerialize["template"] = o.Template.Get()
 	}
-	if !IsNil(o.Style) {
-		toSerialize["style"] = o.Style
+	if o.Style.IsSet() {
+		toSerialize["style"] = o.Style.Get()
 	}
-	if !IsNil(o.BrandVoice) {
-		toSerialize["brand_voice"] = o.BrandVoice
+	if o.BrandVoice.IsSet() {
+		toSerialize["brand_voice"] = o.BrandVoice.Get()
 	}
-	if !IsNil(o.UseBrandVoice) {
-		toSerialize["use_brand_voice"] = o.UseBrandVoice
+	if o.UseBrandVoice.IsSet() {
+		toSerialize["use_brand_voice"] = o.UseBrandVoice.Get()
 	}
-	if !IsNil(o.CustomInstructions) {
-		toSerialize["custom_instructions"] = o.CustomInstructions
+	if o.CustomInstructions.IsSet() {
+		toSerialize["custom_instructions"] = o.CustomInstructions.Get()
 	}
 	if !IsNil(o.Prompt) {
 		toSerialize["prompt"] = o.Prompt
 	}
-	if !IsNil(o.AspectRatio) {
-		toSerialize["aspect_ratio"] = o.AspectRatio
+	if o.AspectRatio.IsSet() {
+		toSerialize["aspect_ratio"] = o.AspectRatio.Get()
 	}
 	if !IsNil(o.Count) {
 		toSerialize["count"] = o.Count

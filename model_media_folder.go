@@ -3,7 +3,7 @@ PostBoost API
 
 The PostBoost REST API lets you publish, schedule, and analyze social media posts on every supported network from a single integration. No OAuth apps to maintain — PostBoost handles platform authorization for you.  ## Base URL All workspace-scoped endpoints are prefixed with `/{workspaceUuid}`. Panel/admin endpoints are prefixed with `/panel`.  ## Plan access Every workspace-scoped endpoint returns `403` when the workspace's plan does not include API access (capability `api`).  ## Dates and times Post dates and times (`date`, `time`, `accounts_schedule`) are read in the request's `timezone` when one is given, otherwise in the workspace timezone.  ## Idempotent requests Send an `Idempotency-Key` header (any unique string, for example a UUID) with a `POST`. Repeating the request with the same key within 24 hours returns the stored response with `Idempotent-Replayed: true` and creates nothing new. Reusing a key with a different body returns `422`; a request still in progress with the same key returns `409`. `5xx` and `429` responses are not stored, so they can be retried with the same key.  ## Guardrails for automated clients Create and update requests are checked before anything is written: a post whose content matches one created for the same account in the last 24 hours returns `409` (`code: duplicate_post`, override with `allow_duplicate: true`), scheduling past an account's daily cap returns `429` (`code: account_daily_cap_reached`), and scheduling to an account that must be reconnected returns `422` (`code: account_unauthorized` or `account_token_missing`). Use `POST /{workspaceUuid}/posts/validate` for a dry run and `GET /{workspaceUuid}/activity` to review what API clients did.  ## Authentication All requests require a Bearer token in the `Authorization` header. Generate tokens in your PostBoost dashboard under **Settings → Access Tokens**.  ``` Authorization: Bearer YOUR_API_TOKEN ``` 
 
-API version: 1.37.0
+API version: 1.38.0
 Contact: hi@postboost.co
 */
 
@@ -25,7 +25,7 @@ type MediaFolder struct {
 	Uuid string `json:"uuid"`
 	Name string `json:"name"`
 	// UUID of the parent folder; null for a top-level folder.
-	Parent string `json:"parent"`
+	Parent NullableString `json:"parent"`
 	// Media filed anywhere below the folder, including its sub-folders.
 	MediaCount int32 `json:"media_count"`
 }
@@ -36,7 +36,7 @@ type _MediaFolder MediaFolder
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewMediaFolder(uuid string, name string, parent string, mediaCount int32) *MediaFolder {
+func NewMediaFolder(uuid string, name string, parent NullableString, mediaCount int32) *MediaFolder {
 	this := MediaFolder{}
 	this.Uuid = uuid
 	this.Name = name
@@ -102,27 +102,29 @@ func (o *MediaFolder) SetName(v string) {
 }
 
 // GetParent returns the Parent field value
+// If the value is explicit nil, the zero value for string will be returned
 func (o *MediaFolder) GetParent() string {
-	if o == nil {
+	if o == nil || o.Parent.Get() == nil {
 		var ret string
 		return ret
 	}
 
-	return o.Parent
+	return *o.Parent.Get()
 }
 
 // GetParentOk returns a tuple with the Parent field value
 // and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *MediaFolder) GetParentOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
-	return &o.Parent, true
+	return o.Parent.Get(), o.Parent.IsSet()
 }
 
 // SetParent sets field value
 func (o *MediaFolder) SetParent(v string) {
-	o.Parent = v
+	o.Parent.Set(&v)
 }
 
 // GetMediaCount returns the MediaCount field value
@@ -161,7 +163,7 @@ func (o MediaFolder) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["uuid"] = o.Uuid
 	toSerialize["name"] = o.Name
-	toSerialize["parent"] = o.Parent
+	toSerialize["parent"] = o.Parent.Get()
 	toSerialize["media_count"] = o.MediaCount
 	return toSerialize, nil
 }

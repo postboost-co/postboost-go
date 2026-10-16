@@ -5,9 +5,9 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Provider** | **string** | Mention provider key (network family). | 
-**ProviderId** | Pointer to **string** | The profile&#39;s network ID, when resolved. Never accepted from clients. | [optional] 
+**ProviderId** | Pointer to **NullableString** | The profile&#39;s network ID, when resolved. Never accepted from clients. | [optional] 
 **Handle** | **string** |  | 
-**Label** | Pointer to **string** |  | [optional] 
+**Label** | Pointer to **NullableString** |  | [optional] 
 
 ## Methods
 
@@ -73,6 +73,16 @@ SetProviderId sets ProviderId field to given value.
 
 HasProviderId returns a boolean if a field has been set.
 
+### SetProviderIdNil
+
+`func (o *MentionIdentity) SetProviderIdNil(b bool)`
+
+ SetProviderIdNil sets the value for ProviderId to be an explicit nil
+
+### UnsetProviderId
+`func (o *MentionIdentity) UnsetProviderId()`
+
+UnsetProviderId ensures that no value is present for ProviderId, not even an explicit nil
 ### GetHandle
 
 `func (o *MentionIdentity) GetHandle() string`
@@ -118,6 +128,16 @@ SetLabel sets Label field to given value.
 
 HasLabel returns a boolean if a field has been set.
 
+### SetLabelNil
+
+`func (o *MentionIdentity) SetLabelNil(b bool)`
+
+ SetLabelNil sets the value for Label to be an explicit nil
+
+### UnsetLabel
+`func (o *MentionIdentity) UnsetLabel()`
+
+UnsetLabel ensures that no value is present for Label, not even an explicit nil
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

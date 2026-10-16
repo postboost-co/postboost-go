@@ -7,10 +7,10 @@ Name | Type | Description | Notes
 **BlogTitle** | Pointer to **string** | The blog post title (scraped or provided directly). | [optional] 
 **BlogExcerpt** | Pointer to **string** | A short excerpt from the blog post content. | [optional] 
 **Captions** | Pointer to [**[]BlogToSocialCaption**](BlogToSocialCaption.md) | Generated captions, one per target account. | [optional] 
-**PostUuid** | Pointer to **string** | UUID of the created draft post. Only present when &#x60;create_post&#x60; was &#x60;true&#x60;. | [optional] 
+**PostUuid** | Pointer to **NullableString** | UUID of the created draft post. Only present when &#x60;create_post&#x60; was &#x60;true&#x60;. | [optional] 
 **Media** | Pointer to [**BlogToSocialMedia**](BlogToSocialMedia.md) |  | [optional] 
 **CreditsUsed** | Pointer to **int32** | Number of AI credits consumed by this request (one per successful caption). | [optional] 
-**CreditsRemaining** | Pointer to **int32** | Remaining AI credits for the current billing period. &#x60;null&#x60; for unlimited plans. | [optional] 
+**CreditsRemaining** | Pointer to **NullableInt32** | Remaining AI credits for the current billing period. &#x60;null&#x60; for unlimited plans. | [optional] 
 
 ## Methods
 
@@ -131,6 +131,16 @@ SetPostUuid sets PostUuid field to given value.
 
 HasPostUuid returns a boolean if a field has been set.
 
+### SetPostUuidNil
+
+`func (o *BlogToSocialResponse) SetPostUuidNil(b bool)`
+
+ SetPostUuidNil sets the value for PostUuid to be an explicit nil
+
+### UnsetPostUuid
+`func (o *BlogToSocialResponse) UnsetPostUuid()`
+
+UnsetPostUuid ensures that no value is present for PostUuid, not even an explicit nil
 ### GetMedia
 
 `func (o *BlogToSocialResponse) GetMedia() BlogToSocialMedia`
@@ -206,6 +216,16 @@ SetCreditsRemaining sets CreditsRemaining field to given value.
 
 HasCreditsRemaining returns a boolean if a field has been set.
 
+### SetCreditsRemainingNil
+
+`func (o *BlogToSocialResponse) SetCreditsRemainingNil(b bool)`
+
+ SetCreditsRemainingNil sets the value for CreditsRemaining to be an explicit nil
+
+### UnsetCreditsRemaining
+`func (o *BlogToSocialResponse) UnsetCreditsRemaining()`
+
+UnsetCreditsRemaining ensures that no value is present for CreditsRemaining, not even an explicit nil
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

@@ -7,7 +7,7 @@ Name | Type | Description | Notes
 **Id** | **string** |  | 
 **Reference** | **int32** | Write &#x60;{{mention:&lt;reference&gt;}}&#x60; in a post body to mention this entry; it is resolved to each network&#39;s identity at publish time. | 
 **Name** | **string** |  | 
-**Avatar** | Pointer to **string** |  | [optional] 
+**Avatar** | Pointer to **NullableString** |  | [optional] 
 **Identities** | Pointer to [**[]MentionIdentity**](MentionIdentity.md) |  | [optional] 
 **CreatedAt** | **time.Time** |  | 
 
@@ -115,6 +115,16 @@ SetAvatar sets Avatar field to given value.
 
 HasAvatar returns a boolean if a field has been set.
 
+### SetAvatarNil
+
+`func (o *Mention) SetAvatarNil(b bool)`
+
+ SetAvatarNil sets the value for Avatar to be an explicit nil
+
+### UnsetAvatar
+`func (o *Mention) UnsetAvatar()`
+
+UnsetAvatar ensures that no value is present for Avatar, not even an explicit nil
 ### GetIdentities
 
 `func (o *Mention) GetIdentities() []MentionIdentity`

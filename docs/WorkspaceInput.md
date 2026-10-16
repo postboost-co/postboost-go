@@ -6,7 +6,7 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Name** | **string** |  | 
 **HexColor** | Pointer to **string** | Ignored since v2.0; kept for backward compatibility | [optional] 
-**OwnerId** | Pointer to **int32** |  | [optional] 
+**OwnerId** | Pointer to **NullableInt32** |  | [optional] 
 **AccessStatus** | **string** |  | 
 
 ## Methods
@@ -98,6 +98,16 @@ SetOwnerId sets OwnerId field to given value.
 
 HasOwnerId returns a boolean if a field has been set.
 
+### SetOwnerIdNil
+
+`func (o *WorkspaceInput) SetOwnerIdNil(b bool)`
+
+ SetOwnerIdNil sets the value for OwnerId to be an explicit nil
+
+### UnsetOwnerId
+`func (o *WorkspaceInput) UnsetOwnerId()`
+
+UnsetOwnerId ensures that no value is present for OwnerId, not even an explicit nil
 ### GetAccessStatus
 
 `func (o *WorkspaceInput) GetAccessStatus() string`

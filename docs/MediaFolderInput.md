@@ -5,7 +5,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Name** | Pointer to **string** | Folder name; must be unique among its siblings (case-insensitive). | [optional] 
-**Parent** | Pointer to **string** | UUID of the parent folder, or null for the top level. Folders nest to a limited depth. | [optional] 
+**Parent** | Pointer to **NullableString** | UUID of the parent folder, or null for the top level. Folders nest to a limited depth. | [optional] 
 
 ## Methods
 
@@ -76,6 +76,16 @@ SetParent sets Parent field to given value.
 
 HasParent returns a boolean if a field has been set.
 
+### SetParentNil
+
+`func (o *MediaFolderInput) SetParentNil(b bool)`
+
+ SetParentNil sets the value for Parent to be an explicit nil
+
+### UnsetParent
+`func (o *MediaFolderInput) UnsetParent()`
+
+UnsetParent ensures that no value is present for Parent, not even an explicit nil
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

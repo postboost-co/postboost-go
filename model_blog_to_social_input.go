@@ -3,7 +3,7 @@ PostBoost API
 
 The PostBoost REST API lets you publish, schedule, and analyze social media posts on every supported network from a single integration. No OAuth apps to maintain — PostBoost handles platform authorization for you.  ## Base URL All workspace-scoped endpoints are prefixed with `/{workspaceUuid}`. Panel/admin endpoints are prefixed with `/panel`.  ## Plan access Every workspace-scoped endpoint returns `403` when the workspace's plan does not include API access (capability `api`).  ## Dates and times Post dates and times (`date`, `time`, `accounts_schedule`) are read in the request's `timezone` when one is given, otherwise in the workspace timezone.  ## Idempotent requests Send an `Idempotency-Key` header (any unique string, for example a UUID) with a `POST`. Repeating the request with the same key within 24 hours returns the stored response with `Idempotent-Replayed: true` and creates nothing new. Reusing a key with a different body returns `422`; a request still in progress with the same key returns `409`. `5xx` and `429` responses are not stored, so they can be retried with the same key.  ## Guardrails for automated clients Create and update requests are checked before anything is written: a post whose content matches one created for the same account in the last 24 hours returns `409` (`code: duplicate_post`, override with `allow_duplicate: true`), scheduling past an account's daily cap returns `429` (`code: account_daily_cap_reached`), and scheduling to an account that must be reconnected returns `422` (`code: account_unauthorized` or `account_token_missing`). Use `POST /{workspaceUuid}/posts/validate` for a dry run and `GET /{workspaceUuid}/activity` to review what API clients did.  ## Authentication All requests require a Bearer token in the `Authorization` header. Generate tokens in your PostBoost dashboard under **Settings → Access Tokens**.  ``` Authorization: Bearer YOUR_API_TOKEN ``` 
 
-API version: 1.37.0
+API version: 1.38.0
 Contact: hi@postboost.co
 */
 
@@ -27,27 +27,27 @@ type BlogToSocialInput struct {
 	// Blog post summary or excerpt. Required if `url` is not provided.
 	Excerpt *string `json:"excerpt,omitempty"`
 	// Featured image URL for the blog post. When `create_post` is `true`, the image is imported into the workspace media library and attached to the draft post. If omitted in URL mode, the scraper attempts to extract the `og:image` meta tag. 
-	ImageUrl *string `json:"image_url,omitempty"`
+	ImageUrl NullableString `json:"image_url,omitempty"`
 	// Target social media platforms. Only connected accounts matching these platforms are used. If omitted, all connected accounts in the workspace are targeted. 
 	Platforms []string `json:"platforms,omitempty"`
 	// Specific account IDs to generate captions for. Takes precedence over `platforms` when both are provided. 
 	AccountIds []int32 `json:"account_ids,omitempty"`
 	// Writing tone for all generated captions.
-	Tone *string `json:"tone,omitempty"`
+	Tone NullableString `json:"tone,omitempty"`
 	// Desired length of the generated captions.
-	ContentLength *string `json:"content_length,omitempty"`
+	ContentLength NullableString `json:"content_length,omitempty"`
 	// Hashtag quantity: none (0), few (1-3), some (3-5), many (5+).
-	Hashtags *string `json:"hashtags,omitempty"`
+	Hashtags NullableString `json:"hashtags,omitempty"`
 	// Call-to-action type appended to each caption.
-	Cta *string `json:"cta,omitempty"`
+	Cta NullableString `json:"cta,omitempty"`
 	// Output language as an ISO 639-1 code (e.g. `en`, `de`, `fr`). Use `auto` to match the blog post's language automatically. 
-	Language *string `json:"language,omitempty"`
+	Language NullableString `json:"language,omitempty"`
 	// Additional instructions appended to the AI prompt (e.g. \"always mention our free tier\").
-	CustomInstructions *string `json:"custom_instructions,omitempty"`
+	CustomInstructions NullableString `json:"custom_instructions,omitempty"`
 	// When `true`, creates a draft post in the workspace with per-account caption versions. If an image is available, it is imported and attached to the post. 
-	CreatePost *bool `json:"create_post,omitempty"`
+	CreatePost NullableBool `json:"create_post,omitempty"`
 	// Apply the workspace brand voice (see `GET brand-voice`) to the captions. An explicit `tone` is kept, but the brand voice wins on vocabulary, words to avoid and calls to action. 
-	UseBrandVoice *bool `json:"use_brand_voice,omitempty"`
+	UseBrandVoice NullableBool `json:"use_brand_voice,omitempty"`
 }
 
 // NewBlogToSocialInput instantiates a new BlogToSocialInput object
@@ -56,20 +56,20 @@ type BlogToSocialInput struct {
 // will change when the set of required properties is changed
 func NewBlogToSocialInput() *BlogToSocialInput {
 	this := BlogToSocialInput{}
-	var tone string = "engaging"
-	this.Tone = &tone
-	var contentLength string = "medium"
-	this.ContentLength = &contentLength
-	var hashtags string = "few"
-	this.Hashtags = &hashtags
-	var cta string = "none"
-	this.Cta = &cta
+	var tone TONE = "engaging"
+	this.Tone = *NewNullableString(&tone)
+	var contentLength CONTENT_LENGTH = "medium"
+	this.ContentLength = *NewNullableString(&contentLength)
+	var hashtags HASHTAGS = "few"
+	this.Hashtags = *NewNullableString(&hashtags)
+	var cta CTA = "none"
+	this.Cta = *NewNullableString(&cta)
 	var language string = "auto"
-	this.Language = &language
+	this.Language = *NewNullableString(&language)
 	var createPost bool = false
-	this.CreatePost = &createPost
+	this.CreatePost = *NewNullableBool(&createPost)
 	var useBrandVoice bool = true
-	this.UseBrandVoice = &useBrandVoice
+	this.UseBrandVoice = *NewNullableBool(&useBrandVoice)
 	return &this
 }
 
@@ -78,20 +78,20 @@ func NewBlogToSocialInput() *BlogToSocialInput {
 // but it doesn't guarantee that properties required by API are set
 func NewBlogToSocialInputWithDefaults() *BlogToSocialInput {
 	this := BlogToSocialInput{}
-	var tone string = "engaging"
-	this.Tone = &tone
-	var contentLength string = "medium"
-	this.ContentLength = &contentLength
-	var hashtags string = "few"
-	this.Hashtags = &hashtags
-	var cta string = "none"
-	this.Cta = &cta
+	var tone TONE = "engaging"
+	this.Tone = *NewNullableString(&tone)
+	var contentLength CONTENT_LENGTH = "medium"
+	this.ContentLength = *NewNullableString(&contentLength)
+	var hashtags HASHTAGS = "few"
+	this.Hashtags = *NewNullableString(&hashtags)
+	var cta CTA = "none"
+	this.Cta = *NewNullableString(&cta)
 	var language string = "auto"
-	this.Language = &language
+	this.Language = *NewNullableString(&language)
 	var createPost bool = false
-	this.CreatePost = &createPost
+	this.CreatePost = *NewNullableBool(&createPost)
 	var useBrandVoice bool = true
-	this.UseBrandVoice = &useBrandVoice
+	this.UseBrandVoice = *NewNullableBool(&useBrandVoice)
 	return &this
 }
 
@@ -191,41 +191,51 @@ func (o *BlogToSocialInput) SetExcerpt(v string) {
 	o.Excerpt = &v
 }
 
-// GetImageUrl returns the ImageUrl field value if set, zero value otherwise.
+// GetImageUrl returns the ImageUrl field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *BlogToSocialInput) GetImageUrl() string {
-	if o == nil || IsNil(o.ImageUrl) {
+	if o == nil || IsNil(o.ImageUrl.Get()) {
 		var ret string
 		return ret
 	}
-	return *o.ImageUrl
+	return *o.ImageUrl.Get()
 }
 
 // GetImageUrlOk returns a tuple with the ImageUrl field value if set, nil otherwise
 // and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *BlogToSocialInput) GetImageUrlOk() (*string, bool) {
-	if o == nil || IsNil(o.ImageUrl) {
+	if o == nil {
 		return nil, false
 	}
-	return o.ImageUrl, true
+	return o.ImageUrl.Get(), o.ImageUrl.IsSet()
 }
 
 // HasImageUrl returns a boolean if a field has been set.
 func (o *BlogToSocialInput) HasImageUrl() bool {
-	if o != nil && !IsNil(o.ImageUrl) {
+	if o != nil && o.ImageUrl.IsSet() {
 		return true
 	}
 
 	return false
 }
 
-// SetImageUrl gets a reference to the given string and assigns it to the ImageUrl field.
+// SetImageUrl gets a reference to the given NullableString and assigns it to the ImageUrl field.
 func (o *BlogToSocialInput) SetImageUrl(v string) {
-	o.ImageUrl = &v
+	o.ImageUrl.Set(&v)
+}
+// SetImageUrlNil sets the value for ImageUrl to be an explicit nil
+func (o *BlogToSocialInput) SetImageUrlNil() {
+	o.ImageUrl.Set(nil)
 }
 
-// GetPlatforms returns the Platforms field value if set, zero value otherwise.
+// UnsetImageUrl ensures that no value is present for ImageUrl, not even an explicit nil
+func (o *BlogToSocialInput) UnsetImageUrl() {
+	o.ImageUrl.Unset()
+}
+
+// GetPlatforms returns the Platforms field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *BlogToSocialInput) GetPlatforms() []string {
-	if o == nil || IsNil(o.Platforms) {
+	if o == nil {
 		var ret []string
 		return ret
 	}
@@ -234,6 +244,7 @@ func (o *BlogToSocialInput) GetPlatforms() []string {
 
 // GetPlatformsOk returns a tuple with the Platforms field value if set, nil otherwise
 // and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *BlogToSocialInput) GetPlatformsOk() ([]string, bool) {
 	if o == nil || IsNil(o.Platforms) {
 		return nil, false
@@ -255,9 +266,9 @@ func (o *BlogToSocialInput) SetPlatforms(v []string) {
 	o.Platforms = v
 }
 
-// GetAccountIds returns the AccountIds field value if set, zero value otherwise.
+// GetAccountIds returns the AccountIds field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *BlogToSocialInput) GetAccountIds() []int32 {
-	if o == nil || IsNil(o.AccountIds) {
+	if o == nil {
 		var ret []int32
 		return ret
 	}
@@ -266,6 +277,7 @@ func (o *BlogToSocialInput) GetAccountIds() []int32 {
 
 // GetAccountIdsOk returns a tuple with the AccountIds field value if set, nil otherwise
 // and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *BlogToSocialInput) GetAccountIdsOk() ([]int32, bool) {
 	if o == nil || IsNil(o.AccountIds) {
 		return nil, false
@@ -287,260 +299,340 @@ func (o *BlogToSocialInput) SetAccountIds(v []int32) {
 	o.AccountIds = v
 }
 
-// GetTone returns the Tone field value if set, zero value otherwise.
+// GetTone returns the Tone field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *BlogToSocialInput) GetTone() string {
-	if o == nil || IsNil(o.Tone) {
+	if o == nil || IsNil(o.Tone.Get()) {
 		var ret string
 		return ret
 	}
-	return *o.Tone
+	return *o.Tone.Get()
 }
 
 // GetToneOk returns a tuple with the Tone field value if set, nil otherwise
 // and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *BlogToSocialInput) GetToneOk() (*string, bool) {
-	if o == nil || IsNil(o.Tone) {
+	if o == nil {
 		return nil, false
 	}
-	return o.Tone, true
+	return o.Tone.Get(), o.Tone.IsSet()
 }
 
 // HasTone returns a boolean if a field has been set.
 func (o *BlogToSocialInput) HasTone() bool {
-	if o != nil && !IsNil(o.Tone) {
+	if o != nil && o.Tone.IsSet() {
 		return true
 	}
 
 	return false
 }
 
-// SetTone gets a reference to the given string and assigns it to the Tone field.
+// SetTone gets a reference to the given NullableString and assigns it to the Tone field.
 func (o *BlogToSocialInput) SetTone(v string) {
-	o.Tone = &v
+	o.Tone.Set(&v)
+}
+// SetToneNil sets the value for Tone to be an explicit nil
+func (o *BlogToSocialInput) SetToneNil() {
+	o.Tone.Set(nil)
 }
 
-// GetContentLength returns the ContentLength field value if set, zero value otherwise.
+// UnsetTone ensures that no value is present for Tone, not even an explicit nil
+func (o *BlogToSocialInput) UnsetTone() {
+	o.Tone.Unset()
+}
+
+// GetContentLength returns the ContentLength field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *BlogToSocialInput) GetContentLength() string {
-	if o == nil || IsNil(o.ContentLength) {
+	if o == nil || IsNil(o.ContentLength.Get()) {
 		var ret string
 		return ret
 	}
-	return *o.ContentLength
+	return *o.ContentLength.Get()
 }
 
 // GetContentLengthOk returns a tuple with the ContentLength field value if set, nil otherwise
 // and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *BlogToSocialInput) GetContentLengthOk() (*string, bool) {
-	if o == nil || IsNil(o.ContentLength) {
+	if o == nil {
 		return nil, false
 	}
-	return o.ContentLength, true
+	return o.ContentLength.Get(), o.ContentLength.IsSet()
 }
 
 // HasContentLength returns a boolean if a field has been set.
 func (o *BlogToSocialInput) HasContentLength() bool {
-	if o != nil && !IsNil(o.ContentLength) {
+	if o != nil && o.ContentLength.IsSet() {
 		return true
 	}
 
 	return false
 }
 
-// SetContentLength gets a reference to the given string and assigns it to the ContentLength field.
+// SetContentLength gets a reference to the given NullableString and assigns it to the ContentLength field.
 func (o *BlogToSocialInput) SetContentLength(v string) {
-	o.ContentLength = &v
+	o.ContentLength.Set(&v)
+}
+// SetContentLengthNil sets the value for ContentLength to be an explicit nil
+func (o *BlogToSocialInput) SetContentLengthNil() {
+	o.ContentLength.Set(nil)
 }
 
-// GetHashtags returns the Hashtags field value if set, zero value otherwise.
+// UnsetContentLength ensures that no value is present for ContentLength, not even an explicit nil
+func (o *BlogToSocialInput) UnsetContentLength() {
+	o.ContentLength.Unset()
+}
+
+// GetHashtags returns the Hashtags field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *BlogToSocialInput) GetHashtags() string {
-	if o == nil || IsNil(o.Hashtags) {
+	if o == nil || IsNil(o.Hashtags.Get()) {
 		var ret string
 		return ret
 	}
-	return *o.Hashtags
+	return *o.Hashtags.Get()
 }
 
 // GetHashtagsOk returns a tuple with the Hashtags field value if set, nil otherwise
 // and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *BlogToSocialInput) GetHashtagsOk() (*string, bool) {
-	if o == nil || IsNil(o.Hashtags) {
+	if o == nil {
 		return nil, false
 	}
-	return o.Hashtags, true
+	return o.Hashtags.Get(), o.Hashtags.IsSet()
 }
 
 // HasHashtags returns a boolean if a field has been set.
 func (o *BlogToSocialInput) HasHashtags() bool {
-	if o != nil && !IsNil(o.Hashtags) {
+	if o != nil && o.Hashtags.IsSet() {
 		return true
 	}
 
 	return false
 }
 
-// SetHashtags gets a reference to the given string and assigns it to the Hashtags field.
+// SetHashtags gets a reference to the given NullableString and assigns it to the Hashtags field.
 func (o *BlogToSocialInput) SetHashtags(v string) {
-	o.Hashtags = &v
+	o.Hashtags.Set(&v)
+}
+// SetHashtagsNil sets the value for Hashtags to be an explicit nil
+func (o *BlogToSocialInput) SetHashtagsNil() {
+	o.Hashtags.Set(nil)
 }
 
-// GetCta returns the Cta field value if set, zero value otherwise.
+// UnsetHashtags ensures that no value is present for Hashtags, not even an explicit nil
+func (o *BlogToSocialInput) UnsetHashtags() {
+	o.Hashtags.Unset()
+}
+
+// GetCta returns the Cta field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *BlogToSocialInput) GetCta() string {
-	if o == nil || IsNil(o.Cta) {
+	if o == nil || IsNil(o.Cta.Get()) {
 		var ret string
 		return ret
 	}
-	return *o.Cta
+	return *o.Cta.Get()
 }
 
 // GetCtaOk returns a tuple with the Cta field value if set, nil otherwise
 // and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *BlogToSocialInput) GetCtaOk() (*string, bool) {
-	if o == nil || IsNil(o.Cta) {
+	if o == nil {
 		return nil, false
 	}
-	return o.Cta, true
+	return o.Cta.Get(), o.Cta.IsSet()
 }
 
 // HasCta returns a boolean if a field has been set.
 func (o *BlogToSocialInput) HasCta() bool {
-	if o != nil && !IsNil(o.Cta) {
+	if o != nil && o.Cta.IsSet() {
 		return true
 	}
 
 	return false
 }
 
-// SetCta gets a reference to the given string and assigns it to the Cta field.
+// SetCta gets a reference to the given NullableString and assigns it to the Cta field.
 func (o *BlogToSocialInput) SetCta(v string) {
-	o.Cta = &v
+	o.Cta.Set(&v)
+}
+// SetCtaNil sets the value for Cta to be an explicit nil
+func (o *BlogToSocialInput) SetCtaNil() {
+	o.Cta.Set(nil)
 }
 
-// GetLanguage returns the Language field value if set, zero value otherwise.
+// UnsetCta ensures that no value is present for Cta, not even an explicit nil
+func (o *BlogToSocialInput) UnsetCta() {
+	o.Cta.Unset()
+}
+
+// GetLanguage returns the Language field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *BlogToSocialInput) GetLanguage() string {
-	if o == nil || IsNil(o.Language) {
+	if o == nil || IsNil(o.Language.Get()) {
 		var ret string
 		return ret
 	}
-	return *o.Language
+	return *o.Language.Get()
 }
 
 // GetLanguageOk returns a tuple with the Language field value if set, nil otherwise
 // and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *BlogToSocialInput) GetLanguageOk() (*string, bool) {
-	if o == nil || IsNil(o.Language) {
+	if o == nil {
 		return nil, false
 	}
-	return o.Language, true
+	return o.Language.Get(), o.Language.IsSet()
 }
 
 // HasLanguage returns a boolean if a field has been set.
 func (o *BlogToSocialInput) HasLanguage() bool {
-	if o != nil && !IsNil(o.Language) {
+	if o != nil && o.Language.IsSet() {
 		return true
 	}
 
 	return false
 }
 
-// SetLanguage gets a reference to the given string and assigns it to the Language field.
+// SetLanguage gets a reference to the given NullableString and assigns it to the Language field.
 func (o *BlogToSocialInput) SetLanguage(v string) {
-	o.Language = &v
+	o.Language.Set(&v)
+}
+// SetLanguageNil sets the value for Language to be an explicit nil
+func (o *BlogToSocialInput) SetLanguageNil() {
+	o.Language.Set(nil)
 }
 
-// GetCustomInstructions returns the CustomInstructions field value if set, zero value otherwise.
+// UnsetLanguage ensures that no value is present for Language, not even an explicit nil
+func (o *BlogToSocialInput) UnsetLanguage() {
+	o.Language.Unset()
+}
+
+// GetCustomInstructions returns the CustomInstructions field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *BlogToSocialInput) GetCustomInstructions() string {
-	if o == nil || IsNil(o.CustomInstructions) {
+	if o == nil || IsNil(o.CustomInstructions.Get()) {
 		var ret string
 		return ret
 	}
-	return *o.CustomInstructions
+	return *o.CustomInstructions.Get()
 }
 
 // GetCustomInstructionsOk returns a tuple with the CustomInstructions field value if set, nil otherwise
 // and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *BlogToSocialInput) GetCustomInstructionsOk() (*string, bool) {
-	if o == nil || IsNil(o.CustomInstructions) {
+	if o == nil {
 		return nil, false
 	}
-	return o.CustomInstructions, true
+	return o.CustomInstructions.Get(), o.CustomInstructions.IsSet()
 }
 
 // HasCustomInstructions returns a boolean if a field has been set.
 func (o *BlogToSocialInput) HasCustomInstructions() bool {
-	if o != nil && !IsNil(o.CustomInstructions) {
+	if o != nil && o.CustomInstructions.IsSet() {
 		return true
 	}
 
 	return false
 }
 
-// SetCustomInstructions gets a reference to the given string and assigns it to the CustomInstructions field.
+// SetCustomInstructions gets a reference to the given NullableString and assigns it to the CustomInstructions field.
 func (o *BlogToSocialInput) SetCustomInstructions(v string) {
-	o.CustomInstructions = &v
+	o.CustomInstructions.Set(&v)
+}
+// SetCustomInstructionsNil sets the value for CustomInstructions to be an explicit nil
+func (o *BlogToSocialInput) SetCustomInstructionsNil() {
+	o.CustomInstructions.Set(nil)
 }
 
-// GetCreatePost returns the CreatePost field value if set, zero value otherwise.
+// UnsetCustomInstructions ensures that no value is present for CustomInstructions, not even an explicit nil
+func (o *BlogToSocialInput) UnsetCustomInstructions() {
+	o.CustomInstructions.Unset()
+}
+
+// GetCreatePost returns the CreatePost field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *BlogToSocialInput) GetCreatePost() bool {
-	if o == nil || IsNil(o.CreatePost) {
+	if o == nil || IsNil(o.CreatePost.Get()) {
 		var ret bool
 		return ret
 	}
-	return *o.CreatePost
+	return *o.CreatePost.Get()
 }
 
 // GetCreatePostOk returns a tuple with the CreatePost field value if set, nil otherwise
 // and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *BlogToSocialInput) GetCreatePostOk() (*bool, bool) {
-	if o == nil || IsNil(o.CreatePost) {
+	if o == nil {
 		return nil, false
 	}
-	return o.CreatePost, true
+	return o.CreatePost.Get(), o.CreatePost.IsSet()
 }
 
 // HasCreatePost returns a boolean if a field has been set.
 func (o *BlogToSocialInput) HasCreatePost() bool {
-	if o != nil && !IsNil(o.CreatePost) {
+	if o != nil && o.CreatePost.IsSet() {
 		return true
 	}
 
 	return false
 }
 
-// SetCreatePost gets a reference to the given bool and assigns it to the CreatePost field.
+// SetCreatePost gets a reference to the given NullableBool and assigns it to the CreatePost field.
 func (o *BlogToSocialInput) SetCreatePost(v bool) {
-	o.CreatePost = &v
+	o.CreatePost.Set(&v)
+}
+// SetCreatePostNil sets the value for CreatePost to be an explicit nil
+func (o *BlogToSocialInput) SetCreatePostNil() {
+	o.CreatePost.Set(nil)
 }
 
-// GetUseBrandVoice returns the UseBrandVoice field value if set, zero value otherwise.
+// UnsetCreatePost ensures that no value is present for CreatePost, not even an explicit nil
+func (o *BlogToSocialInput) UnsetCreatePost() {
+	o.CreatePost.Unset()
+}
+
+// GetUseBrandVoice returns the UseBrandVoice field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *BlogToSocialInput) GetUseBrandVoice() bool {
-	if o == nil || IsNil(o.UseBrandVoice) {
+	if o == nil || IsNil(o.UseBrandVoice.Get()) {
 		var ret bool
 		return ret
 	}
-	return *o.UseBrandVoice
+	return *o.UseBrandVoice.Get()
 }
 
 // GetUseBrandVoiceOk returns a tuple with the UseBrandVoice field value if set, nil otherwise
 // and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *BlogToSocialInput) GetUseBrandVoiceOk() (*bool, bool) {
-	if o == nil || IsNil(o.UseBrandVoice) {
+	if o == nil {
 		return nil, false
 	}
-	return o.UseBrandVoice, true
+	return o.UseBrandVoice.Get(), o.UseBrandVoice.IsSet()
 }
 
 // HasUseBrandVoice returns a boolean if a field has been set.
 func (o *BlogToSocialInput) HasUseBrandVoice() bool {
-	if o != nil && !IsNil(o.UseBrandVoice) {
+	if o != nil && o.UseBrandVoice.IsSet() {
 		return true
 	}
 
 	return false
 }
 
-// SetUseBrandVoice gets a reference to the given bool and assigns it to the UseBrandVoice field.
+// SetUseBrandVoice gets a reference to the given NullableBool and assigns it to the UseBrandVoice field.
 func (o *BlogToSocialInput) SetUseBrandVoice(v bool) {
-	o.UseBrandVoice = &v
+	o.UseBrandVoice.Set(&v)
+}
+// SetUseBrandVoiceNil sets the value for UseBrandVoice to be an explicit nil
+func (o *BlogToSocialInput) SetUseBrandVoiceNil() {
+	o.UseBrandVoice.Set(nil)
+}
+
+// UnsetUseBrandVoice ensures that no value is present for UseBrandVoice, not even an explicit nil
+func (o *BlogToSocialInput) UnsetUseBrandVoice() {
+	o.UseBrandVoice.Unset()
 }
 
 func (o BlogToSocialInput) MarshalJSON() ([]byte, error) {
@@ -562,38 +654,38 @@ func (o BlogToSocialInput) ToMap() (map[string]interface{}, error) {
 	if !IsNil(o.Excerpt) {
 		toSerialize["excerpt"] = o.Excerpt
 	}
-	if !IsNil(o.ImageUrl) {
-		toSerialize["image_url"] = o.ImageUrl
+	if o.ImageUrl.IsSet() {
+		toSerialize["image_url"] = o.ImageUrl.Get()
 	}
-	if !IsNil(o.Platforms) {
+	if o.Platforms != nil {
 		toSerialize["platforms"] = o.Platforms
 	}
-	if !IsNil(o.AccountIds) {
+	if o.AccountIds != nil {
 		toSerialize["account_ids"] = o.AccountIds
 	}
-	if !IsNil(o.Tone) {
-		toSerialize["tone"] = o.Tone
+	if o.Tone.IsSet() {
+		toSerialize["tone"] = o.Tone.Get()
 	}
-	if !IsNil(o.ContentLength) {
-		toSerialize["content_length"] = o.ContentLength
+	if o.ContentLength.IsSet() {
+		toSerialize["content_length"] = o.ContentLength.Get()
 	}
-	if !IsNil(o.Hashtags) {
-		toSerialize["hashtags"] = o.Hashtags
+	if o.Hashtags.IsSet() {
+		toSerialize["hashtags"] = o.Hashtags.Get()
 	}
-	if !IsNil(o.Cta) {
-		toSerialize["cta"] = o.Cta
+	if o.Cta.IsSet() {
+		toSerialize["cta"] = o.Cta.Get()
 	}
-	if !IsNil(o.Language) {
-		toSerialize["language"] = o.Language
+	if o.Language.IsSet() {
+		toSerialize["language"] = o.Language.Get()
 	}
-	if !IsNil(o.CustomInstructions) {
-		toSerialize["custom_instructions"] = o.CustomInstructions
+	if o.CustomInstructions.IsSet() {
+		toSerialize["custom_instructions"] = o.CustomInstructions.Get()
 	}
-	if !IsNil(o.CreatePost) {
-		toSerialize["create_post"] = o.CreatePost
+	if o.CreatePost.IsSet() {
+		toSerialize["create_post"] = o.CreatePost.Get()
 	}
-	if !IsNil(o.UseBrandVoice) {
-		toSerialize["use_brand_voice"] = o.UseBrandVoice
+	if o.UseBrandVoice.IsSet() {
+		toSerialize["use_brand_voice"] = o.UseBrandVoice.Get()
 	}
 	return toSerialize, nil
 }

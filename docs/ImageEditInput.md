@@ -6,9 +6,9 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **MediaUuid** | **string** | UUID of the source media item to edit | 
 **Prompt** | **string** | Describe what to change in the image | 
-**MaskUuid** | Pointer to **string** | UUID of a mask image. Transparent areas will be edited. | [optional] 
-**UseBrandVoice** | Pointer to **bool** | Append the workspace brand voice&#39;s visual tone to the edit prompt. Off by default because edits are literal instructions. | [optional] [default to false]
-**AspectRatio** | Pointer to **string** |  | [optional] [default to "1:1"]
+**MaskUuid** | Pointer to **NullableString** | UUID of a mask image. Transparent areas will be edited. | [optional] 
+**UseBrandVoice** | Pointer to **NullableBool** | Append the workspace brand voice&#39;s visual tone to the edit prompt. Off by default because edits are literal instructions. | [optional] [default to false]
+**AspectRatio** | Pointer to **NullableString** |  | [optional] [default to "1:1"]
 **Count** | Pointer to **int32** |  | [optional] [default to 1]
 **Quality** | Pointer to **string** |  | [optional] [default to "standard"]
 
@@ -96,6 +96,16 @@ SetMaskUuid sets MaskUuid field to given value.
 
 HasMaskUuid returns a boolean if a field has been set.
 
+### SetMaskUuidNil
+
+`func (o *ImageEditInput) SetMaskUuidNil(b bool)`
+
+ SetMaskUuidNil sets the value for MaskUuid to be an explicit nil
+
+### UnsetMaskUuid
+`func (o *ImageEditInput) UnsetMaskUuid()`
+
+UnsetMaskUuid ensures that no value is present for MaskUuid, not even an explicit nil
 ### GetUseBrandVoice
 
 `func (o *ImageEditInput) GetUseBrandVoice() bool`
@@ -121,6 +131,16 @@ SetUseBrandVoice sets UseBrandVoice field to given value.
 
 HasUseBrandVoice returns a boolean if a field has been set.
 
+### SetUseBrandVoiceNil
+
+`func (o *ImageEditInput) SetUseBrandVoiceNil(b bool)`
+
+ SetUseBrandVoiceNil sets the value for UseBrandVoice to be an explicit nil
+
+### UnsetUseBrandVoice
+`func (o *ImageEditInput) UnsetUseBrandVoice()`
+
+UnsetUseBrandVoice ensures that no value is present for UseBrandVoice, not even an explicit nil
 ### GetAspectRatio
 
 `func (o *ImageEditInput) GetAspectRatio() string`
@@ -146,6 +166,16 @@ SetAspectRatio sets AspectRatio field to given value.
 
 HasAspectRatio returns a boolean if a field has been set.
 
+### SetAspectRatioNil
+
+`func (o *ImageEditInput) SetAspectRatioNil(b bool)`
+
+ SetAspectRatioNil sets the value for AspectRatio to be an explicit nil
+
+### UnsetAspectRatio
+`func (o *ImageEditInput) UnsetAspectRatio()`
+
+UnsetAspectRatio ensures that no value is present for AspectRatio, not even an explicit nil
 ### GetCount
 
 `func (o *ImageEditInput) GetCount() int32`

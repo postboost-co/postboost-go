@@ -3,7 +3,7 @@ PostBoost API
 
 The PostBoost REST API lets you publish, schedule, and analyze social media posts on every supported network from a single integration. No OAuth apps to maintain — PostBoost handles platform authorization for you.  ## Base URL All workspace-scoped endpoints are prefixed with `/{workspaceUuid}`. Panel/admin endpoints are prefixed with `/panel`.  ## Plan access Every workspace-scoped endpoint returns `403` when the workspace's plan does not include API access (capability `api`).  ## Dates and times Post dates and times (`date`, `time`, `accounts_schedule`) are read in the request's `timezone` when one is given, otherwise in the workspace timezone.  ## Idempotent requests Send an `Idempotency-Key` header (any unique string, for example a UUID) with a `POST`. Repeating the request with the same key within 24 hours returns the stored response with `Idempotent-Replayed: true` and creates nothing new. Reusing a key with a different body returns `422`; a request still in progress with the same key returns `409`. `5xx` and `429` responses are not stored, so they can be retried with the same key.  ## Guardrails for automated clients Create and update requests are checked before anything is written: a post whose content matches one created for the same account in the last 24 hours returns `409` (`code: duplicate_post`, override with `allow_duplicate: true`), scheduling past an account's daily cap returns `429` (`code: account_daily_cap_reached`), and scheduling to an account that must be reconnected returns `422` (`code: account_unauthorized` or `account_token_missing`). Use `POST /{workspaceUuid}/posts/validate` for a dry run and `GET /{workspaceUuid}/activity` to review what API clients did.  ## Authentication All requests require a Bearer token in the `Authorization` header. Generate tokens in your PostBoost dashboard under **Settings → Access Tokens**.  ``` Authorization: Bearer YOUR_API_TOKEN ``` 
 
-API version: 1.37.0
+API version: 1.38.0
 Contact: hi@postboost.co
 */
 
@@ -25,13 +25,13 @@ type BlogToSocialCaption struct {
 	// Social media platform identifier.
 	Provider *string `json:"provider,omitempty"`
 	// The generated caption text. `null` if generation failed for this account.
-	Content *string `json:"content,omitempty"`
+	Content NullableString `json:"content,omitempty"`
 	// Character count of the generated content. `null` if generation failed.
-	CharacterCount *int32 `json:"character_count,omitempty"`
+	CharacterCount NullableInt32 `json:"character_count,omitempty"`
 	// Maximum allowed character count for this platform.
 	CharacterLimit *int32 `json:"character_limit,omitempty"`
 	// Error message if caption generation failed for this account. `null` on success.
-	Error *string `json:"error,omitempty"`
+	Error NullableString `json:"error,omitempty"`
 }
 
 // NewBlogToSocialCaption instantiates a new BlogToSocialCaption object
@@ -115,68 +115,88 @@ func (o *BlogToSocialCaption) SetProvider(v string) {
 	o.Provider = &v
 }
 
-// GetContent returns the Content field value if set, zero value otherwise.
+// GetContent returns the Content field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *BlogToSocialCaption) GetContent() string {
-	if o == nil || IsNil(o.Content) {
+	if o == nil || IsNil(o.Content.Get()) {
 		var ret string
 		return ret
 	}
-	return *o.Content
+	return *o.Content.Get()
 }
 
 // GetContentOk returns a tuple with the Content field value if set, nil otherwise
 // and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *BlogToSocialCaption) GetContentOk() (*string, bool) {
-	if o == nil || IsNil(o.Content) {
+	if o == nil {
 		return nil, false
 	}
-	return o.Content, true
+	return o.Content.Get(), o.Content.IsSet()
 }
 
 // HasContent returns a boolean if a field has been set.
 func (o *BlogToSocialCaption) HasContent() bool {
-	if o != nil && !IsNil(o.Content) {
+	if o != nil && o.Content.IsSet() {
 		return true
 	}
 
 	return false
 }
 
-// SetContent gets a reference to the given string and assigns it to the Content field.
+// SetContent gets a reference to the given NullableString and assigns it to the Content field.
 func (o *BlogToSocialCaption) SetContent(v string) {
-	o.Content = &v
+	o.Content.Set(&v)
+}
+// SetContentNil sets the value for Content to be an explicit nil
+func (o *BlogToSocialCaption) SetContentNil() {
+	o.Content.Set(nil)
 }
 
-// GetCharacterCount returns the CharacterCount field value if set, zero value otherwise.
+// UnsetContent ensures that no value is present for Content, not even an explicit nil
+func (o *BlogToSocialCaption) UnsetContent() {
+	o.Content.Unset()
+}
+
+// GetCharacterCount returns the CharacterCount field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *BlogToSocialCaption) GetCharacterCount() int32 {
-	if o == nil || IsNil(o.CharacterCount) {
+	if o == nil || IsNil(o.CharacterCount.Get()) {
 		var ret int32
 		return ret
 	}
-	return *o.CharacterCount
+	return *o.CharacterCount.Get()
 }
 
 // GetCharacterCountOk returns a tuple with the CharacterCount field value if set, nil otherwise
 // and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *BlogToSocialCaption) GetCharacterCountOk() (*int32, bool) {
-	if o == nil || IsNil(o.CharacterCount) {
+	if o == nil {
 		return nil, false
 	}
-	return o.CharacterCount, true
+	return o.CharacterCount.Get(), o.CharacterCount.IsSet()
 }
 
 // HasCharacterCount returns a boolean if a field has been set.
 func (o *BlogToSocialCaption) HasCharacterCount() bool {
-	if o != nil && !IsNil(o.CharacterCount) {
+	if o != nil && o.CharacterCount.IsSet() {
 		return true
 	}
 
 	return false
 }
 
-// SetCharacterCount gets a reference to the given int32 and assigns it to the CharacterCount field.
+// SetCharacterCount gets a reference to the given NullableInt32 and assigns it to the CharacterCount field.
 func (o *BlogToSocialCaption) SetCharacterCount(v int32) {
-	o.CharacterCount = &v
+	o.CharacterCount.Set(&v)
+}
+// SetCharacterCountNil sets the value for CharacterCount to be an explicit nil
+func (o *BlogToSocialCaption) SetCharacterCountNil() {
+	o.CharacterCount.Set(nil)
+}
+
+// UnsetCharacterCount ensures that no value is present for CharacterCount, not even an explicit nil
+func (o *BlogToSocialCaption) UnsetCharacterCount() {
+	o.CharacterCount.Unset()
 }
 
 // GetCharacterLimit returns the CharacterLimit field value if set, zero value otherwise.
@@ -211,36 +231,46 @@ func (o *BlogToSocialCaption) SetCharacterLimit(v int32) {
 	o.CharacterLimit = &v
 }
 
-// GetError returns the Error field value if set, zero value otherwise.
+// GetError returns the Error field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *BlogToSocialCaption) GetError() string {
-	if o == nil || IsNil(o.Error) {
+	if o == nil || IsNil(o.Error.Get()) {
 		var ret string
 		return ret
 	}
-	return *o.Error
+	return *o.Error.Get()
 }
 
 // GetErrorOk returns a tuple with the Error field value if set, nil otherwise
 // and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *BlogToSocialCaption) GetErrorOk() (*string, bool) {
-	if o == nil || IsNil(o.Error) {
+	if o == nil {
 		return nil, false
 	}
-	return o.Error, true
+	return o.Error.Get(), o.Error.IsSet()
 }
 
 // HasError returns a boolean if a field has been set.
 func (o *BlogToSocialCaption) HasError() bool {
-	if o != nil && !IsNil(o.Error) {
+	if o != nil && o.Error.IsSet() {
 		return true
 	}
 
 	return false
 }
 
-// SetError gets a reference to the given string and assigns it to the Error field.
+// SetError gets a reference to the given NullableString and assigns it to the Error field.
 func (o *BlogToSocialCaption) SetError(v string) {
-	o.Error = &v
+	o.Error.Set(&v)
+}
+// SetErrorNil sets the value for Error to be an explicit nil
+func (o *BlogToSocialCaption) SetErrorNil() {
+	o.Error.Set(nil)
+}
+
+// UnsetError ensures that no value is present for Error, not even an explicit nil
+func (o *BlogToSocialCaption) UnsetError() {
+	o.Error.Unset()
 }
 
 func (o BlogToSocialCaption) MarshalJSON() ([]byte, error) {
@@ -259,17 +289,17 @@ func (o BlogToSocialCaption) ToMap() (map[string]interface{}, error) {
 	if !IsNil(o.Provider) {
 		toSerialize["provider"] = o.Provider
 	}
-	if !IsNil(o.Content) {
-		toSerialize["content"] = o.Content
+	if o.Content.IsSet() {
+		toSerialize["content"] = o.Content.Get()
 	}
-	if !IsNil(o.CharacterCount) {
-		toSerialize["character_count"] = o.CharacterCount
+	if o.CharacterCount.IsSet() {
+		toSerialize["character_count"] = o.CharacterCount.Get()
 	}
 	if !IsNil(o.CharacterLimit) {
 		toSerialize["character_limit"] = o.CharacterLimit
 	}
-	if !IsNil(o.Error) {
-		toSerialize["error"] = o.Error
+	if o.Error.IsSet() {
+		toSerialize["error"] = o.Error.Get()
 	}
 	return toSerialize, nil
 }

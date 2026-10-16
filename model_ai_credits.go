@@ -3,7 +3,7 @@ PostBoost API
 
 The PostBoost REST API lets you publish, schedule, and analyze social media posts on every supported network from a single integration. No OAuth apps to maintain — PostBoost handles platform authorization for you.  ## Base URL All workspace-scoped endpoints are prefixed with `/{workspaceUuid}`. Panel/admin endpoints are prefixed with `/panel`.  ## Plan access Every workspace-scoped endpoint returns `403` when the workspace's plan does not include API access (capability `api`).  ## Dates and times Post dates and times (`date`, `time`, `accounts_schedule`) are read in the request's `timezone` when one is given, otherwise in the workspace timezone.  ## Idempotent requests Send an `Idempotency-Key` header (any unique string, for example a UUID) with a `POST`. Repeating the request with the same key within 24 hours returns the stored response with `Idempotent-Replayed: true` and creates nothing new. Reusing a key with a different body returns `422`; a request still in progress with the same key returns `409`. `5xx` and `429` responses are not stored, so they can be retried with the same key.  ## Guardrails for automated clients Create and update requests are checked before anything is written: a post whose content matches one created for the same account in the last 24 hours returns `409` (`code: duplicate_post`, override with `allow_duplicate: true`), scheduling past an account's daily cap returns `429` (`code: account_daily_cap_reached`), and scheduling to an account that must be reconnected returns `422` (`code: account_unauthorized` or `account_token_missing`). Use `POST /{workspaceUuid}/posts/validate` for a dry run and `GET /{workspaceUuid}/activity` to review what API clients did.  ## Authentication All requests require a Bearer token in the `Authorization` header. Generate tokens in your PostBoost dashboard under **Settings → Access Tokens**.  ``` Authorization: Bearer YOUR_API_TOKEN ``` 
 
-API version: 1.37.0
+API version: 1.38.0
 Contact: hi@postboost.co
 */
 
@@ -25,7 +25,7 @@ type AICredits struct {
 	// Whether the workspace can spend AI credits now. Always true when no balance is tracked.
 	Available bool `json:"available"`
 	// Remaining credit balance (2 decimals), or null when no balance is tracked.
-	Balance float32 `json:"balance"`
+	Balance NullableFloat32 `json:"balance"`
 	// True when the balance is above 0 and at most 10.
 	Low bool `json:"low"`
 }
@@ -36,7 +36,7 @@ type _AICredits AICredits
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewAICredits(available bool, balance float32, low bool) *AICredits {
+func NewAICredits(available bool, balance NullableFloat32, low bool) *AICredits {
 	this := AICredits{}
 	this.Available = available
 	this.Balance = balance
@@ -77,27 +77,29 @@ func (o *AICredits) SetAvailable(v bool) {
 }
 
 // GetBalance returns the Balance field value
+// If the value is explicit nil, the zero value for float32 will be returned
 func (o *AICredits) GetBalance() float32 {
-	if o == nil {
+	if o == nil || o.Balance.Get() == nil {
 		var ret float32
 		return ret
 	}
 
-	return o.Balance
+	return *o.Balance.Get()
 }
 
 // GetBalanceOk returns a tuple with the Balance field value
 // and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *AICredits) GetBalanceOk() (*float32, bool) {
 	if o == nil {
 		return nil, false
 	}
-	return &o.Balance, true
+	return o.Balance.Get(), o.Balance.IsSet()
 }
 
 // SetBalance sets field value
 func (o *AICredits) SetBalance(v float32) {
-	o.Balance = v
+	o.Balance.Set(&v)
 }
 
 // GetLow returns the Low field value
@@ -135,7 +137,7 @@ func (o AICredits) MarshalJSON() ([]byte, error) {
 func (o AICredits) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["available"] = o.Available
-	toSerialize["balance"] = o.Balance
+	toSerialize["balance"] = o.Balance.Get()
 	toSerialize["low"] = o.Low
 	return toSerialize, nil
 }

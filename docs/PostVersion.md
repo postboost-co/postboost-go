@@ -6,7 +6,7 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **AccountId** | **int32** | Use &#x60;0&#x60; for the original/default version. | 
 **IsOriginal** | **bool** | Must be &#x60;true&#x60; for the first version. | 
-**SyncedWith** | Pointer to **int32** | Account ID of the version this version follows (&#x60;0&#x60; &#x3D; the original), or null when it is edited independently. Ignored on the original version. | [optional] 
+**SyncedWith** | Pointer to **NullableInt32** | Account ID of the version this version follows (&#x60;0&#x60; &#x3D; the original), or null when it is edited independently. Ignored on the original version. | [optional] 
 **Content** | [**[]PostContent**](PostContent.md) | Ordered content items. Item 0 is the post. Item 1 is the first comment on Facebook Page, Instagram and LinkedIn, or the next thread post on X, Threads, Bluesky, Mastodon and Pixelfed. See &#x60;PostContent&#x60;.  | 
 **Options** | Pointer to [**PostVersionOptions**](PostVersionOptions.md) |  | [optional] 
 
@@ -94,6 +94,16 @@ SetSyncedWith sets SyncedWith field to given value.
 
 HasSyncedWith returns a boolean if a field has been set.
 
+### SetSyncedWithNil
+
+`func (o *PostVersion) SetSyncedWithNil(b bool)`
+
+ SetSyncedWithNil sets the value for SyncedWith to be an explicit nil
+
+### UnsetSyncedWith
+`func (o *PostVersion) UnsetSyncedWith()`
+
+UnsetSyncedWith ensures that no value is present for SyncedWith, not even an explicit nil
 ### GetContent
 
 `func (o *PostVersion) GetContent() []PostContent`

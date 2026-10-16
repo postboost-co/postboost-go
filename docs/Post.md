@@ -11,16 +11,16 @@ Name | Type | Description | Notes
 **Accounts** | [**[]Account**](Account.md) |  | 
 **Versions** | [**[]PostVersion**](PostVersion.md) |  | 
 **Tags** | [**[]Tag**](Tag.md) |  | 
-**ScheduledAt** | Pointer to **time.Time** |  | [optional] 
-**PublishedAt** | Pointer to **time.Time** |  | [optional] 
-**CreatedAt** | **time.Time** |  | 
+**ScheduledAt** | Pointer to **NullableString** | &#x60;Y-m-d H:i:s&#x60; in UTC (not RFC 3339). | [optional] 
+**PublishedAt** | Pointer to **NullableString** | &#x60;Y-m-d H:i:s&#x60; in UTC (not RFC 3339). | [optional] 
+**CreatedAt** | **string** | &#x60;Y-m-d H:i:s&#x60; in UTC (not RFC 3339). | 
 **Trashed** | **bool** |  | 
 
 ## Methods
 
 ### NewPost
 
-`func NewPost(id int32, uuid string, status PostStatus, accounts []Account, versions []PostVersion, tags []Tag, createdAt time.Time, trashed bool, ) *Post`
+`func NewPost(id int32, uuid string, status PostStatus, accounts []Account, versions []PostVersion, tags []Tag, createdAt string, trashed bool, ) *Post`
 
 NewPost instantiates a new Post object
 This constructor will assign default values to properties that have it defined,
@@ -182,20 +182,20 @@ SetTags sets Tags field to given value.
 
 ### GetScheduledAt
 
-`func (o *Post) GetScheduledAt() time.Time`
+`func (o *Post) GetScheduledAt() string`
 
 GetScheduledAt returns the ScheduledAt field if non-nil, zero value otherwise.
 
 ### GetScheduledAtOk
 
-`func (o *Post) GetScheduledAtOk() (*time.Time, bool)`
+`func (o *Post) GetScheduledAtOk() (*string, bool)`
 
 GetScheduledAtOk returns a tuple with the ScheduledAt field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetScheduledAt
 
-`func (o *Post) SetScheduledAt(v time.Time)`
+`func (o *Post) SetScheduledAt(v string)`
 
 SetScheduledAt sets ScheduledAt field to given value.
 
@@ -205,22 +205,32 @@ SetScheduledAt sets ScheduledAt field to given value.
 
 HasScheduledAt returns a boolean if a field has been set.
 
+### SetScheduledAtNil
+
+`func (o *Post) SetScheduledAtNil(b bool)`
+
+ SetScheduledAtNil sets the value for ScheduledAt to be an explicit nil
+
+### UnsetScheduledAt
+`func (o *Post) UnsetScheduledAt()`
+
+UnsetScheduledAt ensures that no value is present for ScheduledAt, not even an explicit nil
 ### GetPublishedAt
 
-`func (o *Post) GetPublishedAt() time.Time`
+`func (o *Post) GetPublishedAt() string`
 
 GetPublishedAt returns the PublishedAt field if non-nil, zero value otherwise.
 
 ### GetPublishedAtOk
 
-`func (o *Post) GetPublishedAtOk() (*time.Time, bool)`
+`func (o *Post) GetPublishedAtOk() (*string, bool)`
 
 GetPublishedAtOk returns a tuple with the PublishedAt field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetPublishedAt
 
-`func (o *Post) SetPublishedAt(v time.Time)`
+`func (o *Post) SetPublishedAt(v string)`
 
 SetPublishedAt sets PublishedAt field to given value.
 
@@ -230,22 +240,32 @@ SetPublishedAt sets PublishedAt field to given value.
 
 HasPublishedAt returns a boolean if a field has been set.
 
+### SetPublishedAtNil
+
+`func (o *Post) SetPublishedAtNil(b bool)`
+
+ SetPublishedAtNil sets the value for PublishedAt to be an explicit nil
+
+### UnsetPublishedAt
+`func (o *Post) UnsetPublishedAt()`
+
+UnsetPublishedAt ensures that no value is present for PublishedAt, not even an explicit nil
 ### GetCreatedAt
 
-`func (o *Post) GetCreatedAt() time.Time`
+`func (o *Post) GetCreatedAt() string`
 
 GetCreatedAt returns the CreatedAt field if non-nil, zero value otherwise.
 
 ### GetCreatedAtOk
 
-`func (o *Post) GetCreatedAtOk() (*time.Time, bool)`
+`func (o *Post) GetCreatedAtOk() (*string, bool)`
 
 GetCreatedAtOk returns a tuple with the CreatedAt field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetCreatedAt
 
-`func (o *Post) SetCreatedAt(v time.Time)`
+`func (o *Post) SetCreatedAt(v string)`
 
 SetCreatedAt sets CreatedAt field to given value.
 

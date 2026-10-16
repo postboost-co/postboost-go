@@ -3,7 +3,7 @@ PostBoost API
 
 The PostBoost REST API lets you publish, schedule, and analyze social media posts on every supported network from a single integration. No OAuth apps to maintain — PostBoost handles platform authorization for you.  ## Base URL All workspace-scoped endpoints are prefixed with `/{workspaceUuid}`. Panel/admin endpoints are prefixed with `/panel`.  ## Plan access Every workspace-scoped endpoint returns `403` when the workspace's plan does not include API access (capability `api`).  ## Dates and times Post dates and times (`date`, `time`, `accounts_schedule`) are read in the request's `timezone` when one is given, otherwise in the workspace timezone.  ## Idempotent requests Send an `Idempotency-Key` header (any unique string, for example a UUID) with a `POST`. Repeating the request with the same key within 24 hours returns the stored response with `Idempotent-Replayed: true` and creates nothing new. Reusing a key with a different body returns `422`; a request still in progress with the same key returns `409`. `5xx` and `429` responses are not stored, so they can be retried with the same key.  ## Guardrails for automated clients Create and update requests are checked before anything is written: a post whose content matches one created for the same account in the last 24 hours returns `409` (`code: duplicate_post`, override with `allow_duplicate: true`), scheduling past an account's daily cap returns `429` (`code: account_daily_cap_reached`), and scheduling to an account that must be reconnected returns `422` (`code: account_unauthorized` or `account_token_missing`). Use `POST /{workspaceUuid}/posts/validate` for a dry run and `GET /{workspaceUuid}/activity` to review what API clients did.  ## Authentication All requests require a Bearer token in the `Authorization` header. Generate tokens in your PostBoost dashboard under **Settings → Access Tokens**.  ``` Authorization: Bearer YOUR_API_TOKEN ``` 
 
-API version: 1.37.0
+API version: 1.38.0
 Contact: hi@postboost.co
 */
 
@@ -27,10 +27,10 @@ type ImageEditInput struct {
 	// Describe what to change in the image
 	Prompt string `json:"prompt"`
 	// UUID of a mask image. Transparent areas will be edited.
-	MaskUuid *string `json:"mask_uuid,omitempty"`
+	MaskUuid NullableString `json:"mask_uuid,omitempty"`
 	// Append the workspace brand voice's visual tone to the edit prompt. Off by default because edits are literal instructions.
-	UseBrandVoice *bool `json:"use_brand_voice,omitempty"`
-	AspectRatio *string `json:"aspect_ratio,omitempty"`
+	UseBrandVoice NullableBool `json:"use_brand_voice,omitempty"`
+	AspectRatio NullableString `json:"aspect_ratio,omitempty"`
 	Count *int32 `json:"count,omitempty"`
 	Quality *string `json:"quality,omitempty"`
 }
@@ -46,9 +46,9 @@ func NewImageEditInput(mediaUuid string, prompt string) *ImageEditInput {
 	this.MediaUuid = mediaUuid
 	this.Prompt = prompt
 	var useBrandVoice bool = false
-	this.UseBrandVoice = &useBrandVoice
-	var aspectRatio string = "1:1"
-	this.AspectRatio = &aspectRatio
+	this.UseBrandVoice = *NewNullableBool(&useBrandVoice)
+	var aspectRatio ASPECT_RATIO = "1:1"
+	this.AspectRatio = *NewNullableString(&aspectRatio)
 	var count int32 = 1
 	this.Count = &count
 	var quality string = "standard"
@@ -62,9 +62,9 @@ func NewImageEditInput(mediaUuid string, prompt string) *ImageEditInput {
 func NewImageEditInputWithDefaults() *ImageEditInput {
 	this := ImageEditInput{}
 	var useBrandVoice bool = false
-	this.UseBrandVoice = &useBrandVoice
-	var aspectRatio string = "1:1"
-	this.AspectRatio = &aspectRatio
+	this.UseBrandVoice = *NewNullableBool(&useBrandVoice)
+	var aspectRatio ASPECT_RATIO = "1:1"
+	this.AspectRatio = *NewNullableString(&aspectRatio)
 	var count int32 = 1
 	this.Count = &count
 	var quality string = "standard"
@@ -120,100 +120,130 @@ func (o *ImageEditInput) SetPrompt(v string) {
 	o.Prompt = v
 }
 
-// GetMaskUuid returns the MaskUuid field value if set, zero value otherwise.
+// GetMaskUuid returns the MaskUuid field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *ImageEditInput) GetMaskUuid() string {
-	if o == nil || IsNil(o.MaskUuid) {
+	if o == nil || IsNil(o.MaskUuid.Get()) {
 		var ret string
 		return ret
 	}
-	return *o.MaskUuid
+	return *o.MaskUuid.Get()
 }
 
 // GetMaskUuidOk returns a tuple with the MaskUuid field value if set, nil otherwise
 // and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *ImageEditInput) GetMaskUuidOk() (*string, bool) {
-	if o == nil || IsNil(o.MaskUuid) {
+	if o == nil {
 		return nil, false
 	}
-	return o.MaskUuid, true
+	return o.MaskUuid.Get(), o.MaskUuid.IsSet()
 }
 
 // HasMaskUuid returns a boolean if a field has been set.
 func (o *ImageEditInput) HasMaskUuid() bool {
-	if o != nil && !IsNil(o.MaskUuid) {
+	if o != nil && o.MaskUuid.IsSet() {
 		return true
 	}
 
 	return false
 }
 
-// SetMaskUuid gets a reference to the given string and assigns it to the MaskUuid field.
+// SetMaskUuid gets a reference to the given NullableString and assigns it to the MaskUuid field.
 func (o *ImageEditInput) SetMaskUuid(v string) {
-	o.MaskUuid = &v
+	o.MaskUuid.Set(&v)
+}
+// SetMaskUuidNil sets the value for MaskUuid to be an explicit nil
+func (o *ImageEditInput) SetMaskUuidNil() {
+	o.MaskUuid.Set(nil)
 }
 
-// GetUseBrandVoice returns the UseBrandVoice field value if set, zero value otherwise.
+// UnsetMaskUuid ensures that no value is present for MaskUuid, not even an explicit nil
+func (o *ImageEditInput) UnsetMaskUuid() {
+	o.MaskUuid.Unset()
+}
+
+// GetUseBrandVoice returns the UseBrandVoice field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *ImageEditInput) GetUseBrandVoice() bool {
-	if o == nil || IsNil(o.UseBrandVoice) {
+	if o == nil || IsNil(o.UseBrandVoice.Get()) {
 		var ret bool
 		return ret
 	}
-	return *o.UseBrandVoice
+	return *o.UseBrandVoice.Get()
 }
 
 // GetUseBrandVoiceOk returns a tuple with the UseBrandVoice field value if set, nil otherwise
 // and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *ImageEditInput) GetUseBrandVoiceOk() (*bool, bool) {
-	if o == nil || IsNil(o.UseBrandVoice) {
+	if o == nil {
 		return nil, false
 	}
-	return o.UseBrandVoice, true
+	return o.UseBrandVoice.Get(), o.UseBrandVoice.IsSet()
 }
 
 // HasUseBrandVoice returns a boolean if a field has been set.
 func (o *ImageEditInput) HasUseBrandVoice() bool {
-	if o != nil && !IsNil(o.UseBrandVoice) {
+	if o != nil && o.UseBrandVoice.IsSet() {
 		return true
 	}
 
 	return false
 }
 
-// SetUseBrandVoice gets a reference to the given bool and assigns it to the UseBrandVoice field.
+// SetUseBrandVoice gets a reference to the given NullableBool and assigns it to the UseBrandVoice field.
 func (o *ImageEditInput) SetUseBrandVoice(v bool) {
-	o.UseBrandVoice = &v
+	o.UseBrandVoice.Set(&v)
+}
+// SetUseBrandVoiceNil sets the value for UseBrandVoice to be an explicit nil
+func (o *ImageEditInput) SetUseBrandVoiceNil() {
+	o.UseBrandVoice.Set(nil)
 }
 
-// GetAspectRatio returns the AspectRatio field value if set, zero value otherwise.
+// UnsetUseBrandVoice ensures that no value is present for UseBrandVoice, not even an explicit nil
+func (o *ImageEditInput) UnsetUseBrandVoice() {
+	o.UseBrandVoice.Unset()
+}
+
+// GetAspectRatio returns the AspectRatio field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *ImageEditInput) GetAspectRatio() string {
-	if o == nil || IsNil(o.AspectRatio) {
+	if o == nil || IsNil(o.AspectRatio.Get()) {
 		var ret string
 		return ret
 	}
-	return *o.AspectRatio
+	return *o.AspectRatio.Get()
 }
 
 // GetAspectRatioOk returns a tuple with the AspectRatio field value if set, nil otherwise
 // and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *ImageEditInput) GetAspectRatioOk() (*string, bool) {
-	if o == nil || IsNil(o.AspectRatio) {
+	if o == nil {
 		return nil, false
 	}
-	return o.AspectRatio, true
+	return o.AspectRatio.Get(), o.AspectRatio.IsSet()
 }
 
 // HasAspectRatio returns a boolean if a field has been set.
 func (o *ImageEditInput) HasAspectRatio() bool {
-	if o != nil && !IsNil(o.AspectRatio) {
+	if o != nil && o.AspectRatio.IsSet() {
 		return true
 	}
 
 	return false
 }
 
-// SetAspectRatio gets a reference to the given string and assigns it to the AspectRatio field.
+// SetAspectRatio gets a reference to the given NullableString and assigns it to the AspectRatio field.
 func (o *ImageEditInput) SetAspectRatio(v string) {
-	o.AspectRatio = &v
+	o.AspectRatio.Set(&v)
+}
+// SetAspectRatioNil sets the value for AspectRatio to be an explicit nil
+func (o *ImageEditInput) SetAspectRatioNil() {
+	o.AspectRatio.Set(nil)
+}
+
+// UnsetAspectRatio ensures that no value is present for AspectRatio, not even an explicit nil
+func (o *ImageEditInput) UnsetAspectRatio() {
+	o.AspectRatio.Unset()
 }
 
 // GetCount returns the Count field value if set, zero value otherwise.
@@ -292,14 +322,14 @@ func (o ImageEditInput) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["media_uuid"] = o.MediaUuid
 	toSerialize["prompt"] = o.Prompt
-	if !IsNil(o.MaskUuid) {
-		toSerialize["mask_uuid"] = o.MaskUuid
+	if o.MaskUuid.IsSet() {
+		toSerialize["mask_uuid"] = o.MaskUuid.Get()
 	}
-	if !IsNil(o.UseBrandVoice) {
-		toSerialize["use_brand_voice"] = o.UseBrandVoice
+	if o.UseBrandVoice.IsSet() {
+		toSerialize["use_brand_voice"] = o.UseBrandVoice.Get()
 	}
-	if !IsNil(o.AspectRatio) {
-		toSerialize["aspect_ratio"] = o.AspectRatio
+	if o.AspectRatio.IsSet() {
+		toSerialize["aspect_ratio"] = o.AspectRatio.Get()
 	}
 	if !IsNil(o.Count) {
 		toSerialize["count"] = o.Count

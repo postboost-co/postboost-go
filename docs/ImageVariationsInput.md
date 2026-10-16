@@ -5,7 +5,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **MediaUuid** | **string** |  | 
-**AspectRatio** | Pointer to **string** |  | [optional] [default to "1:1"]
+**AspectRatio** | Pointer to **NullableString** |  | [optional] [default to "1:1"]
 **Count** | Pointer to **int32** |  | [optional] [default to 1]
 **Quality** | Pointer to **string** |  | [optional] [default to "standard"]
 
@@ -73,6 +73,16 @@ SetAspectRatio sets AspectRatio field to given value.
 
 HasAspectRatio returns a boolean if a field has been set.
 
+### SetAspectRatioNil
+
+`func (o *ImageVariationsInput) SetAspectRatioNil(b bool)`
+
+ SetAspectRatioNil sets the value for AspectRatio to be an explicit nil
+
+### UnsetAspectRatio
+`func (o *ImageVariationsInput) UnsetAspectRatio()`
+
+UnsetAspectRatio ensures that no value is present for AspectRatio, not even an explicit nil
 ### GetCount
 
 `func (o *ImageVariationsInput) GetCount() int32`

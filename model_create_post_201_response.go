@@ -3,7 +3,7 @@ PostBoost API
 
 The PostBoost REST API lets you publish, schedule, and analyze social media posts on every supported network from a single integration. No OAuth apps to maintain — PostBoost handles platform authorization for you.  ## Base URL All workspace-scoped endpoints are prefixed with `/{workspaceUuid}`. Panel/admin endpoints are prefixed with `/panel`.  ## Plan access Every workspace-scoped endpoint returns `403` when the workspace's plan does not include API access (capability `api`).  ## Dates and times Post dates and times (`date`, `time`, `accounts_schedule`) are read in the request's `timezone` when one is given, otherwise in the workspace timezone.  ## Idempotent requests Send an `Idempotency-Key` header (any unique string, for example a UUID) with a `POST`. Repeating the request with the same key within 24 hours returns the stored response with `Idempotent-Replayed: true` and creates nothing new. Reusing a key with a different body returns `422`; a request still in progress with the same key returns `409`. `5xx` and `429` responses are not stored, so they can be retried with the same key.  ## Guardrails for automated clients Create and update requests are checked before anything is written: a post whose content matches one created for the same account in the last 24 hours returns `409` (`code: duplicate_post`, override with `allow_duplicate: true`), scheduling past an account's daily cap returns `429` (`code: account_daily_cap_reached`), and scheduling to an account that must be reconnected returns `422` (`code: account_unauthorized` or `account_token_missing`). Use `POST /{workspaceUuid}/posts/validate` for a dry run and `GET /{workspaceUuid}/activity` to review what API clients did.  ## Authentication All requests require a Bearer token in the `Authorization` header. Generate tokens in your PostBoost dashboard under **Settings → Access Tokens**.  ``` Authorization: Bearer YOUR_API_TOKEN ``` 
 
-API version: 1.37.0
+API version: 1.38.0
 Contact: hi@postboost.co
 */
 
@@ -13,7 +13,6 @@ package postboost
 
 import (
 	"encoding/json"
-	"time"
 	"bytes"
 	"fmt"
 )
@@ -31,9 +30,12 @@ type CreatePost201Response struct {
 	Accounts []Account `json:"accounts"`
 	Versions []PostVersion `json:"versions"`
 	Tags []Tag `json:"tags"`
-	ScheduledAt *time.Time `json:"scheduled_at,omitempty"`
-	PublishedAt *time.Time `json:"published_at,omitempty"`
-	CreatedAt time.Time `json:"created_at"`
+	// `Y-m-d H:i:s` in UTC (not RFC 3339).
+	ScheduledAt *string `json:"scheduled_at,omitempty"`
+	// `Y-m-d H:i:s` in UTC (not RFC 3339).
+	PublishedAt *string `json:"published_at,omitempty"`
+	// `Y-m-d H:i:s` in UTC (not RFC 3339).
+	CreatedAt string `json:"created_at"`
 	Trashed bool `json:"trashed"`
 	// Present only when there is at least one warning.
 	Warnings []PostWarning `json:"warnings,omitempty"`
@@ -45,7 +47,7 @@ type _CreatePost201Response CreatePost201Response
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewCreatePost201Response(id int32, uuid string, status PostStatus, accounts []Account, versions []PostVersion, tags []Tag, createdAt time.Time, trashed bool) *CreatePost201Response {
+func NewCreatePost201Response(id int32, uuid string, status PostStatus, accounts []Account, versions []PostVersion, tags []Tag, createdAt string, trashed bool) *CreatePost201Response {
 	this := CreatePost201Response{}
 	this.Id = id
 	this.Uuid = uuid
@@ -243,9 +245,9 @@ func (o *CreatePost201Response) SetTags(v []Tag) {
 }
 
 // GetScheduledAt returns the ScheduledAt field value if set, zero value otherwise.
-func (o *CreatePost201Response) GetScheduledAt() time.Time {
+func (o *CreatePost201Response) GetScheduledAt() string {
 	if o == nil || IsNil(o.ScheduledAt) {
-		var ret time.Time
+		var ret string
 		return ret
 	}
 	return *o.ScheduledAt
@@ -253,7 +255,7 @@ func (o *CreatePost201Response) GetScheduledAt() time.Time {
 
 // GetScheduledAtOk returns a tuple with the ScheduledAt field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *CreatePost201Response) GetScheduledAtOk() (*time.Time, bool) {
+func (o *CreatePost201Response) GetScheduledAtOk() (*string, bool) {
 	if o == nil || IsNil(o.ScheduledAt) {
 		return nil, false
 	}
@@ -269,15 +271,15 @@ func (o *CreatePost201Response) HasScheduledAt() bool {
 	return false
 }
 
-// SetScheduledAt gets a reference to the given time.Time and assigns it to the ScheduledAt field.
-func (o *CreatePost201Response) SetScheduledAt(v time.Time) {
+// SetScheduledAt gets a reference to the given string and assigns it to the ScheduledAt field.
+func (o *CreatePost201Response) SetScheduledAt(v string) {
 	o.ScheduledAt = &v
 }
 
 // GetPublishedAt returns the PublishedAt field value if set, zero value otherwise.
-func (o *CreatePost201Response) GetPublishedAt() time.Time {
+func (o *CreatePost201Response) GetPublishedAt() string {
 	if o == nil || IsNil(o.PublishedAt) {
-		var ret time.Time
+		var ret string
 		return ret
 	}
 	return *o.PublishedAt
@@ -285,7 +287,7 @@ func (o *CreatePost201Response) GetPublishedAt() time.Time {
 
 // GetPublishedAtOk returns a tuple with the PublishedAt field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *CreatePost201Response) GetPublishedAtOk() (*time.Time, bool) {
+func (o *CreatePost201Response) GetPublishedAtOk() (*string, bool) {
 	if o == nil || IsNil(o.PublishedAt) {
 		return nil, false
 	}
@@ -301,15 +303,15 @@ func (o *CreatePost201Response) HasPublishedAt() bool {
 	return false
 }
 
-// SetPublishedAt gets a reference to the given time.Time and assigns it to the PublishedAt field.
-func (o *CreatePost201Response) SetPublishedAt(v time.Time) {
+// SetPublishedAt gets a reference to the given string and assigns it to the PublishedAt field.
+func (o *CreatePost201Response) SetPublishedAt(v string) {
 	o.PublishedAt = &v
 }
 
 // GetCreatedAt returns the CreatedAt field value
-func (o *CreatePost201Response) GetCreatedAt() time.Time {
+func (o *CreatePost201Response) GetCreatedAt() string {
 	if o == nil {
-		var ret time.Time
+		var ret string
 		return ret
 	}
 
@@ -318,7 +320,7 @@ func (o *CreatePost201Response) GetCreatedAt() time.Time {
 
 // GetCreatedAtOk returns a tuple with the CreatedAt field value
 // and a boolean to check if the value has been set.
-func (o *CreatePost201Response) GetCreatedAtOk() (*time.Time, bool) {
+func (o *CreatePost201Response) GetCreatedAtOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -326,7 +328,7 @@ func (o *CreatePost201Response) GetCreatedAtOk() (*time.Time, bool) {
 }
 
 // SetCreatedAt sets field value
-func (o *CreatePost201Response) SetCreatedAt(v time.Time) {
+func (o *CreatePost201Response) SetCreatedAt(v string) {
 	o.CreatedAt = v
 }
 

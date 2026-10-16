@@ -7,10 +7,10 @@ Name | Type | Description | Notes
 **TransactionId** | **string** |  | 
 **InvoiceNumber** | **string** |  | 
 **Amount** | **float32** |  | 
-**Tax** | Pointer to **float32** |  | [optional] 
+**Tax** | Pointer to **NullableFloat32** |  | [optional] 
 **Currency** | **string** |  | 
-**Description** | Pointer to **string** |  | [optional] 
-**ReceiptUrl** | Pointer to **string** |  | [optional] 
+**Description** | Pointer to **NullableString** |  | [optional] 
+**ReceiptUrl** | Pointer to **NullableString** |  | [optional] 
 **PaidAt** | **string** |  | 
 
 ## Methods
@@ -117,6 +117,16 @@ SetTax sets Tax field to given value.
 
 HasTax returns a boolean if a field has been set.
 
+### SetTaxNil
+
+`func (o *ReceiptUpdateInput) SetTaxNil(b bool)`
+
+ SetTaxNil sets the value for Tax to be an explicit nil
+
+### UnsetTax
+`func (o *ReceiptUpdateInput) UnsetTax()`
+
+UnsetTax ensures that no value is present for Tax, not even an explicit nil
 ### GetCurrency
 
 `func (o *ReceiptUpdateInput) GetCurrency() string`
@@ -162,6 +172,16 @@ SetDescription sets Description field to given value.
 
 HasDescription returns a boolean if a field has been set.
 
+### SetDescriptionNil
+
+`func (o *ReceiptUpdateInput) SetDescriptionNil(b bool)`
+
+ SetDescriptionNil sets the value for Description to be an explicit nil
+
+### UnsetDescription
+`func (o *ReceiptUpdateInput) UnsetDescription()`
+
+UnsetDescription ensures that no value is present for Description, not even an explicit nil
 ### GetReceiptUrl
 
 `func (o *ReceiptUpdateInput) GetReceiptUrl() string`
@@ -187,6 +207,16 @@ SetReceiptUrl sets ReceiptUrl field to given value.
 
 HasReceiptUrl returns a boolean if a field has been set.
 
+### SetReceiptUrlNil
+
+`func (o *ReceiptUpdateInput) SetReceiptUrlNil(b bool)`
+
+ SetReceiptUrlNil sets the value for ReceiptUrl to be an explicit nil
+
+### UnsetReceiptUrl
+`func (o *ReceiptUpdateInput) UnsetReceiptUrl()`
+
+UnsetReceiptUrl ensures that no value is present for ReceiptUrl, not even an explicit nil
 ### GetPaidAt
 
 `func (o *ReceiptUpdateInput) GetPaidAt() string`

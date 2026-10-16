@@ -6,7 +6,7 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Url** | **string** | URL of the remote file to download. | 
 **AltText** | Pointer to **string** |  | [optional] 
-**Folder** | Pointer to **string** | UUID of the media folder to file the item in. Omit or null for the library root. | [optional] 
+**Folder** | Pointer to **NullableString** | UUID of the media folder to file the item in. Omit or null for the library root. | [optional] 
 
 ## Methods
 
@@ -97,6 +97,16 @@ SetFolder sets Folder field to given value.
 
 HasFolder returns a boolean if a field has been set.
 
+### SetFolderNil
+
+`func (o *InitiateRemoteUploadRequest) SetFolderNil(b bool)`
+
+ SetFolderNil sets the value for Folder to be an explicit nil
+
+### UnsetFolder
+`func (o *InitiateRemoteUploadRequest) UnsetFolder()`
+
+UnsetFolder ensures that no value is present for Folder, not even an explicit nil
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

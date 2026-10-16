@@ -7,7 +7,7 @@ Name | Type | Description | Notes
 **MediaUuid** | **string** |  | 
 **AltText** | **string** |  | 
 **CreditsUsed** | **int32** |  | 
-**CreditsRemaining** | Pointer to **int32** |  | [optional] 
+**CreditsRemaining** | Pointer to **NullableInt32** |  | [optional] 
 
 ## Methods
 
@@ -113,6 +113,16 @@ SetCreditsRemaining sets CreditsRemaining field to given value.
 
 HasCreditsRemaining returns a boolean if a field has been set.
 
+### SetCreditsRemainingNil
+
+`func (o *ImageAltTextResponse) SetCreditsRemainingNil(b bool)`
+
+ SetCreditsRemainingNil sets the value for CreditsRemaining to be an explicit nil
+
+### UnsetCreditsRemaining
+`func (o *ImageAltTextResponse) UnsetCreditsRemaining()`
+
+UnsetCreditsRemaining ensures that no value is present for CreditsRemaining, not even an explicit nil
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

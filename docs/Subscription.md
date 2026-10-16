@@ -9,9 +9,9 @@ Name | Type | Description | Notes
 **PlatformPlanId** | **string** |  | 
 **Status** | [**SubscriptionStatus**](SubscriptionStatus.md) |  | 
 **Recurring** | **bool** |  | 
-**TrialEndsAt** | Pointer to **time.Time** |  | [optional] 
-**PausedFrom** | Pointer to **time.Time** |  | [optional] 
-**EndsAt** | Pointer to **time.Time** |  | [optional] 
+**TrialEndsAt** | Pointer to **NullableTime** |  | [optional] 
+**PausedFrom** | Pointer to **NullableTime** |  | [optional] 
+**EndsAt** | Pointer to **NullableTime** |  | [optional] 
 
 ## Methods
 
@@ -157,6 +157,16 @@ SetTrialEndsAt sets TrialEndsAt field to given value.
 
 HasTrialEndsAt returns a boolean if a field has been set.
 
+### SetTrialEndsAtNil
+
+`func (o *Subscription) SetTrialEndsAtNil(b bool)`
+
+ SetTrialEndsAtNil sets the value for TrialEndsAt to be an explicit nil
+
+### UnsetTrialEndsAt
+`func (o *Subscription) UnsetTrialEndsAt()`
+
+UnsetTrialEndsAt ensures that no value is present for TrialEndsAt, not even an explicit nil
 ### GetPausedFrom
 
 `func (o *Subscription) GetPausedFrom() time.Time`
@@ -182,6 +192,16 @@ SetPausedFrom sets PausedFrom field to given value.
 
 HasPausedFrom returns a boolean if a field has been set.
 
+### SetPausedFromNil
+
+`func (o *Subscription) SetPausedFromNil(b bool)`
+
+ SetPausedFromNil sets the value for PausedFrom to be an explicit nil
+
+### UnsetPausedFrom
+`func (o *Subscription) UnsetPausedFrom()`
+
+UnsetPausedFrom ensures that no value is present for PausedFrom, not even an explicit nil
 ### GetEndsAt
 
 `func (o *Subscription) GetEndsAt() time.Time`
@@ -207,6 +227,16 @@ SetEndsAt sets EndsAt field to given value.
 
 HasEndsAt returns a boolean if a field has been set.
 
+### SetEndsAtNil
+
+`func (o *Subscription) SetEndsAtNil(b bool)`
+
+ SetEndsAtNil sets the value for EndsAt to be an explicit nil
+
+### UnsetEndsAt
+`func (o *Subscription) UnsetEndsAt()`
+
+UnsetEndsAt ensures that no value is present for EndsAt, not even an explicit nil
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

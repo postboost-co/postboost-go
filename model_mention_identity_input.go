@@ -3,7 +3,7 @@ PostBoost API
 
 The PostBoost REST API lets you publish, schedule, and analyze social media posts on every supported network from a single integration. No OAuth apps to maintain — PostBoost handles platform authorization for you.  ## Base URL All workspace-scoped endpoints are prefixed with `/{workspaceUuid}`. Panel/admin endpoints are prefixed with `/panel`.  ## Plan access Every workspace-scoped endpoint returns `403` when the workspace's plan does not include API access (capability `api`).  ## Dates and times Post dates and times (`date`, `time`, `accounts_schedule`) are read in the request's `timezone` when one is given, otherwise in the workspace timezone.  ## Idempotent requests Send an `Idempotency-Key` header (any unique string, for example a UUID) with a `POST`. Repeating the request with the same key within 24 hours returns the stored response with `Idempotent-Replayed: true` and creates nothing new. Reusing a key with a different body returns `422`; a request still in progress with the same key returns `409`. `5xx` and `429` responses are not stored, so they can be retried with the same key.  ## Guardrails for automated clients Create and update requests are checked before anything is written: a post whose content matches one created for the same account in the last 24 hours returns `409` (`code: duplicate_post`, override with `allow_duplicate: true`), scheduling past an account's daily cap returns `429` (`code: account_daily_cap_reached`), and scheduling to an account that must be reconnected returns `422` (`code: account_unauthorized` or `account_token_missing`). Use `POST /{workspaceUuid}/posts/validate` for a dry run and `GET /{workspaceUuid}/activity` to review what API clients did.  ## Authentication All requests require a Bearer token in the `Authorization` header. Generate tokens in your PostBoost dashboard under **Settings → Access Tokens**.  ``` Authorization: Bearer YOUR_API_TOKEN ``` 
 
-API version: 1.37.0
+API version: 1.38.0
 Contact: hi@postboost.co
 */
 
@@ -26,11 +26,11 @@ type MentionIdentityInput struct {
 	Provider string `json:"provider"`
 	// Profile handle; a leading `@` is stripped.
 	Handle string `json:"handle"`
-	Label *string `json:"label,omitempty"`
+	Label NullableString `json:"label,omitempty"`
 	// Sealed lookup result that names the profile's network ID.
-	Token *string `json:"token,omitempty"`
+	Token NullableString `json:"token,omitempty"`
 	// A connected account of this workspace that names the profile. Wins over `token` when both are sent.
-	AccountUuid *string `json:"account_uuid,omitempty"`
+	AccountUuid NullableString `json:"account_uuid,omitempty"`
 }
 
 type _MentionIdentityInput MentionIdentityInput
@@ -102,100 +102,130 @@ func (o *MentionIdentityInput) SetHandle(v string) {
 	o.Handle = v
 }
 
-// GetLabel returns the Label field value if set, zero value otherwise.
+// GetLabel returns the Label field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *MentionIdentityInput) GetLabel() string {
-	if o == nil || IsNil(o.Label) {
+	if o == nil || IsNil(o.Label.Get()) {
 		var ret string
 		return ret
 	}
-	return *o.Label
+	return *o.Label.Get()
 }
 
 // GetLabelOk returns a tuple with the Label field value if set, nil otherwise
 // and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *MentionIdentityInput) GetLabelOk() (*string, bool) {
-	if o == nil || IsNil(o.Label) {
+	if o == nil {
 		return nil, false
 	}
-	return o.Label, true
+	return o.Label.Get(), o.Label.IsSet()
 }
 
 // HasLabel returns a boolean if a field has been set.
 func (o *MentionIdentityInput) HasLabel() bool {
-	if o != nil && !IsNil(o.Label) {
+	if o != nil && o.Label.IsSet() {
 		return true
 	}
 
 	return false
 }
 
-// SetLabel gets a reference to the given string and assigns it to the Label field.
+// SetLabel gets a reference to the given NullableString and assigns it to the Label field.
 func (o *MentionIdentityInput) SetLabel(v string) {
-	o.Label = &v
+	o.Label.Set(&v)
+}
+// SetLabelNil sets the value for Label to be an explicit nil
+func (o *MentionIdentityInput) SetLabelNil() {
+	o.Label.Set(nil)
 }
 
-// GetToken returns the Token field value if set, zero value otherwise.
+// UnsetLabel ensures that no value is present for Label, not even an explicit nil
+func (o *MentionIdentityInput) UnsetLabel() {
+	o.Label.Unset()
+}
+
+// GetToken returns the Token field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *MentionIdentityInput) GetToken() string {
-	if o == nil || IsNil(o.Token) {
+	if o == nil || IsNil(o.Token.Get()) {
 		var ret string
 		return ret
 	}
-	return *o.Token
+	return *o.Token.Get()
 }
 
 // GetTokenOk returns a tuple with the Token field value if set, nil otherwise
 // and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *MentionIdentityInput) GetTokenOk() (*string, bool) {
-	if o == nil || IsNil(o.Token) {
+	if o == nil {
 		return nil, false
 	}
-	return o.Token, true
+	return o.Token.Get(), o.Token.IsSet()
 }
 
 // HasToken returns a boolean if a field has been set.
 func (o *MentionIdentityInput) HasToken() bool {
-	if o != nil && !IsNil(o.Token) {
+	if o != nil && o.Token.IsSet() {
 		return true
 	}
 
 	return false
 }
 
-// SetToken gets a reference to the given string and assigns it to the Token field.
+// SetToken gets a reference to the given NullableString and assigns it to the Token field.
 func (o *MentionIdentityInput) SetToken(v string) {
-	o.Token = &v
+	o.Token.Set(&v)
+}
+// SetTokenNil sets the value for Token to be an explicit nil
+func (o *MentionIdentityInput) SetTokenNil() {
+	o.Token.Set(nil)
 }
 
-// GetAccountUuid returns the AccountUuid field value if set, zero value otherwise.
+// UnsetToken ensures that no value is present for Token, not even an explicit nil
+func (o *MentionIdentityInput) UnsetToken() {
+	o.Token.Unset()
+}
+
+// GetAccountUuid returns the AccountUuid field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *MentionIdentityInput) GetAccountUuid() string {
-	if o == nil || IsNil(o.AccountUuid) {
+	if o == nil || IsNil(o.AccountUuid.Get()) {
 		var ret string
 		return ret
 	}
-	return *o.AccountUuid
+	return *o.AccountUuid.Get()
 }
 
 // GetAccountUuidOk returns a tuple with the AccountUuid field value if set, nil otherwise
 // and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *MentionIdentityInput) GetAccountUuidOk() (*string, bool) {
-	if o == nil || IsNil(o.AccountUuid) {
+	if o == nil {
 		return nil, false
 	}
-	return o.AccountUuid, true
+	return o.AccountUuid.Get(), o.AccountUuid.IsSet()
 }
 
 // HasAccountUuid returns a boolean if a field has been set.
 func (o *MentionIdentityInput) HasAccountUuid() bool {
-	if o != nil && !IsNil(o.AccountUuid) {
+	if o != nil && o.AccountUuid.IsSet() {
 		return true
 	}
 
 	return false
 }
 
-// SetAccountUuid gets a reference to the given string and assigns it to the AccountUuid field.
+// SetAccountUuid gets a reference to the given NullableString and assigns it to the AccountUuid field.
 func (o *MentionIdentityInput) SetAccountUuid(v string) {
-	o.AccountUuid = &v
+	o.AccountUuid.Set(&v)
+}
+// SetAccountUuidNil sets the value for AccountUuid to be an explicit nil
+func (o *MentionIdentityInput) SetAccountUuidNil() {
+	o.AccountUuid.Set(nil)
+}
+
+// UnsetAccountUuid ensures that no value is present for AccountUuid, not even an explicit nil
+func (o *MentionIdentityInput) UnsetAccountUuid() {
+	o.AccountUuid.Unset()
 }
 
 func (o MentionIdentityInput) MarshalJSON() ([]byte, error) {
@@ -210,14 +240,14 @@ func (o MentionIdentityInput) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["provider"] = o.Provider
 	toSerialize["handle"] = o.Handle
-	if !IsNil(o.Label) {
-		toSerialize["label"] = o.Label
+	if o.Label.IsSet() {
+		toSerialize["label"] = o.Label.Get()
 	}
-	if !IsNil(o.Token) {
-		toSerialize["token"] = o.Token
+	if o.Token.IsSet() {
+		toSerialize["token"] = o.Token.Get()
 	}
-	if !IsNil(o.AccountUuid) {
-		toSerialize["account_uuid"] = o.AccountUuid
+	if o.AccountUuid.IsSet() {
+		toSerialize["account_uuid"] = o.AccountUuid.Get()
 	}
 	return toSerialize, nil
 }

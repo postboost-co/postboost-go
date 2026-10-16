@@ -5,14 +5,14 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Available** | **bool** | Whether the workspace can spend AI credits now. Always true when no balance is tracked. | 
-**Balance** | **float32** | Remaining credit balance (2 decimals), or null when no balance is tracked. | 
+**Balance** | **NullableFloat32** | Remaining credit balance (2 decimals), or null when no balance is tracked. | 
 **Low** | **bool** | True when the balance is above 0 and at most 10. | 
 
 ## Methods
 
 ### NewAICredits
 
-`func NewAICredits(available bool, balance float32, low bool, ) *AICredits`
+`func NewAICredits(available bool, balance NullableFloat32, low bool, ) *AICredits`
 
 NewAICredits instantiates a new AICredits object
 This constructor will assign default values to properties that have it defined,
@@ -67,6 +67,16 @@ and a boolean to check if the value has been set.
 SetBalance sets Balance field to given value.
 
 
+### SetBalanceNil
+
+`func (o *AICredits) SetBalanceNil(b bool)`
+
+ SetBalanceNil sets the value for Balance to be an explicit nil
+
+### UnsetBalance
+`func (o *AICredits) UnsetBalance()`
+
+UnsetBalance ensures that no value is present for Balance, not even an explicit nil
 ### GetLow
 
 `func (o *AICredits) GetLow() bool`

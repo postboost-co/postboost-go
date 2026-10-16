@@ -8,11 +8,11 @@ Name | Type | Description | Notes
 **Uuid** | **string** |  | 
 **Name** | **string** |  | 
 **Username** | **string** |  | 
-**Image** | Pointer to **string** |  | [optional] 
-**Provider** | **string** |  | 
+**Image** | Pointer to **NullableString** |  | [optional] 
+**Provider** | **string** | Network key. Known values: &#x60;twitter&#x60;, &#x60;facebook_page&#x60;, &#x60;instagram&#x60;, &#x60;instagram_standalone&#x60;, &#x60;threads&#x60;, &#x60;linkedin&#x60;, &#x60;linkedin_page&#x60;, &#x60;tiktok&#x60;, &#x60;youtube&#x60;, &#x60;pinterest&#x60;, &#x60;gbp&#x60;, &#x60;bluesky&#x60;, &#x60;mastodon&#x60;, &#x60;pixelfed&#x60;, &#x60;telegram&#x60;, &#x60;discord&#x60;, &#x60;slack&#x60;. New networks add new keys, so treat unknown values as valid.  | 
 **Data** | **map[string]interface{}** | Provider-specific metadata. | 
 **Authorized** | **bool** |  | 
-**ProfileUrl** | Pointer to **string** | Public URL of the account&#39;s profile on the network, when known. | [optional] 
+**ProfileUrl** | Pointer to **NullableString** | Public URL of the account&#39;s profile on the network, when known. | [optional] 
 **PublishStatus** | Pointer to **string** | Only present when the account is embedded in a post. Publishing state of this account for the post. | [optional] 
 **PublishedParts** | Pointer to **int32** | Only present when the account is embedded in a post. How many parts (for example thread items or a first comment) are live on the network. | [optional] 
 **ExternalUrl** | Pointer to **NullableString** | Only present when the account is embedded in a post. URL of the published post on the network, null until it is live. | [optional] 
@@ -144,6 +144,16 @@ SetImage sets Image field to given value.
 
 HasImage returns a boolean if a field has been set.
 
+### SetImageNil
+
+`func (o *Account) SetImageNil(b bool)`
+
+ SetImageNil sets the value for Image to be an explicit nil
+
+### UnsetImage
+`func (o *Account) UnsetImage()`
+
+UnsetImage ensures that no value is present for Image, not even an explicit nil
 ### GetProvider
 
 `func (o *Account) GetProvider() string`
@@ -229,6 +239,16 @@ SetProfileUrl sets ProfileUrl field to given value.
 
 HasProfileUrl returns a boolean if a field has been set.
 
+### SetProfileUrlNil
+
+`func (o *Account) SetProfileUrlNil(b bool)`
+
+ SetProfileUrlNil sets the value for ProfileUrl to be an explicit nil
+
+### UnsetProfileUrl
+`func (o *Account) UnsetProfileUrl()`
+
+UnsetProfileUrl ensures that no value is present for ProfileUrl, not even an explicit nil
 ### GetPublishStatus
 
 `func (o *Account) GetPublishStatus() string`

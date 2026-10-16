@@ -6,11 +6,11 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Caption** | **string** |  | 
 **Platform** | **string** |  | 
-**Template** | Pointer to **string** |  | [optional] 
-**Style** | Pointer to **string** |  | [optional] 
-**BrandVoice** | Pointer to **string** | Free-text tone for the image. When sent, it replaces the stored workspace brand voice for this call. | [optional] 
-**UseBrandVoice** | Pointer to **bool** | When &#x60;brand_voice&#x60; is not sent, derive the image tone from the workspace brand voice. Ignored in developer mode (&#x60;prompt&#x60;). | [optional] [default to true]
-**CustomInstructions** | Pointer to **string** |  | [optional] 
+**Template** | Pointer to **NullableString** |  | [optional] 
+**Style** | Pointer to **NullableString** |  | [optional] 
+**BrandVoice** | Pointer to **NullableString** | Free-text tone for the image. When sent, it replaces the stored workspace brand voice for this call. | [optional] 
+**UseBrandVoice** | Pointer to **NullableBool** | When &#x60;brand_voice&#x60; is not sent, derive the image tone from the workspace brand voice. Ignored in developer mode (&#x60;prompt&#x60;). | [optional] [default to true]
+**CustomInstructions** | Pointer to **NullableString** |  | [optional] 
 
 ## Methods
 
@@ -96,6 +96,16 @@ SetTemplate sets Template field to given value.
 
 HasTemplate returns a boolean if a field has been set.
 
+### SetTemplateNil
+
+`func (o *ImagePromptInput) SetTemplateNil(b bool)`
+
+ SetTemplateNil sets the value for Template to be an explicit nil
+
+### UnsetTemplate
+`func (o *ImagePromptInput) UnsetTemplate()`
+
+UnsetTemplate ensures that no value is present for Template, not even an explicit nil
 ### GetStyle
 
 `func (o *ImagePromptInput) GetStyle() string`
@@ -121,6 +131,16 @@ SetStyle sets Style field to given value.
 
 HasStyle returns a boolean if a field has been set.
 
+### SetStyleNil
+
+`func (o *ImagePromptInput) SetStyleNil(b bool)`
+
+ SetStyleNil sets the value for Style to be an explicit nil
+
+### UnsetStyle
+`func (o *ImagePromptInput) UnsetStyle()`
+
+UnsetStyle ensures that no value is present for Style, not even an explicit nil
 ### GetBrandVoice
 
 `func (o *ImagePromptInput) GetBrandVoice() string`
@@ -146,6 +166,16 @@ SetBrandVoice sets BrandVoice field to given value.
 
 HasBrandVoice returns a boolean if a field has been set.
 
+### SetBrandVoiceNil
+
+`func (o *ImagePromptInput) SetBrandVoiceNil(b bool)`
+
+ SetBrandVoiceNil sets the value for BrandVoice to be an explicit nil
+
+### UnsetBrandVoice
+`func (o *ImagePromptInput) UnsetBrandVoice()`
+
+UnsetBrandVoice ensures that no value is present for BrandVoice, not even an explicit nil
 ### GetUseBrandVoice
 
 `func (o *ImagePromptInput) GetUseBrandVoice() bool`
@@ -171,6 +201,16 @@ SetUseBrandVoice sets UseBrandVoice field to given value.
 
 HasUseBrandVoice returns a boolean if a field has been set.
 
+### SetUseBrandVoiceNil
+
+`func (o *ImagePromptInput) SetUseBrandVoiceNil(b bool)`
+
+ SetUseBrandVoiceNil sets the value for UseBrandVoice to be an explicit nil
+
+### UnsetUseBrandVoice
+`func (o *ImagePromptInput) UnsetUseBrandVoice()`
+
+UnsetUseBrandVoice ensures that no value is present for UseBrandVoice, not even an explicit nil
 ### GetCustomInstructions
 
 `func (o *ImagePromptInput) GetCustomInstructions() string`
@@ -196,6 +236,16 @@ SetCustomInstructions sets CustomInstructions field to given value.
 
 HasCustomInstructions returns a boolean if a field has been set.
 
+### SetCustomInstructionsNil
+
+`func (o *ImagePromptInput) SetCustomInstructionsNil(b bool)`
+
+ SetCustomInstructionsNil sets the value for CustomInstructions to be an explicit nil
+
+### UnsetCustomInstructions
+`func (o *ImagePromptInput) UnsetCustomInstructions()`
+
+UnsetCustomInstructions ensures that no value is present for CustomInstructions, not even an explicit nil
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

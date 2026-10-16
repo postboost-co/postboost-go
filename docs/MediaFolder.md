@@ -6,14 +6,14 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Uuid** | **string** |  | 
 **Name** | **string** |  | 
-**Parent** | **string** | UUID of the parent folder; null for a top-level folder. | 
+**Parent** | **NullableString** | UUID of the parent folder; null for a top-level folder. | 
 **MediaCount** | **int32** | Media filed anywhere below the folder, including its sub-folders. | 
 
 ## Methods
 
 ### NewMediaFolder
 
-`func NewMediaFolder(uuid string, name string, parent string, mediaCount int32, ) *MediaFolder`
+`func NewMediaFolder(uuid string, name string, parent NullableString, mediaCount int32, ) *MediaFolder`
 
 NewMediaFolder instantiates a new MediaFolder object
 This constructor will assign default values to properties that have it defined,
@@ -88,6 +88,16 @@ and a boolean to check if the value has been set.
 SetParent sets Parent field to given value.
 
 
+### SetParentNil
+
+`func (o *MediaFolder) SetParentNil(b bool)`
+
+ SetParentNil sets the value for Parent to be an explicit nil
+
+### UnsetParent
+`func (o *MediaFolder) UnsetParent()`
+
+UnsetParent ensures that no value is present for Parent, not even an explicit nil
 ### GetMediaCount
 
 `func (o *MediaFolder) GetMediaCount() int32`

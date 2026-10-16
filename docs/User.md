@@ -7,9 +7,9 @@ Name | Type | Description | Notes
 **Id** | **int32** |  | 
 **Name** | **string** |  | 
 **Email** | **string** |  | 
-**Avatar** | Pointer to **string** | URL of the user&#39;s avatar, or null when none is set. | [optional] 
+**Avatar** | Pointer to **NullableString** | URL of the user&#39;s avatar, or null when none is set. | [optional] 
 **IsAdmin** | **bool** |  | 
-**EmailVerifiedAt** | Pointer to **time.Time** |  | [optional] 
+**EmailVerifiedAt** | Pointer to **NullableTime** |  | [optional] 
 **CreatedAt** | **time.Time** |  | 
 
 ## Methods
@@ -116,6 +116,16 @@ SetAvatar sets Avatar field to given value.
 
 HasAvatar returns a boolean if a field has been set.
 
+### SetAvatarNil
+
+`func (o *User) SetAvatarNil(b bool)`
+
+ SetAvatarNil sets the value for Avatar to be an explicit nil
+
+### UnsetAvatar
+`func (o *User) UnsetAvatar()`
+
+UnsetAvatar ensures that no value is present for Avatar, not even an explicit nil
 ### GetIsAdmin
 
 `func (o *User) GetIsAdmin() bool`
@@ -161,6 +171,16 @@ SetEmailVerifiedAt sets EmailVerifiedAt field to given value.
 
 HasEmailVerifiedAt returns a boolean if a field has been set.
 
+### SetEmailVerifiedAtNil
+
+`func (o *User) SetEmailVerifiedAtNil(b bool)`
+
+ SetEmailVerifiedAtNil sets the value for EmailVerifiedAt to be an explicit nil
+
+### UnsetEmailVerifiedAt
+`func (o *User) UnsetEmailVerifiedAt()`
+
+UnsetEmailVerifiedAt ensures that no value is present for EmailVerifiedAt, not even an explicit nil
 ### GetCreatedAt
 
 `func (o *User) GetCreatedAt() time.Time`

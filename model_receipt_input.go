@@ -3,7 +3,7 @@ PostBoost API
 
 The PostBoost REST API lets you publish, schedule, and analyze social media posts on every supported network from a single integration. No OAuth apps to maintain — PostBoost handles platform authorization for you.  ## Base URL All workspace-scoped endpoints are prefixed with `/{workspaceUuid}`. Panel/admin endpoints are prefixed with `/panel`.  ## Plan access Every workspace-scoped endpoint returns `403` when the workspace's plan does not include API access (capability `api`).  ## Dates and times Post dates and times (`date`, `time`, `accounts_schedule`) are read in the request's `timezone` when one is given, otherwise in the workspace timezone.  ## Idempotent requests Send an `Idempotency-Key` header (any unique string, for example a UUID) with a `POST`. Repeating the request with the same key within 24 hours returns the stored response with `Idempotent-Replayed: true` and creates nothing new. Reusing a key with a different body returns `422`; a request still in progress with the same key returns `409`. `5xx` and `429` responses are not stored, so they can be retried with the same key.  ## Guardrails for automated clients Create and update requests are checked before anything is written: a post whose content matches one created for the same account in the last 24 hours returns `409` (`code: duplicate_post`, override with `allow_duplicate: true`), scheduling past an account's daily cap returns `429` (`code: account_daily_cap_reached`), and scheduling to an account that must be reconnected returns `422` (`code: account_unauthorized` or `account_token_missing`). Use `POST /{workspaceUuid}/posts/validate` for a dry run and `GET /{workspaceUuid}/activity` to review what API clients did.  ## Authentication All requests require a Bearer token in the `Authorization` header. Generate tokens in your PostBoost dashboard under **Settings → Access Tokens**.  ``` Authorization: Bearer YOUR_API_TOKEN ``` 
 
-API version: 1.37.0
+API version: 1.38.0
 Contact: hi@postboost.co
 */
 
@@ -28,8 +28,8 @@ type ReceiptInput struct {
 	Amount float32 `json:"amount"`
 	Tax float32 `json:"tax"`
 	Currency string `json:"currency"`
-	Description *string `json:"description,omitempty"`
-	ReceiptUrl *string `json:"receipt_url,omitempty"`
+	Description NullableString `json:"description,omitempty"`
+	ReceiptUrl NullableString `json:"receipt_url,omitempty"`
 	PaidAt string `json:"paid_at"`
 }
 
@@ -203,68 +203,88 @@ func (o *ReceiptInput) SetCurrency(v string) {
 	o.Currency = v
 }
 
-// GetDescription returns the Description field value if set, zero value otherwise.
+// GetDescription returns the Description field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *ReceiptInput) GetDescription() string {
-	if o == nil || IsNil(o.Description) {
+	if o == nil || IsNil(o.Description.Get()) {
 		var ret string
 		return ret
 	}
-	return *o.Description
+	return *o.Description.Get()
 }
 
 // GetDescriptionOk returns a tuple with the Description field value if set, nil otherwise
 // and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *ReceiptInput) GetDescriptionOk() (*string, bool) {
-	if o == nil || IsNil(o.Description) {
+	if o == nil {
 		return nil, false
 	}
-	return o.Description, true
+	return o.Description.Get(), o.Description.IsSet()
 }
 
 // HasDescription returns a boolean if a field has been set.
 func (o *ReceiptInput) HasDescription() bool {
-	if o != nil && !IsNil(o.Description) {
+	if o != nil && o.Description.IsSet() {
 		return true
 	}
 
 	return false
 }
 
-// SetDescription gets a reference to the given string and assigns it to the Description field.
+// SetDescription gets a reference to the given NullableString and assigns it to the Description field.
 func (o *ReceiptInput) SetDescription(v string) {
-	o.Description = &v
+	o.Description.Set(&v)
+}
+// SetDescriptionNil sets the value for Description to be an explicit nil
+func (o *ReceiptInput) SetDescriptionNil() {
+	o.Description.Set(nil)
 }
 
-// GetReceiptUrl returns the ReceiptUrl field value if set, zero value otherwise.
+// UnsetDescription ensures that no value is present for Description, not even an explicit nil
+func (o *ReceiptInput) UnsetDescription() {
+	o.Description.Unset()
+}
+
+// GetReceiptUrl returns the ReceiptUrl field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *ReceiptInput) GetReceiptUrl() string {
-	if o == nil || IsNil(o.ReceiptUrl) {
+	if o == nil || IsNil(o.ReceiptUrl.Get()) {
 		var ret string
 		return ret
 	}
-	return *o.ReceiptUrl
+	return *o.ReceiptUrl.Get()
 }
 
 // GetReceiptUrlOk returns a tuple with the ReceiptUrl field value if set, nil otherwise
 // and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *ReceiptInput) GetReceiptUrlOk() (*string, bool) {
-	if o == nil || IsNil(o.ReceiptUrl) {
+	if o == nil {
 		return nil, false
 	}
-	return o.ReceiptUrl, true
+	return o.ReceiptUrl.Get(), o.ReceiptUrl.IsSet()
 }
 
 // HasReceiptUrl returns a boolean if a field has been set.
 func (o *ReceiptInput) HasReceiptUrl() bool {
-	if o != nil && !IsNil(o.ReceiptUrl) {
+	if o != nil && o.ReceiptUrl.IsSet() {
 		return true
 	}
 
 	return false
 }
 
-// SetReceiptUrl gets a reference to the given string and assigns it to the ReceiptUrl field.
+// SetReceiptUrl gets a reference to the given NullableString and assigns it to the ReceiptUrl field.
 func (o *ReceiptInput) SetReceiptUrl(v string) {
-	o.ReceiptUrl = &v
+	o.ReceiptUrl.Set(&v)
+}
+// SetReceiptUrlNil sets the value for ReceiptUrl to be an explicit nil
+func (o *ReceiptInput) SetReceiptUrlNil() {
+	o.ReceiptUrl.Set(nil)
+}
+
+// UnsetReceiptUrl ensures that no value is present for ReceiptUrl, not even an explicit nil
+func (o *ReceiptInput) UnsetReceiptUrl() {
+	o.ReceiptUrl.Unset()
 }
 
 // GetPaidAt returns the PaidAt field value
@@ -307,11 +327,11 @@ func (o ReceiptInput) ToMap() (map[string]interface{}, error) {
 	toSerialize["amount"] = o.Amount
 	toSerialize["tax"] = o.Tax
 	toSerialize["currency"] = o.Currency
-	if !IsNil(o.Description) {
-		toSerialize["description"] = o.Description
+	if o.Description.IsSet() {
+		toSerialize["description"] = o.Description.Get()
 	}
-	if !IsNil(o.ReceiptUrl) {
-		toSerialize["receipt_url"] = o.ReceiptUrl
+	if o.ReceiptUrl.IsSet() {
+		toSerialize["receipt_url"] = o.ReceiptUrl.Get()
 	}
 	toSerialize["paid_at"] = o.PaidAt
 	return toSerialize, nil

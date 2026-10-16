@@ -6,13 +6,13 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Caption** | Pointer to **string** | Social media caption. Triggers standard mode. Takes priority over prompt. | [optional] 
 **Platform** | Pointer to **string** | Required when caption is provided. | [optional] 
-**Template** | Pointer to **string** |  | [optional] 
-**Style** | Pointer to **string** |  | [optional] 
-**BrandVoice** | Pointer to **string** | Free-text tone for the image. When sent, it replaces the stored workspace brand voice for this call. | [optional] 
-**UseBrandVoice** | Pointer to **bool** | When &#x60;brand_voice&#x60; is not sent, derive the image tone from the workspace brand voice. Ignored in developer mode (&#x60;prompt&#x60;). | [optional] [default to true]
-**CustomInstructions** | Pointer to **string** |  | [optional] 
+**Template** | Pointer to **NullableString** |  | [optional] 
+**Style** | Pointer to **NullableString** |  | [optional] 
+**BrandVoice** | Pointer to **NullableString** | Free-text tone for the image. When sent, it replaces the stored workspace brand voice for this call. | [optional] 
+**UseBrandVoice** | Pointer to **NullableBool** | When &#x60;brand_voice&#x60; is not sent, derive the image tone from the workspace brand voice. Ignored in developer mode (&#x60;prompt&#x60;). | [optional] [default to true]
+**CustomInstructions** | Pointer to **NullableString** |  | [optional] 
 **Prompt** | Pointer to **string** | Developer escape hatch. Bypasses internal prompt builder. Ignored if caption is present. | [optional] 
-**AspectRatio** | Pointer to **string** |  | [optional] [default to "1:1"]
+**AspectRatio** | Pointer to **NullableString** |  | [optional] [default to "1:1"]
 **Count** | Pointer to **int32** |  | [optional] [default to 1]
 **Quality** | Pointer to **string** |  | [optional] [default to "standard"]
 
@@ -110,6 +110,16 @@ SetTemplate sets Template field to given value.
 
 HasTemplate returns a boolean if a field has been set.
 
+### SetTemplateNil
+
+`func (o *ImageGenerateInput) SetTemplateNil(b bool)`
+
+ SetTemplateNil sets the value for Template to be an explicit nil
+
+### UnsetTemplate
+`func (o *ImageGenerateInput) UnsetTemplate()`
+
+UnsetTemplate ensures that no value is present for Template, not even an explicit nil
 ### GetStyle
 
 `func (o *ImageGenerateInput) GetStyle() string`
@@ -135,6 +145,16 @@ SetStyle sets Style field to given value.
 
 HasStyle returns a boolean if a field has been set.
 
+### SetStyleNil
+
+`func (o *ImageGenerateInput) SetStyleNil(b bool)`
+
+ SetStyleNil sets the value for Style to be an explicit nil
+
+### UnsetStyle
+`func (o *ImageGenerateInput) UnsetStyle()`
+
+UnsetStyle ensures that no value is present for Style, not even an explicit nil
 ### GetBrandVoice
 
 `func (o *ImageGenerateInput) GetBrandVoice() string`
@@ -160,6 +180,16 @@ SetBrandVoice sets BrandVoice field to given value.
 
 HasBrandVoice returns a boolean if a field has been set.
 
+### SetBrandVoiceNil
+
+`func (o *ImageGenerateInput) SetBrandVoiceNil(b bool)`
+
+ SetBrandVoiceNil sets the value for BrandVoice to be an explicit nil
+
+### UnsetBrandVoice
+`func (o *ImageGenerateInput) UnsetBrandVoice()`
+
+UnsetBrandVoice ensures that no value is present for BrandVoice, not even an explicit nil
 ### GetUseBrandVoice
 
 `func (o *ImageGenerateInput) GetUseBrandVoice() bool`
@@ -185,6 +215,16 @@ SetUseBrandVoice sets UseBrandVoice field to given value.
 
 HasUseBrandVoice returns a boolean if a field has been set.
 
+### SetUseBrandVoiceNil
+
+`func (o *ImageGenerateInput) SetUseBrandVoiceNil(b bool)`
+
+ SetUseBrandVoiceNil sets the value for UseBrandVoice to be an explicit nil
+
+### UnsetUseBrandVoice
+`func (o *ImageGenerateInput) UnsetUseBrandVoice()`
+
+UnsetUseBrandVoice ensures that no value is present for UseBrandVoice, not even an explicit nil
 ### GetCustomInstructions
 
 `func (o *ImageGenerateInput) GetCustomInstructions() string`
@@ -210,6 +250,16 @@ SetCustomInstructions sets CustomInstructions field to given value.
 
 HasCustomInstructions returns a boolean if a field has been set.
 
+### SetCustomInstructionsNil
+
+`func (o *ImageGenerateInput) SetCustomInstructionsNil(b bool)`
+
+ SetCustomInstructionsNil sets the value for CustomInstructions to be an explicit nil
+
+### UnsetCustomInstructions
+`func (o *ImageGenerateInput) UnsetCustomInstructions()`
+
+UnsetCustomInstructions ensures that no value is present for CustomInstructions, not even an explicit nil
 ### GetPrompt
 
 `func (o *ImageGenerateInput) GetPrompt() string`
@@ -260,6 +310,16 @@ SetAspectRatio sets AspectRatio field to given value.
 
 HasAspectRatio returns a boolean if a field has been set.
 
+### SetAspectRatioNil
+
+`func (o *ImageGenerateInput) SetAspectRatioNil(b bool)`
+
+ SetAspectRatioNil sets the value for AspectRatio to be an explicit nil
+
+### UnsetAspectRatio
+`func (o *ImageGenerateInput) UnsetAspectRatio()`
+
+UnsetAspectRatio ensures that no value is present for AspectRatio, not even an explicit nil
 ### GetCount
 
 `func (o *ImageGenerateInput) GetCount() int32`

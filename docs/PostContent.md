@@ -4,8 +4,8 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Body** | Pointer to **string** | Post text/caption. For a second item on Facebook Page, Instagram or LinkedIn this is the first comment. | [optional] 
-**Url** | Pointer to **string** |  | [optional] 
+**Body** | Pointer to **NullableString** | Post text/caption. For a second item on Facebook Page, Instagram or LinkedIn this is the first comment. | [optional] 
+**Url** | Pointer to **NullableString** |  | [optional] 
 **Media** | Pointer to **[]int32** | Array of media IDs from the media library. | [optional] 
 **VideoThumbs** | Pointer to **[]map[string]interface{}** |  | [optional] 
 
@@ -53,6 +53,16 @@ SetBody sets Body field to given value.
 
 HasBody returns a boolean if a field has been set.
 
+### SetBodyNil
+
+`func (o *PostContent) SetBodyNil(b bool)`
+
+ SetBodyNil sets the value for Body to be an explicit nil
+
+### UnsetBody
+`func (o *PostContent) UnsetBody()`
+
+UnsetBody ensures that no value is present for Body, not even an explicit nil
 ### GetUrl
 
 `func (o *PostContent) GetUrl() string`
@@ -78,6 +88,16 @@ SetUrl sets Url field to given value.
 
 HasUrl returns a boolean if a field has been set.
 
+### SetUrlNil
+
+`func (o *PostContent) SetUrlNil(b bool)`
+
+ SetUrlNil sets the value for Url to be an explicit nil
+
+### UnsetUrl
+`func (o *PostContent) UnsetUrl()`
+
+UnsetUrl ensures that no value is present for Url, not even an explicit nil
 ### GetMedia
 
 `func (o *PostContent) GetMedia() []int32`

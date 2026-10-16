@@ -6,10 +6,10 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **AccountId** | Pointer to **int32** | ID of the social account this caption was generated for. | [optional] 
 **Provider** | Pointer to **string** | Social media platform identifier. | [optional] 
-**Content** | Pointer to **string** | The generated caption text. &#x60;null&#x60; if generation failed for this account. | [optional] 
-**CharacterCount** | Pointer to **int32** | Character count of the generated content. &#x60;null&#x60; if generation failed. | [optional] 
+**Content** | Pointer to **NullableString** | The generated caption text. &#x60;null&#x60; if generation failed for this account. | [optional] 
+**CharacterCount** | Pointer to **NullableInt32** | Character count of the generated content. &#x60;null&#x60; if generation failed. | [optional] 
 **CharacterLimit** | Pointer to **int32** | Maximum allowed character count for this platform. | [optional] 
-**Error** | Pointer to **string** | Error message if caption generation failed for this account. &#x60;null&#x60; on success. | [optional] 
+**Error** | Pointer to **NullableString** | Error message if caption generation failed for this account. &#x60;null&#x60; on success. | [optional] 
 
 ## Methods
 
@@ -105,6 +105,16 @@ SetContent sets Content field to given value.
 
 HasContent returns a boolean if a field has been set.
 
+### SetContentNil
+
+`func (o *BlogToSocialCaption) SetContentNil(b bool)`
+
+ SetContentNil sets the value for Content to be an explicit nil
+
+### UnsetContent
+`func (o *BlogToSocialCaption) UnsetContent()`
+
+UnsetContent ensures that no value is present for Content, not even an explicit nil
 ### GetCharacterCount
 
 `func (o *BlogToSocialCaption) GetCharacterCount() int32`
@@ -130,6 +140,16 @@ SetCharacterCount sets CharacterCount field to given value.
 
 HasCharacterCount returns a boolean if a field has been set.
 
+### SetCharacterCountNil
+
+`func (o *BlogToSocialCaption) SetCharacterCountNil(b bool)`
+
+ SetCharacterCountNil sets the value for CharacterCount to be an explicit nil
+
+### UnsetCharacterCount
+`func (o *BlogToSocialCaption) UnsetCharacterCount()`
+
+UnsetCharacterCount ensures that no value is present for CharacterCount, not even an explicit nil
 ### GetCharacterLimit
 
 `func (o *BlogToSocialCaption) GetCharacterLimit() int32`
@@ -180,6 +200,16 @@ SetError sets Error field to given value.
 
 HasError returns a boolean if a field has been set.
 
+### SetErrorNil
+
+`func (o *BlogToSocialCaption) SetErrorNil(b bool)`
+
+ SetErrorNil sets the value for Error to be an explicit nil
+
+### UnsetError
+`func (o *BlogToSocialCaption) UnsetError()`
+
+UnsetError ensures that no value is present for Error, not even an explicit nil
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

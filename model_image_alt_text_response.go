@@ -3,7 +3,7 @@ PostBoost API
 
 The PostBoost REST API lets you publish, schedule, and analyze social media posts on every supported network from a single integration. No OAuth apps to maintain — PostBoost handles platform authorization for you.  ## Base URL All workspace-scoped endpoints are prefixed with `/{workspaceUuid}`. Panel/admin endpoints are prefixed with `/panel`.  ## Plan access Every workspace-scoped endpoint returns `403` when the workspace's plan does not include API access (capability `api`).  ## Dates and times Post dates and times (`date`, `time`, `accounts_schedule`) are read in the request's `timezone` when one is given, otherwise in the workspace timezone.  ## Idempotent requests Send an `Idempotency-Key` header (any unique string, for example a UUID) with a `POST`. Repeating the request with the same key within 24 hours returns the stored response with `Idempotent-Replayed: true` and creates nothing new. Reusing a key with a different body returns `422`; a request still in progress with the same key returns `409`. `5xx` and `429` responses are not stored, so they can be retried with the same key.  ## Guardrails for automated clients Create and update requests are checked before anything is written: a post whose content matches one created for the same account in the last 24 hours returns `409` (`code: duplicate_post`, override with `allow_duplicate: true`), scheduling past an account's daily cap returns `429` (`code: account_daily_cap_reached`), and scheduling to an account that must be reconnected returns `422` (`code: account_unauthorized` or `account_token_missing`). Use `POST /{workspaceUuid}/posts/validate` for a dry run and `GET /{workspaceUuid}/activity` to review what API clients did.  ## Authentication All requests require a Bearer token in the `Authorization` header. Generate tokens in your PostBoost dashboard under **Settings → Access Tokens**.  ``` Authorization: Bearer YOUR_API_TOKEN ``` 
 
-API version: 1.37.0
+API version: 1.38.0
 Contact: hi@postboost.co
 */
 
@@ -25,7 +25,7 @@ type ImageAltTextResponse struct {
 	MediaUuid string `json:"media_uuid"`
 	AltText string `json:"alt_text"`
 	CreditsUsed int32 `json:"credits_used"`
-	CreditsRemaining *int32 `json:"credits_remaining,omitempty"`
+	CreditsRemaining NullableInt32 `json:"credits_remaining,omitempty"`
 }
 
 type _ImageAltTextResponse ImageAltTextResponse
@@ -122,36 +122,46 @@ func (o *ImageAltTextResponse) SetCreditsUsed(v int32) {
 	o.CreditsUsed = v
 }
 
-// GetCreditsRemaining returns the CreditsRemaining field value if set, zero value otherwise.
+// GetCreditsRemaining returns the CreditsRemaining field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *ImageAltTextResponse) GetCreditsRemaining() int32 {
-	if o == nil || IsNil(o.CreditsRemaining) {
+	if o == nil || IsNil(o.CreditsRemaining.Get()) {
 		var ret int32
 		return ret
 	}
-	return *o.CreditsRemaining
+	return *o.CreditsRemaining.Get()
 }
 
 // GetCreditsRemainingOk returns a tuple with the CreditsRemaining field value if set, nil otherwise
 // and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *ImageAltTextResponse) GetCreditsRemainingOk() (*int32, bool) {
-	if o == nil || IsNil(o.CreditsRemaining) {
+	if o == nil {
 		return nil, false
 	}
-	return o.CreditsRemaining, true
+	return o.CreditsRemaining.Get(), o.CreditsRemaining.IsSet()
 }
 
 // HasCreditsRemaining returns a boolean if a field has been set.
 func (o *ImageAltTextResponse) HasCreditsRemaining() bool {
-	if o != nil && !IsNil(o.CreditsRemaining) {
+	if o != nil && o.CreditsRemaining.IsSet() {
 		return true
 	}
 
 	return false
 }
 
-// SetCreditsRemaining gets a reference to the given int32 and assigns it to the CreditsRemaining field.
+// SetCreditsRemaining gets a reference to the given NullableInt32 and assigns it to the CreditsRemaining field.
 func (o *ImageAltTextResponse) SetCreditsRemaining(v int32) {
-	o.CreditsRemaining = &v
+	o.CreditsRemaining.Set(&v)
+}
+// SetCreditsRemainingNil sets the value for CreditsRemaining to be an explicit nil
+func (o *ImageAltTextResponse) SetCreditsRemainingNil() {
+	o.CreditsRemaining.Set(nil)
+}
+
+// UnsetCreditsRemaining ensures that no value is present for CreditsRemaining, not even an explicit nil
+func (o *ImageAltTextResponse) UnsetCreditsRemaining() {
+	o.CreditsRemaining.Unset()
 }
 
 func (o ImageAltTextResponse) MarshalJSON() ([]byte, error) {
@@ -167,8 +177,8 @@ func (o ImageAltTextResponse) ToMap() (map[string]interface{}, error) {
 	toSerialize["media_uuid"] = o.MediaUuid
 	toSerialize["alt_text"] = o.AltText
 	toSerialize["credits_used"] = o.CreditsUsed
-	if !IsNil(o.CreditsRemaining) {
-		toSerialize["credits_remaining"] = o.CreditsRemaining
+	if o.CreditsRemaining.IsSet() {
+		toSerialize["credits_remaining"] = o.CreditsRemaining.Get()
 	}
 	return toSerialize, nil
 }

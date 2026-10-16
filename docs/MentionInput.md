@@ -5,7 +5,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Name** | **string** |  | 
-**Avatar** | Pointer to **string** |  | [optional] 
+**Avatar** | Pointer to **NullableString** |  | [optional] 
 **Identities** | Pointer to [**[]MentionIdentityInput**](MentionIdentityInput.md) |  | [optional] 
 
 ## Methods
@@ -72,6 +72,16 @@ SetAvatar sets Avatar field to given value.
 
 HasAvatar returns a boolean if a field has been set.
 
+### SetAvatarNil
+
+`func (o *MentionInput) SetAvatarNil(b bool)`
+
+ SetAvatarNil sets the value for Avatar to be an explicit nil
+
+### UnsetAvatar
+`func (o *MentionInput) UnsetAvatar()`
+
+UnsetAvatar ensures that no value is present for Avatar, not even an explicit nil
 ### GetIdentities
 
 `func (o *MentionInput) GetIdentities() []MentionIdentityInput`

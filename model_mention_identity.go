@@ -3,7 +3,7 @@ PostBoost API
 
 The PostBoost REST API lets you publish, schedule, and analyze social media posts on every supported network from a single integration. No OAuth apps to maintain — PostBoost handles platform authorization for you.  ## Base URL All workspace-scoped endpoints are prefixed with `/{workspaceUuid}`. Panel/admin endpoints are prefixed with `/panel`.  ## Plan access Every workspace-scoped endpoint returns `403` when the workspace's plan does not include API access (capability `api`).  ## Dates and times Post dates and times (`date`, `time`, `accounts_schedule`) are read in the request's `timezone` when one is given, otherwise in the workspace timezone.  ## Idempotent requests Send an `Idempotency-Key` header (any unique string, for example a UUID) with a `POST`. Repeating the request with the same key within 24 hours returns the stored response with `Idempotent-Replayed: true` and creates nothing new. Reusing a key with a different body returns `422`; a request still in progress with the same key returns `409`. `5xx` and `429` responses are not stored, so they can be retried with the same key.  ## Guardrails for automated clients Create and update requests are checked before anything is written: a post whose content matches one created for the same account in the last 24 hours returns `409` (`code: duplicate_post`, override with `allow_duplicate: true`), scheduling past an account's daily cap returns `429` (`code: account_daily_cap_reached`), and scheduling to an account that must be reconnected returns `422` (`code: account_unauthorized` or `account_token_missing`). Use `POST /{workspaceUuid}/posts/validate` for a dry run and `GET /{workspaceUuid}/activity` to review what API clients did.  ## Authentication All requests require a Bearer token in the `Authorization` header. Generate tokens in your PostBoost dashboard under **Settings → Access Tokens**.  ``` Authorization: Bearer YOUR_API_TOKEN ``` 
 
-API version: 1.37.0
+API version: 1.38.0
 Contact: hi@postboost.co
 */
 
@@ -25,9 +25,9 @@ type MentionIdentity struct {
 	// Mention provider key (network family).
 	Provider string `json:"provider"`
 	// The profile's network ID, when resolved. Never accepted from clients.
-	ProviderId *string `json:"provider_id,omitempty"`
+	ProviderId NullableString `json:"provider_id,omitempty"`
 	Handle string `json:"handle"`
-	Label *string `json:"label,omitempty"`
+	Label NullableString `json:"label,omitempty"`
 }
 
 type _MentionIdentity MentionIdentity
@@ -75,36 +75,46 @@ func (o *MentionIdentity) SetProvider(v string) {
 	o.Provider = v
 }
 
-// GetProviderId returns the ProviderId field value if set, zero value otherwise.
+// GetProviderId returns the ProviderId field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *MentionIdentity) GetProviderId() string {
-	if o == nil || IsNil(o.ProviderId) {
+	if o == nil || IsNil(o.ProviderId.Get()) {
 		var ret string
 		return ret
 	}
-	return *o.ProviderId
+	return *o.ProviderId.Get()
 }
 
 // GetProviderIdOk returns a tuple with the ProviderId field value if set, nil otherwise
 // and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *MentionIdentity) GetProviderIdOk() (*string, bool) {
-	if o == nil || IsNil(o.ProviderId) {
+	if o == nil {
 		return nil, false
 	}
-	return o.ProviderId, true
+	return o.ProviderId.Get(), o.ProviderId.IsSet()
 }
 
 // HasProviderId returns a boolean if a field has been set.
 func (o *MentionIdentity) HasProviderId() bool {
-	if o != nil && !IsNil(o.ProviderId) {
+	if o != nil && o.ProviderId.IsSet() {
 		return true
 	}
 
 	return false
 }
 
-// SetProviderId gets a reference to the given string and assigns it to the ProviderId field.
+// SetProviderId gets a reference to the given NullableString and assigns it to the ProviderId field.
 func (o *MentionIdentity) SetProviderId(v string) {
-	o.ProviderId = &v
+	o.ProviderId.Set(&v)
+}
+// SetProviderIdNil sets the value for ProviderId to be an explicit nil
+func (o *MentionIdentity) SetProviderIdNil() {
+	o.ProviderId.Set(nil)
+}
+
+// UnsetProviderId ensures that no value is present for ProviderId, not even an explicit nil
+func (o *MentionIdentity) UnsetProviderId() {
+	o.ProviderId.Unset()
 }
 
 // GetHandle returns the Handle field value
@@ -131,36 +141,46 @@ func (o *MentionIdentity) SetHandle(v string) {
 	o.Handle = v
 }
 
-// GetLabel returns the Label field value if set, zero value otherwise.
+// GetLabel returns the Label field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *MentionIdentity) GetLabel() string {
-	if o == nil || IsNil(o.Label) {
+	if o == nil || IsNil(o.Label.Get()) {
 		var ret string
 		return ret
 	}
-	return *o.Label
+	return *o.Label.Get()
 }
 
 // GetLabelOk returns a tuple with the Label field value if set, nil otherwise
 // and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *MentionIdentity) GetLabelOk() (*string, bool) {
-	if o == nil || IsNil(o.Label) {
+	if o == nil {
 		return nil, false
 	}
-	return o.Label, true
+	return o.Label.Get(), o.Label.IsSet()
 }
 
 // HasLabel returns a boolean if a field has been set.
 func (o *MentionIdentity) HasLabel() bool {
-	if o != nil && !IsNil(o.Label) {
+	if o != nil && o.Label.IsSet() {
 		return true
 	}
 
 	return false
 }
 
-// SetLabel gets a reference to the given string and assigns it to the Label field.
+// SetLabel gets a reference to the given NullableString and assigns it to the Label field.
 func (o *MentionIdentity) SetLabel(v string) {
-	o.Label = &v
+	o.Label.Set(&v)
+}
+// SetLabelNil sets the value for Label to be an explicit nil
+func (o *MentionIdentity) SetLabelNil() {
+	o.Label.Set(nil)
+}
+
+// UnsetLabel ensures that no value is present for Label, not even an explicit nil
+func (o *MentionIdentity) UnsetLabel() {
+	o.Label.Unset()
 }
 
 func (o MentionIdentity) MarshalJSON() ([]byte, error) {
@@ -174,12 +194,12 @@ func (o MentionIdentity) MarshalJSON() ([]byte, error) {
 func (o MentionIdentity) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["provider"] = o.Provider
-	if !IsNil(o.ProviderId) {
-		toSerialize["provider_id"] = o.ProviderId
+	if o.ProviderId.IsSet() {
+		toSerialize["provider_id"] = o.ProviderId.Get()
 	}
 	toSerialize["handle"] = o.Handle
-	if !IsNil(o.Label) {
-		toSerialize["label"] = o.Label
+	if o.Label.IsSet() {
+		toSerialize["label"] = o.Label.Get()
 	}
 	return toSerialize, nil
 }

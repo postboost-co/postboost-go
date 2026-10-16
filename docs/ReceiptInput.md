@@ -10,8 +10,8 @@ Name | Type | Description | Notes
 **Amount** | **float32** |  | 
 **Tax** | **float32** |  | 
 **Currency** | **string** |  | 
-**Description** | Pointer to **string** |  | [optional] 
-**ReceiptUrl** | Pointer to **string** |  | [optional] 
+**Description** | Pointer to **NullableString** |  | [optional] 
+**ReceiptUrl** | Pointer to **NullableString** |  | [optional] 
 **PaidAt** | **string** |  | 
 
 ## Methods
@@ -178,6 +178,16 @@ SetDescription sets Description field to given value.
 
 HasDescription returns a boolean if a field has been set.
 
+### SetDescriptionNil
+
+`func (o *ReceiptInput) SetDescriptionNil(b bool)`
+
+ SetDescriptionNil sets the value for Description to be an explicit nil
+
+### UnsetDescription
+`func (o *ReceiptInput) UnsetDescription()`
+
+UnsetDescription ensures that no value is present for Description, not even an explicit nil
 ### GetReceiptUrl
 
 `func (o *ReceiptInput) GetReceiptUrl() string`
@@ -203,6 +213,16 @@ SetReceiptUrl sets ReceiptUrl field to given value.
 
 HasReceiptUrl returns a boolean if a field has been set.
 
+### SetReceiptUrlNil
+
+`func (o *ReceiptInput) SetReceiptUrlNil(b bool)`
+
+ SetReceiptUrlNil sets the value for ReceiptUrl to be an explicit nil
+
+### UnsetReceiptUrl
+`func (o *ReceiptInput) UnsetReceiptUrl()`
+
+UnsetReceiptUrl ensures that no value is present for ReceiptUrl, not even an explicit nil
 ### GetPaidAt
 
 `func (o *ReceiptInput) GetPaidAt() string`

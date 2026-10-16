@@ -6,7 +6,7 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Name** | **string** |  | 
 **Email** | **string** |  | 
-**Password** | Pointer to **string** | Omit or set to null to keep the current password. | [optional] 
+**Password** | Pointer to **NullableString** | Omit or set to null to keep the current password. | [optional] 
 **PasswordConfirmation** | Pointer to **string** |  | [optional] 
 **IsAdmin** | **bool** |  | 
 
@@ -94,6 +94,16 @@ SetPassword sets Password field to given value.
 
 HasPassword returns a boolean if a field has been set.
 
+### SetPasswordNil
+
+`func (o *UserUpdateInput) SetPasswordNil(b bool)`
+
+ SetPasswordNil sets the value for Password to be an explicit nil
+
+### UnsetPassword
+`func (o *UserUpdateInput) UnsetPassword()`
+
+UnsetPassword ensures that no value is present for Password, not even an explicit nil
 ### GetPasswordConfirmation
 
 `func (o *UserUpdateInput) GetPasswordConfirmation() string`

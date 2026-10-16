@@ -135,6 +135,16 @@ SetBestAccount sets BestAccount field to given value.
 
 HasBestAccount returns a boolean if a field has been set.
 
+### SetBestAccountNil
+
+`func (o *AnalyticsSummaryData) SetBestAccountNil(b bool)`
+
+ SetBestAccountNil sets the value for BestAccount to be an explicit nil
+
+### UnsetBestAccount
+`func (o *AnalyticsSummaryData) UnsetBestAccount()`
+
+UnsetBestAccount ensures that no value is present for BestAccount, not even an explicit nil
 ### GetNeedsAttention
 
 `func (o *AnalyticsSummaryData) GetNeedsAttention() map[string]interface{}`
@@ -160,6 +170,16 @@ SetNeedsAttention sets NeedsAttention field to given value.
 
 HasNeedsAttention returns a boolean if a field has been set.
 
+### SetNeedsAttentionNil
+
+`func (o *AnalyticsSummaryData) SetNeedsAttentionNil(b bool)`
+
+ SetNeedsAttentionNil sets the value for NeedsAttention to be an explicit nil
+
+### UnsetNeedsAttention
+`func (o *AnalyticsSummaryData) UnsetNeedsAttention()`
+
+UnsetNeedsAttention ensures that no value is present for NeedsAttention, not even an explicit nil
 ### GetAudienceChart
 
 `func (o *AnalyticsSummaryData) GetAudienceChart() []map[string]interface{}`
@@ -235,6 +255,16 @@ SetMostActive sets MostActive field to given value.
 
 HasMostActive returns a boolean if a field has been set.
 
+### SetMostActiveNil
+
+`func (o *AnalyticsSummaryData) SetMostActiveNil(b bool)`
+
+ SetMostActiveNil sets the value for MostActive to be an explicit nil
+
+### UnsetMostActive
+`func (o *AnalyticsSummaryData) UnsetMostActive()`
+
+UnsetMostActive ensures that no value is present for MostActive, not even an explicit nil
 ### GetLeastActive
 
 `func (o *AnalyticsSummaryData) GetLeastActive() map[string]interface{}`
@@ -260,6 +290,16 @@ SetLeastActive sets LeastActive field to given value.
 
 HasLeastActive returns a boolean if a field has been set.
 
+### SetLeastActiveNil
+
+`func (o *AnalyticsSummaryData) SetLeastActiveNil(b bool)`
+
+ SetLeastActiveNil sets the value for LeastActive to be an explicit nil
+
+### UnsetLeastActive
+`func (o *AnalyticsSummaryData) UnsetLeastActive()`
+
+UnsetLeastActive ensures that no value is present for LeastActive, not even an explicit nil
 ### GetFollowerDistribution
 
 `func (o *AnalyticsSummaryData) GetFollowerDistribution() []map[string]interface{}`

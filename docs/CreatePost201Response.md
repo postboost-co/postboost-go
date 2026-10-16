@@ -11,9 +11,9 @@ Name | Type | Description | Notes
 **Accounts** | [**[]Account**](Account.md) |  | 
 **Versions** | [**[]PostVersion**](PostVersion.md) |  | 
 **Tags** | [**[]Tag**](Tag.md) |  | 
-**ScheduledAt** | Pointer to **time.Time** |  | [optional] 
-**PublishedAt** | Pointer to **time.Time** |  | [optional] 
-**CreatedAt** | **time.Time** |  | 
+**ScheduledAt** | Pointer to **string** | &#x60;Y-m-d H:i:s&#x60; in UTC (not RFC 3339). | [optional] 
+**PublishedAt** | Pointer to **string** | &#x60;Y-m-d H:i:s&#x60; in UTC (not RFC 3339). | [optional] 
+**CreatedAt** | **string** | &#x60;Y-m-d H:i:s&#x60; in UTC (not RFC 3339). | 
 **Trashed** | **bool** |  | 
 **Warnings** | Pointer to [**[]PostWarning**](PostWarning.md) | Present only when there is at least one warning. | [optional] 
 
@@ -21,7 +21,7 @@ Name | Type | Description | Notes
 
 ### NewCreatePost201Response
 
-`func NewCreatePost201Response(id int32, uuid string, status PostStatus, accounts []Account, versions []PostVersion, tags []Tag, createdAt time.Time, trashed bool, ) *CreatePost201Response`
+`func NewCreatePost201Response(id int32, uuid string, status PostStatus, accounts []Account, versions []PostVersion, tags []Tag, createdAt string, trashed bool, ) *CreatePost201Response`
 
 NewCreatePost201Response instantiates a new CreatePost201Response object
 This constructor will assign default values to properties that have it defined,
@@ -183,20 +183,20 @@ SetTags sets Tags field to given value.
 
 ### GetScheduledAt
 
-`func (o *CreatePost201Response) GetScheduledAt() time.Time`
+`func (o *CreatePost201Response) GetScheduledAt() string`
 
 GetScheduledAt returns the ScheduledAt field if non-nil, zero value otherwise.
 
 ### GetScheduledAtOk
 
-`func (o *CreatePost201Response) GetScheduledAtOk() (*time.Time, bool)`
+`func (o *CreatePost201Response) GetScheduledAtOk() (*string, bool)`
 
 GetScheduledAtOk returns a tuple with the ScheduledAt field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetScheduledAt
 
-`func (o *CreatePost201Response) SetScheduledAt(v time.Time)`
+`func (o *CreatePost201Response) SetScheduledAt(v string)`
 
 SetScheduledAt sets ScheduledAt field to given value.
 
@@ -208,20 +208,20 @@ HasScheduledAt returns a boolean if a field has been set.
 
 ### GetPublishedAt
 
-`func (o *CreatePost201Response) GetPublishedAt() time.Time`
+`func (o *CreatePost201Response) GetPublishedAt() string`
 
 GetPublishedAt returns the PublishedAt field if non-nil, zero value otherwise.
 
 ### GetPublishedAtOk
 
-`func (o *CreatePost201Response) GetPublishedAtOk() (*time.Time, bool)`
+`func (o *CreatePost201Response) GetPublishedAtOk() (*string, bool)`
 
 GetPublishedAtOk returns a tuple with the PublishedAt field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetPublishedAt
 
-`func (o *CreatePost201Response) SetPublishedAt(v time.Time)`
+`func (o *CreatePost201Response) SetPublishedAt(v string)`
 
 SetPublishedAt sets PublishedAt field to given value.
 
@@ -233,20 +233,20 @@ HasPublishedAt returns a boolean if a field has been set.
 
 ### GetCreatedAt
 
-`func (o *CreatePost201Response) GetCreatedAt() time.Time`
+`func (o *CreatePost201Response) GetCreatedAt() string`
 
 GetCreatedAt returns the CreatedAt field if non-nil, zero value otherwise.
 
 ### GetCreatedAtOk
 
-`func (o *CreatePost201Response) GetCreatedAtOk() (*time.Time, bool)`
+`func (o *CreatePost201Response) GetCreatedAtOk() (*string, bool)`
 
 GetCreatedAtOk returns a tuple with the CreatedAt field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetCreatedAt
 
-`func (o *CreatePost201Response) SetCreatedAt(v time.Time)`
+`func (o *CreatePost201Response) SetCreatedAt(v string)`
 
 SetCreatedAt sets CreatedAt field to given value.
 

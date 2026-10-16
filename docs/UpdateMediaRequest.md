@@ -4,9 +4,9 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Name** | Pointer to **string** |  | [optional] 
-**AltText** | Pointer to **string** | Alternative text for accessibility. | [optional] 
-**Folder** | Pointer to **string** | UUID of the media folder to move the item to, or null for the library root. | [optional] 
+**Name** | Pointer to **NullableString** |  | [optional] 
+**AltText** | Pointer to **NullableString** | Alternative text for accessibility. | [optional] 
+**Folder** | Pointer to **NullableString** | UUID of the media folder to move the item to, or null for the library root. | [optional] 
 
 ## Methods
 
@@ -52,6 +52,16 @@ SetName sets Name field to given value.
 
 HasName returns a boolean if a field has been set.
 
+### SetNameNil
+
+`func (o *UpdateMediaRequest) SetNameNil(b bool)`
+
+ SetNameNil sets the value for Name to be an explicit nil
+
+### UnsetName
+`func (o *UpdateMediaRequest) UnsetName()`
+
+UnsetName ensures that no value is present for Name, not even an explicit nil
 ### GetAltText
 
 `func (o *UpdateMediaRequest) GetAltText() string`
@@ -77,6 +87,16 @@ SetAltText sets AltText field to given value.
 
 HasAltText returns a boolean if a field has been set.
 
+### SetAltTextNil
+
+`func (o *UpdateMediaRequest) SetAltTextNil(b bool)`
+
+ SetAltTextNil sets the value for AltText to be an explicit nil
+
+### UnsetAltText
+`func (o *UpdateMediaRequest) UnsetAltText()`
+
+UnsetAltText ensures that no value is present for AltText, not even an explicit nil
 ### GetFolder
 
 `func (o *UpdateMediaRequest) GetFolder() string`
@@ -102,6 +122,16 @@ SetFolder sets Folder field to given value.
 
 HasFolder returns a boolean if a field has been set.
 
+### SetFolderNil
+
+`func (o *UpdateMediaRequest) SetFolderNil(b bool)`
+
+ SetFolderNil sets the value for Folder to be an explicit nil
+
+### UnsetFolder
+`func (o *UpdateMediaRequest) UnsetFolder()`
+
+UnsetFolder ensures that no value is present for Folder, not even an explicit nil
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

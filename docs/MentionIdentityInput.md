@@ -6,9 +6,9 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Provider** | **string** | Mention provider key. One identity per provider. | 
 **Handle** | **string** | Profile handle; a leading &#x60;@&#x60; is stripped. | 
-**Label** | Pointer to **string** |  | [optional] 
-**Token** | Pointer to **string** | Sealed lookup result that names the profile&#39;s network ID. | [optional] 
-**AccountUuid** | Pointer to **string** | A connected account of this workspace that names the profile. Wins over &#x60;token&#x60; when both are sent. | [optional] 
+**Label** | Pointer to **NullableString** |  | [optional] 
+**Token** | Pointer to **NullableString** | Sealed lookup result that names the profile&#39;s network ID. | [optional] 
+**AccountUuid** | Pointer to **NullableString** | A connected account of this workspace that names the profile. Wins over &#x60;token&#x60; when both are sent. | [optional] 
 
 ## Methods
 
@@ -94,6 +94,16 @@ SetLabel sets Label field to given value.
 
 HasLabel returns a boolean if a field has been set.
 
+### SetLabelNil
+
+`func (o *MentionIdentityInput) SetLabelNil(b bool)`
+
+ SetLabelNil sets the value for Label to be an explicit nil
+
+### UnsetLabel
+`func (o *MentionIdentityInput) UnsetLabel()`
+
+UnsetLabel ensures that no value is present for Label, not even an explicit nil
 ### GetToken
 
 `func (o *MentionIdentityInput) GetToken() string`
@@ -119,6 +129,16 @@ SetToken sets Token field to given value.
 
 HasToken returns a boolean if a field has been set.
 
+### SetTokenNil
+
+`func (o *MentionIdentityInput) SetTokenNil(b bool)`
+
+ SetTokenNil sets the value for Token to be an explicit nil
+
+### UnsetToken
+`func (o *MentionIdentityInput) UnsetToken()`
+
+UnsetToken ensures that no value is present for Token, not even an explicit nil
 ### GetAccountUuid
 
 `func (o *MentionIdentityInput) GetAccountUuid() string`
@@ -144,6 +164,16 @@ SetAccountUuid sets AccountUuid field to given value.
 
 HasAccountUuid returns a boolean if a field has been set.
 
+### SetAccountUuidNil
+
+`func (o *MentionIdentityInput) SetAccountUuidNil(b bool)`
+
+ SetAccountUuidNil sets the value for AccountUuid to be an explicit nil
+
+### UnsetAccountUuid
+`func (o *MentionIdentityInput) UnsetAccountUuid()`
+
+UnsetAccountUuid ensures that no value is present for AccountUuid, not even an explicit nil
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

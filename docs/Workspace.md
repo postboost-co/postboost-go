@@ -7,7 +7,7 @@ Name | Type | Description | Notes
 **Uuid** | **string** |  | 
 **Name** | **string** |  | 
 **HexColor** | Pointer to **string** | Deprecated. Workspaces no longer have a colour (workspaces now use &#x60;avatar&#x60;); the API returns the constant &#x60;4f46e5&#x60; so existing clients keep working. Will be removed in API v2. | [optional] 
-**Avatar** | Pointer to **string** | URL of the workspace avatar, or null when none is set. Supersedes &#x60;hex_color&#x60;. | [optional] 
+**Avatar** | Pointer to **NullableString** | URL of the workspace avatar, or null when none is set. Supersedes &#x60;hex_color&#x60;. | [optional] 
 **Owner** | Pointer to [**User**](User.md) |  | [optional] 
 **AccessStatus** | **string** |  | 
 **CreatedAt** | **time.Time** |  | 
@@ -121,6 +121,16 @@ SetAvatar sets Avatar field to given value.
 
 HasAvatar returns a boolean if a field has been set.
 
+### SetAvatarNil
+
+`func (o *Workspace) SetAvatarNil(b bool)`
+
+ SetAvatarNil sets the value for Avatar to be an explicit nil
+
+### UnsetAvatar
+`func (o *Workspace) UnsetAvatar()`
+
+UnsetAvatar ensures that no value is present for Avatar, not even an explicit nil
 ### GetOwner
 
 `func (o *Workspace) GetOwner() User`

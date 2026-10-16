@@ -3,7 +3,7 @@ PostBoost API
 
 The PostBoost REST API lets you publish, schedule, and analyze social media posts on every supported network from a single integration. No OAuth apps to maintain — PostBoost handles platform authorization for you.  ## Base URL All workspace-scoped endpoints are prefixed with `/{workspaceUuid}`. Panel/admin endpoints are prefixed with `/panel`.  ## Plan access Every workspace-scoped endpoint returns `403` when the workspace's plan does not include API access (capability `api`).  ## Dates and times Post dates and times (`date`, `time`, `accounts_schedule`) are read in the request's `timezone` when one is given, otherwise in the workspace timezone.  ## Idempotent requests Send an `Idempotency-Key` header (any unique string, for example a UUID) with a `POST`. Repeating the request with the same key within 24 hours returns the stored response with `Idempotent-Replayed: true` and creates nothing new. Reusing a key with a different body returns `422`; a request still in progress with the same key returns `409`. `5xx` and `429` responses are not stored, so they can be retried with the same key.  ## Guardrails for automated clients Create and update requests are checked before anything is written: a post whose content matches one created for the same account in the last 24 hours returns `409` (`code: duplicate_post`, override with `allow_duplicate: true`), scheduling past an account's daily cap returns `429` (`code: account_daily_cap_reached`), and scheduling to an account that must be reconnected returns `422` (`code: account_unauthorized` or `account_token_missing`). Use `POST /{workspaceUuid}/posts/validate` for a dry run and `GET /{workspaceUuid}/activity` to review what API clients did.  ## Authentication All requests require a Bearer token in the `Authorization` header. Generate tokens in your PostBoost dashboard under **Settings → Access Tokens**.  ``` Authorization: Bearer YOUR_API_TOKEN ``` 
 
-API version: 1.37.0
+API version: 1.38.0
 Contact: hi@postboost.co
 */
 
@@ -28,9 +28,9 @@ type Subscription struct {
 	PlatformPlanId string `json:"platform_plan_id"`
 	Status SubscriptionStatus `json:"status"`
 	Recurring bool `json:"recurring"`
-	TrialEndsAt *time.Time `json:"trial_ends_at,omitempty"`
-	PausedFrom *time.Time `json:"paused_from,omitempty"`
-	EndsAt *time.Time `json:"ends_at,omitempty"`
+	TrialEndsAt NullableTime `json:"trial_ends_at,omitempty"`
+	PausedFrom NullableTime `json:"paused_from,omitempty"`
+	EndsAt NullableTime `json:"ends_at,omitempty"`
 }
 
 type _Subscription Subscription
@@ -177,100 +177,130 @@ func (o *Subscription) SetRecurring(v bool) {
 	o.Recurring = v
 }
 
-// GetTrialEndsAt returns the TrialEndsAt field value if set, zero value otherwise.
+// GetTrialEndsAt returns the TrialEndsAt field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *Subscription) GetTrialEndsAt() time.Time {
-	if o == nil || IsNil(o.TrialEndsAt) {
+	if o == nil || IsNil(o.TrialEndsAt.Get()) {
 		var ret time.Time
 		return ret
 	}
-	return *o.TrialEndsAt
+	return *o.TrialEndsAt.Get()
 }
 
 // GetTrialEndsAtOk returns a tuple with the TrialEndsAt field value if set, nil otherwise
 // and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *Subscription) GetTrialEndsAtOk() (*time.Time, bool) {
-	if o == nil || IsNil(o.TrialEndsAt) {
+	if o == nil {
 		return nil, false
 	}
-	return o.TrialEndsAt, true
+	return o.TrialEndsAt.Get(), o.TrialEndsAt.IsSet()
 }
 
 // HasTrialEndsAt returns a boolean if a field has been set.
 func (o *Subscription) HasTrialEndsAt() bool {
-	if o != nil && !IsNil(o.TrialEndsAt) {
+	if o != nil && o.TrialEndsAt.IsSet() {
 		return true
 	}
 
 	return false
 }
 
-// SetTrialEndsAt gets a reference to the given time.Time and assigns it to the TrialEndsAt field.
+// SetTrialEndsAt gets a reference to the given NullableTime and assigns it to the TrialEndsAt field.
 func (o *Subscription) SetTrialEndsAt(v time.Time) {
-	o.TrialEndsAt = &v
+	o.TrialEndsAt.Set(&v)
+}
+// SetTrialEndsAtNil sets the value for TrialEndsAt to be an explicit nil
+func (o *Subscription) SetTrialEndsAtNil() {
+	o.TrialEndsAt.Set(nil)
 }
 
-// GetPausedFrom returns the PausedFrom field value if set, zero value otherwise.
+// UnsetTrialEndsAt ensures that no value is present for TrialEndsAt, not even an explicit nil
+func (o *Subscription) UnsetTrialEndsAt() {
+	o.TrialEndsAt.Unset()
+}
+
+// GetPausedFrom returns the PausedFrom field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *Subscription) GetPausedFrom() time.Time {
-	if o == nil || IsNil(o.PausedFrom) {
+	if o == nil || IsNil(o.PausedFrom.Get()) {
 		var ret time.Time
 		return ret
 	}
-	return *o.PausedFrom
+	return *o.PausedFrom.Get()
 }
 
 // GetPausedFromOk returns a tuple with the PausedFrom field value if set, nil otherwise
 // and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *Subscription) GetPausedFromOk() (*time.Time, bool) {
-	if o == nil || IsNil(o.PausedFrom) {
+	if o == nil {
 		return nil, false
 	}
-	return o.PausedFrom, true
+	return o.PausedFrom.Get(), o.PausedFrom.IsSet()
 }
 
 // HasPausedFrom returns a boolean if a field has been set.
 func (o *Subscription) HasPausedFrom() bool {
-	if o != nil && !IsNil(o.PausedFrom) {
+	if o != nil && o.PausedFrom.IsSet() {
 		return true
 	}
 
 	return false
 }
 
-// SetPausedFrom gets a reference to the given time.Time and assigns it to the PausedFrom field.
+// SetPausedFrom gets a reference to the given NullableTime and assigns it to the PausedFrom field.
 func (o *Subscription) SetPausedFrom(v time.Time) {
-	o.PausedFrom = &v
+	o.PausedFrom.Set(&v)
+}
+// SetPausedFromNil sets the value for PausedFrom to be an explicit nil
+func (o *Subscription) SetPausedFromNil() {
+	o.PausedFrom.Set(nil)
 }
 
-// GetEndsAt returns the EndsAt field value if set, zero value otherwise.
+// UnsetPausedFrom ensures that no value is present for PausedFrom, not even an explicit nil
+func (o *Subscription) UnsetPausedFrom() {
+	o.PausedFrom.Unset()
+}
+
+// GetEndsAt returns the EndsAt field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *Subscription) GetEndsAt() time.Time {
-	if o == nil || IsNil(o.EndsAt) {
+	if o == nil || IsNil(o.EndsAt.Get()) {
 		var ret time.Time
 		return ret
 	}
-	return *o.EndsAt
+	return *o.EndsAt.Get()
 }
 
 // GetEndsAtOk returns a tuple with the EndsAt field value if set, nil otherwise
 // and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *Subscription) GetEndsAtOk() (*time.Time, bool) {
-	if o == nil || IsNil(o.EndsAt) {
+	if o == nil {
 		return nil, false
 	}
-	return o.EndsAt, true
+	return o.EndsAt.Get(), o.EndsAt.IsSet()
 }
 
 // HasEndsAt returns a boolean if a field has been set.
 func (o *Subscription) HasEndsAt() bool {
-	if o != nil && !IsNil(o.EndsAt) {
+	if o != nil && o.EndsAt.IsSet() {
 		return true
 	}
 
 	return false
 }
 
-// SetEndsAt gets a reference to the given time.Time and assigns it to the EndsAt field.
+// SetEndsAt gets a reference to the given NullableTime and assigns it to the EndsAt field.
 func (o *Subscription) SetEndsAt(v time.Time) {
-	o.EndsAt = &v
+	o.EndsAt.Set(&v)
+}
+// SetEndsAtNil sets the value for EndsAt to be an explicit nil
+func (o *Subscription) SetEndsAtNil() {
+	o.EndsAt.Set(nil)
+}
+
+// UnsetEndsAt ensures that no value is present for EndsAt, not even an explicit nil
+func (o *Subscription) UnsetEndsAt() {
+	o.EndsAt.Unset()
 }
 
 func (o Subscription) MarshalJSON() ([]byte, error) {
@@ -288,14 +318,14 @@ func (o Subscription) ToMap() (map[string]interface{}, error) {
 	toSerialize["platform_plan_id"] = o.PlatformPlanId
 	toSerialize["status"] = o.Status
 	toSerialize["recurring"] = o.Recurring
-	if !IsNil(o.TrialEndsAt) {
-		toSerialize["trial_ends_at"] = o.TrialEndsAt
+	if o.TrialEndsAt.IsSet() {
+		toSerialize["trial_ends_at"] = o.TrialEndsAt.Get()
 	}
-	if !IsNil(o.PausedFrom) {
-		toSerialize["paused_from"] = o.PausedFrom
+	if o.PausedFrom.IsSet() {
+		toSerialize["paused_from"] = o.PausedFrom.Get()
 	}
-	if !IsNil(o.EndsAt) {
-		toSerialize["ends_at"] = o.EndsAt
+	if o.EndsAt.IsSet() {
+		toSerialize["ends_at"] = o.EndsAt.Get()
 	}
 	return toSerialize, nil
 }

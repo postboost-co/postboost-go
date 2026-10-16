@@ -3,7 +3,7 @@ PostBoost API
 
 The PostBoost REST API lets you publish, schedule, and analyze social media posts on every supported network from a single integration. No OAuth apps to maintain — PostBoost handles platform authorization for you.  ## Base URL All workspace-scoped endpoints are prefixed with `/{workspaceUuid}`. Panel/admin endpoints are prefixed with `/panel`.  ## Plan access Every workspace-scoped endpoint returns `403` when the workspace's plan does not include API access (capability `api`).  ## Dates and times Post dates and times (`date`, `time`, `accounts_schedule`) are read in the request's `timezone` when one is given, otherwise in the workspace timezone.  ## Idempotent requests Send an `Idempotency-Key` header (any unique string, for example a UUID) with a `POST`. Repeating the request with the same key within 24 hours returns the stored response with `Idempotent-Replayed: true` and creates nothing new. Reusing a key with a different body returns `422`; a request still in progress with the same key returns `409`. `5xx` and `429` responses are not stored, so they can be retried with the same key.  ## Guardrails for automated clients Create and update requests are checked before anything is written: a post whose content matches one created for the same account in the last 24 hours returns `409` (`code: duplicate_post`, override with `allow_duplicate: true`), scheduling past an account's daily cap returns `429` (`code: account_daily_cap_reached`), and scheduling to an account that must be reconnected returns `422` (`code: account_unauthorized` or `account_token_missing`). Use `POST /{workspaceUuid}/posts/validate` for a dry run and `GET /{workspaceUuid}/activity` to review what API clients did.  ## Authentication All requests require a Bearer token in the `Authorization` header. Generate tokens in your PostBoost dashboard under **Settings → Access Tokens**.  ``` Authorization: Bearer YOUR_API_TOKEN ``` 
 
-API version: 1.37.0
+API version: 1.38.0
 Contact: hi@postboost.co
 */
 
@@ -151,9 +151,9 @@ func (o *AnalyticsSummaryData) SetTotalPosts(v map[string]interface{}) {
 	o.TotalPosts = v
 }
 
-// GetBestAccount returns the BestAccount field value if set, zero value otherwise.
+// GetBestAccount returns the BestAccount field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *AnalyticsSummaryData) GetBestAccount() map[string]interface{} {
-	if o == nil || IsNil(o.BestAccount) {
+	if o == nil {
 		var ret map[string]interface{}
 		return ret
 	}
@@ -162,6 +162,7 @@ func (o *AnalyticsSummaryData) GetBestAccount() map[string]interface{} {
 
 // GetBestAccountOk returns a tuple with the BestAccount field value if set, nil otherwise
 // and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *AnalyticsSummaryData) GetBestAccountOk() (map[string]interface{}, bool) {
 	if o == nil || IsNil(o.BestAccount) {
 		return map[string]interface{}{}, false
@@ -183,9 +184,9 @@ func (o *AnalyticsSummaryData) SetBestAccount(v map[string]interface{}) {
 	o.BestAccount = v
 }
 
-// GetNeedsAttention returns the NeedsAttention field value if set, zero value otherwise.
+// GetNeedsAttention returns the NeedsAttention field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *AnalyticsSummaryData) GetNeedsAttention() map[string]interface{} {
-	if o == nil || IsNil(o.NeedsAttention) {
+	if o == nil {
 		var ret map[string]interface{}
 		return ret
 	}
@@ -194,6 +195,7 @@ func (o *AnalyticsSummaryData) GetNeedsAttention() map[string]interface{} {
 
 // GetNeedsAttentionOk returns a tuple with the NeedsAttention field value if set, nil otherwise
 // and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *AnalyticsSummaryData) GetNeedsAttentionOk() (map[string]interface{}, bool) {
 	if o == nil || IsNil(o.NeedsAttention) {
 		return map[string]interface{}{}, false
@@ -279,9 +281,9 @@ func (o *AnalyticsSummaryData) SetLeaderboard(v []map[string]interface{}) {
 	o.Leaderboard = v
 }
 
-// GetMostActive returns the MostActive field value if set, zero value otherwise.
+// GetMostActive returns the MostActive field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *AnalyticsSummaryData) GetMostActive() map[string]interface{} {
-	if o == nil || IsNil(o.MostActive) {
+	if o == nil {
 		var ret map[string]interface{}
 		return ret
 	}
@@ -290,6 +292,7 @@ func (o *AnalyticsSummaryData) GetMostActive() map[string]interface{} {
 
 // GetMostActiveOk returns a tuple with the MostActive field value if set, nil otherwise
 // and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *AnalyticsSummaryData) GetMostActiveOk() (map[string]interface{}, bool) {
 	if o == nil || IsNil(o.MostActive) {
 		return map[string]interface{}{}, false
@@ -311,9 +314,9 @@ func (o *AnalyticsSummaryData) SetMostActive(v map[string]interface{}) {
 	o.MostActive = v
 }
 
-// GetLeastActive returns the LeastActive field value if set, zero value otherwise.
+// GetLeastActive returns the LeastActive field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *AnalyticsSummaryData) GetLeastActive() map[string]interface{} {
-	if o == nil || IsNil(o.LeastActive) {
+	if o == nil {
 		var ret map[string]interface{}
 		return ret
 	}
@@ -322,6 +325,7 @@ func (o *AnalyticsSummaryData) GetLeastActive() map[string]interface{} {
 
 // GetLeastActiveOk returns a tuple with the LeastActive field value if set, nil otherwise
 // and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *AnalyticsSummaryData) GetLeastActiveOk() (map[string]interface{}, bool) {
 	if o == nil || IsNil(o.LeastActive) {
 		return map[string]interface{}{}, false
@@ -426,10 +430,10 @@ func (o AnalyticsSummaryData) ToMap() (map[string]interface{}, error) {
 	if !IsNil(o.TotalPosts) {
 		toSerialize["total_posts"] = o.TotalPosts
 	}
-	if !IsNil(o.BestAccount) {
+	if o.BestAccount != nil {
 		toSerialize["best_account"] = o.BestAccount
 	}
-	if !IsNil(o.NeedsAttention) {
+	if o.NeedsAttention != nil {
 		toSerialize["needs_attention"] = o.NeedsAttention
 	}
 	if !IsNil(o.AudienceChart) {
@@ -438,10 +442,10 @@ func (o AnalyticsSummaryData) ToMap() (map[string]interface{}, error) {
 	if !IsNil(o.Leaderboard) {
 		toSerialize["leaderboard"] = o.Leaderboard
 	}
-	if !IsNil(o.MostActive) {
+	if o.MostActive != nil {
 		toSerialize["most_active"] = o.MostActive
 	}
-	if !IsNil(o.LeastActive) {
+	if o.LeastActive != nil {
 		toSerialize["least_active"] = o.LeastActive
 	}
 	if !IsNil(o.FollowerDistribution) {

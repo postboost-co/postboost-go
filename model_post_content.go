@@ -3,7 +3,7 @@ PostBoost API
 
 The PostBoost REST API lets you publish, schedule, and analyze social media posts on every supported network from a single integration. No OAuth apps to maintain — PostBoost handles platform authorization for you.  ## Base URL All workspace-scoped endpoints are prefixed with `/{workspaceUuid}`. Panel/admin endpoints are prefixed with `/panel`.  ## Plan access Every workspace-scoped endpoint returns `403` when the workspace's plan does not include API access (capability `api`).  ## Dates and times Post dates and times (`date`, `time`, `accounts_schedule`) are read in the request's `timezone` when one is given, otherwise in the workspace timezone.  ## Idempotent requests Send an `Idempotency-Key` header (any unique string, for example a UUID) with a `POST`. Repeating the request with the same key within 24 hours returns the stored response with `Idempotent-Replayed: true` and creates nothing new. Reusing a key with a different body returns `422`; a request still in progress with the same key returns `409`. `5xx` and `429` responses are not stored, so they can be retried with the same key.  ## Guardrails for automated clients Create and update requests are checked before anything is written: a post whose content matches one created for the same account in the last 24 hours returns `409` (`code: duplicate_post`, override with `allow_duplicate: true`), scheduling past an account's daily cap returns `429` (`code: account_daily_cap_reached`), and scheduling to an account that must be reconnected returns `422` (`code: account_unauthorized` or `account_token_missing`). Use `POST /{workspaceUuid}/posts/validate` for a dry run and `GET /{workspaceUuid}/activity` to review what API clients did.  ## Authentication All requests require a Bearer token in the `Authorization` header. Generate tokens in your PostBoost dashboard under **Settings → Access Tokens**.  ``` Authorization: Bearer YOUR_API_TOKEN ``` 
 
-API version: 1.37.0
+API version: 1.38.0
 Contact: hi@postboost.co
 */
 
@@ -21,8 +21,8 @@ var _ MappedNullable = &PostContent{}
 // PostContent One item of a version's `content` array. The first item is always the post itself. What a second item means depends on the network:  - **Facebook Page, Instagram, LinkedIn** (profile and page): the second item's `body` is   published as the **first comment** under the post, right after the post goes live.   Only one comment is supported; further items are ignored. Facebook Stories take no comment. - **X, Threads, Bluesky, Mastodon, Pixelfed**: every additional item is published as the   next post of a **thread**, in order. - **All other networks** (YouTube, TikTok, Pinterest, Google Business Profile): only the   first item is published; additional items are ignored. 
 type PostContent struct {
 	// Post text/caption. For a second item on Facebook Page, Instagram or LinkedIn this is the first comment.
-	Body *string `json:"body,omitempty"`
-	Url *string `json:"url,omitempty"`
+	Body NullableString `json:"body,omitempty"`
+	Url NullableString `json:"url,omitempty"`
 	// Array of media IDs from the media library.
 	Media []int32 `json:"media,omitempty"`
 	VideoThumbs []map[string]interface{} `json:"video_thumbs,omitempty"`
@@ -45,68 +45,88 @@ func NewPostContentWithDefaults() *PostContent {
 	return &this
 }
 
-// GetBody returns the Body field value if set, zero value otherwise.
+// GetBody returns the Body field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *PostContent) GetBody() string {
-	if o == nil || IsNil(o.Body) {
+	if o == nil || IsNil(o.Body.Get()) {
 		var ret string
 		return ret
 	}
-	return *o.Body
+	return *o.Body.Get()
 }
 
 // GetBodyOk returns a tuple with the Body field value if set, nil otherwise
 // and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *PostContent) GetBodyOk() (*string, bool) {
-	if o == nil || IsNil(o.Body) {
+	if o == nil {
 		return nil, false
 	}
-	return o.Body, true
+	return o.Body.Get(), o.Body.IsSet()
 }
 
 // HasBody returns a boolean if a field has been set.
 func (o *PostContent) HasBody() bool {
-	if o != nil && !IsNil(o.Body) {
+	if o != nil && o.Body.IsSet() {
 		return true
 	}
 
 	return false
 }
 
-// SetBody gets a reference to the given string and assigns it to the Body field.
+// SetBody gets a reference to the given NullableString and assigns it to the Body field.
 func (o *PostContent) SetBody(v string) {
-	o.Body = &v
+	o.Body.Set(&v)
+}
+// SetBodyNil sets the value for Body to be an explicit nil
+func (o *PostContent) SetBodyNil() {
+	o.Body.Set(nil)
 }
 
-// GetUrl returns the Url field value if set, zero value otherwise.
+// UnsetBody ensures that no value is present for Body, not even an explicit nil
+func (o *PostContent) UnsetBody() {
+	o.Body.Unset()
+}
+
+// GetUrl returns the Url field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *PostContent) GetUrl() string {
-	if o == nil || IsNil(o.Url) {
+	if o == nil || IsNil(o.Url.Get()) {
 		var ret string
 		return ret
 	}
-	return *o.Url
+	return *o.Url.Get()
 }
 
 // GetUrlOk returns a tuple with the Url field value if set, nil otherwise
 // and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *PostContent) GetUrlOk() (*string, bool) {
-	if o == nil || IsNil(o.Url) {
+	if o == nil {
 		return nil, false
 	}
-	return o.Url, true
+	return o.Url.Get(), o.Url.IsSet()
 }
 
 // HasUrl returns a boolean if a field has been set.
 func (o *PostContent) HasUrl() bool {
-	if o != nil && !IsNil(o.Url) {
+	if o != nil && o.Url.IsSet() {
 		return true
 	}
 
 	return false
 }
 
-// SetUrl gets a reference to the given string and assigns it to the Url field.
+// SetUrl gets a reference to the given NullableString and assigns it to the Url field.
 func (o *PostContent) SetUrl(v string) {
-	o.Url = &v
+	o.Url.Set(&v)
+}
+// SetUrlNil sets the value for Url to be an explicit nil
+func (o *PostContent) SetUrlNil() {
+	o.Url.Set(nil)
+}
+
+// UnsetUrl ensures that no value is present for Url, not even an explicit nil
+func (o *PostContent) UnsetUrl() {
+	o.Url.Unset()
 }
 
 // GetMedia returns the Media field value if set, zero value otherwise.
@@ -183,11 +203,11 @@ func (o PostContent) MarshalJSON() ([]byte, error) {
 
 func (o PostContent) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
-	if !IsNil(o.Body) {
-		toSerialize["body"] = o.Body
+	if o.Body.IsSet() {
+		toSerialize["body"] = o.Body.Get()
 	}
-	if !IsNil(o.Url) {
-		toSerialize["url"] = o.Url
+	if o.Url.IsSet() {
+		toSerialize["url"] = o.Url.Get()
 	}
 	if !IsNil(o.Media) {
 		toSerialize["media"] = o.Media

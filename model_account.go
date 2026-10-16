@@ -3,7 +3,7 @@ PostBoost API
 
 The PostBoost REST API lets you publish, schedule, and analyze social media posts on every supported network from a single integration. No OAuth apps to maintain — PostBoost handles platform authorization for you.  ## Base URL All workspace-scoped endpoints are prefixed with `/{workspaceUuid}`. Panel/admin endpoints are prefixed with `/panel`.  ## Plan access Every workspace-scoped endpoint returns `403` when the workspace's plan does not include API access (capability `api`).  ## Dates and times Post dates and times (`date`, `time`, `accounts_schedule`) are read in the request's `timezone` when one is given, otherwise in the workspace timezone.  ## Idempotent requests Send an `Idempotency-Key` header (any unique string, for example a UUID) with a `POST`. Repeating the request with the same key within 24 hours returns the stored response with `Idempotent-Replayed: true` and creates nothing new. Reusing a key with a different body returns `422`; a request still in progress with the same key returns `409`. `5xx` and `429` responses are not stored, so they can be retried with the same key.  ## Guardrails for automated clients Create and update requests are checked before anything is written: a post whose content matches one created for the same account in the last 24 hours returns `409` (`code: duplicate_post`, override with `allow_duplicate: true`), scheduling past an account's daily cap returns `429` (`code: account_daily_cap_reached`), and scheduling to an account that must be reconnected returns `422` (`code: account_unauthorized` or `account_token_missing`). Use `POST /{workspaceUuid}/posts/validate` for a dry run and `GET /{workspaceUuid}/activity` to review what API clients did.  ## Authentication All requests require a Bearer token in the `Authorization` header. Generate tokens in your PostBoost dashboard under **Settings → Access Tokens**.  ``` Authorization: Bearer YOUR_API_TOKEN ``` 
 
-API version: 1.37.0
+API version: 1.38.0
 Contact: hi@postboost.co
 */
 
@@ -26,13 +26,14 @@ type Account struct {
 	Uuid string `json:"uuid"`
 	Name string `json:"name"`
 	Username string `json:"username"`
-	Image *string `json:"image,omitempty"`
+	Image NullableString `json:"image,omitempty"`
+	// Network key. Known values: `twitter`, `facebook_page`, `instagram`, `instagram_standalone`, `threads`, `linkedin`, `linkedin_page`, `tiktok`, `youtube`, `pinterest`, `gbp`, `bluesky`, `mastodon`, `pixelfed`, `telegram`, `discord`, `slack`. New networks add new keys, so treat unknown values as valid. 
 	Provider string `json:"provider"`
 	// Provider-specific metadata.
 	Data map[string]interface{} `json:"data"`
 	Authorized bool `json:"authorized"`
 	// Public URL of the account's profile on the network, when known.
-	ProfileUrl *string `json:"profile_url,omitempty"`
+	ProfileUrl NullableString `json:"profile_url,omitempty"`
 	// Only present when the account is embedded in a post. Publishing state of this account for the post.
 	PublishStatus *string `json:"publish_status,omitempty"`
 	// Only present when the account is embedded in a post. How many parts (for example thread items or a first comment) are live on the network.
@@ -170,36 +171,46 @@ func (o *Account) SetUsername(v string) {
 	o.Username = v
 }
 
-// GetImage returns the Image field value if set, zero value otherwise.
+// GetImage returns the Image field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *Account) GetImage() string {
-	if o == nil || IsNil(o.Image) {
+	if o == nil || IsNil(o.Image.Get()) {
 		var ret string
 		return ret
 	}
-	return *o.Image
+	return *o.Image.Get()
 }
 
 // GetImageOk returns a tuple with the Image field value if set, nil otherwise
 // and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *Account) GetImageOk() (*string, bool) {
-	if o == nil || IsNil(o.Image) {
+	if o == nil {
 		return nil, false
 	}
-	return o.Image, true
+	return o.Image.Get(), o.Image.IsSet()
 }
 
 // HasImage returns a boolean if a field has been set.
 func (o *Account) HasImage() bool {
-	if o != nil && !IsNil(o.Image) {
+	if o != nil && o.Image.IsSet() {
 		return true
 	}
 
 	return false
 }
 
-// SetImage gets a reference to the given string and assigns it to the Image field.
+// SetImage gets a reference to the given NullableString and assigns it to the Image field.
 func (o *Account) SetImage(v string) {
-	o.Image = &v
+	o.Image.Set(&v)
+}
+// SetImageNil sets the value for Image to be an explicit nil
+func (o *Account) SetImageNil() {
+	o.Image.Set(nil)
+}
+
+// UnsetImage ensures that no value is present for Image, not even an explicit nil
+func (o *Account) UnsetImage() {
+	o.Image.Unset()
 }
 
 // GetProvider returns the Provider field value
@@ -274,36 +285,46 @@ func (o *Account) SetAuthorized(v bool) {
 	o.Authorized = v
 }
 
-// GetProfileUrl returns the ProfileUrl field value if set, zero value otherwise.
+// GetProfileUrl returns the ProfileUrl field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *Account) GetProfileUrl() string {
-	if o == nil || IsNil(o.ProfileUrl) {
+	if o == nil || IsNil(o.ProfileUrl.Get()) {
 		var ret string
 		return ret
 	}
-	return *o.ProfileUrl
+	return *o.ProfileUrl.Get()
 }
 
 // GetProfileUrlOk returns a tuple with the ProfileUrl field value if set, nil otherwise
 // and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *Account) GetProfileUrlOk() (*string, bool) {
-	if o == nil || IsNil(o.ProfileUrl) {
+	if o == nil {
 		return nil, false
 	}
-	return o.ProfileUrl, true
+	return o.ProfileUrl.Get(), o.ProfileUrl.IsSet()
 }
 
 // HasProfileUrl returns a boolean if a field has been set.
 func (o *Account) HasProfileUrl() bool {
-	if o != nil && !IsNil(o.ProfileUrl) {
+	if o != nil && o.ProfileUrl.IsSet() {
 		return true
 	}
 
 	return false
 }
 
-// SetProfileUrl gets a reference to the given string and assigns it to the ProfileUrl field.
+// SetProfileUrl gets a reference to the given NullableString and assigns it to the ProfileUrl field.
 func (o *Account) SetProfileUrl(v string) {
-	o.ProfileUrl = &v
+	o.ProfileUrl.Set(&v)
+}
+// SetProfileUrlNil sets the value for ProfileUrl to be an explicit nil
+func (o *Account) SetProfileUrlNil() {
+	o.ProfileUrl.Set(nil)
+}
+
+// UnsetProfileUrl ensures that no value is present for ProfileUrl, not even an explicit nil
+func (o *Account) UnsetProfileUrl() {
+	o.ProfileUrl.Unset()
 }
 
 // GetPublishStatus returns the PublishStatus field value if set, zero value otherwise.
@@ -524,14 +545,14 @@ func (o Account) ToMap() (map[string]interface{}, error) {
 	toSerialize["uuid"] = o.Uuid
 	toSerialize["name"] = o.Name
 	toSerialize["username"] = o.Username
-	if !IsNil(o.Image) {
-		toSerialize["image"] = o.Image
+	if o.Image.IsSet() {
+		toSerialize["image"] = o.Image.Get()
 	}
 	toSerialize["provider"] = o.Provider
 	toSerialize["data"] = o.Data
 	toSerialize["authorized"] = o.Authorized
-	if !IsNil(o.ProfileUrl) {
-		toSerialize["profile_url"] = o.ProfileUrl
+	if o.ProfileUrl.IsSet() {
+		toSerialize["profile_url"] = o.ProfileUrl.Get()
 	}
 	if !IsNil(o.PublishStatus) {
 		toSerialize["publish_status"] = o.PublishStatus

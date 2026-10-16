@@ -3,7 +3,7 @@ PostBoost API
 
 The PostBoost REST API lets you publish, schedule, and analyze social media posts on every supported network from a single integration. No OAuth apps to maintain — PostBoost handles platform authorization for you.  ## Base URL All workspace-scoped endpoints are prefixed with `/{workspaceUuid}`. Panel/admin endpoints are prefixed with `/panel`.  ## Plan access Every workspace-scoped endpoint returns `403` when the workspace's plan does not include API access (capability `api`).  ## Dates and times Post dates and times (`date`, `time`, `accounts_schedule`) are read in the request's `timezone` when one is given, otherwise in the workspace timezone.  ## Idempotent requests Send an `Idempotency-Key` header (any unique string, for example a UUID) with a `POST`. Repeating the request with the same key within 24 hours returns the stored response with `Idempotent-Replayed: true` and creates nothing new. Reusing a key with a different body returns `422`; a request still in progress with the same key returns `409`. `5xx` and `429` responses are not stored, so they can be retried with the same key.  ## Guardrails for automated clients Create and update requests are checked before anything is written: a post whose content matches one created for the same account in the last 24 hours returns `409` (`code: duplicate_post`, override with `allow_duplicate: true`), scheduling past an account's daily cap returns `429` (`code: account_daily_cap_reached`), and scheduling to an account that must be reconnected returns `422` (`code: account_unauthorized` or `account_token_missing`). Use `POST /{workspaceUuid}/posts/validate` for a dry run and `GET /{workspaceUuid}/activity` to review what API clients did.  ## Authentication All requests require a Bearer token in the `Authorization` header. Generate tokens in your PostBoost dashboard under **Settings → Access Tokens**.  ``` Authorization: Bearer YOUR_API_TOKEN ``` 
 
-API version: 1.37.0
+API version: 1.38.0
 Contact: hi@postboost.co
 */
 
@@ -13,7 +13,6 @@ package postboost
 
 import (
 	"encoding/json"
-	"time"
 	"bytes"
 	"fmt"
 )
@@ -31,9 +30,12 @@ type Post struct {
 	Accounts []Account `json:"accounts"`
 	Versions []PostVersion `json:"versions"`
 	Tags []Tag `json:"tags"`
-	ScheduledAt *time.Time `json:"scheduled_at,omitempty"`
-	PublishedAt *time.Time `json:"published_at,omitempty"`
-	CreatedAt time.Time `json:"created_at"`
+	// `Y-m-d H:i:s` in UTC (not RFC 3339).
+	ScheduledAt NullableString `json:"scheduled_at,omitempty"`
+	// `Y-m-d H:i:s` in UTC (not RFC 3339).
+	PublishedAt NullableString `json:"published_at,omitempty"`
+	// `Y-m-d H:i:s` in UTC (not RFC 3339).
+	CreatedAt string `json:"created_at"`
 	Trashed bool `json:"trashed"`
 }
 
@@ -43,7 +45,7 @@ type _Post Post
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewPost(id int32, uuid string, status PostStatus, accounts []Account, versions []PostVersion, tags []Tag, createdAt time.Time, trashed bool) *Post {
+func NewPost(id int32, uuid string, status PostStatus, accounts []Account, versions []PostVersion, tags []Tag, createdAt string, trashed bool) *Post {
 	this := Post{}
 	this.Id = id
 	this.Uuid = uuid
@@ -240,74 +242,94 @@ func (o *Post) SetTags(v []Tag) {
 	o.Tags = v
 }
 
-// GetScheduledAt returns the ScheduledAt field value if set, zero value otherwise.
-func (o *Post) GetScheduledAt() time.Time {
-	if o == nil || IsNil(o.ScheduledAt) {
-		var ret time.Time
+// GetScheduledAt returns the ScheduledAt field value if set, zero value otherwise (both if not set or set to explicit null).
+func (o *Post) GetScheduledAt() string {
+	if o == nil || IsNil(o.ScheduledAt.Get()) {
+		var ret string
 		return ret
 	}
-	return *o.ScheduledAt
+	return *o.ScheduledAt.Get()
 }
 
 // GetScheduledAtOk returns a tuple with the ScheduledAt field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *Post) GetScheduledAtOk() (*time.Time, bool) {
-	if o == nil || IsNil(o.ScheduledAt) {
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
+func (o *Post) GetScheduledAtOk() (*string, bool) {
+	if o == nil {
 		return nil, false
 	}
-	return o.ScheduledAt, true
+	return o.ScheduledAt.Get(), o.ScheduledAt.IsSet()
 }
 
 // HasScheduledAt returns a boolean if a field has been set.
 func (o *Post) HasScheduledAt() bool {
-	if o != nil && !IsNil(o.ScheduledAt) {
+	if o != nil && o.ScheduledAt.IsSet() {
 		return true
 	}
 
 	return false
 }
 
-// SetScheduledAt gets a reference to the given time.Time and assigns it to the ScheduledAt field.
-func (o *Post) SetScheduledAt(v time.Time) {
-	o.ScheduledAt = &v
+// SetScheduledAt gets a reference to the given NullableString and assigns it to the ScheduledAt field.
+func (o *Post) SetScheduledAt(v string) {
+	o.ScheduledAt.Set(&v)
+}
+// SetScheduledAtNil sets the value for ScheduledAt to be an explicit nil
+func (o *Post) SetScheduledAtNil() {
+	o.ScheduledAt.Set(nil)
 }
 
-// GetPublishedAt returns the PublishedAt field value if set, zero value otherwise.
-func (o *Post) GetPublishedAt() time.Time {
-	if o == nil || IsNil(o.PublishedAt) {
-		var ret time.Time
+// UnsetScheduledAt ensures that no value is present for ScheduledAt, not even an explicit nil
+func (o *Post) UnsetScheduledAt() {
+	o.ScheduledAt.Unset()
+}
+
+// GetPublishedAt returns the PublishedAt field value if set, zero value otherwise (both if not set or set to explicit null).
+func (o *Post) GetPublishedAt() string {
+	if o == nil || IsNil(o.PublishedAt.Get()) {
+		var ret string
 		return ret
 	}
-	return *o.PublishedAt
+	return *o.PublishedAt.Get()
 }
 
 // GetPublishedAtOk returns a tuple with the PublishedAt field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *Post) GetPublishedAtOk() (*time.Time, bool) {
-	if o == nil || IsNil(o.PublishedAt) {
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
+func (o *Post) GetPublishedAtOk() (*string, bool) {
+	if o == nil {
 		return nil, false
 	}
-	return o.PublishedAt, true
+	return o.PublishedAt.Get(), o.PublishedAt.IsSet()
 }
 
 // HasPublishedAt returns a boolean if a field has been set.
 func (o *Post) HasPublishedAt() bool {
-	if o != nil && !IsNil(o.PublishedAt) {
+	if o != nil && o.PublishedAt.IsSet() {
 		return true
 	}
 
 	return false
 }
 
-// SetPublishedAt gets a reference to the given time.Time and assigns it to the PublishedAt field.
-func (o *Post) SetPublishedAt(v time.Time) {
-	o.PublishedAt = &v
+// SetPublishedAt gets a reference to the given NullableString and assigns it to the PublishedAt field.
+func (o *Post) SetPublishedAt(v string) {
+	o.PublishedAt.Set(&v)
+}
+// SetPublishedAtNil sets the value for PublishedAt to be an explicit nil
+func (o *Post) SetPublishedAtNil() {
+	o.PublishedAt.Set(nil)
+}
+
+// UnsetPublishedAt ensures that no value is present for PublishedAt, not even an explicit nil
+func (o *Post) UnsetPublishedAt() {
+	o.PublishedAt.Unset()
 }
 
 // GetCreatedAt returns the CreatedAt field value
-func (o *Post) GetCreatedAt() time.Time {
+func (o *Post) GetCreatedAt() string {
 	if o == nil {
-		var ret time.Time
+		var ret string
 		return ret
 	}
 
@@ -316,7 +338,7 @@ func (o *Post) GetCreatedAt() time.Time {
 
 // GetCreatedAtOk returns a tuple with the CreatedAt field value
 // and a boolean to check if the value has been set.
-func (o *Post) GetCreatedAtOk() (*time.Time, bool) {
+func (o *Post) GetCreatedAtOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -324,7 +346,7 @@ func (o *Post) GetCreatedAtOk() (*time.Time, bool) {
 }
 
 // SetCreatedAt sets field value
-func (o *Post) SetCreatedAt(v time.Time) {
+func (o *Post) SetCreatedAt(v string) {
 	o.CreatedAt = v
 }
 
@@ -371,11 +393,11 @@ func (o Post) ToMap() (map[string]interface{}, error) {
 	toSerialize["accounts"] = o.Accounts
 	toSerialize["versions"] = o.Versions
 	toSerialize["tags"] = o.Tags
-	if !IsNil(o.ScheduledAt) {
-		toSerialize["scheduled_at"] = o.ScheduledAt
+	if o.ScheduledAt.IsSet() {
+		toSerialize["scheduled_at"] = o.ScheduledAt.Get()
 	}
-	if !IsNil(o.PublishedAt) {
-		toSerialize["published_at"] = o.PublishedAt
+	if o.PublishedAt.IsSet() {
+		toSerialize["published_at"] = o.PublishedAt.Get()
 	}
 	toSerialize["created_at"] = o.CreatedAt
 	toSerialize["trashed"] = o.Trashed
