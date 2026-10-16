@@ -13,7 +13,7 @@ go get github.com/postboost-co/postboost-go
 | **pkg.go.dev** | [pkg.go.dev/github.com/postboost-co/postboost-go](https://pkg.go.dev/github.com/postboost-co/postboost-go) |
 | **GitHub** | [postboost-co/postboost-go](https://github.com/postboost-co/postboost-go) |
 | **Docs** | [postboost.co/docs/api](https://postboost.co/docs/api) |
-| **Version** | v1.31.0 |
+| **Version** | v1.32.0 |
 
 ## Quick start
 
@@ -99,6 +99,7 @@ Class | Method | HTTP request | Description
 *FreeToolsAPI* | [**GetBestTimesToPost**](docs/FreeToolsAPI.md#getbesttimestopost) | **Get** /tools/best-time-to-post | Get the best times to post per network from published studies, with sources
 *FreeToolsAPI* | [**GetImageSizes**](docs/FreeToolsAPI.md#getimagesizes) | **Get** /tools/social-media-image-sizes | Get social media image sizes per network, each with its source
 *FreeToolsAPI* | [**ListFreeTools**](docs/FreeToolsAPI.md#listfreetools) | **Get** /tools | List the free tools
+*FreeToolsAPI* | [**PreviewPost**](docs/FreeToolsAPI.md#previewpost) | **Post** /tools/social-media-post-preview | Preview where a post folds and when its image is cropped on Instagram, X, LinkedIn and Facebook
 *FreeToolsAPI* | [**SplitThread**](docs/FreeToolsAPI.md#splitthread) | **Post** /tools/x-thread-maker | Split long text into a thread
 *HashtagGroupsAPI* | [**CreateHashtagGroup**](docs/HashtagGroupsAPI.md#createhashtaggroup) | **Post** /{workspaceUuid}/hashtag-groups | Create a hashtag group
 *HashtagGroupsAPI* | [**DeleteHashtagGroup**](docs/HashtagGroupsAPI.md#deletehashtaggroup) | **Delete** /{workspaceUuid}/hashtag-groups/{hashtagGroupId} | Delete a hashtag group
