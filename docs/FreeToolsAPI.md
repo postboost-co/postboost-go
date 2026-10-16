@@ -15,6 +15,7 @@ Method | HTTP request | Description
 [**GenerateCaption**](FreeToolsAPI.md#GenerateCaption) | **Post** /tools/instagram-caption-generator | Write three post captions for a topic with AI (needs a token, spends AI credits)
 [**GenerateFancyText**](FreeToolsAPI.md#GenerateFancyText) | **Post** /tools/fancy-text-generator | Convert text to fancy Unicode styles
 [**GenerateHashtags**](FreeToolsAPI.md#GenerateHashtags) | **Post** /tools/instagram-hashtag-generator | Generate hashtags for a post topic with AI (needs a token, spends AI credits)
+[**GenerateQrCode**](FreeToolsAPI.md#GenerateQrCode) | **Post** /tools/qr-code-generator | Generate a QR code (SVG) for a link or text, with optional UTM tags
 [**GetBestTimesToPost**](FreeToolsAPI.md#GetBestTimesToPost) | **Get** /tools/best-time-to-post | Get the best times to post per network from published studies, with sources
 [**GetImageSizes**](FreeToolsAPI.md#GetImageSizes) | **Get** /tools/social-media-image-sizes | Get social media image sizes per network, each with its source
 [**ListFreeTools**](FreeToolsAPI.md#ListFreeTools) | **Get** /tools | List the free tools
@@ -738,6 +739,72 @@ Name | Type | Description  | Notes
 ### Authorization
 
 [bearerAuth](../README.md#bearerAuth)
+
+### HTTP request headers
+
+- **Content-Type**: application/json
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## GenerateQrCode
+
+> FreeToolGenerateQrCodeResponse GenerateQrCode(ctx).FreeToolGenerateQrCodeRequest(freeToolGenerateQrCodeRequest).Execute()
+
+Generate a QR code (SVG) for a link or text, with optional UTM tags
+
+
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/postboost-co/postboost-go"
+)
+
+func main() {
+	freeToolGenerateQrCodeRequest := *openapiclient.NewFreeToolGenerateQrCodeRequest("Data_example") // FreeToolGenerateQrCodeRequest | 
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.FreeToolsAPI.GenerateQrCode(context.Background()).FreeToolGenerateQrCodeRequest(freeToolGenerateQrCodeRequest).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `FreeToolsAPI.GenerateQrCode``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `GenerateQrCode`: FreeToolGenerateQrCodeResponse
+	fmt.Fprintf(os.Stdout, "Response from `FreeToolsAPI.GenerateQrCode`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiGenerateQrCodeRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **freeToolGenerateQrCodeRequest** | [**FreeToolGenerateQrCodeRequest**](FreeToolGenerateQrCodeRequest.md) |  | 
+
+### Return type
+
+[**FreeToolGenerateQrCodeResponse**](FreeToolGenerateQrCodeResponse.md)
+
+### Authorization
+
+No authorization required
 
 ### HTTP request headers
 

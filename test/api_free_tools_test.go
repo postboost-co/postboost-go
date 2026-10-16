@@ -154,6 +154,18 @@ func Test_postboost_FreeToolsAPIService(t *testing.T) {
 
 	})
 
+	t.Run("Test FreeToolsAPIService GenerateQrCode", func(t *testing.T) {
+
+		t.Skip("skip test")  // remove to run test
+
+		resp, httpRes, err := apiClient.FreeToolsAPI.GenerateQrCode(context.Background()).Execute()
+
+		require.Nil(t, err)
+		require.NotNil(t, resp)
+		assert.Equal(t, 200, httpRes.StatusCode)
+
+	})
+
 	t.Run("Test FreeToolsAPIService GetBestTimesToPost", func(t *testing.T) {
 
 		t.Skip("skip test")  // remove to run test
