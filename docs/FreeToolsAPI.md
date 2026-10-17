@@ -6,8 +6,10 @@ Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**BuildUtmUrl**](FreeToolsAPI.md#BuildUtmUrl) | **Post** /tools/utm-builder | Build a UTM-tagged campaign URL
 [**CalculateAspectRatio**](FreeToolsAPI.md#CalculateAspectRatio) | **Post** /tools/aspect-ratio-calculator | Calculate an aspect ratio, or the missing side of an image at a given ratio
+[**CalculateCarouselSlices**](FreeToolsAPI.md#CalculateCarouselSlices) | **Post** /tools/instagram-carousel-splitter | Split a wide image into seamless Instagram carousel slides
 [**CalculateCrop**](FreeToolsAPI.md#CalculateCrop) | **Post** /tools/social-media-image-sizes/crop | Calculate the crop box that fits an image to a social media size
 [**CalculateEngagementRate**](FreeToolsAPI.md#CalculateEngagementRate) | **Post** /tools/engagement-rate-calculator | Calculate an engagement rate
+[**CalculateInfluencerRate**](FreeToolsAPI.md#CalculateInfluencerRate) | **Post** /tools/influencer-rate-calculator | Estimate an influencer&#39;s rate for one sponsored deliverable
 [**CalculateSocialRoi**](FreeToolsAPI.md#CalculateSocialRoi) | **Post** /tools/social-media-roi-calculator | Calculate social media ROI
 [**CalculateXApiCost**](FreeToolsAPI.md#CalculateXApiCost) | **Post** /tools/x-api-cost-calculator | Calculate the monthly X API cost
 [**CheckLinkPreview**](FreeToolsAPI.md#CheckLinkPreview) | **Post** /tools/link-preview-checker | Check how a link previews on X, LinkedIn, Facebook and chat apps (Open Graph and Twitter card tags)
@@ -27,9 +29,11 @@ Method | HTTP request | Description
 [**GetBestTimesToPost**](FreeToolsAPI.md#GetBestTimesToPost) | **Get** /tools/best-time-to-post | Get the best times to post per network from published studies, with sources
 [**GetHookTemplates**](FreeToolsAPI.md#GetHookTemplates) | **Get** /tools/hook-generator/library | Get free hook templates for social media posts, filtered by style and network
 [**GetImageSizes**](FreeToolsAPI.md#GetImageSizes) | **Get** /tools/social-media-image-sizes | Get social media image sizes per network, each with its source
+[**GetSafeZones**](FreeToolsAPI.md#GetSafeZones) | **Post** /tools/safe-zone-checker | Get the TikTok, Instagram Reels or YouTube Shorts safe zones for a vertical frame
 [**GetVideoSpecs**](FreeToolsAPI.md#GetVideoSpecs) | **Get** /tools/social-media-video-specs | Get social media video ratios, resolutions, lengths and file size limits per network, with sources
 [**ListFreeTools**](FreeToolsAPI.md#ListFreeTools) | **Get** /tools | List the free tools
 [**PlanContentCalendar**](FreeToolsAPI.md#PlanContentCalendar) | **Post** /tools/social-media-content-calendar-generator | Plan a social media content calendar and get it as CSV and ICS
+[**PlanPostingFrequency**](FreeToolsAPI.md#PlanPostingFrequency) | **Post** /tools/posting-frequency-planner | Plan how often to post on each network
 [**PreviewPost**](FreeToolsAPI.md#PreviewPost) | **Post** /tools/social-media-post-preview | Preview where a post folds and when its image is cropped on Instagram, X, LinkedIn and Facebook
 [**SearchEmoji**](FreeToolsAPI.md#SearchEmoji) | **Post** /tools/social-media-emoji-picker | Search emoji by name or keyword, to copy and paste into a post
 [**SplitThread**](FreeToolsAPI.md#SplitThread) | **Post** /tools/x-thread-maker | Split long text into a thread
@@ -168,6 +172,72 @@ No authorization required
 [[Back to README]](../README.md)
 
 
+## CalculateCarouselSlices
+
+> FreeToolCalculateCarouselSlicesResponse CalculateCarouselSlices(ctx).FreeToolCalculateCarouselSlicesRequest(freeToolCalculateCarouselSlicesRequest).Execute()
+
+Split a wide image into seamless Instagram carousel slides
+
+
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/postboost-co/postboost-go"
+)
+
+func main() {
+	freeToolCalculateCarouselSlicesRequest := *openapiclient.NewFreeToolCalculateCarouselSlicesRequest(int32(123), int32(123), int32(123)) // FreeToolCalculateCarouselSlicesRequest | 
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.FreeToolsAPI.CalculateCarouselSlices(context.Background()).FreeToolCalculateCarouselSlicesRequest(freeToolCalculateCarouselSlicesRequest).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `FreeToolsAPI.CalculateCarouselSlices``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `CalculateCarouselSlices`: FreeToolCalculateCarouselSlicesResponse
+	fmt.Fprintf(os.Stdout, "Response from `FreeToolsAPI.CalculateCarouselSlices`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiCalculateCarouselSlicesRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **freeToolCalculateCarouselSlicesRequest** | [**FreeToolCalculateCarouselSlicesRequest**](FreeToolCalculateCarouselSlicesRequest.md) |  | 
+
+### Return type
+
+[**FreeToolCalculateCarouselSlicesResponse**](FreeToolCalculateCarouselSlicesResponse.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: application/json
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
 ## CalculateCrop
 
 > FreeToolCalculateCropResponse CalculateCrop(ctx).FreeToolCalculateCropRequest(freeToolCalculateCropRequest).Execute()
@@ -285,6 +355,72 @@ Name | Type | Description  | Notes
 ### Return type
 
 [**FreeToolCalculateEngagementRateResponse**](FreeToolCalculateEngagementRateResponse.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: application/json
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## CalculateInfluencerRate
+
+> FreeToolCalculateInfluencerRateResponse CalculateInfluencerRate(ctx).FreeToolCalculateInfluencerRateRequest(freeToolCalculateInfluencerRateRequest).Execute()
+
+Estimate an influencer's rate for one sponsored deliverable
+
+
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/postboost-co/postboost-go"
+)
+
+func main() {
+	freeToolCalculateInfluencerRateRequest := *openapiclient.NewFreeToolCalculateInfluencerRateRequest("Network_example", int32(123)) // FreeToolCalculateInfluencerRateRequest | 
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.FreeToolsAPI.CalculateInfluencerRate(context.Background()).FreeToolCalculateInfluencerRateRequest(freeToolCalculateInfluencerRateRequest).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `FreeToolsAPI.CalculateInfluencerRate``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `CalculateInfluencerRate`: FreeToolCalculateInfluencerRateResponse
+	fmt.Fprintf(os.Stdout, "Response from `FreeToolsAPI.CalculateInfluencerRate`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiCalculateInfluencerRateRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **freeToolCalculateInfluencerRateRequest** | [**FreeToolCalculateInfluencerRateRequest**](FreeToolCalculateInfluencerRateRequest.md) |  | 
+
+### Return type
+
+[**FreeToolCalculateInfluencerRateResponse**](FreeToolCalculateInfluencerRateResponse.md)
 
 ### Authorization
 
@@ -1560,6 +1696,72 @@ No authorization required
 [[Back to README]](../README.md)
 
 
+## GetSafeZones
+
+> FreeToolGetSafeZonesResponse GetSafeZones(ctx).FreeToolGetSafeZonesRequest(freeToolGetSafeZonesRequest).Execute()
+
+Get the TikTok, Instagram Reels or YouTube Shorts safe zones for a vertical frame
+
+
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/postboost-co/postboost-go"
+)
+
+func main() {
+	freeToolGetSafeZonesRequest := *openapiclient.NewFreeToolGetSafeZonesRequest("Platform_example") // FreeToolGetSafeZonesRequest | 
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.FreeToolsAPI.GetSafeZones(context.Background()).FreeToolGetSafeZonesRequest(freeToolGetSafeZonesRequest).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `FreeToolsAPI.GetSafeZones``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `GetSafeZones`: FreeToolGetSafeZonesResponse
+	fmt.Fprintf(os.Stdout, "Response from `FreeToolsAPI.GetSafeZones`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiGetSafeZonesRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **freeToolGetSafeZonesRequest** | [**FreeToolGetSafeZonesRequest**](FreeToolGetSafeZonesRequest.md) |  | 
+
+### Return type
+
+[**FreeToolGetSafeZonesResponse**](FreeToolGetSafeZonesResponse.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: application/json
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
 ## GetVideoSpecs
 
 > FreeToolGetVideoSpecsResponse GetVideoSpecs(ctx).Network(network).Execute()
@@ -1738,6 +1940,72 @@ Name | Type | Description  | Notes
 ### Return type
 
 [**FreeToolPlanContentCalendarResponse**](FreeToolPlanContentCalendarResponse.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: application/json
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## PlanPostingFrequency
+
+> FreeToolPlanPostingFrequencyResponse PlanPostingFrequency(ctx).FreeToolPlanPostingFrequencyRequest(freeToolPlanPostingFrequencyRequest).Execute()
+
+Plan how often to post on each network
+
+
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/postboost-co/postboost-go"
+)
+
+func main() {
+	freeToolPlanPostingFrequencyRequest := *openapiclient.NewFreeToolPlanPostingFrequencyRequest([]string{"Networks_example"}, int32(123)) // FreeToolPlanPostingFrequencyRequest | 
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.FreeToolsAPI.PlanPostingFrequency(context.Background()).FreeToolPlanPostingFrequencyRequest(freeToolPlanPostingFrequencyRequest).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `FreeToolsAPI.PlanPostingFrequency``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `PlanPostingFrequency`: FreeToolPlanPostingFrequencyResponse
+	fmt.Fprintf(os.Stdout, "Response from `FreeToolsAPI.PlanPostingFrequency`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiPlanPostingFrequencyRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **freeToolPlanPostingFrequencyRequest** | [**FreeToolPlanPostingFrequencyRequest**](FreeToolPlanPostingFrequencyRequest.md) |  | 
+
+### Return type
+
+[**FreeToolPlanPostingFrequencyResponse**](FreeToolPlanPostingFrequencyResponse.md)
 
 ### Authorization
 

@@ -3,7 +3,7 @@ PostBoost API
 
 The PostBoost REST API lets you publish, schedule, and analyze social media posts on every supported network from a single integration. No OAuth apps to maintain — PostBoost handles platform authorization for you.  ## Base URL All workspace-scoped endpoints are prefixed with `/{workspaceUuid}`. Panel/admin endpoints are prefixed with `/panel`.  ## Plan access Every workspace-scoped endpoint returns `403` when the workspace's plan does not include API access (capability `api`).  ## Dates and times Post dates and times (`date`, `time`, `accounts_schedule`) are read in the request's `timezone` when one is given, otherwise in the workspace timezone.  ## Idempotent requests Send an `Idempotency-Key` header (any unique string, for example a UUID) with a `POST`. Repeating the request with the same key within 24 hours returns the stored response with `Idempotent-Replayed: true` and creates nothing new. Reusing a key with a different body returns `422`; a request still in progress with the same key returns `409`. `5xx` and `429` responses are not stored, so they can be retried with the same key.  ## Guardrails for automated clients Create and update requests are checked before anything is written: a post whose content matches one created for the same account in the last 24 hours returns `409` (`code: duplicate_post`, override with `allow_duplicate: true`), scheduling past an account's daily cap returns `429` (`code: account_daily_cap_reached`), and scheduling to an account that must be reconnected returns `422` (`code: account_unauthorized` or `account_token_missing`). Use `POST /{workspaceUuid}/posts/validate` for a dry run and `GET /{workspaceUuid}/activity` to review what API clients did.  ## Authentication All requests require a Bearer token in the `Authorization` header. Generate tokens in your PostBoost dashboard under **Settings → Access Tokens**.  ``` Authorization: Bearer YOUR_API_TOKEN ``` 
 
-API version: 1.49.0
+API version: 1.53.1
 Contact: hi@postboost.co
 */
 
@@ -329,6 +329,159 @@ func (a *FreeToolsAPIService) CalculateAspectRatioExecute(r ApiCalculateAspectRa
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
+type ApiCalculateCarouselSlicesRequest struct {
+	ctx context.Context
+	ApiService *FreeToolsAPIService
+	freeToolCalculateCarouselSlicesRequest *FreeToolCalculateCarouselSlicesRequest
+}
+
+func (r ApiCalculateCarouselSlicesRequest) FreeToolCalculateCarouselSlicesRequest(freeToolCalculateCarouselSlicesRequest FreeToolCalculateCarouselSlicesRequest) ApiCalculateCarouselSlicesRequest {
+	r.freeToolCalculateCarouselSlicesRequest = &freeToolCalculateCarouselSlicesRequest
+	return r
+}
+
+func (r ApiCalculateCarouselSlicesRequest) Execute() (*FreeToolCalculateCarouselSlicesResponse, *http.Response, error) {
+	return r.ApiService.CalculateCarouselSlicesExecute(r)
+}
+
+/*
+CalculateCarouselSlices Split a wide image into seamless Instagram carousel slides
+
+Split a wide image into seamless Instagram carousel slides. The same logic as the free web tool at https://postboost.co/tools/instagram-carousel-splitter. No account needed: call it without a token, or with any API token.
+
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @return ApiCalculateCarouselSlicesRequest
+*/
+func (a *FreeToolsAPIService) CalculateCarouselSlices(ctx context.Context) ApiCalculateCarouselSlicesRequest {
+	return ApiCalculateCarouselSlicesRequest{
+		ApiService: a,
+		ctx: ctx,
+	}
+}
+
+// Execute executes the request
+//  @return FreeToolCalculateCarouselSlicesResponse
+func (a *FreeToolsAPIService) CalculateCarouselSlicesExecute(r ApiCalculateCarouselSlicesRequest) (*FreeToolCalculateCarouselSlicesResponse, *http.Response, error) {
+	var (
+		localVarHTTPMethod   = http.MethodPost
+		localVarPostBody     interface{}
+		formFiles            []formFile
+		localVarReturnValue  *FreeToolCalculateCarouselSlicesResponse
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "FreeToolsAPIService.CalculateCarouselSlices")
+	if err != nil {
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/tools/instagram-carousel-splitter"
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+	if r.freeToolCalculateCarouselSlicesRequest == nil {
+		return localVarReturnValue, nil, reportError("freeToolCalculateCarouselSlicesRequest is required and must be specified")
+	}
+
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{"application/json"}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	// body params
+	localVarPostBody = r.freeToolCalculateCarouselSlicesRequest
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 401 {
+			var v map[string]interface{}
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 413 {
+			var v FreeToolError
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 422 {
+			var v map[string]interface{}
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 429 {
+			var v FreeToolError
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
 type ApiCalculateCropRequest struct {
 	ctx context.Context
 	ApiService *FreeToolsAPIService
@@ -555,6 +708,159 @@ func (a *FreeToolsAPIService) CalculateEngagementRateExecute(r ApiCalculateEngag
 	}
 	// body params
 	localVarPostBody = r.freeToolCalculateEngagementRateRequest
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 401 {
+			var v map[string]interface{}
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 413 {
+			var v FreeToolError
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 422 {
+			var v map[string]interface{}
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 429 {
+			var v FreeToolError
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
+type ApiCalculateInfluencerRateRequest struct {
+	ctx context.Context
+	ApiService *FreeToolsAPIService
+	freeToolCalculateInfluencerRateRequest *FreeToolCalculateInfluencerRateRequest
+}
+
+func (r ApiCalculateInfluencerRateRequest) FreeToolCalculateInfluencerRateRequest(freeToolCalculateInfluencerRateRequest FreeToolCalculateInfluencerRateRequest) ApiCalculateInfluencerRateRequest {
+	r.freeToolCalculateInfluencerRateRequest = &freeToolCalculateInfluencerRateRequest
+	return r
+}
+
+func (r ApiCalculateInfluencerRateRequest) Execute() (*FreeToolCalculateInfluencerRateResponse, *http.Response, error) {
+	return r.ApiService.CalculateInfluencerRateExecute(r)
+}
+
+/*
+CalculateInfluencerRate Estimate an influencer's rate for one sponsored deliverable
+
+Estimate an influencer's rate for one sponsored deliverable. The same logic as the free web tool at https://postboost.co/tools/influencer-rate-calculator. No account needed: call it without a token, or with any API token.
+
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @return ApiCalculateInfluencerRateRequest
+*/
+func (a *FreeToolsAPIService) CalculateInfluencerRate(ctx context.Context) ApiCalculateInfluencerRateRequest {
+	return ApiCalculateInfluencerRateRequest{
+		ApiService: a,
+		ctx: ctx,
+	}
+}
+
+// Execute executes the request
+//  @return FreeToolCalculateInfluencerRateResponse
+func (a *FreeToolsAPIService) CalculateInfluencerRateExecute(r ApiCalculateInfluencerRateRequest) (*FreeToolCalculateInfluencerRateResponse, *http.Response, error) {
+	var (
+		localVarHTTPMethod   = http.MethodPost
+		localVarPostBody     interface{}
+		formFiles            []formFile
+		localVarReturnValue  *FreeToolCalculateInfluencerRateResponse
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "FreeToolsAPIService.CalculateInfluencerRate")
+	if err != nil {
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/tools/influencer-rate-calculator"
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+	if r.freeToolCalculateInfluencerRateRequest == nil {
+		return localVarReturnValue, nil, reportError("freeToolCalculateInfluencerRateRequest is required and must be specified")
+	}
+
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{"application/json"}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	// body params
+	localVarPostBody = r.freeToolCalculateInfluencerRateRequest
 	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
 	if err != nil {
 		return localVarReturnValue, nil, err
@@ -3673,6 +3979,159 @@ func (a *FreeToolsAPIService) GetImageSizesExecute(r ApiGetImageSizesRequest) (*
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
+type ApiGetSafeZonesRequest struct {
+	ctx context.Context
+	ApiService *FreeToolsAPIService
+	freeToolGetSafeZonesRequest *FreeToolGetSafeZonesRequest
+}
+
+func (r ApiGetSafeZonesRequest) FreeToolGetSafeZonesRequest(freeToolGetSafeZonesRequest FreeToolGetSafeZonesRequest) ApiGetSafeZonesRequest {
+	r.freeToolGetSafeZonesRequest = &freeToolGetSafeZonesRequest
+	return r
+}
+
+func (r ApiGetSafeZonesRequest) Execute() (*FreeToolGetSafeZonesResponse, *http.Response, error) {
+	return r.ApiService.GetSafeZonesExecute(r)
+}
+
+/*
+GetSafeZones Get the TikTok, Instagram Reels or YouTube Shorts safe zones for a vertical frame
+
+Get the TikTok, Instagram Reels or YouTube Shorts safe zones for a vertical frame. The same logic as the free web tool at https://postboost.co/tools/safe-zone-checker. No account needed: call it without a token, or with any API token.
+
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @return ApiGetSafeZonesRequest
+*/
+func (a *FreeToolsAPIService) GetSafeZones(ctx context.Context) ApiGetSafeZonesRequest {
+	return ApiGetSafeZonesRequest{
+		ApiService: a,
+		ctx: ctx,
+	}
+}
+
+// Execute executes the request
+//  @return FreeToolGetSafeZonesResponse
+func (a *FreeToolsAPIService) GetSafeZonesExecute(r ApiGetSafeZonesRequest) (*FreeToolGetSafeZonesResponse, *http.Response, error) {
+	var (
+		localVarHTTPMethod   = http.MethodPost
+		localVarPostBody     interface{}
+		formFiles            []formFile
+		localVarReturnValue  *FreeToolGetSafeZonesResponse
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "FreeToolsAPIService.GetSafeZones")
+	if err != nil {
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/tools/safe-zone-checker"
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+	if r.freeToolGetSafeZonesRequest == nil {
+		return localVarReturnValue, nil, reportError("freeToolGetSafeZonesRequest is required and must be specified")
+	}
+
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{"application/json"}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	// body params
+	localVarPostBody = r.freeToolGetSafeZonesRequest
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 401 {
+			var v map[string]interface{}
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 413 {
+			var v FreeToolError
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 422 {
+			var v map[string]interface{}
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 429 {
+			var v FreeToolError
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
 type ApiGetVideoSpecsRequest struct {
 	ctx context.Context
 	ApiService *FreeToolsAPIService
@@ -4006,6 +4465,159 @@ func (a *FreeToolsAPIService) PlanContentCalendarExecute(r ApiPlanContentCalenda
 	}
 	// body params
 	localVarPostBody = r.freeToolPlanContentCalendarRequest
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 401 {
+			var v map[string]interface{}
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 413 {
+			var v FreeToolError
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 422 {
+			var v map[string]interface{}
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 429 {
+			var v FreeToolError
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
+type ApiPlanPostingFrequencyRequest struct {
+	ctx context.Context
+	ApiService *FreeToolsAPIService
+	freeToolPlanPostingFrequencyRequest *FreeToolPlanPostingFrequencyRequest
+}
+
+func (r ApiPlanPostingFrequencyRequest) FreeToolPlanPostingFrequencyRequest(freeToolPlanPostingFrequencyRequest FreeToolPlanPostingFrequencyRequest) ApiPlanPostingFrequencyRequest {
+	r.freeToolPlanPostingFrequencyRequest = &freeToolPlanPostingFrequencyRequest
+	return r
+}
+
+func (r ApiPlanPostingFrequencyRequest) Execute() (*FreeToolPlanPostingFrequencyResponse, *http.Response, error) {
+	return r.ApiService.PlanPostingFrequencyExecute(r)
+}
+
+/*
+PlanPostingFrequency Plan how often to post on each network
+
+Plan how often to post on each network. The same logic as the free web tool at https://postboost.co/tools/posting-frequency-planner. No account needed: call it without a token, or with any API token.
+
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @return ApiPlanPostingFrequencyRequest
+*/
+func (a *FreeToolsAPIService) PlanPostingFrequency(ctx context.Context) ApiPlanPostingFrequencyRequest {
+	return ApiPlanPostingFrequencyRequest{
+		ApiService: a,
+		ctx: ctx,
+	}
+}
+
+// Execute executes the request
+//  @return FreeToolPlanPostingFrequencyResponse
+func (a *FreeToolsAPIService) PlanPostingFrequencyExecute(r ApiPlanPostingFrequencyRequest) (*FreeToolPlanPostingFrequencyResponse, *http.Response, error) {
+	var (
+		localVarHTTPMethod   = http.MethodPost
+		localVarPostBody     interface{}
+		formFiles            []formFile
+		localVarReturnValue  *FreeToolPlanPostingFrequencyResponse
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "FreeToolsAPIService.PlanPostingFrequency")
+	if err != nil {
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/tools/posting-frequency-planner"
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+	if r.freeToolPlanPostingFrequencyRequest == nil {
+		return localVarReturnValue, nil, reportError("freeToolPlanPostingFrequencyRequest is required and must be specified")
+	}
+
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{"application/json"}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	// body params
+	localVarPostBody = r.freeToolPlanPostingFrequencyRequest
 	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
 	if err != nil {
 		return localVarReturnValue, nil, err

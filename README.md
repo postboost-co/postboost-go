@@ -13,7 +13,7 @@ go get github.com/postboost-co/postboost-go
 | **pkg.go.dev** | [pkg.go.dev/github.com/postboost-co/postboost-go](https://pkg.go.dev/github.com/postboost-co/postboost-go) |
 | **GitHub** | [postboost-co/postboost-go](https://github.com/postboost-co/postboost-go) |
 | **Docs** | [postboost.co/docs/api](https://postboost.co/docs/api) |
-| **Version** | v1.49.0 |
+| **Version** | v1.53.1 |
 
 ## Quick start
 
@@ -99,8 +99,10 @@ Class | Method | HTTP request | Description
 *CompetitorsAPI* | [**ListCompetitors**](docs/CompetitorsAPI.md#listcompetitors) | **Get** /{workspaceUuid}/competitors | List competitors
 *FreeToolsAPI* | [**BuildUtmUrl**](docs/FreeToolsAPI.md#buildutmurl) | **Post** /tools/utm-builder | Build a UTM-tagged campaign URL
 *FreeToolsAPI* | [**CalculateAspectRatio**](docs/FreeToolsAPI.md#calculateaspectratio) | **Post** /tools/aspect-ratio-calculator | Calculate an aspect ratio, or the missing side of an image at a given ratio
+*FreeToolsAPI* | [**CalculateCarouselSlices**](docs/FreeToolsAPI.md#calculatecarouselslices) | **Post** /tools/instagram-carousel-splitter | Split a wide image into seamless Instagram carousel slides
 *FreeToolsAPI* | [**CalculateCrop**](docs/FreeToolsAPI.md#calculatecrop) | **Post** /tools/social-media-image-sizes/crop | Calculate the crop box that fits an image to a social media size
 *FreeToolsAPI* | [**CalculateEngagementRate**](docs/FreeToolsAPI.md#calculateengagementrate) | **Post** /tools/engagement-rate-calculator | Calculate an engagement rate
+*FreeToolsAPI* | [**CalculateInfluencerRate**](docs/FreeToolsAPI.md#calculateinfluencerrate) | **Post** /tools/influencer-rate-calculator | Estimate an influencer&#39;s rate for one sponsored deliverable
 *FreeToolsAPI* | [**CalculateSocialRoi**](docs/FreeToolsAPI.md#calculatesocialroi) | **Post** /tools/social-media-roi-calculator | Calculate social media ROI
 *FreeToolsAPI* | [**CalculateXApiCost**](docs/FreeToolsAPI.md#calculatexapicost) | **Post** /tools/x-api-cost-calculator | Calculate the monthly X API cost
 *FreeToolsAPI* | [**CheckLinkPreview**](docs/FreeToolsAPI.md#checklinkpreview) | **Post** /tools/link-preview-checker | Check how a link previews on X, LinkedIn, Facebook and chat apps (Open Graph and Twitter card tags)
@@ -120,9 +122,11 @@ Class | Method | HTTP request | Description
 *FreeToolsAPI* | [**GetBestTimesToPost**](docs/FreeToolsAPI.md#getbesttimestopost) | **Get** /tools/best-time-to-post | Get the best times to post per network from published studies, with sources
 *FreeToolsAPI* | [**GetHookTemplates**](docs/FreeToolsAPI.md#gethooktemplates) | **Get** /tools/hook-generator/library | Get free hook templates for social media posts, filtered by style and network
 *FreeToolsAPI* | [**GetImageSizes**](docs/FreeToolsAPI.md#getimagesizes) | **Get** /tools/social-media-image-sizes | Get social media image sizes per network, each with its source
+*FreeToolsAPI* | [**GetSafeZones**](docs/FreeToolsAPI.md#getsafezones) | **Post** /tools/safe-zone-checker | Get the TikTok, Instagram Reels or YouTube Shorts safe zones for a vertical frame
 *FreeToolsAPI* | [**GetVideoSpecs**](docs/FreeToolsAPI.md#getvideospecs) | **Get** /tools/social-media-video-specs | Get social media video ratios, resolutions, lengths and file size limits per network, with sources
 *FreeToolsAPI* | [**ListFreeTools**](docs/FreeToolsAPI.md#listfreetools) | **Get** /tools | List the free tools
 *FreeToolsAPI* | [**PlanContentCalendar**](docs/FreeToolsAPI.md#plancontentcalendar) | **Post** /tools/social-media-content-calendar-generator | Plan a social media content calendar and get it as CSV and ICS
+*FreeToolsAPI* | [**PlanPostingFrequency**](docs/FreeToolsAPI.md#planpostingfrequency) | **Post** /tools/posting-frequency-planner | Plan how often to post on each network
 *FreeToolsAPI* | [**PreviewPost**](docs/FreeToolsAPI.md#previewpost) | **Post** /tools/social-media-post-preview | Preview where a post folds and when its image is cropped on Instagram, X, LinkedIn and Facebook
 *FreeToolsAPI* | [**SearchEmoji**](docs/FreeToolsAPI.md#searchemoji) | **Post** /tools/social-media-emoji-picker | Search emoji by name or keyword, to copy and paste into a post
 *FreeToolsAPI* | [**SplitThread**](docs/FreeToolsAPI.md#splitthread) | **Post** /tools/x-thread-maker | Split long text into a thread
