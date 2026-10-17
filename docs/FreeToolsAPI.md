@@ -31,10 +31,12 @@ Method | HTTP request | Description
 [**GetImageSizes**](FreeToolsAPI.md#GetImageSizes) | **Get** /tools/social-media-image-sizes | Get social media image sizes per network, each with its source
 [**GetSafeZones**](FreeToolsAPI.md#GetSafeZones) | **Post** /tools/safe-zone-checker | Get the TikTok, Instagram Reels or YouTube Shorts safe zones for a vertical frame
 [**GetVideoSpecs**](FreeToolsAPI.md#GetVideoSpecs) | **Get** /tools/social-media-video-specs | Get social media video ratios, resolutions, lengths and file size limits per network, with sources
+[**ListAwarenessDays**](FreeToolsAPI.md#ListAwarenessDays) | **Get** /tools/social-media-holiday-calendar | List public holidays, awareness days and social media days by date, country, type and topic, with sources
 [**ListFreeTools**](FreeToolsAPI.md#ListFreeTools) | **Get** /tools | List the free tools
 [**PlanContentCalendar**](FreeToolsAPI.md#PlanContentCalendar) | **Post** /tools/social-media-content-calendar-generator | Plan a social media content calendar and get it as CSV and ICS
 [**PlanPostingFrequency**](FreeToolsAPI.md#PlanPostingFrequency) | **Post** /tools/posting-frequency-planner | Plan how often to post on each network
 [**PreviewPost**](FreeToolsAPI.md#PreviewPost) | **Post** /tools/social-media-post-preview | Preview where a post folds and when its image is cropped on Instagram, X, LinkedIn and Facebook
+[**ScoreSocialAudit**](FreeToolsAPI.md#ScoreSocialAudit) | **Post** /tools/social-media-audit-template | Score a social media audit checklist and get the top fixes
 [**SearchEmoji**](FreeToolsAPI.md#SearchEmoji) | **Post** /tools/social-media-emoji-picker | Search emoji by name or keyword, to copy and paste into a post
 [**SplitThread**](FreeToolsAPI.md#SplitThread) | **Post** /tools/x-thread-maker | Split long text into a thread
 
@@ -1828,6 +1830,80 @@ No authorization required
 [[Back to README]](../README.md)
 
 
+## ListAwarenessDays
+
+> FreeToolListAwarenessDaysResponse ListAwarenessDays(ctx).From(from).To(to).Country(country).Type_(type_).Topic(topic).Execute()
+
+List public holidays, awareness days and social media days by date, country, type and topic, with sources
+
+
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/postboost-co/postboost-go"
+)
+
+func main() {
+	from := "from_example" // string |  (optional)
+	to := "to_example" // string |  (optional)
+	country := "country_example" // string |  (optional)
+	type_ := "type__example" // string |  (optional)
+	topic := "topic_example" // string |  (optional)
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.FreeToolsAPI.ListAwarenessDays(context.Background()).From(from).To(to).Country(country).Type_(type_).Topic(topic).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `FreeToolsAPI.ListAwarenessDays``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `ListAwarenessDays`: FreeToolListAwarenessDaysResponse
+	fmt.Fprintf(os.Stdout, "Response from `FreeToolsAPI.ListAwarenessDays`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiListAwarenessDaysRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **from** | **string** |  | 
+ **to** | **string** |  | 
+ **country** | **string** |  | 
+ **type_** | **string** |  | 
+ **topic** | **string** |  | 
+
+### Return type
+
+[**FreeToolListAwarenessDaysResponse**](FreeToolListAwarenessDaysResponse.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
 ## ListFreeTools
 
 > FreeToolList ListFreeTools(ctx).Execute()
@@ -2072,6 +2148,72 @@ Name | Type | Description  | Notes
 ### Return type
 
 [**FreeToolPreviewPostResponse**](FreeToolPreviewPostResponse.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: application/json
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## ScoreSocialAudit
+
+> FreeToolScoreSocialAuditResponse ScoreSocialAudit(ctx).FreeToolScoreSocialAuditRequest(freeToolScoreSocialAuditRequest).Execute()
+
+Score a social media audit checklist and get the top fixes
+
+
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/postboost-co/postboost-go"
+)
+
+func main() {
+	freeToolScoreSocialAuditRequest := *openapiclient.NewFreeToolScoreSocialAuditRequest() // FreeToolScoreSocialAuditRequest | 
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.FreeToolsAPI.ScoreSocialAudit(context.Background()).FreeToolScoreSocialAuditRequest(freeToolScoreSocialAuditRequest).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `FreeToolsAPI.ScoreSocialAudit``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `ScoreSocialAudit`: FreeToolScoreSocialAuditResponse
+	fmt.Fprintf(os.Stdout, "Response from `FreeToolsAPI.ScoreSocialAudit`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiScoreSocialAuditRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **freeToolScoreSocialAuditRequest** | [**FreeToolScoreSocialAuditRequest**](FreeToolScoreSocialAuditRequest.md) |  | 
+
+### Return type
+
+[**FreeToolScoreSocialAuditResponse**](FreeToolScoreSocialAuditResponse.md)
 
 ### Authorization
 

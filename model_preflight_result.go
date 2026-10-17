@@ -3,7 +3,7 @@ PostBoost API
 
 The PostBoost REST API lets you publish, schedule, and analyze social media posts on every supported network from a single integration. No OAuth apps to maintain — PostBoost handles platform authorization for you.  ## Base URL All workspace-scoped endpoints are prefixed with `/{workspaceUuid}`. Panel/admin endpoints are prefixed with `/panel`.  ## Plan access Every workspace-scoped endpoint returns `403` when the workspace's plan does not include API access (capability `api`).  ## Dates and times Post dates and times (`date`, `time`, `accounts_schedule`) are read in the request's `timezone` when one is given, otherwise in the workspace timezone.  ## Idempotent requests Send an `Idempotency-Key` header (any unique string, for example a UUID) with a `POST`. Repeating the request with the same key within 24 hours returns the stored response with `Idempotent-Replayed: true` and creates nothing new. Reusing a key with a different body returns `422`; a request still in progress with the same key returns `409`. `5xx` and `429` responses are not stored, so they can be retried with the same key.  ## Guardrails for automated clients Create and update requests are checked before anything is written: a post whose content matches one created for the same account in the last 24 hours returns `409` (`code: duplicate_post`, override with `allow_duplicate: true`), scheduling past an account's daily cap returns `429` (`code: account_daily_cap_reached`), and scheduling to an account that must be reconnected returns `422` (`code: account_unauthorized` or `account_token_missing`). Use `POST /{workspaceUuid}/posts/validate` for a dry run and `GET /{workspaceUuid}/activity` to review what API clients did.  ## Authentication All requests require a Bearer token in the `Authorization` header. Generate tokens in your PostBoost dashboard under **Settings → Access Tokens**.  ``` Authorization: Bearer YOUR_API_TOKEN ``` 
 
-API version: 1.53.1
+API version: 1.56.0
 Contact: hi@postboost.co
 */
 
@@ -23,12 +23,14 @@ var _ MappedNullable = &PreflightResult{}
 
 // PreflightResult struct for PreflightResult
 type PreflightResult struct {
-	// True when create-post with the same body would succeed.
+	// True when create-post with the same body would succeed. Warnings do not change it.
 	Valid bool `json:"valid"`
 	// Validation and network-requirement errors keyed by field, as create-post would report them in a `422`.
 	Errors map[string][]string `json:"errors"`
 	// Guardrail problems, in the order create-post would report the first of them.
 	Issues []GuardrailError `json:"issues"`
+	// The warnings create-post would return for the same body (same codes and messages); empty when there are none.
+	Warnings []PostWarning `json:"warnings"`
 	// UTC time the post would publish at; null for a draft.
 	PublishAt NullableTime `json:"publish_at"`
 	Accounts []AccountHealth `json:"accounts"`
@@ -40,11 +42,12 @@ type _PreflightResult PreflightResult
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewPreflightResult(valid bool, errors map[string][]string, issues []GuardrailError, publishAt NullableTime, accounts []AccountHealth) *PreflightResult {
+func NewPreflightResult(valid bool, errors map[string][]string, issues []GuardrailError, warnings []PostWarning, publishAt NullableTime, accounts []AccountHealth) *PreflightResult {
 	this := PreflightResult{}
 	this.Valid = valid
 	this.Errors = errors
 	this.Issues = issues
+	this.Warnings = warnings
 	this.PublishAt = publishAt
 	this.Accounts = accounts
 	return &this
@@ -130,6 +133,30 @@ func (o *PreflightResult) SetIssues(v []GuardrailError) {
 	o.Issues = v
 }
 
+// GetWarnings returns the Warnings field value
+func (o *PreflightResult) GetWarnings() []PostWarning {
+	if o == nil {
+		var ret []PostWarning
+		return ret
+	}
+
+	return o.Warnings
+}
+
+// GetWarningsOk returns a tuple with the Warnings field value
+// and a boolean to check if the value has been set.
+func (o *PreflightResult) GetWarningsOk() ([]PostWarning, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.Warnings, true
+}
+
+// SetWarnings sets field value
+func (o *PreflightResult) SetWarnings(v []PostWarning) {
+	o.Warnings = v
+}
+
 // GetPublishAt returns the PublishAt field value
 // If the value is explicit nil, the zero value for time.Time will be returned
 func (o *PreflightResult) GetPublishAt() time.Time {
@@ -193,6 +220,7 @@ func (o PreflightResult) ToMap() (map[string]interface{}, error) {
 	toSerialize["valid"] = o.Valid
 	toSerialize["errors"] = o.Errors
 	toSerialize["issues"] = o.Issues
+	toSerialize["warnings"] = o.Warnings
 	toSerialize["publish_at"] = o.PublishAt.Get()
 	toSerialize["accounts"] = o.Accounts
 	return toSerialize, nil
@@ -206,6 +234,7 @@ func (o *PreflightResult) UnmarshalJSON(data []byte) (err error) {
 		"valid",
 		"errors",
 		"issues",
+		"warnings",
 		"publish_at",
 		"accounts",
 	}

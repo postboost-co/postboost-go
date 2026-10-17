@@ -4,9 +4,10 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Valid** | **bool** | True when create-post with the same body would succeed. | 
+**Valid** | **bool** | True when create-post with the same body would succeed. Warnings do not change it. | 
 **Errors** | **map[string][]string** | Validation and network-requirement errors keyed by field, as create-post would report them in a &#x60;422&#x60;. | 
 **Issues** | [**[]GuardrailError**](GuardrailError.md) | Guardrail problems, in the order create-post would report the first of them. | 
+**Warnings** | [**[]PostWarning**](PostWarning.md) | The warnings create-post would return for the same body (same codes and messages); empty when there are none. | 
 **PublishAt** | **NullableTime** | UTC time the post would publish at; null for a draft. | 
 **Accounts** | [**[]AccountHealth**](AccountHealth.md) |  | 
 
@@ -14,7 +15,7 @@ Name | Type | Description | Notes
 
 ### NewPreflightResult
 
-`func NewPreflightResult(valid bool, errors map[string][]string, issues []GuardrailError, publishAt NullableTime, accounts []AccountHealth, ) *PreflightResult`
+`func NewPreflightResult(valid bool, errors map[string][]string, issues []GuardrailError, warnings []PostWarning, publishAt NullableTime, accounts []AccountHealth, ) *PreflightResult`
 
 NewPreflightResult instantiates a new PreflightResult object
 This constructor will assign default values to properties that have it defined,
@@ -87,6 +88,26 @@ and a boolean to check if the value has been set.
 `func (o *PreflightResult) SetIssues(v []GuardrailError)`
 
 SetIssues sets Issues field to given value.
+
+
+### GetWarnings
+
+`func (o *PreflightResult) GetWarnings() []PostWarning`
+
+GetWarnings returns the Warnings field if non-nil, zero value otherwise.
+
+### GetWarningsOk
+
+`func (o *PreflightResult) GetWarningsOk() (*[]PostWarning, bool)`
+
+GetWarningsOk returns a tuple with the Warnings field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetWarnings
+
+`func (o *PreflightResult) SetWarnings(v []PostWarning)`
+
+SetWarnings sets Warnings field to given value.
 
 
 ### GetPublishAt

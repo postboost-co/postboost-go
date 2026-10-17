@@ -13,7 +13,7 @@ go get github.com/postboost-co/postboost-go
 | **pkg.go.dev** | [pkg.go.dev/github.com/postboost-co/postboost-go](https://pkg.go.dev/github.com/postboost-co/postboost-go) |
 | **GitHub** | [postboost-co/postboost-go](https://github.com/postboost-co/postboost-go) |
 | **Docs** | [postboost.co/docs/api](https://postboost.co/docs/api) |
-| **Version** | v1.53.1 |
+| **Version** | v1.56.0 |
 
 ## Quick start
 
@@ -124,10 +124,12 @@ Class | Method | HTTP request | Description
 *FreeToolsAPI* | [**GetImageSizes**](docs/FreeToolsAPI.md#getimagesizes) | **Get** /tools/social-media-image-sizes | Get social media image sizes per network, each with its source
 *FreeToolsAPI* | [**GetSafeZones**](docs/FreeToolsAPI.md#getsafezones) | **Post** /tools/safe-zone-checker | Get the TikTok, Instagram Reels or YouTube Shorts safe zones for a vertical frame
 *FreeToolsAPI* | [**GetVideoSpecs**](docs/FreeToolsAPI.md#getvideospecs) | **Get** /tools/social-media-video-specs | Get social media video ratios, resolutions, lengths and file size limits per network, with sources
+*FreeToolsAPI* | [**ListAwarenessDays**](docs/FreeToolsAPI.md#listawarenessdays) | **Get** /tools/social-media-holiday-calendar | List public holidays, awareness days and social media days by date, country, type and topic, with sources
 *FreeToolsAPI* | [**ListFreeTools**](docs/FreeToolsAPI.md#listfreetools) | **Get** /tools | List the free tools
 *FreeToolsAPI* | [**PlanContentCalendar**](docs/FreeToolsAPI.md#plancontentcalendar) | **Post** /tools/social-media-content-calendar-generator | Plan a social media content calendar and get it as CSV and ICS
 *FreeToolsAPI* | [**PlanPostingFrequency**](docs/FreeToolsAPI.md#planpostingfrequency) | **Post** /tools/posting-frequency-planner | Plan how often to post on each network
 *FreeToolsAPI* | [**PreviewPost**](docs/FreeToolsAPI.md#previewpost) | **Post** /tools/social-media-post-preview | Preview where a post folds and when its image is cropped on Instagram, X, LinkedIn and Facebook
+*FreeToolsAPI* | [**ScoreSocialAudit**](docs/FreeToolsAPI.md#scoresocialaudit) | **Post** /tools/social-media-audit-template | Score a social media audit checklist and get the top fixes
 *FreeToolsAPI* | [**SearchEmoji**](docs/FreeToolsAPI.md#searchemoji) | **Post** /tools/social-media-emoji-picker | Search emoji by name or keyword, to copy and paste into a post
 *FreeToolsAPI* | [**SplitThread**](docs/FreeToolsAPI.md#splitthread) | **Post** /tools/x-thread-maker | Split long text into a thread
 *HashtagGroupsAPI* | [**CreateHashtagGroup**](docs/HashtagGroupsAPI.md#createhashtaggroup) | **Post** /{workspaceUuid}/hashtag-groups | Create a hashtag group
