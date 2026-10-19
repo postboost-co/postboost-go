@@ -612,7 +612,7 @@ Name | Type | Description  | Notes
 
 ## InitiateRemoteUpload
 
-> InitiateRemoteUpload201Response InitiateRemoteUpload(ctx, workspaceUuid).InitiateRemoteUploadRequest(initiateRemoteUploadRequest).IdempotencyKey(idempotencyKey).Execute()
+> InitiateRemoteUpload200Response InitiateRemoteUpload(ctx, workspaceUuid).InitiateRemoteUploadRequest(initiateRemoteUploadRequest).IdempotencyKey(idempotencyKey).Execute()
 
 Initiate remote upload
 
@@ -642,7 +642,7 @@ func main() {
 		fmt.Fprintf(os.Stderr, "Error when calling `MediaAPI.InitiateRemoteUpload``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `InitiateRemoteUpload`: InitiateRemoteUpload201Response
+	// response from `InitiateRemoteUpload`: InitiateRemoteUpload200Response
 	fmt.Fprintf(os.Stdout, "Response from `MediaAPI.InitiateRemoteUpload`: %v\n", resp)
 }
 ```
@@ -668,7 +668,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**InitiateRemoteUpload201Response**](InitiateRemoteUpload201Response.md)
+[**InitiateRemoteUpload200Response**](InitiateRemoteUpload200Response.md)
 
 ### Authorization
 

@@ -5,7 +5,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Body** | Pointer to **NullableString** | Post text/caption. For a second item on Facebook Page, Instagram or LinkedIn this is the first comment. | [optional] 
-**Url** | Pointer to **NullableString** |  | [optional] 
+**Url** | Pointer to **NullableString** | Link shown as a preview card on LinkedIn, Bluesky and Facebook Pages (Facebook builds the card from the page&#39;s own Open Graph tags). If omitted and the item has no media, the first link in &#x60;body&#x60; is used. | [optional] 
 **Media** | Pointer to **[]int32** | Array of media IDs from the media library. | [optional] 
 **VideoThumbs** | Pointer to **[]map[string]interface{}** |  | [optional] 
 

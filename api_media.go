@@ -3,7 +3,7 @@ PostBoost API
 
 The PostBoost REST API lets you publish, schedule, and analyze social media posts on every supported network from a single integration. No OAuth apps to maintain — PostBoost handles platform authorization for you.  ## Base URL All workspace-scoped endpoints are prefixed with `/{workspaceUuid}`. Panel/admin endpoints are prefixed with `/panel`.  ## Plan access Every workspace-scoped endpoint returns `403` when the workspace's plan does not include API access (capability `api`).  ## Dates and times Post dates and times (`date`, `time`, `accounts_schedule`) are read in the request's `timezone` when one is given, otherwise in the workspace timezone.  ## Idempotent requests Send an `Idempotency-Key` header (any unique string, for example a UUID) with a `POST`. Repeating the request with the same key within 24 hours returns the stored response with `Idempotent-Replayed: true` and creates nothing new. Reusing a key with a different body returns `422`; a request still in progress with the same key returns `409`. `5xx` and `429` responses are not stored, so they can be retried with the same key.  ## Guardrails for automated clients Create and update requests are checked before anything is written: a post whose content matches one created for the same account in the last 24 hours returns `409` (`code: duplicate_post`, override with `allow_duplicate: true`), scheduling past an account's daily cap returns `429` (`code: account_daily_cap_reached`), and scheduling to an account that must be reconnected returns `422` (`code: account_unauthorized` or `account_token_missing`). Use `POST /{workspaceUuid}/posts/validate` for a dry run and `GET /{workspaceUuid}/activity` to review what API clients did.  ## Authentication All requests require a Bearer token in the `Authorization` header. Generate tokens in your PostBoost dashboard under **Settings → Access Tokens**.  ``` Authorization: Bearer YOUR_API_TOKEN ``` 
 
-API version: 1.56.0
+API version: 1.57.1
 Contact: hi@postboost.co
 */
 
@@ -903,7 +903,11 @@ func (r ApiGetRemoteUploadStatusRequest) Execute() (*GetRemoteUploadStatus200Res
 /*
 GetRemoteUploadStatus Get remote upload status
 
-Poll the status of an in-progress remote media download.
+Poll a background download started by `initiateRemoteUpload` until `status` is `completed` or `failed`.
+`status` moves from `pending` to `downloading` and `processing`, and ends as `completed` (with `media`)
+or `failed` (with `error`). The final result is returned once: after a `completed` or `failed` response the download id is
+forgotten and later polls return `404`, as do ids older than one hour.
+
 
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @param workspaceUuid UUID of the workspace.
@@ -994,6 +998,17 @@ func (a *MediaAPIService) GetRemoteUploadStatusExecute(r ApiGetRemoteUploadStatu
 		}
 		if localVarHTTPResponse.StatusCode == 403 {
 			var v map[string]interface{}
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 404 {
+			var v GetRemoteUploadStatus404Response
 			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
 				newErr.error = err.Error()
@@ -1194,7 +1209,7 @@ func (r ApiInitiateRemoteUploadRequest) IdempotencyKey(idempotencyKey string) Ap
 	return r
 }
 
-func (r ApiInitiateRemoteUploadRequest) Execute() (*InitiateRemoteUpload201Response, *http.Response, error) {
+func (r ApiInitiateRemoteUploadRequest) Execute() (*InitiateRemoteUpload200Response, *http.Response, error) {
 	return r.ApiService.InitiateRemoteUploadExecute(r)
 }
 
@@ -1202,8 +1217,10 @@ func (r ApiInitiateRemoteUploadRequest) Execute() (*InitiateRemoteUpload201Respo
 InitiateRemoteUpload Initiate remote upload
 
 Download a file from a remote URL into the media library.
-For small files the media object is returned immediately.
-For large files a `download_id` is returned — poll the status endpoint.
+A file under 10 MB (or one whose server does not send its size) is downloaded during the request:
+the response has `status: completed` and the `media` object, or `status: failed` and an `error`.
+A larger file downloads in the background: the response has `status: pending` and a `download_id`;
+poll `getRemoteUploadStatus` with it until `status` is `completed` or `failed`.
 
 
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
@@ -1219,13 +1236,13 @@ func (a *MediaAPIService) InitiateRemoteUpload(ctx context.Context, workspaceUui
 }
 
 // Execute executes the request
-//  @return InitiateRemoteUpload201Response
-func (a *MediaAPIService) InitiateRemoteUploadExecute(r ApiInitiateRemoteUploadRequest) (*InitiateRemoteUpload201Response, *http.Response, error) {
+//  @return InitiateRemoteUpload200Response
+func (a *MediaAPIService) InitiateRemoteUploadExecute(r ApiInitiateRemoteUploadRequest) (*InitiateRemoteUpload200Response, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPost
 		localVarPostBody     interface{}
 		formFiles            []formFile
-		localVarReturnValue  *InitiateRemoteUpload201Response
+		localVarReturnValue  *InitiateRemoteUpload200Response
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "MediaAPIService.InitiateRemoteUpload")

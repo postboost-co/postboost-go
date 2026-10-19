@@ -4,7 +4,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Captions** | Pointer to **[]string** | Three different captions, each within the network&#39;s text limit (at most 2,200 characters). TikTok captions open with a short hook line. | [optional] 
+**Captions** | Pointer to **[]string** | Three different captions, each within the network&#39;s text limit (at most 2,200 characters). TikTok captions open with a short hook line. With format post: three long-form LinkedIn posts. | [optional] 
 **CreditsSpent** | Pointer to **int32** | AI credits this call took from the workspace: 1, or 0 for a cached result. | [optional] 
 **Cached** | Pointer to **bool** | True when the same request was answered before (free). | [optional] 
 

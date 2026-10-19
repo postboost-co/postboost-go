@@ -3,7 +3,7 @@ PostBoost API
 
 The PostBoost REST API lets you publish, schedule, and analyze social media posts on every supported network from a single integration. No OAuth apps to maintain — PostBoost handles platform authorization for you.  ## Base URL All workspace-scoped endpoints are prefixed with `/{workspaceUuid}`. Panel/admin endpoints are prefixed with `/panel`.  ## Plan access Every workspace-scoped endpoint returns `403` when the workspace's plan does not include API access (capability `api`).  ## Dates and times Post dates and times (`date`, `time`, `accounts_schedule`) are read in the request's `timezone` when one is given, otherwise in the workspace timezone.  ## Idempotent requests Send an `Idempotency-Key` header (any unique string, for example a UUID) with a `POST`. Repeating the request with the same key within 24 hours returns the stored response with `Idempotent-Replayed: true` and creates nothing new. Reusing a key with a different body returns `422`; a request still in progress with the same key returns `409`. `5xx` and `429` responses are not stored, so they can be retried with the same key.  ## Guardrails for automated clients Create and update requests are checked before anything is written: a post whose content matches one created for the same account in the last 24 hours returns `409` (`code: duplicate_post`, override with `allow_duplicate: true`), scheduling past an account's daily cap returns `429` (`code: account_daily_cap_reached`), and scheduling to an account that must be reconnected returns `422` (`code: account_unauthorized` or `account_token_missing`). Use `POST /{workspaceUuid}/posts/validate` for a dry run and `GET /{workspaceUuid}/activity` to review what API clients did.  ## Authentication All requests require a Bearer token in the `Authorization` header. Generate tokens in your PostBoost dashboard under **Settings → Access Tokens**.  ``` Authorization: Bearer YOUR_API_TOKEN ``` 
 
-API version: 1.56.0
+API version: 1.57.1
 Contact: hi@postboost.co
 */
 
@@ -13,6 +13,8 @@ package postboost
 
 import (
 	"encoding/json"
+	"bytes"
+	"fmt"
 )
 
 // checks if the GetRemoteUploadStatus200Response type satisfies the MappedNullable interface at compile time
@@ -20,17 +22,25 @@ var _ MappedNullable = &GetRemoteUploadStatus200Response{}
 
 // GetRemoteUploadStatus200Response struct for GetRemoteUploadStatus200Response
 type GetRemoteUploadStatus200Response struct {
-	Status *string `json:"status,omitempty"`
-	// Present when status is complete.
+	Status string `json:"status"`
+	// Percent done. It stays `0` until the file is stored and is `100` once `status` is `completed`, so poll on `status`.
+	Progress int32 `json:"progress"`
+	// Present when `status` is `completed` (absent if the item was deleted before this poll).
 	Media *Media `json:"media,omitempty"`
+	// Why the download failed. Present when `status` is `failed`.
+	Error *string `json:"error,omitempty"`
 }
+
+type _GetRemoteUploadStatus200Response GetRemoteUploadStatus200Response
 
 // NewGetRemoteUploadStatus200Response instantiates a new GetRemoteUploadStatus200Response object
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewGetRemoteUploadStatus200Response() *GetRemoteUploadStatus200Response {
+func NewGetRemoteUploadStatus200Response(status string, progress int32) *GetRemoteUploadStatus200Response {
 	this := GetRemoteUploadStatus200Response{}
+	this.Status = status
+	this.Progress = progress
 	return &this
 }
 
@@ -42,36 +52,52 @@ func NewGetRemoteUploadStatus200ResponseWithDefaults() *GetRemoteUploadStatus200
 	return &this
 }
 
-// GetStatus returns the Status field value if set, zero value otherwise.
+// GetStatus returns the Status field value
 func (o *GetRemoteUploadStatus200Response) GetStatus() string {
-	if o == nil || IsNil(o.Status) {
+	if o == nil {
 		var ret string
 		return ret
 	}
-	return *o.Status
+
+	return o.Status
 }
 
-// GetStatusOk returns a tuple with the Status field value if set, nil otherwise
+// GetStatusOk returns a tuple with the Status field value
 // and a boolean to check if the value has been set.
 func (o *GetRemoteUploadStatus200Response) GetStatusOk() (*string, bool) {
-	if o == nil || IsNil(o.Status) {
+	if o == nil {
 		return nil, false
 	}
-	return o.Status, true
+	return &o.Status, true
 }
 
-// HasStatus returns a boolean if a field has been set.
-func (o *GetRemoteUploadStatus200Response) HasStatus() bool {
-	if o != nil && !IsNil(o.Status) {
-		return true
+// SetStatus sets field value
+func (o *GetRemoteUploadStatus200Response) SetStatus(v string) {
+	o.Status = v
+}
+
+// GetProgress returns the Progress field value
+func (o *GetRemoteUploadStatus200Response) GetProgress() int32 {
+	if o == nil {
+		var ret int32
+		return ret
 	}
 
-	return false
+	return o.Progress
 }
 
-// SetStatus gets a reference to the given string and assigns it to the Status field.
-func (o *GetRemoteUploadStatus200Response) SetStatus(v string) {
-	o.Status = &v
+// GetProgressOk returns a tuple with the Progress field value
+// and a boolean to check if the value has been set.
+func (o *GetRemoteUploadStatus200Response) GetProgressOk() (*int32, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return &o.Progress, true
+}
+
+// SetProgress sets field value
+func (o *GetRemoteUploadStatus200Response) SetProgress(v int32) {
+	o.Progress = v
 }
 
 // GetMedia returns the Media field value if set, zero value otherwise.
@@ -106,6 +132,38 @@ func (o *GetRemoteUploadStatus200Response) SetMedia(v Media) {
 	o.Media = &v
 }
 
+// GetError returns the Error field value if set, zero value otherwise.
+func (o *GetRemoteUploadStatus200Response) GetError() string {
+	if o == nil || IsNil(o.Error) {
+		var ret string
+		return ret
+	}
+	return *o.Error
+}
+
+// GetErrorOk returns a tuple with the Error field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *GetRemoteUploadStatus200Response) GetErrorOk() (*string, bool) {
+	if o == nil || IsNil(o.Error) {
+		return nil, false
+	}
+	return o.Error, true
+}
+
+// HasError returns a boolean if a field has been set.
+func (o *GetRemoteUploadStatus200Response) HasError() bool {
+	if o != nil && !IsNil(o.Error) {
+		return true
+	}
+
+	return false
+}
+
+// SetError gets a reference to the given string and assigns it to the Error field.
+func (o *GetRemoteUploadStatus200Response) SetError(v string) {
+	o.Error = &v
+}
+
 func (o GetRemoteUploadStatus200Response) MarshalJSON() ([]byte, error) {
 	toSerialize,err := o.ToMap()
 	if err != nil {
@@ -116,13 +174,53 @@ func (o GetRemoteUploadStatus200Response) MarshalJSON() ([]byte, error) {
 
 func (o GetRemoteUploadStatus200Response) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
-	if !IsNil(o.Status) {
-		toSerialize["status"] = o.Status
-	}
+	toSerialize["status"] = o.Status
+	toSerialize["progress"] = o.Progress
 	if !IsNil(o.Media) {
 		toSerialize["media"] = o.Media
 	}
+	if !IsNil(o.Error) {
+		toSerialize["error"] = o.Error
+	}
 	return toSerialize, nil
+}
+
+func (o *GetRemoteUploadStatus200Response) UnmarshalJSON(data []byte) (err error) {
+	// This validates that all required properties are included in the JSON object
+	// by unmarshalling the object into a generic map with string keys and checking
+	// that every required field exists as a key in the generic map.
+	requiredProperties := []string{
+		"status",
+		"progress",
+	}
+
+	allProperties := make(map[string]interface{})
+
+	err = json.Unmarshal(data, &allProperties)
+
+	if err != nil {
+		return err;
+	}
+
+	for _, requiredProperty := range(requiredProperties) {
+		if _, exists := allProperties[requiredProperty]; !exists {
+			return fmt.Errorf("no value given for required property %v", requiredProperty)
+		}
+	}
+
+	varGetRemoteUploadStatus200Response := _GetRemoteUploadStatus200Response{}
+
+	decoder := json.NewDecoder(bytes.NewReader(data))
+	decoder.DisallowUnknownFields()
+	err = decoder.Decode(&varGetRemoteUploadStatus200Response)
+
+	if err != nil {
+		return err
+	}
+
+	*o = GetRemoteUploadStatus200Response(varGetRemoteUploadStatus200Response)
+
+	return err
 }
 
 type NullableGetRemoteUploadStatus200Response struct {

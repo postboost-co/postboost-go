@@ -22,6 +22,18 @@ func Test_postboost_FreeToolsAPIService(t *testing.T) {
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
 
+	t.Run("Test FreeToolsAPIService BuildHashtagGroups", func(t *testing.T) {
+
+		t.Skip("skip test")  // remove to run test
+
+		resp, httpRes, err := apiClient.FreeToolsAPI.BuildHashtagGroups(context.Background()).Execute()
+
+		require.Nil(t, err)
+		require.NotNil(t, resp)
+		assert.Equal(t, 200, httpRes.StatusCode)
+
+	})
+
 	t.Run("Test FreeToolsAPIService BuildUtmUrl", func(t *testing.T) {
 
 		t.Skip("skip test")  // remove to run test
@@ -87,6 +99,18 @@ func Test_postboost_FreeToolsAPIService(t *testing.T) {
 		t.Skip("skip test")  // remove to run test
 
 		resp, httpRes, err := apiClient.FreeToolsAPI.CalculateInfluencerRate(context.Background()).Execute()
+
+		require.Nil(t, err)
+		require.NotNil(t, resp)
+		assert.Equal(t, 200, httpRes.StatusCode)
+
+	})
+
+	t.Run("Test FreeToolsAPIService CalculateSmmPricing", func(t *testing.T) {
+
+		t.Skip("skip test")  // remove to run test
+
+		resp, httpRes, err := apiClient.FreeToolsAPI.CalculateSmmPricing(context.Background()).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)
@@ -190,6 +214,18 @@ func Test_postboost_FreeToolsAPIService(t *testing.T) {
 
 	})
 
+	t.Run("Test FreeToolsAPIService FindAutomationRecipes", func(t *testing.T) {
+
+		t.Skip("skip test")  // remove to run test
+
+		resp, httpRes, err := apiClient.FreeToolsAPI.FindAutomationRecipes(context.Background()).Execute()
+
+		require.Nil(t, err)
+		require.NotNil(t, resp)
+		assert.Equal(t, 200, httpRes.StatusCode)
+
+	})
+
 	t.Run("Test FreeToolsAPIService FormatInstagramCaption", func(t *testing.T) {
 
 		t.Skip("skip test")  // remove to run test
@@ -207,6 +243,30 @@ func Test_postboost_FreeToolsAPIService(t *testing.T) {
 		t.Skip("skip test")  // remove to run test
 
 		resp, httpRes, err := apiClient.FreeToolsAPI.FormatLinkedInPost(context.Background()).Execute()
+
+		require.Nil(t, err)
+		require.NotNil(t, resp)
+		assert.Equal(t, 200, httpRes.StatusCode)
+
+	})
+
+	t.Run("Test FreeToolsAPIService GenerateAltText", func(t *testing.T) {
+
+		t.Skip("skip test")  // remove to run test
+
+		resp, httpRes, err := apiClient.FreeToolsAPI.GenerateAltText(context.Background()).Execute()
+
+		require.Nil(t, err)
+		require.NotNil(t, resp)
+		assert.Equal(t, 200, httpRes.StatusCode)
+
+	})
+
+	t.Run("Test FreeToolsAPIService GenerateBio", func(t *testing.T) {
+
+		t.Skip("skip test")  // remove to run test
+
+		resp, httpRes, err := apiClient.FreeToolsAPI.GenerateBio(context.Background()).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)
@@ -262,6 +322,18 @@ func Test_postboost_FreeToolsAPIService(t *testing.T) {
 
 	})
 
+	t.Run("Test FreeToolsAPIService GenerateLinkedInHeadline", func(t *testing.T) {
+
+		t.Skip("skip test")  // remove to run test
+
+		resp, httpRes, err := apiClient.FreeToolsAPI.GenerateLinkedInHeadline(context.Background()).Execute()
+
+		require.Nil(t, err)
+		require.NotNil(t, resp)
+		assert.Equal(t, 200, httpRes.StatusCode)
+
+	})
+
 	t.Run("Test FreeToolsAPIService GenerateQrCode", func(t *testing.T) {
 
 		t.Skip("skip test")  // remove to run test
@@ -286,11 +358,59 @@ func Test_postboost_FreeToolsAPIService(t *testing.T) {
 
 	})
 
+	t.Run("Test FreeToolsAPIService GenerateUsernames", func(t *testing.T) {
+
+		t.Skip("skip test")  // remove to run test
+
+		resp, httpRes, err := apiClient.FreeToolsAPI.GenerateUsernames(context.Background()).Execute()
+
+		require.Nil(t, err)
+		require.NotNil(t, resp)
+		assert.Equal(t, 200, httpRes.StatusCode)
+
+	})
+
+	t.Run("Test FreeToolsAPIService GenerateYoutubeDescription", func(t *testing.T) {
+
+		t.Skip("skip test")  // remove to run test
+
+		resp, httpRes, err := apiClient.FreeToolsAPI.GenerateYoutubeDescription(context.Background()).Execute()
+
+		require.Nil(t, err)
+		require.NotNil(t, resp)
+		assert.Equal(t, 200, httpRes.StatusCode)
+
+	})
+
+	t.Run("Test FreeToolsAPIService GenerateYoutubeTitles", func(t *testing.T) {
+
+		t.Skip("skip test")  // remove to run test
+
+		resp, httpRes, err := apiClient.FreeToolsAPI.GenerateYoutubeTitles(context.Background()).Execute()
+
+		require.Nil(t, err)
+		require.NotNil(t, resp)
+		assert.Equal(t, 200, httpRes.StatusCode)
+
+	})
+
 	t.Run("Test FreeToolsAPIService GetBestTimesToPost", func(t *testing.T) {
 
 		t.Skip("skip test")  // remove to run test
 
 		resp, httpRes, err := apiClient.FreeToolsAPI.GetBestTimesToPost(context.Background()).Execute()
+
+		require.Nil(t, err)
+		require.NotNil(t, resp)
+		assert.Equal(t, 200, httpRes.StatusCode)
+
+	})
+
+	t.Run("Test FreeToolsAPIService GetGlossary", func(t *testing.T) {
+
+		t.Skip("skip test")  // remove to run test
+
+		resp, httpRes, err := apiClient.FreeToolsAPI.GetGlossary(context.Background()).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)
@@ -370,6 +490,18 @@ func Test_postboost_FreeToolsAPIService(t *testing.T) {
 
 	})
 
+	t.Run("Test FreeToolsAPIService PickSocialMediaTool", func(t *testing.T) {
+
+		t.Skip("skip test")  // remove to run test
+
+		resp, httpRes, err := apiClient.FreeToolsAPI.PickSocialMediaTool(context.Background()).Execute()
+
+		require.Nil(t, err)
+		require.NotNil(t, resp)
+		assert.Equal(t, 200, httpRes.StatusCode)
+
+	})
+
 	t.Run("Test FreeToolsAPIService PlanContentCalendar", func(t *testing.T) {
 
 		t.Skip("skip test")  // remove to run test
@@ -435,6 +567,30 @@ func Test_postboost_FreeToolsAPIService(t *testing.T) {
 		t.Skip("skip test")  // remove to run test
 
 		resp, httpRes, err := apiClient.FreeToolsAPI.SplitThread(context.Background()).Execute()
+
+		require.Nil(t, err)
+		require.NotNil(t, resp)
+		assert.Equal(t, 200, httpRes.StatusCode)
+
+	})
+
+	t.Run("Test FreeToolsAPIService SummarizeReport", func(t *testing.T) {
+
+		t.Skip("skip test")  // remove to run test
+
+		resp, httpRes, err := apiClient.FreeToolsAPI.SummarizeReport(context.Background()).Execute()
+
+		require.Nil(t, err)
+		require.NotNil(t, resp)
+		assert.Equal(t, 200, httpRes.StatusCode)
+
+	})
+
+	t.Run("Test FreeToolsAPIService VerifyWebhookSignature", func(t *testing.T) {
+
+		t.Skip("skip test")  // remove to run test
+
+		resp, httpRes, err := apiClient.FreeToolsAPI.VerifyWebhookSignature(context.Background()).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)

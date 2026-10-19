@@ -11,6 +11,7 @@ Name | Type | Description | Notes
 **Hashtags** | Pointer to **bool** | End each caption with 3-5 relevant hashtags. | [optional] [default to false]
 **Network** | Pointer to **string** | The network the text is written for. | [optional] [default to "instagram"]
 **Workspace** | Pointer to **string** | UUID of the workspace whose AI credits pay for the call. Default: your active workspace (a scoped API key: its own workspace). | [optional] 
+**Format** | Pointer to **string** | caption: short captions (default). post: long-form posts of 300-600, 600-1,300 or 1,300-2,000 characters by &#x60;length&#x60;, with at most 3 hashtags; network linkedin only. | [optional] [default to "caption"]
 
 ## Methods
 
@@ -200,6 +201,31 @@ SetWorkspace sets Workspace field to given value.
 `func (o *FreeToolGenerateCaptionRequest) HasWorkspace() bool`
 
 HasWorkspace returns a boolean if a field has been set.
+
+### GetFormat
+
+`func (o *FreeToolGenerateCaptionRequest) GetFormat() string`
+
+GetFormat returns the Format field if non-nil, zero value otherwise.
+
+### GetFormatOk
+
+`func (o *FreeToolGenerateCaptionRequest) GetFormatOk() (*string, bool)`
+
+GetFormatOk returns a tuple with the Format field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetFormat
+
+`func (o *FreeToolGenerateCaptionRequest) SetFormat(v string)`
+
+SetFormat sets Format field to given value.
+
+### HasFormat
+
+`func (o *FreeToolGenerateCaptionRequest) HasFormat() bool`
+
+HasFormat returns a boolean if a field has been set.
 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)

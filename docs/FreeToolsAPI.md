@@ -4,12 +4,14 @@ All URIs are relative to *https://postboost.co/app/api*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
+[**BuildHashtagGroups**](FreeToolsAPI.md#BuildHashtagGroups) | **Post** /tools/hashtag-group-builder | Clean, dedupe and split hashtags into groups that fit a network&#39;s hashtag cap
 [**BuildUtmUrl**](FreeToolsAPI.md#BuildUtmUrl) | **Post** /tools/utm-builder | Build a UTM-tagged campaign URL
 [**CalculateAspectRatio**](FreeToolsAPI.md#CalculateAspectRatio) | **Post** /tools/aspect-ratio-calculator | Calculate an aspect ratio, or the missing side of an image at a given ratio
 [**CalculateCarouselSlices**](FreeToolsAPI.md#CalculateCarouselSlices) | **Post** /tools/instagram-carousel-splitter | Split a wide image into seamless Instagram carousel slides
 [**CalculateCrop**](FreeToolsAPI.md#CalculateCrop) | **Post** /tools/social-media-image-sizes/crop | Calculate the crop box that fits an image to a social media size
 [**CalculateEngagementRate**](FreeToolsAPI.md#CalculateEngagementRate) | **Post** /tools/engagement-rate-calculator | Calculate an engagement rate
 [**CalculateInfluencerRate**](FreeToolsAPI.md#CalculateInfluencerRate) | **Post** /tools/influencer-rate-calculator | Estimate an influencer&#39;s rate for one sponsored deliverable
+[**CalculateSmmPricing**](FreeToolsAPI.md#CalculateSmmPricing) | **Post** /tools/social-media-manager-pricing-calculator | Estimate social media manager pricing
 [**CalculateSocialRoi**](FreeToolsAPI.md#CalculateSocialRoi) | **Post** /tools/social-media-roi-calculator | Calculate social media ROI
 [**CalculateXApiCost**](FreeToolsAPI.md#CalculateXApiCost) | **Post** /tools/x-api-cost-calculator | Calculate the monthly X API cost
 [**CheckLinkPreview**](FreeToolsAPI.md#CheckLinkPreview) | **Post** /tools/link-preview-checker | Check how a link previews on X, LinkedIn, Facebook and chat apps (Open Graph and Twitter card tags)
@@ -18,28 +20,105 @@ Method | HTTP request | Description
 [**CheckYoutubeThumbnail**](FreeToolsAPI.md#CheckYoutubeThumbnail) | **Post** /tools/youtube-thumbnail-size-checker | Check a YouTube thumbnail&#39;s ratio, width, file size and format against YouTube&#39;s requirements
 [**CleanText**](FreeToolsAPI.md#CleanText) | **Post** /tools/ai-text-cleaner | Clean AI-written text: dashes, quotes, invisible characters, markdown
 [**CountCharacters**](FreeToolsAPI.md#CountCharacters) | **Post** /tools/social-media-character-counter | Count characters as each network counts them
+[**FindAutomationRecipes**](FreeToolsAPI.md#FindAutomationRecipes) | **Get** /tools/social-media-automation-recipes | Find n8n, Zapier and Make recipes that automate social media posting through the PostBoost API
 [**FormatInstagramCaption**](FreeToolsAPI.md#FormatInstagramCaption) | **Post** /tools/instagram-line-break-generator | Keep blank lines in an Instagram caption with spacer lines, and count it
 [**FormatLinkedInPost**](FreeToolsAPI.md#FormatLinkedInPost) | **Post** /tools/linkedin-post-formatter | Format a LinkedIn post with bold, italic and lists
+[**GenerateAltText**](FreeToolsAPI.md#GenerateAltText) | **Post** /tools/alt-text-generator | Write alt text for an image with AI (needs a token, spends AI credits)
+[**GenerateBio**](FreeToolsAPI.md#GenerateBio) | **Post** /tools/instagram-bio-generator | Write five profile bios with AI (needs a token, spends AI credits)
 [**GenerateCaption**](FreeToolsAPI.md#GenerateCaption) | **Post** /tools/instagram-caption-generator | Write three post captions for a topic with AI (needs a token, spends AI credits)
 [**GenerateFancyText**](FreeToolsAPI.md#GenerateFancyText) | **Post** /tools/fancy-text-generator | Convert text to fancy Unicode styles
 [**GenerateHashtags**](FreeToolsAPI.md#GenerateHashtags) | **Post** /tools/instagram-hashtag-generator | Generate hashtags for a post topic with AI (needs a token, spends AI credits)
 [**GenerateHooks**](FreeToolsAPI.md#GenerateHooks) | **Post** /tools/hook-generator | Generate hooks (opening lines) for a social media post with AI (needs a token, spends AI credits)
+[**GenerateLinkedInHeadline**](FreeToolsAPI.md#GenerateLinkedInHeadline) | **Post** /tools/linkedin-headline-generator | Write five LinkedIn profile headlines with AI (needs a token, spends AI credits)
 [**GenerateQrCode**](FreeToolsAPI.md#GenerateQrCode) | **Post** /tools/qr-code-generator | Generate a QR code (SVG) for a link or text, with optional UTM tags
 [**GenerateSocialPostsFromBlog**](FreeToolsAPI.md#GenerateSocialPostsFromBlog) | **Post** /tools/blog-to-social-media | Turn a blog post (URL or text) into one social post per network with AI (needs a token, spends AI credits)
+[**GenerateUsernames**](FreeToolsAPI.md#GenerateUsernames) | **Post** /tools/social-media-username-generator | Generate social media usernames
+[**GenerateYoutubeDescription**](FreeToolsAPI.md#GenerateYoutubeDescription) | **Post** /tools/youtube-description-generator | Write three YouTube video descriptions with AI (needs a token, spends AI credits)
+[**GenerateYoutubeTitles**](FreeToolsAPI.md#GenerateYoutubeTitles) | **Post** /tools/youtube-title-generator | Write five YouTube video titles with AI (needs a token, spends AI credits)
 [**GetBestTimesToPost**](FreeToolsAPI.md#GetBestTimesToPost) | **Get** /tools/best-time-to-post | Get the best times to post per network from published studies, with sources
+[**GetGlossary**](FreeToolsAPI.md#GetGlossary) | **Get** /tools/social-media-glossary | Look up social media terms: plain-language definitions by category, with sources and related terms
 [**GetHookTemplates**](FreeToolsAPI.md#GetHookTemplates) | **Get** /tools/hook-generator/library | Get free hook templates for social media posts, filtered by style and network
 [**GetImageSizes**](FreeToolsAPI.md#GetImageSizes) | **Get** /tools/social-media-image-sizes | Get social media image sizes per network, each with its source
 [**GetSafeZones**](FreeToolsAPI.md#GetSafeZones) | **Post** /tools/safe-zone-checker | Get the TikTok, Instagram Reels or YouTube Shorts safe zones for a vertical frame
 [**GetVideoSpecs**](FreeToolsAPI.md#GetVideoSpecs) | **Get** /tools/social-media-video-specs | Get social media video ratios, resolutions, lengths and file size limits per network, with sources
 [**ListAwarenessDays**](FreeToolsAPI.md#ListAwarenessDays) | **Get** /tools/social-media-holiday-calendar | List public holidays, awareness days and social media days by date, country, type and topic, with sources
 [**ListFreeTools**](FreeToolsAPI.md#ListFreeTools) | **Get** /tools | List the free tools
+[**PickSocialMediaTool**](FreeToolsAPI.md#PickSocialMediaTool) | **Post** /tools/social-media-tool-picker | Match your needs against social media management tools and see what each one misses
 [**PlanContentCalendar**](FreeToolsAPI.md#PlanContentCalendar) | **Post** /tools/social-media-content-calendar-generator | Plan a social media content calendar and get it as CSV and ICS
 [**PlanPostingFrequency**](FreeToolsAPI.md#PlanPostingFrequency) | **Post** /tools/posting-frequency-planner | Plan how often to post on each network
 [**PreviewPost**](FreeToolsAPI.md#PreviewPost) | **Post** /tools/social-media-post-preview | Preview where a post folds and when its image is cropped on Instagram, X, LinkedIn and Facebook
 [**ScoreSocialAudit**](FreeToolsAPI.md#ScoreSocialAudit) | **Post** /tools/social-media-audit-template | Score a social media audit checklist and get the top fixes
 [**SearchEmoji**](FreeToolsAPI.md#SearchEmoji) | **Post** /tools/social-media-emoji-picker | Search emoji by name or keyword, to copy and paste into a post
 [**SplitThread**](FreeToolsAPI.md#SplitThread) | **Post** /tools/x-thread-maker | Split long text into a thread
+[**SummarizeReport**](FreeToolsAPI.md#SummarizeReport) | **Post** /tools/social-media-report-generator | Summarize social media post metrics into a report
+[**VerifyWebhookSignature**](FreeToolsAPI.md#VerifyWebhookSignature) | **Post** /tools/webhook-signature-verifier | Verify an HMAC webhook signature
 
+
+
+## BuildHashtagGroups
+
+> FreeToolBuildHashtagGroupsResponse BuildHashtagGroups(ctx).FreeToolBuildHashtagGroupsRequest(freeToolBuildHashtagGroupsRequest).Execute()
+
+Clean, dedupe and split hashtags into groups that fit a network's hashtag cap
+
+
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/postboost-co/postboost-go"
+)
+
+func main() {
+	freeToolBuildHashtagGroupsRequest := *openapiclient.NewFreeToolBuildHashtagGroupsRequest("Text_example") // FreeToolBuildHashtagGroupsRequest | 
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.FreeToolsAPI.BuildHashtagGroups(context.Background()).FreeToolBuildHashtagGroupsRequest(freeToolBuildHashtagGroupsRequest).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `FreeToolsAPI.BuildHashtagGroups``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `BuildHashtagGroups`: FreeToolBuildHashtagGroupsResponse
+	fmt.Fprintf(os.Stdout, "Response from `FreeToolsAPI.BuildHashtagGroups`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiBuildHashtagGroupsRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **freeToolBuildHashtagGroupsRequest** | [**FreeToolBuildHashtagGroupsRequest**](FreeToolBuildHashtagGroupsRequest.md) |  | 
+
+### Return type
+
+[**FreeToolBuildHashtagGroupsResponse**](FreeToolBuildHashtagGroupsResponse.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: application/json
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
 
 
 ## BuildUtmUrl
@@ -423,6 +502,72 @@ Name | Type | Description  | Notes
 ### Return type
 
 [**FreeToolCalculateInfluencerRateResponse**](FreeToolCalculateInfluencerRateResponse.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: application/json
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## CalculateSmmPricing
+
+> FreeToolCalculateSmmPricingResponse CalculateSmmPricing(ctx).FreeToolCalculateSmmPricingRequest(freeToolCalculateSmmPricingRequest).Execute()
+
+Estimate social media manager pricing
+
+
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/postboost-co/postboost-go"
+)
+
+func main() {
+	freeToolCalculateSmmPricingRequest := *openapiclient.NewFreeToolCalculateSmmPricingRequest(int32(123), int32(123)) // FreeToolCalculateSmmPricingRequest | 
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.FreeToolsAPI.CalculateSmmPricing(context.Background()).FreeToolCalculateSmmPricingRequest(freeToolCalculateSmmPricingRequest).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `FreeToolsAPI.CalculateSmmPricing``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `CalculateSmmPricing`: FreeToolCalculateSmmPricingResponse
+	fmt.Fprintf(os.Stdout, "Response from `FreeToolsAPI.CalculateSmmPricing`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiCalculateSmmPricingRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **freeToolCalculateSmmPricingRequest** | [**FreeToolCalculateSmmPricingRequest**](FreeToolCalculateSmmPricingRequest.md) |  | 
+
+### Return type
+
+[**FreeToolCalculateSmmPricingResponse**](FreeToolCalculateSmmPricingResponse.md)
 
 ### Authorization
 
@@ -966,6 +1111,76 @@ No authorization required
 [[Back to README]](../README.md)
 
 
+## FindAutomationRecipes
+
+> FreeToolFindAutomationRecipesResponse FindAutomationRecipes(ctx).Platform(platform).Trigger(trigger).Q(q).Execute()
+
+Find n8n, Zapier and Make recipes that automate social media posting through the PostBoost API
+
+
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/postboost-co/postboost-go"
+)
+
+func main() {
+	platform := "platform_example" // string |  (optional)
+	trigger := "trigger_example" // string |  (optional)
+	q := "q_example" // string |  (optional)
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.FreeToolsAPI.FindAutomationRecipes(context.Background()).Platform(platform).Trigger(trigger).Q(q).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `FreeToolsAPI.FindAutomationRecipes``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `FindAutomationRecipes`: FreeToolFindAutomationRecipesResponse
+	fmt.Fprintf(os.Stdout, "Response from `FreeToolsAPI.FindAutomationRecipes`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiFindAutomationRecipesRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **platform** | **string** |  | 
+ **trigger** | **string** |  | 
+ **q** | **string** |  | 
+
+### Return type
+
+[**FreeToolFindAutomationRecipesResponse**](FreeToolFindAutomationRecipesResponse.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
 ## FormatInstagramCaption
 
 > FreeToolFormatInstagramCaptionResponse FormatInstagramCaption(ctx).FreeToolFormatInstagramCaptionRequest(freeToolFormatInstagramCaptionRequest).Execute()
@@ -1087,6 +1302,138 @@ Name | Type | Description  | Notes
 ### Authorization
 
 No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: application/json
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## GenerateAltText
+
+> FreeToolGenerateAltTextResponse GenerateAltText(ctx).FreeToolGenerateAltTextRequest(freeToolGenerateAltTextRequest).Execute()
+
+Write alt text for an image with AI (needs a token, spends AI credits)
+
+
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/postboost-co/postboost-go"
+)
+
+func main() {
+	freeToolGenerateAltTextRequest := *openapiclient.NewFreeToolGenerateAltTextRequest() // FreeToolGenerateAltTextRequest | 
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.FreeToolsAPI.GenerateAltText(context.Background()).FreeToolGenerateAltTextRequest(freeToolGenerateAltTextRequest).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `FreeToolsAPI.GenerateAltText``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `GenerateAltText`: FreeToolGenerateAltTextResponse
+	fmt.Fprintf(os.Stdout, "Response from `FreeToolsAPI.GenerateAltText`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiGenerateAltTextRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **freeToolGenerateAltTextRequest** | [**FreeToolGenerateAltTextRequest**](FreeToolGenerateAltTextRequest.md) |  | 
+
+### Return type
+
+[**FreeToolGenerateAltTextResponse**](FreeToolGenerateAltTextResponse.md)
+
+### Authorization
+
+[bearerAuth](../README.md#bearerAuth)
+
+### HTTP request headers
+
+- **Content-Type**: application/json, multipart/form-data
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## GenerateBio
+
+> FreeToolGenerateBioResponse GenerateBio(ctx).FreeToolGenerateBioRequest(freeToolGenerateBioRequest).Execute()
+
+Write five profile bios with AI (needs a token, spends AI credits)
+
+
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/postboost-co/postboost-go"
+)
+
+func main() {
+	freeToolGenerateBioRequest := *openapiclient.NewFreeToolGenerateBioRequest("Text_example") // FreeToolGenerateBioRequest | 
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.FreeToolsAPI.GenerateBio(context.Background()).FreeToolGenerateBioRequest(freeToolGenerateBioRequest).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `FreeToolsAPI.GenerateBio``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `GenerateBio`: FreeToolGenerateBioResponse
+	fmt.Fprintf(os.Stdout, "Response from `FreeToolsAPI.GenerateBio`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiGenerateBioRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **freeToolGenerateBioRequest** | [**FreeToolGenerateBioRequest**](FreeToolGenerateBioRequest.md) |  | 
+
+### Return type
+
+[**FreeToolGenerateBioResponse**](FreeToolGenerateBioResponse.md)
+
+### Authorization
+
+[bearerAuth](../README.md#bearerAuth)
 
 ### HTTP request headers
 
@@ -1362,6 +1709,72 @@ Name | Type | Description  | Notes
 [[Back to README]](../README.md)
 
 
+## GenerateLinkedInHeadline
+
+> FreeToolGenerateLinkedInHeadlineResponse GenerateLinkedInHeadline(ctx).FreeToolGenerateLinkedInHeadlineRequest(freeToolGenerateLinkedInHeadlineRequest).Execute()
+
+Write five LinkedIn profile headlines with AI (needs a token, spends AI credits)
+
+
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/postboost-co/postboost-go"
+)
+
+func main() {
+	freeToolGenerateLinkedInHeadlineRequest := *openapiclient.NewFreeToolGenerateLinkedInHeadlineRequest("Role_example", "Skills_example") // FreeToolGenerateLinkedInHeadlineRequest | 
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.FreeToolsAPI.GenerateLinkedInHeadline(context.Background()).FreeToolGenerateLinkedInHeadlineRequest(freeToolGenerateLinkedInHeadlineRequest).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `FreeToolsAPI.GenerateLinkedInHeadline``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `GenerateLinkedInHeadline`: FreeToolGenerateLinkedInHeadlineResponse
+	fmt.Fprintf(os.Stdout, "Response from `FreeToolsAPI.GenerateLinkedInHeadline`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiGenerateLinkedInHeadlineRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **freeToolGenerateLinkedInHeadlineRequest** | [**FreeToolGenerateLinkedInHeadlineRequest**](FreeToolGenerateLinkedInHeadlineRequest.md) |  | 
+
+### Return type
+
+[**FreeToolGenerateLinkedInHeadlineResponse**](FreeToolGenerateLinkedInHeadlineResponse.md)
+
+### Authorization
+
+[bearerAuth](../README.md#bearerAuth)
+
+### HTTP request headers
+
+- **Content-Type**: application/json
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
 ## GenerateQrCode
 
 > FreeToolGenerateQrCodeResponse GenerateQrCode(ctx).FreeToolGenerateQrCodeRequest(freeToolGenerateQrCodeRequest).Execute()
@@ -1494,6 +1907,204 @@ Name | Type | Description  | Notes
 [[Back to README]](../README.md)
 
 
+## GenerateUsernames
+
+> FreeToolGenerateUsernamesResponse GenerateUsernames(ctx).FreeToolGenerateUsernamesRequest(freeToolGenerateUsernamesRequest).Execute()
+
+Generate social media usernames
+
+
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/postboost-co/postboost-go"
+)
+
+func main() {
+	freeToolGenerateUsernamesRequest := *openapiclient.NewFreeToolGenerateUsernamesRequest("Name_example") // FreeToolGenerateUsernamesRequest | 
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.FreeToolsAPI.GenerateUsernames(context.Background()).FreeToolGenerateUsernamesRequest(freeToolGenerateUsernamesRequest).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `FreeToolsAPI.GenerateUsernames``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `GenerateUsernames`: FreeToolGenerateUsernamesResponse
+	fmt.Fprintf(os.Stdout, "Response from `FreeToolsAPI.GenerateUsernames`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiGenerateUsernamesRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **freeToolGenerateUsernamesRequest** | [**FreeToolGenerateUsernamesRequest**](FreeToolGenerateUsernamesRequest.md) |  | 
+
+### Return type
+
+[**FreeToolGenerateUsernamesResponse**](FreeToolGenerateUsernamesResponse.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: application/json
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## GenerateYoutubeDescription
+
+> FreeToolGenerateYoutubeDescriptionResponse GenerateYoutubeDescription(ctx).FreeToolGenerateYoutubeDescriptionRequest(freeToolGenerateYoutubeDescriptionRequest).Execute()
+
+Write three YouTube video descriptions with AI (needs a token, spends AI credits)
+
+
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/postboost-co/postboost-go"
+)
+
+func main() {
+	freeToolGenerateYoutubeDescriptionRequest := *openapiclient.NewFreeToolGenerateYoutubeDescriptionRequest("Text_example") // FreeToolGenerateYoutubeDescriptionRequest | 
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.FreeToolsAPI.GenerateYoutubeDescription(context.Background()).FreeToolGenerateYoutubeDescriptionRequest(freeToolGenerateYoutubeDescriptionRequest).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `FreeToolsAPI.GenerateYoutubeDescription``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `GenerateYoutubeDescription`: FreeToolGenerateYoutubeDescriptionResponse
+	fmt.Fprintf(os.Stdout, "Response from `FreeToolsAPI.GenerateYoutubeDescription`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiGenerateYoutubeDescriptionRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **freeToolGenerateYoutubeDescriptionRequest** | [**FreeToolGenerateYoutubeDescriptionRequest**](FreeToolGenerateYoutubeDescriptionRequest.md) |  | 
+
+### Return type
+
+[**FreeToolGenerateYoutubeDescriptionResponse**](FreeToolGenerateYoutubeDescriptionResponse.md)
+
+### Authorization
+
+[bearerAuth](../README.md#bearerAuth)
+
+### HTTP request headers
+
+- **Content-Type**: application/json
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## GenerateYoutubeTitles
+
+> FreeToolGenerateYoutubeTitlesResponse GenerateYoutubeTitles(ctx).FreeToolGenerateYoutubeTitlesRequest(freeToolGenerateYoutubeTitlesRequest).Execute()
+
+Write five YouTube video titles with AI (needs a token, spends AI credits)
+
+
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/postboost-co/postboost-go"
+)
+
+func main() {
+	freeToolGenerateYoutubeTitlesRequest := *openapiclient.NewFreeToolGenerateYoutubeTitlesRequest("Text_example") // FreeToolGenerateYoutubeTitlesRequest | 
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.FreeToolsAPI.GenerateYoutubeTitles(context.Background()).FreeToolGenerateYoutubeTitlesRequest(freeToolGenerateYoutubeTitlesRequest).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `FreeToolsAPI.GenerateYoutubeTitles``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `GenerateYoutubeTitles`: FreeToolGenerateYoutubeTitlesResponse
+	fmt.Fprintf(os.Stdout, "Response from `FreeToolsAPI.GenerateYoutubeTitles`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiGenerateYoutubeTitlesRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **freeToolGenerateYoutubeTitlesRequest** | [**FreeToolGenerateYoutubeTitlesRequest**](FreeToolGenerateYoutubeTitlesRequest.md) |  | 
+
+### Return type
+
+[**FreeToolGenerateYoutubeTitlesResponse**](FreeToolGenerateYoutubeTitlesResponse.md)
+
+### Authorization
+
+[bearerAuth](../README.md#bearerAuth)
+
+### HTTP request headers
+
+- **Content-Type**: application/json
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
 ## GetBestTimesToPost
 
 > FreeToolGetBestTimesToPostResponse GetBestTimesToPost(ctx).Network(network).Execute()
@@ -1545,6 +2156,74 @@ Name | Type | Description  | Notes
 ### Return type
 
 [**FreeToolGetBestTimesToPostResponse**](FreeToolGetBestTimesToPostResponse.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## GetGlossary
+
+> FreeToolGetGlossaryResponse GetGlossary(ctx).Q(q).Category(category).Execute()
+
+Look up social media terms: plain-language definitions by category, with sources and related terms
+
+
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/postboost-co/postboost-go"
+)
+
+func main() {
+	q := "q_example" // string |  (optional)
+	category := "category_example" // string |  (optional)
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.FreeToolsAPI.GetGlossary(context.Background()).Q(q).Category(category).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `FreeToolsAPI.GetGlossary``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `GetGlossary`: FreeToolGetGlossaryResponse
+	fmt.Fprintf(os.Stdout, "Response from `FreeToolsAPI.GetGlossary`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiGetGlossaryRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **q** | **string** |  | 
+ **category** | **string** |  | 
+
+### Return type
+
+[**FreeToolGetGlossaryResponse**](FreeToolGetGlossaryResponse.md)
 
 ### Authorization
 
@@ -1965,6 +2644,72 @@ No authorization required
 [[Back to README]](../README.md)
 
 
+## PickSocialMediaTool
+
+> FreeToolPickSocialMediaToolResponse PickSocialMediaTool(ctx).FreeToolPickSocialMediaToolRequest(freeToolPickSocialMediaToolRequest).Execute()
+
+Match your needs against social media management tools and see what each one misses
+
+
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/postboost-co/postboost-go"
+)
+
+func main() {
+	freeToolPickSocialMediaToolRequest := *openapiclient.NewFreeToolPickSocialMediaToolRequest() // FreeToolPickSocialMediaToolRequest | 
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.FreeToolsAPI.PickSocialMediaTool(context.Background()).FreeToolPickSocialMediaToolRequest(freeToolPickSocialMediaToolRequest).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `FreeToolsAPI.PickSocialMediaTool``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `PickSocialMediaTool`: FreeToolPickSocialMediaToolResponse
+	fmt.Fprintf(os.Stdout, "Response from `FreeToolsAPI.PickSocialMediaTool`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiPickSocialMediaToolRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **freeToolPickSocialMediaToolRequest** | [**FreeToolPickSocialMediaToolRequest**](FreeToolPickSocialMediaToolRequest.md) |  | 
+
+### Return type
+
+[**FreeToolPickSocialMediaToolResponse**](FreeToolPickSocialMediaToolResponse.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: application/json
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
 ## PlanContentCalendar
 
 > FreeToolPlanContentCalendarResponse PlanContentCalendar(ctx).FreeToolPlanContentCalendarRequest(freeToolPlanContentCalendarRequest).Execute()
@@ -2346,6 +3091,138 @@ Name | Type | Description  | Notes
 ### Return type
 
 [**FreeToolSplitThreadResponse**](FreeToolSplitThreadResponse.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: application/json
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## SummarizeReport
+
+> FreeToolSummarizeReportResponse SummarizeReport(ctx).FreeToolSummarizeReportRequest(freeToolSummarizeReportRequest).Execute()
+
+Summarize social media post metrics into a report
+
+
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/postboost-co/postboost-go"
+)
+
+func main() {
+	freeToolSummarizeReportRequest := *openapiclient.NewFreeToolSummarizeReportRequest([]openapiclient.FreeToolSummarizeReportRequestRowsInner{*openapiclient.NewFreeToolSummarizeReportRequestRowsInner()}) // FreeToolSummarizeReportRequest | 
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.FreeToolsAPI.SummarizeReport(context.Background()).FreeToolSummarizeReportRequest(freeToolSummarizeReportRequest).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `FreeToolsAPI.SummarizeReport``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `SummarizeReport`: FreeToolSummarizeReportResponse
+	fmt.Fprintf(os.Stdout, "Response from `FreeToolsAPI.SummarizeReport`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiSummarizeReportRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **freeToolSummarizeReportRequest** | [**FreeToolSummarizeReportRequest**](FreeToolSummarizeReportRequest.md) |  | 
+
+### Return type
+
+[**FreeToolSummarizeReportResponse**](FreeToolSummarizeReportResponse.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: application/json
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## VerifyWebhookSignature
+
+> FreeToolVerifyWebhookSignatureResponse VerifyWebhookSignature(ctx).FreeToolVerifyWebhookSignatureRequest(freeToolVerifyWebhookSignatureRequest).Execute()
+
+Verify an HMAC webhook signature
+
+
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/postboost-co/postboost-go"
+)
+
+func main() {
+	freeToolVerifyWebhookSignatureRequest := *openapiclient.NewFreeToolVerifyWebhookSignatureRequest("Body_example", "Secret_example", "Signature_example") // FreeToolVerifyWebhookSignatureRequest | 
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.FreeToolsAPI.VerifyWebhookSignature(context.Background()).FreeToolVerifyWebhookSignatureRequest(freeToolVerifyWebhookSignatureRequest).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `FreeToolsAPI.VerifyWebhookSignature``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `VerifyWebhookSignature`: FreeToolVerifyWebhookSignatureResponse
+	fmt.Fprintf(os.Stdout, "Response from `FreeToolsAPI.VerifyWebhookSignature`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiVerifyWebhookSignatureRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **freeToolVerifyWebhookSignatureRequest** | [**FreeToolVerifyWebhookSignatureRequest**](FreeToolVerifyWebhookSignatureRequest.md) |  | 
+
+### Return type
+
+[**FreeToolVerifyWebhookSignatureResponse**](FreeToolVerifyWebhookSignatureResponse.md)
 
 ### Authorization
 
