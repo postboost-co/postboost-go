@@ -3,7 +3,7 @@ PostBoost API
 
 The PostBoost REST API lets you publish, schedule, and analyze social media posts on every supported network from a single integration. No OAuth apps to maintain — PostBoost handles platform authorization for you.  ## Base URL All workspace-scoped endpoints are prefixed with `/{workspaceUuid}`. Panel/admin endpoints are prefixed with `/panel`.  ## Plan access Every workspace-scoped endpoint returns `403` when the workspace's plan does not include API access (capability `api`).  ## Dates and times Post dates and times (`date`, `time`, `accounts_schedule`) are read in the request's `timezone` when one is given, otherwise in the workspace timezone.  ## Idempotent requests Send an `Idempotency-Key` header (any unique string, for example a UUID) with a `POST`. Repeating the request with the same key within 24 hours returns the stored response with `Idempotent-Replayed: true` and creates nothing new. Reusing a key with a different body returns `422`; a request still in progress with the same key returns `409`. `5xx` and `429` responses are not stored, so they can be retried with the same key.  ## Guardrails for automated clients Create and update requests are checked before anything is written: a post whose content matches one created for the same account in the last 24 hours returns `409` (`code: duplicate_post`, override with `allow_duplicate: true`), scheduling past an account's daily cap returns `429` (`code: account_daily_cap_reached`), and scheduling to an account that must be reconnected returns `422` (`code: account_unauthorized` or `account_token_missing`). Use `POST /{workspaceUuid}/posts/validate` for a dry run and `GET /{workspaceUuid}/activity` to review what API clients did.  ## Authentication All requests require a Bearer token in the `Authorization` header. Generate tokens in your PostBoost dashboard under **Settings → Access Tokens**.  ``` Authorization: Bearer YOUR_API_TOKEN ``` 
 
-API version: 1.57.8
+API version: 1.61.0
 Contact: hi@postboost.co
 */
 
@@ -449,7 +449,10 @@ LinkedIn, or to continue a thread on X, Threads, Bluesky, Mastodon and Pixelfed:
 ```
 
 The comment is posted right after the post goes live. If the comment fails, the post
-stays published and the account's entry on the post reports the error.
+stays published and the account's entry on the post reports the error. LinkedIn posts
+the comment only when first comments are enabled for LinkedIn on this server; otherwise
+only item 0 is published and the response carries a `linkedin_first_comment_unavailable`
+warning.
 
 
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
@@ -3764,9 +3767,9 @@ network requirements (text length, media count and type, links) for every given 
 whether or not the post is scheduled, and the guardrails (duplicate content, daily caps,
 account health). Always answers `200`; read `valid`. `warnings` lists what create-post
 would return as warnings: what the network will reject or ignore at publish (for example
-a Threads post over 500 characters as Threads counts them). `valid` stays true for them;
-fix them before scheduling. Any workspace member, including viewers, may call it.
-Recommended agent loop: account health, validate, then create.
+a Threads post over 500 characters as Threads counts them, or with more than 5 links).
+`valid` stays true for them; fix them before scheduling. Any workspace member, including
+viewers, may call it. Recommended agent loop: account health, validate, then create.
 
 
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().

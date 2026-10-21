@@ -4,7 +4,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Code** | **string** |  | 
+**Code** | **string** | One of the codes above. The list grows over time (&#x60;x-extensible-enum&#x60;), so accept unknown values. | 
 **AccountId** | **NullableInt32** | The account the warning is about; null when it is about the whole post. | 
 **Message** | **string** |  | 
 

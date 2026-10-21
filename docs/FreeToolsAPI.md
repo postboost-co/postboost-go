@@ -21,6 +21,7 @@ Method | HTTP request | Description
 [**CleanText**](FreeToolsAPI.md#CleanText) | **Post** /tools/ai-text-cleaner | Clean AI-written text: dashes, quotes, invisible characters, markdown
 [**CountCharacters**](FreeToolsAPI.md#CountCharacters) | **Post** /tools/social-media-character-counter | Count characters as each network counts them
 [**FindAutomationRecipes**](FreeToolsAPI.md#FindAutomationRecipes) | **Get** /tools/social-media-automation-recipes | Find n8n, Zapier and Make recipes that automate social media posting through the PostBoost API
+[**FormatCrossPost**](FreeToolsAPI.md#FormatCrossPost) | **Post** /tools/cross-post-formatter | Format one post for X, Threads, Bluesky, Mastodon and LinkedIn
 [**FormatInstagramCaption**](FreeToolsAPI.md#FormatInstagramCaption) | **Post** /tools/instagram-line-break-generator | Keep blank lines in an Instagram caption with spacer lines, and count it
 [**FormatLinkedInPost**](FreeToolsAPI.md#FormatLinkedInPost) | **Post** /tools/linkedin-post-formatter | Format a LinkedIn post with bold, italic and lists
 [**GenerateAltText**](FreeToolsAPI.md#GenerateAltText) | **Post** /tools/alt-text-generator | Write alt text for an image with AI (needs a token, spends AI credits)
@@ -43,6 +44,7 @@ Method | HTTP request | Description
 [**GetVideoSpecs**](FreeToolsAPI.md#GetVideoSpecs) | **Get** /tools/social-media-video-specs | Get social media video ratios, resolutions, lengths and file size limits per network, with sources
 [**ListAwarenessDays**](FreeToolsAPI.md#ListAwarenessDays) | **Get** /tools/social-media-holiday-calendar | List public holidays, awareness days and social media days by date, country, type and topic, with sources
 [**ListFreeTools**](FreeToolsAPI.md#ListFreeTools) | **Get** /tools | List the free tools
+[**PickGiveawayWinners**](FreeToolsAPI.md#PickGiveawayWinners) | **Post** /tools/giveaway-comment-picker | Pick giveaway winners with a draw anyone can verify
 [**PickSocialMediaTool**](FreeToolsAPI.md#PickSocialMediaTool) | **Post** /tools/social-media-tool-picker | Match your needs against social media management tools and see what each one misses
 [**PlanContentCalendar**](FreeToolsAPI.md#PlanContentCalendar) | **Post** /tools/social-media-content-calendar-generator | Plan a social media content calendar and get it as CSV and ICS
 [**PlanPostingFrequency**](FreeToolsAPI.md#PlanPostingFrequency) | **Post** /tools/posting-frequency-planner | Plan how often to post on each network
@@ -1174,6 +1176,72 @@ No authorization required
 ### HTTP request headers
 
 - **Content-Type**: Not defined
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## FormatCrossPost
+
+> FreeToolFormatCrossPostResponse FormatCrossPost(ctx).FreeToolFormatCrossPostRequest(freeToolFormatCrossPostRequest).Execute()
+
+Format one post for X, Threads, Bluesky, Mastodon and LinkedIn
+
+
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/postboost-co/postboost-go"
+)
+
+func main() {
+	freeToolFormatCrossPostRequest := *openapiclient.NewFreeToolFormatCrossPostRequest() // FreeToolFormatCrossPostRequest | 
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.FreeToolsAPI.FormatCrossPost(context.Background()).FreeToolFormatCrossPostRequest(freeToolFormatCrossPostRequest).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `FreeToolsAPI.FormatCrossPost``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `FormatCrossPost`: FreeToolFormatCrossPostResponse
+	fmt.Fprintf(os.Stdout, "Response from `FreeToolsAPI.FormatCrossPost`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiFormatCrossPostRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **freeToolFormatCrossPostRequest** | [**FreeToolFormatCrossPostRequest**](FreeToolFormatCrossPostRequest.md) |  | 
+
+### Return type
+
+[**FreeToolFormatCrossPostResponse**](FreeToolFormatCrossPostResponse.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: application/json
 - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
@@ -2637,6 +2705,72 @@ No authorization required
 ### HTTP request headers
 
 - **Content-Type**: Not defined
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## PickGiveawayWinners
+
+> FreeToolPickGiveawayWinnersResponse PickGiveawayWinners(ctx).FreeToolPickGiveawayWinnersRequest(freeToolPickGiveawayWinnersRequest).Execute()
+
+Pick giveaway winners with a draw anyone can verify
+
+
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/postboost-co/postboost-go"
+)
+
+func main() {
+	freeToolPickGiveawayWinnersRequest := *openapiclient.NewFreeToolPickGiveawayWinnersRequest([]openapiclient.FreeToolPickGiveawayWinnersRequestEntrantsInner{*openapiclient.NewFreeToolPickGiveawayWinnersRequestEntrantsInner("Username_example")}) // FreeToolPickGiveawayWinnersRequest | 
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.FreeToolsAPI.PickGiveawayWinners(context.Background()).FreeToolPickGiveawayWinnersRequest(freeToolPickGiveawayWinnersRequest).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `FreeToolsAPI.PickGiveawayWinners``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `PickGiveawayWinners`: FreeToolPickGiveawayWinnersResponse
+	fmt.Fprintf(os.Stdout, "Response from `FreeToolsAPI.PickGiveawayWinners`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiPickGiveawayWinnersRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **freeToolPickGiveawayWinnersRequest** | [**FreeToolPickGiveawayWinnersRequest**](FreeToolPickGiveawayWinnersRequest.md) |  | 
+
+### Return type
+
+[**FreeToolPickGiveawayWinnersResponse**](FreeToolPickGiveawayWinnersResponse.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: application/json
 - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
