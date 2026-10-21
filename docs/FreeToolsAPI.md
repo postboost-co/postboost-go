@@ -4,6 +4,7 @@ All URIs are relative to *https://postboost.co/app/api*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
+[**BuildAgentSkill**](FreeToolsAPI.md#BuildAgentSkill) | **Post** /tools/social-media-agent-skill-builder | Build a SKILL.md, AGENTS.md or system prompt for a social media agent
 [**BuildHashtagGroups**](FreeToolsAPI.md#BuildHashtagGroups) | **Post** /tools/hashtag-group-builder | Clean, dedupe and split hashtags into groups that fit a network&#39;s hashtag cap
 [**BuildUtmUrl**](FreeToolsAPI.md#BuildUtmUrl) | **Post** /tools/utm-builder | Build a UTM-tagged campaign URL
 [**CalculateAspectRatio**](FreeToolsAPI.md#CalculateAspectRatio) | **Post** /tools/aspect-ratio-calculator | Calculate an aspect ratio, or the missing side of an image at a given ratio
@@ -55,6 +56,72 @@ Method | HTTP request | Description
 [**SummarizeReport**](FreeToolsAPI.md#SummarizeReport) | **Post** /tools/social-media-report-generator | Summarize social media post metrics into a report
 [**VerifyWebhookSignature**](FreeToolsAPI.md#VerifyWebhookSignature) | **Post** /tools/webhook-signature-verifier | Verify an HMAC webhook signature
 
+
+
+## BuildAgentSkill
+
+> FreeToolBuildAgentSkillResponse BuildAgentSkill(ctx).FreeToolBuildAgentSkillRequest(freeToolBuildAgentSkillRequest).Execute()
+
+Build a SKILL.md, AGENTS.md or system prompt for a social media agent
+
+
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/postboost-co/postboost-go"
+)
+
+func main() {
+	freeToolBuildAgentSkillRequest := *openapiclient.NewFreeToolBuildAgentSkillRequest() // FreeToolBuildAgentSkillRequest | 
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.FreeToolsAPI.BuildAgentSkill(context.Background()).FreeToolBuildAgentSkillRequest(freeToolBuildAgentSkillRequest).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `FreeToolsAPI.BuildAgentSkill``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `BuildAgentSkill`: FreeToolBuildAgentSkillResponse
+	fmt.Fprintf(os.Stdout, "Response from `FreeToolsAPI.BuildAgentSkill`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiBuildAgentSkillRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **freeToolBuildAgentSkillRequest** | [**FreeToolBuildAgentSkillRequest**](FreeToolBuildAgentSkillRequest.md) |  | 
+
+### Return type
+
+[**FreeToolBuildAgentSkillResponse**](FreeToolBuildAgentSkillResponse.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: application/json
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
 
 
 ## BuildHashtagGroups

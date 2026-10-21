@@ -13,7 +13,7 @@ go get github.com/postboost-co/postboost-go
 | **pkg.go.dev** | [pkg.go.dev/github.com/postboost-co/postboost-go](https://pkg.go.dev/github.com/postboost-co/postboost-go) |
 | **GitHub** | [postboost-co/postboost-go](https://github.com/postboost-co/postboost-go) |
 | **Docs** | [postboost.co/docs/api](https://postboost.co/docs/api) |
-| **Version** | v1.61.1 |
+| **Version** | v1.62.0 |
 
 ## Quick start
 
@@ -97,6 +97,7 @@ Class | Method | HTTP request | Description
 *CompetitorsAPI* | [**DeleteCompetitor**](docs/CompetitorsAPI.md#deletecompetitor) | **Delete** /{workspaceUuid}/competitors/{competitorId} | Stop tracking a competitor
 *CompetitorsAPI* | [**GetCompetitor**](docs/CompetitorsAPI.md#getcompetitor) | **Get** /{workspaceUuid}/competitors/{competitorId} | Get a competitor
 *CompetitorsAPI* | [**ListCompetitors**](docs/CompetitorsAPI.md#listcompetitors) | **Get** /{workspaceUuid}/competitors | List competitors
+*FreeToolsAPI* | [**BuildAgentSkill**](docs/FreeToolsAPI.md#buildagentskill) | **Post** /tools/social-media-agent-skill-builder | Build a SKILL.md, AGENTS.md or system prompt for a social media agent
 *FreeToolsAPI* | [**BuildHashtagGroups**](docs/FreeToolsAPI.md#buildhashtaggroups) | **Post** /tools/hashtag-group-builder | Clean, dedupe and split hashtags into groups that fit a network&#39;s hashtag cap
 *FreeToolsAPI* | [**BuildUtmUrl**](docs/FreeToolsAPI.md#buildutmurl) | **Post** /tools/utm-builder | Build a UTM-tagged campaign URL
 *FreeToolsAPI* | [**CalculateAspectRatio**](docs/FreeToolsAPI.md#calculateaspectratio) | **Post** /tools/aspect-ratio-calculator | Calculate an aspect ratio, or the missing side of an image at a given ratio
