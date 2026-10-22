@@ -13,7 +13,7 @@ go get github.com/postboost-co/postboost-go
 | **pkg.go.dev** | [pkg.go.dev/github.com/postboost-co/postboost-go](https://pkg.go.dev/github.com/postboost-co/postboost-go) |
 | **GitHub** | [postboost-co/postboost-go](https://github.com/postboost-co/postboost-go) |
 | **Docs** | [postboost.co/docs/api](https://postboost.co/docs/api) |
-| **Version** | v1.64.1 |
+| **Version** | v1.64.2 |
 
 ## Quick start
 
