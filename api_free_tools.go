@@ -3,7 +3,7 @@ PostBoost API
 
 The PostBoost REST API lets you publish, schedule, and analyze social media posts on every supported network from a single integration. No OAuth apps to maintain — PostBoost handles platform authorization for you.  ## Base URL All workspace-scoped endpoints are prefixed with `/{workspaceUuid}`. Panel/admin endpoints are prefixed with `/panel`.  ## Plan access Every workspace-scoped endpoint returns `403` when the workspace's plan does not include API access (capability `api`).  ## Dates and times Post dates and times (`date`, `time`, `accounts_schedule`) are read in the request's `timezone` when one is given, otherwise in the workspace timezone.  ## Idempotent requests Send an `Idempotency-Key` header (any unique string, for example a UUID) with a `POST`. Repeating the request with the same key within 24 hours returns the stored response with `Idempotent-Replayed: true` and creates nothing new. Reusing a key with a different body returns `422`; a request still in progress with the same key returns `409`. `5xx` and `429` responses are not stored, so they can be retried with the same key.  ## Guardrails for automated clients Create and update requests are checked before anything is written: a post whose content matches one created for the same account in the last 24 hours returns `409` (`code: duplicate_post`, override with `allow_duplicate: true`), scheduling past an account's daily cap returns `429` (`code: account_daily_cap_reached`), and scheduling to an account that must be reconnected returns `422` (`code: account_unauthorized` or `account_token_missing`). Use `POST /{workspaceUuid}/posts/validate` for a dry run and `GET /{workspaceUuid}/activity` to review what API clients did.  ## Authentication All requests require a Bearer token in the `Authorization` header. Generate tokens in your PostBoost dashboard under **Settings → Access Tokens**.  ``` Authorization: Bearer YOUR_API_TOKEN ``` 
 
-API version: 1.62.0
+API version: 1.64.1
 Contact: hi@postboost.co
 */
 
@@ -249,6 +249,159 @@ func (a *FreeToolsAPIService) BuildHashtagGroupsExecute(r ApiBuildHashtagGroupsR
 	}
 	// body params
 	localVarPostBody = r.freeToolBuildHashtagGroupsRequest
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 401 {
+			var v map[string]interface{}
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 413 {
+			var v FreeToolError
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 422 {
+			var v map[string]interface{}
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 429 {
+			var v FreeToolError
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
+type ApiBuildLinkedinCarouselRequest struct {
+	ctx context.Context
+	ApiService *FreeToolsAPIService
+	freeToolBuildLinkedinCarouselRequest *FreeToolBuildLinkedinCarouselRequest
+}
+
+func (r ApiBuildLinkedinCarouselRequest) FreeToolBuildLinkedinCarouselRequest(freeToolBuildLinkedinCarouselRequest FreeToolBuildLinkedinCarouselRequest) ApiBuildLinkedinCarouselRequest {
+	r.freeToolBuildLinkedinCarouselRequest = &freeToolBuildLinkedinCarouselRequest
+	return r
+}
+
+func (r ApiBuildLinkedinCarouselRequest) Execute() (*FreeToolBuildLinkedinCarouselResponse, *http.Response, error) {
+	return r.ApiService.BuildLinkedinCarouselExecute(r)
+}
+
+/*
+BuildLinkedinCarousel Turn text into LinkedIn carousel (PDF document) slides
+
+Turn text into LinkedIn carousel (PDF document) slides. The same logic as the free web tool at https://postboost.co/tools/linkedin-carousel-maker. No account needed: call it without a token, or with any API token.
+
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @return ApiBuildLinkedinCarouselRequest
+*/
+func (a *FreeToolsAPIService) BuildLinkedinCarousel(ctx context.Context) ApiBuildLinkedinCarouselRequest {
+	return ApiBuildLinkedinCarouselRequest{
+		ApiService: a,
+		ctx: ctx,
+	}
+}
+
+// Execute executes the request
+//  @return FreeToolBuildLinkedinCarouselResponse
+func (a *FreeToolsAPIService) BuildLinkedinCarouselExecute(r ApiBuildLinkedinCarouselRequest) (*FreeToolBuildLinkedinCarouselResponse, *http.Response, error) {
+	var (
+		localVarHTTPMethod   = http.MethodPost
+		localVarPostBody     interface{}
+		formFiles            []formFile
+		localVarReturnValue  *FreeToolBuildLinkedinCarouselResponse
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "FreeToolsAPIService.BuildLinkedinCarousel")
+	if err != nil {
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/tools/linkedin-carousel-maker"
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+	if r.freeToolBuildLinkedinCarouselRequest == nil {
+		return localVarReturnValue, nil, reportError("freeToolBuildLinkedinCarouselRequest is required and must be specified")
+	}
+
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{"application/json"}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	// body params
+	localVarPostBody = r.freeToolBuildLinkedinCarouselRequest
 	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
 	if err != nil {
 		return localVarReturnValue, nil, err
@@ -4747,6 +4900,192 @@ func (a *FreeToolsAPIService) GenerateSocialPostsFromBlogExecute(r ApiGenerateSo
 	}
 	// body params
 	localVarPostBody = r.freeToolGenerateSocialPostsFromBlogRequest
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 401 {
+			var v FreeToolError
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 403 {
+			var v FreeToolError
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 413 {
+			var v FreeToolError
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 422 {
+			var v map[string]interface{}
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 429 {
+			var v FreeToolError
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 502 {
+			var v FreeToolError
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 503 {
+			var v FreeToolError
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
+type ApiGenerateSocialPostsFromVideoRequest struct {
+	ctx context.Context
+	ApiService *FreeToolsAPIService
+	freeToolGenerateSocialPostsFromVideoRequest *FreeToolGenerateSocialPostsFromVideoRequest
+}
+
+func (r ApiGenerateSocialPostsFromVideoRequest) FreeToolGenerateSocialPostsFromVideoRequest(freeToolGenerateSocialPostsFromVideoRequest FreeToolGenerateSocialPostsFromVideoRequest) ApiGenerateSocialPostsFromVideoRequest {
+	r.freeToolGenerateSocialPostsFromVideoRequest = &freeToolGenerateSocialPostsFromVideoRequest
+	return r
+}
+
+func (r ApiGenerateSocialPostsFromVideoRequest) Execute() (*FreeToolGenerateSocialPostsFromVideoResponse, *http.Response, error) {
+	return r.ApiService.GenerateSocialPostsFromVideoExecute(r)
+}
+
+/*
+GenerateSocialPostsFromVideo Turn a YouTube video's captions into an X thread and social captions with AI (needs a token, spends AI credits)
+
+Turn a YouTube video's captions into an X thread and social captions with AI (needs a token, spends AI credits). The same logic as the free web tool at https://postboost.co/tools/youtube-to-social-posts. Needs an API token (a scoped key needs the `ai` ability and pays with its own workspace). A new generation spends 1 AI credit of the workspace you name (or your active workspace); a repeated identical request is answered from the cache for free.
+
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @return ApiGenerateSocialPostsFromVideoRequest
+*/
+func (a *FreeToolsAPIService) GenerateSocialPostsFromVideo(ctx context.Context) ApiGenerateSocialPostsFromVideoRequest {
+	return ApiGenerateSocialPostsFromVideoRequest{
+		ApiService: a,
+		ctx: ctx,
+	}
+}
+
+// Execute executes the request
+//  @return FreeToolGenerateSocialPostsFromVideoResponse
+func (a *FreeToolsAPIService) GenerateSocialPostsFromVideoExecute(r ApiGenerateSocialPostsFromVideoRequest) (*FreeToolGenerateSocialPostsFromVideoResponse, *http.Response, error) {
+	var (
+		localVarHTTPMethod   = http.MethodPost
+		localVarPostBody     interface{}
+		formFiles            []formFile
+		localVarReturnValue  *FreeToolGenerateSocialPostsFromVideoResponse
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "FreeToolsAPIService.GenerateSocialPostsFromVideo")
+	if err != nil {
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/tools/youtube-to-social-posts"
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+	if r.freeToolGenerateSocialPostsFromVideoRequest == nil {
+		return localVarReturnValue, nil, reportError("freeToolGenerateSocialPostsFromVideoRequest is required and must be specified")
+	}
+
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{"application/json"}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	// body params
+	localVarPostBody = r.freeToolGenerateSocialPostsFromVideoRequest
 	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
 	if err != nil {
 		return localVarReturnValue, nil, err

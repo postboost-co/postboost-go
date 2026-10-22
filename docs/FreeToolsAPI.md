@@ -6,6 +6,7 @@ Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**BuildAgentSkill**](FreeToolsAPI.md#BuildAgentSkill) | **Post** /tools/social-media-agent-skill-builder | Build a SKILL.md, AGENTS.md or system prompt for a social media agent
 [**BuildHashtagGroups**](FreeToolsAPI.md#BuildHashtagGroups) | **Post** /tools/hashtag-group-builder | Clean, dedupe and split hashtags into groups that fit a network&#39;s hashtag cap
+[**BuildLinkedinCarousel**](FreeToolsAPI.md#BuildLinkedinCarousel) | **Post** /tools/linkedin-carousel-maker | Turn text into LinkedIn carousel (PDF document) slides
 [**BuildUtmUrl**](FreeToolsAPI.md#BuildUtmUrl) | **Post** /tools/utm-builder | Build a UTM-tagged campaign URL
 [**CalculateAspectRatio**](FreeToolsAPI.md#CalculateAspectRatio) | **Post** /tools/aspect-ratio-calculator | Calculate an aspect ratio, or the missing side of an image at a given ratio
 [**CalculateCarouselSlices**](FreeToolsAPI.md#CalculateCarouselSlices) | **Post** /tools/instagram-carousel-splitter | Split a wide image into seamless Instagram carousel slides
@@ -34,6 +35,7 @@ Method | HTTP request | Description
 [**GenerateLinkedInHeadline**](FreeToolsAPI.md#GenerateLinkedInHeadline) | **Post** /tools/linkedin-headline-generator | Write five LinkedIn profile headlines with AI (needs a token, spends AI credits)
 [**GenerateQrCode**](FreeToolsAPI.md#GenerateQrCode) | **Post** /tools/qr-code-generator | Generate a QR code (SVG) for a link or text, with optional UTM tags
 [**GenerateSocialPostsFromBlog**](FreeToolsAPI.md#GenerateSocialPostsFromBlog) | **Post** /tools/blog-to-social-media | Turn a blog post (URL or text) into one social post per network with AI (needs a token, spends AI credits)
+[**GenerateSocialPostsFromVideo**](FreeToolsAPI.md#GenerateSocialPostsFromVideo) | **Post** /tools/youtube-to-social-posts | Turn a YouTube video&#39;s captions into an X thread and social captions with AI (needs a token, spends AI credits)
 [**GenerateUsernames**](FreeToolsAPI.md#GenerateUsernames) | **Post** /tools/social-media-username-generator | Generate social media usernames
 [**GenerateYoutubeDescription**](FreeToolsAPI.md#GenerateYoutubeDescription) | **Post** /tools/youtube-description-generator | Write three YouTube video descriptions with AI (needs a token, spends AI credits)
 [**GenerateYoutubeTitles**](FreeToolsAPI.md#GenerateYoutubeTitles) | **Post** /tools/youtube-title-generator | Write five YouTube video titles with AI (needs a token, spends AI credits)
@@ -175,6 +177,72 @@ Name | Type | Description  | Notes
 ### Return type
 
 [**FreeToolBuildHashtagGroupsResponse**](FreeToolBuildHashtagGroupsResponse.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: application/json
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## BuildLinkedinCarousel
+
+> FreeToolBuildLinkedinCarouselResponse BuildLinkedinCarousel(ctx).FreeToolBuildLinkedinCarouselRequest(freeToolBuildLinkedinCarouselRequest).Execute()
+
+Turn text into LinkedIn carousel (PDF document) slides
+
+
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/postboost-co/postboost-go"
+)
+
+func main() {
+	freeToolBuildLinkedinCarouselRequest := *openapiclient.NewFreeToolBuildLinkedinCarouselRequest("Text_example") // FreeToolBuildLinkedinCarouselRequest | 
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.FreeToolsAPI.BuildLinkedinCarousel(context.Background()).FreeToolBuildLinkedinCarouselRequest(freeToolBuildLinkedinCarouselRequest).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `FreeToolsAPI.BuildLinkedinCarousel``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `BuildLinkedinCarousel`: FreeToolBuildLinkedinCarouselResponse
+	fmt.Fprintf(os.Stdout, "Response from `FreeToolsAPI.BuildLinkedinCarousel`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiBuildLinkedinCarouselRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **freeToolBuildLinkedinCarouselRequest** | [**FreeToolBuildLinkedinCarouselRequest**](FreeToolBuildLinkedinCarouselRequest.md) |  | 
+
+### Return type
+
+[**FreeToolBuildLinkedinCarouselResponse**](FreeToolBuildLinkedinCarouselResponse.md)
 
 ### Authorization
 
@@ -2027,6 +2095,72 @@ Name | Type | Description  | Notes
 ### Return type
 
 [**FreeToolGenerateSocialPostsFromBlogResponse**](FreeToolGenerateSocialPostsFromBlogResponse.md)
+
+### Authorization
+
+[bearerAuth](../README.md#bearerAuth)
+
+### HTTP request headers
+
+- **Content-Type**: application/json
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## GenerateSocialPostsFromVideo
+
+> FreeToolGenerateSocialPostsFromVideoResponse GenerateSocialPostsFromVideo(ctx).FreeToolGenerateSocialPostsFromVideoRequest(freeToolGenerateSocialPostsFromVideoRequest).Execute()
+
+Turn a YouTube video's captions into an X thread and social captions with AI (needs a token, spends AI credits)
+
+
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/postboost-co/postboost-go"
+)
+
+func main() {
+	freeToolGenerateSocialPostsFromVideoRequest := *openapiclient.NewFreeToolGenerateSocialPostsFromVideoRequest("Text_example") // FreeToolGenerateSocialPostsFromVideoRequest | 
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.FreeToolsAPI.GenerateSocialPostsFromVideo(context.Background()).FreeToolGenerateSocialPostsFromVideoRequest(freeToolGenerateSocialPostsFromVideoRequest).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `FreeToolsAPI.GenerateSocialPostsFromVideo``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `GenerateSocialPostsFromVideo`: FreeToolGenerateSocialPostsFromVideoResponse
+	fmt.Fprintf(os.Stdout, "Response from `FreeToolsAPI.GenerateSocialPostsFromVideo`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiGenerateSocialPostsFromVideoRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **freeToolGenerateSocialPostsFromVideoRequest** | [**FreeToolGenerateSocialPostsFromVideoRequest**](FreeToolGenerateSocialPostsFromVideoRequest.md) |  | 
+
+### Return type
+
+[**FreeToolGenerateSocialPostsFromVideoResponse**](FreeToolGenerateSocialPostsFromVideoResponse.md)
 
 ### Authorization
 
