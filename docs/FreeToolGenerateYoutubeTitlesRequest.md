@@ -7,7 +7,7 @@ Name | Type | Description | Notes
 **Text** | **string** | What the video is about. | 
 **Style** | Pointer to **string** | how-to (\&quot;How to ...\&quot;), listicle (\&quot;7 ways to ...\&quot;), question, story (first person) or news. | [optional] [default to "how-to"]
 **Workspace** | Pointer to **string** | UUID of the workspace whose AI credits pay for the call. Default: your active workspace (a scoped API key: its own workspace). | [optional] 
-**Transcript** | Pointer to **string** | Optional: your video&#39;s captions (.srt, .vtt or the Show transcript text) as context; timestamps are removed and the first 6,000 characters are used. | [optional] 
+**Transcript** | Pointer to **string** | Optional: your video&#39;s captions (.srt, .vtt, .sbv or the Show transcript text) as context; timestamps are removed and the first 6,000 characters are used. | [optional] 
 
 ## Methods
 
