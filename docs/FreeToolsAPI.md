@@ -28,6 +28,7 @@ Method | HTTP request | Description
 [**FormatLinkedInPost**](FreeToolsAPI.md#FormatLinkedInPost) | **Post** /tools/linkedin-post-formatter | Format a LinkedIn post with bold, italic and lists
 [**GenerateAltText**](FreeToolsAPI.md#GenerateAltText) | **Post** /tools/alt-text-generator | Write alt text for an image with AI (needs a token, spends AI credits)
 [**GenerateBio**](FreeToolsAPI.md#GenerateBio) | **Post** /tools/instagram-bio-generator | Write five profile bios with AI (needs a token, spends AI credits)
+[**GenerateBrandVoice**](FreeToolsAPI.md#GenerateBrandVoice) | **Post** /tools/brand-voice-generator | Derive a brand voice from 3 to 10 of your posts with AI: traits with quoted evidence, a guide, an AI system prompt and PostBoost brand voice JSON (needs a token, spends AI credits)
 [**GenerateCaption**](FreeToolsAPI.md#GenerateCaption) | **Post** /tools/instagram-caption-generator | Write three post captions for a topic with AI (needs a token, spends AI credits)
 [**GenerateFancyText**](FreeToolsAPI.md#GenerateFancyText) | **Post** /tools/fancy-text-generator | Convert text to fancy Unicode styles
 [**GenerateHashtags**](FreeToolsAPI.md#GenerateHashtags) | **Post** /tools/instagram-hashtag-generator | Generate hashtags for a post topic with AI (needs a token, spends AI credits)
@@ -1633,6 +1634,72 @@ Name | Type | Description  | Notes
 ### Return type
 
 [**FreeToolGenerateBioResponse**](FreeToolGenerateBioResponse.md)
+
+### Authorization
+
+[bearerAuth](../README.md#bearerAuth)
+
+### HTTP request headers
+
+- **Content-Type**: application/json
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## GenerateBrandVoice
+
+> FreeToolGenerateBrandVoiceResponse GenerateBrandVoice(ctx).FreeToolGenerateBrandVoiceRequest(freeToolGenerateBrandVoiceRequest).Execute()
+
+Derive a brand voice from 3 to 10 of your posts with AI: traits with quoted evidence, a guide, an AI system prompt and PostBoost brand voice JSON (needs a token, spends AI credits)
+
+
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/postboost-co/postboost-go"
+)
+
+func main() {
+	freeToolGenerateBrandVoiceRequest := *openapiclient.NewFreeToolGenerateBrandVoiceRequest([]string{"Posts_example"}) // FreeToolGenerateBrandVoiceRequest | 
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.FreeToolsAPI.GenerateBrandVoice(context.Background()).FreeToolGenerateBrandVoiceRequest(freeToolGenerateBrandVoiceRequest).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `FreeToolsAPI.GenerateBrandVoice``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `GenerateBrandVoice`: FreeToolGenerateBrandVoiceResponse
+	fmt.Fprintf(os.Stdout, "Response from `FreeToolsAPI.GenerateBrandVoice`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiGenerateBrandVoiceRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **freeToolGenerateBrandVoiceRequest** | [**FreeToolGenerateBrandVoiceRequest**](FreeToolGenerateBrandVoiceRequest.md) |  | 
+
+### Return type
+
+[**FreeToolGenerateBrandVoiceResponse**](FreeToolGenerateBrandVoiceResponse.md)
 
 ### Authorization
 

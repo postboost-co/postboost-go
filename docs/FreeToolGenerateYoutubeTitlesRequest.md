@@ -7,6 +7,7 @@ Name | Type | Description | Notes
 **Text** | **string** | What the video is about. | 
 **Style** | Pointer to **string** | how-to (\&quot;How to ...\&quot;), listicle (\&quot;7 ways to ...\&quot;), question, story (first person) or news. | [optional] [default to "how-to"]
 **Workspace** | Pointer to **string** | UUID of the workspace whose AI credits pay for the call. Default: your active workspace (a scoped API key: its own workspace). | [optional] 
+**Transcript** | Pointer to **string** | Optional: your video&#39;s captions (.srt, .vtt or the Show transcript text) as context; timestamps are removed and the first 6,000 characters are used. | [optional] 
 
 ## Methods
 
@@ -96,6 +97,31 @@ SetWorkspace sets Workspace field to given value.
 `func (o *FreeToolGenerateYoutubeTitlesRequest) HasWorkspace() bool`
 
 HasWorkspace returns a boolean if a field has been set.
+
+### GetTranscript
+
+`func (o *FreeToolGenerateYoutubeTitlesRequest) GetTranscript() string`
+
+GetTranscript returns the Transcript field if non-nil, zero value otherwise.
+
+### GetTranscriptOk
+
+`func (o *FreeToolGenerateYoutubeTitlesRequest) GetTranscriptOk() (*string, bool)`
+
+GetTranscriptOk returns a tuple with the Transcript field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetTranscript
+
+`func (o *FreeToolGenerateYoutubeTitlesRequest) SetTranscript(v string)`
+
+SetTranscript sets Transcript field to given value.
+
+### HasTranscript
+
+`func (o *FreeToolGenerateYoutubeTitlesRequest) HasTranscript() bool`
+
+HasTranscript returns a boolean if a field has been set.
 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)

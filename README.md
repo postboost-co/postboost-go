@@ -13,7 +13,7 @@ go get github.com/postboost-co/postboost-go
 | **pkg.go.dev** | [pkg.go.dev/github.com/postboost-co/postboost-go](https://pkg.go.dev/github.com/postboost-co/postboost-go) |
 | **GitHub** | [postboost-co/postboost-go](https://github.com/postboost-co/postboost-go) |
 | **Docs** | [postboost.co/docs/api](https://postboost.co/docs/api) |
-| **Version** | v1.64.2 |
+| **Version** | v1.66.1 |
 
 ## Quick start
 
@@ -121,6 +121,7 @@ Class | Method | HTTP request | Description
 *FreeToolsAPI* | [**FormatLinkedInPost**](docs/FreeToolsAPI.md#formatlinkedinpost) | **Post** /tools/linkedin-post-formatter | Format a LinkedIn post with bold, italic and lists
 *FreeToolsAPI* | [**GenerateAltText**](docs/FreeToolsAPI.md#generatealttext) | **Post** /tools/alt-text-generator | Write alt text for an image with AI (needs a token, spends AI credits)
 *FreeToolsAPI* | [**GenerateBio**](docs/FreeToolsAPI.md#generatebio) | **Post** /tools/instagram-bio-generator | Write five profile bios with AI (needs a token, spends AI credits)
+*FreeToolsAPI* | [**GenerateBrandVoice**](docs/FreeToolsAPI.md#generatebrandvoice) | **Post** /tools/brand-voice-generator | Derive a brand voice from 3 to 10 of your posts with AI: traits with quoted evidence, a guide, an AI system prompt and PostBoost brand voice JSON (needs a token, spends AI credits)
 *FreeToolsAPI* | [**GenerateCaption**](docs/FreeToolsAPI.md#generatecaption) | **Post** /tools/instagram-caption-generator | Write three post captions for a topic with AI (needs a token, spends AI credits)
 *FreeToolsAPI* | [**GenerateFancyText**](docs/FreeToolsAPI.md#generatefancytext) | **Post** /tools/fancy-text-generator | Convert text to fancy Unicode styles
 *FreeToolsAPI* | [**GenerateHashtags**](docs/FreeToolsAPI.md#generatehashtags) | **Post** /tools/instagram-hashtag-generator | Generate hashtags for a post topic with AI (needs a token, spends AI credits)

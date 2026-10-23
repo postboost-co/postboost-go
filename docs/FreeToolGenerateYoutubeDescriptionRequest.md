@@ -10,6 +10,7 @@ Name | Type | Description | Notes
 **ChapterLines** | Pointer to **[]string** | Your chapters as &#x60;m:ss Title&#x60; lines, the first at 0:00. Used verbatim when &#x60;chapters&#x60; is true; without them the block has fill-in placeholders. Timestamps are never generated. | [optional] 
 **Cta** | Pointer to **string** | The closing call to action: subscribe, link (a [link] placeholder) or none. | [optional] [default to "subscribe"]
 **Workspace** | Pointer to **string** | UUID of the workspace whose AI credits pay for the call. Default: your active workspace (a scoped API key: its own workspace). | [optional] 
+**Transcript** | Pointer to **string** | Optional: your video&#39;s captions (.srt, .vtt or the Show transcript text) as context; timestamps are removed and the first 6,000 characters are used. | [optional] 
 
 ## Methods
 
@@ -174,6 +175,31 @@ SetWorkspace sets Workspace field to given value.
 `func (o *FreeToolGenerateYoutubeDescriptionRequest) HasWorkspace() bool`
 
 HasWorkspace returns a boolean if a field has been set.
+
+### GetTranscript
+
+`func (o *FreeToolGenerateYoutubeDescriptionRequest) GetTranscript() string`
+
+GetTranscript returns the Transcript field if non-nil, zero value otherwise.
+
+### GetTranscriptOk
+
+`func (o *FreeToolGenerateYoutubeDescriptionRequest) GetTranscriptOk() (*string, bool)`
+
+GetTranscriptOk returns a tuple with the Transcript field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetTranscript
+
+`func (o *FreeToolGenerateYoutubeDescriptionRequest) SetTranscript(v string)`
+
+SetTranscript sets Transcript field to given value.
+
+### HasTranscript
+
+`func (o *FreeToolGenerateYoutubeDescriptionRequest) HasTranscript() bool`
+
+HasTranscript returns a boolean if a field has been set.
 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
